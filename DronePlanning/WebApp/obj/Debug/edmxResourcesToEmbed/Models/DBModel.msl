@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DroneDatabaseModelStoreContainer" CdmEntityContainer="DroneDatabaseEntities">
+    <EntitySetMapping Name="StudentTables">
+      <EntityTypeMapping TypeName="DroneDatabaseModel.StudentTable">
+        <MappingFragment StoreEntitySet="StudentTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="City" ColumnName="City" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
