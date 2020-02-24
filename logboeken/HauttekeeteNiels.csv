@@ -6,4 +6,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 23/02/20,16:00,18:00,Extern,Analyseren nieuwe data,,
 24/02/20,14:00,15:30,Extern,Leren werken met SQLServer in Visual Studio,,
 24/02/20,17:30,18:00,Extern,Parsen van GCP csv file,21,
-24/02/20,20:00,21:00,Extern,Aparte klasse maken van csvparser en informatie opzoeken over PRJ file,21 + 20,
+24/02/20,20:00,21:00,Extern,Aparte klasse maken van csvparser en informatie opzoeken over PRJ file en DAT conversieprogramma uittesten,21+20+26,
