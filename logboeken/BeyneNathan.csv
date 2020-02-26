@@ -12,3 +12,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 25/02/20,17:30,20:30,Extern,Data uit quality report analyseren en samenvatten in word-document + beginnen kijken waar dit in data model zou passen,41,
 25/02/20,23:45,23:59,Extern,Data model op papier uitwerken omtrent het quality report,41,
 26/02/20,00:00,01:00,Extern,Data model op papier uitwerken omtrent het quality report,41,
+26/02/20,14:20,17:20,Extern,Uitwerking Design van databank model + testen in Entity Framework,18/32/41-43,Samen met Bryan via Parsec en Teamspeak
