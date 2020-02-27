@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -60,5 +61,15 @@ namespace DroneWebApp.Controllers
 
             return View();
         }
+
+
+        // TODO: improve this (move this?)
+        public ActionResult FileUpload()
+        {
+            ViewBag.Message = "Upload files here.";
+
+            return View();
+        }
+
     }
 }
