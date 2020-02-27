@@ -12,16 +12,16 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
         {
             GetDatabaseConnection();
         }
-        public void GetParser(string extensionType, string path)
+        public void GetParser(string extensionType, string path, string date_and_location)
         {
             
             IParser parser = ParserFactory.MakeParser(extensionType);
-            parser.Parse(path);
+            parser.Parse(path, date_and_location);
         }
 
         public void GetDatabaseConnection()
         {
-
+            
         }
     }
 }

@@ -10,11 +10,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class TXTParser : IParser
     {
-        public void Parse(string path)
+        public void Parse(string path, string date_and_location)
         {
 
         }
     }
-
-}
 }

@@ -128,7 +128,7 @@
           <Property Name="Red" Type="int" />
           <Property Name="Green" Type="int" />
           <Property Name="Blue" Type="int" />
-          <Property Name="Intensity" Type="int" />
+          <Property Name="Intensity" Type="float" />
           <Property Name="FlightId" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="QualityReport">
@@ -575,7 +575,7 @@
           <Property Name="Red" Type="Int32" />
           <Property Name="Green" Type="Int32" />
           <Property Name="Blue" Type="Int32" />
-          <Property Name="Intensity" Type="Int32" />
+          <Property Name="Intensity" Type="Double" />
           <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="PointCloudXYZ" ToRole="DroneFlight" />
         </EntityType>

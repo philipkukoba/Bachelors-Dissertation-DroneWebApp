@@ -1,5 +1,4 @@
-﻿@model IList<List<float>>
-
+﻿
 @{
     ViewBag.Title = "About";
 }
@@ -7,27 +6,3 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
-
-<table class="table">
-    <tr>
-        <th>x</th>
-        <th>y</th>
-        <th>z</th>
-        <th>r</th>
-        <th>g</th>
-        <th>b</th>
-    </tr>
-    
-    @foreach (var attributes in Model)
-    {
-        <tr>
-            @foreach (var attribute in attributes)
-            {
-                <td>@attribute</td>
-
-            }
-        </tr>
-
-
-    }
-</table>

@@ -1,9 +1,11 @@
-﻿using DroneWebApp.Models.SimpleFactoryPattern;
+﻿using DroneWebApp.Models;
+using DroneWebApp.Models.SimpleFactoryPattern;
 using DroneWebApp.Models.SimpleFactoryPattern.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,7 +13,7 @@ namespace DroneWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        Creator creator = new Creator();
+        private Creator creator = new Creator();
         public ActionResult Index()
         {
             return View();
@@ -21,10 +23,33 @@ namespace DroneWebApp.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            // TODO: have the user enter this via the View
-            string strPath = @"C:\Users\Bryan\Desktop\Dataset Bachelorproef UGent_200214\02 Harelbeke drone data\190912\02 Geotiff +xyz pointcloud\Drone Flight - Harelbeke - 190912_dsm_10cm.xyz";
+            // TODO: Nu werkt de code op het activeren van de pagina About, maar later zal deze code verplaatsen naar een functie die wordt aangeroepen wanneer de gebruiker bv 'ok' klikt.
+            // TODO: the user can select the file from their computer
+            string strPath = @"S:\Desktop\Dataset Bachelorproef UGent_200214\02 Harelbeke drone data\190912\02 Geotiff +xyz pointcloud\Drone Flight - Harelbeke - 190912_dsm_10cm.xyz";
             string ext = Path.GetExtension(strPath);
-            creator.GetParser(ext, strPath);
+
+            // TODO: have the user enter date & location via the View
+            string location = "Harelbeke";
+            string date = "190912";
+            StringBuilder date_and_loc = new StringBuilder(date + "-" + location); // TODO: what if I have multiple flights in the same city on the day? Add number?
+
+            // Use ORM to write to Database 
+            using (DroneDBEntities context = new DroneDBEntities())
+            {
+                DroneFlight droneFlight = new DroneFlight
+                {
+                    FlightId = date_and_loc.ToString()
+                };
+                // Check if this Primary Key already exists
+                if (!context.DroneFlights.Any(flight => flight.FlightId == droneFlight.FlightId))
+                {
+                    context.DroneFlights.Add(droneFlight);
+                    context.SaveChanges();
+                }
+            }
+
+            // Parse data and write to Database
+            creator.GetParser(ext, strPath, date_and_loc.ToString());
 
             return View();
         }

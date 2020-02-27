@@ -3,100 +3,78 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class XYZParser : IParser
     {
-        public void Parse(string path)
+        public void Parse(string path, string date_and_location)
         {
-            using (TextFieldParser parser = new TextFieldParser(path))
+            using (DroneDBEntities context = new DroneDBEntities())
             {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(" ");
+                // Get the approriate DroneFlight that goes with this data
+                DroneFlight droneFlight = context.DroneFlights.Find(date_and_location);
+                PointCloudXYZ pointCloudXYZ;
 
-                //temp
-                int i = 0;
-
-                // Set culture to ensure decimal point
-                CultureInfo customCulture = (CultureInfo) System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-                customCulture.NumberFormat.NumberDecimalSeparator = ".";
-                System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-                while (!parser.EndOfData)
+                // Parse
+                using (TextFieldParser parser = new TextFieldParser(path))
                 {
-                    //Process a row and parse string fields to floats
-                    IList<string> attributes = parser.ReadFields();
-                    List<float> xyzAttributes = new List<float>();
-                    foreach (string xyzAttribute in attributes)
-                    {
-                        xyzAttributes.Add(float.Parse(xyzAttribute, customCulture));
-                    }
-
-                    PointCloudXYZ pointCloudXYZ = new PointCloudXYZ();
-                    // xyz
-                    pointCloudXYZ.X = xyzAttributes[0];
-                    pointCloudXYZ.Y = xyzAttributes[1];
-                    pointCloudXYZ.Z = xyzAttributes[2];
-                    if (xyzAttributes.Count == 6)
-                    {
-                        // xyz + rgb
-                        pointCloudXYZ.Red = (int) xyzAttributes[3];
-                        pointCloudXYZ.Green = (int) xyzAttributes[4];
-                        pointCloudXYZ.Blue = (int) xyzAttributes[5];
-                    }
-                    else if (xyzAttributes.Count == 7)
-                    {
-                        // xyz + i + rgb
-                        pointCloudXYZ.Intensity = (int) xyzAttributes[6]; // TODO: (int) weg en float in database
-                    }
-
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(" ");
 
                     //temp
-                    i++;
-                    if (i > 5) { break; }
-                }
-            }
+                    int i = 0;
 
+                    // Set culture to ensure decimal point
+                    CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+                    customCulture.NumberFormat.NumberDecimalSeparator = ".";
+                    System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-
-
-
-            // Old code to write to View
-            /*
-            IList<List<float>> xyzCoords;
-            using (TextFieldParser parser = new TextFieldParser(path))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(" ");
-                xyzCoords = new List<List<float>>();
-
-                //temp
-                int i = 0;
-
-                // Set culture to ensure decimal point
-                CultureInfo customCulture = (CultureInfo) System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-                customCulture.NumberFormat.NumberDecimalSeparator = ".";
-                System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-                while (!parser.EndOfData)
-                {
-                    //Process row
-                    IList<string> attributes = parser.ReadFields();
-                    List<float> xyzAttributes = new List<float>();
-                    foreach (string xyzAttribute in attributes)
+                    while (!parser.EndOfData)
                     {
-                        xyzAttributes.Add(float.Parse(xyzAttribute, customCulture));
-                    }
-                    xyzCoords.Add(xyzAttributes);
+                        //Process a row and parse string fields to floats
+                        IList<string> attributes_strings = parser.ReadFields();
+                        List<double> attributes_doubles = new List<double>();
+                        foreach (string xyzAttribute in attributes_strings)
+                        {
+                            attributes_doubles.Add(double.Parse(xyzAttribute, customCulture));
+                        }
+                        // Create ORM-object for database mapping
+                        pointCloudXYZ = new PointCloudXYZ
+                        {
+                            // xyz
+                            X = attributes_doubles[0],
+                            Y = attributes_doubles[1],
+                            Z = attributes_doubles[2]
+                        };
+                        if (attributes_doubles.Count == 6)
+                        {
+                            // xyz + rgb
+                            pointCloudXYZ.Red = (int)attributes_doubles[3];
+                            pointCloudXYZ.Green = (int)attributes_doubles[4];
+                            pointCloudXYZ.Blue = (int)attributes_doubles[5];
+                        }
+                        else if (attributes_doubles.Count == 7)
+                        {
+                            // xyz + i + rgb
+                            pointCloudXYZ.Intensity = attributes_doubles[6]; // TODO: (int) weg en float in database
+                        }
 
-                    //temp
-                    i++;
-                    if (i > 5) { break; }
+                        // Assign data to the appropriate FlightId
+                        pointCloudXYZ.FlightId = droneFlight.FlightId;
+
+                        // Add to my List of PointCloudXYZs that are to be added to the DB
+                        context.PointCloudXYZs.Add(pointCloudXYZ);
+
+                        //temp (so I'm not reading a billion lines for testing purposes)
+                        i++;
+                        if (i > 5) { break; }
+                    }
+
+                    // Commit changes to the DB
+                    context.SaveChanges();
                 }
             }
-            return xyzCoords;
-            */
         }
     }
 }

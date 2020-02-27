@@ -166,14 +166,6 @@
     <Compile Include="Models\DroneFlight.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\PDFParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\GCPError.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -192,6 +184,14 @@
     <Compile Include="Models\RawImage.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\PDFParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
@@ -215,8 +215,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\DroneDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DroneDBModel.Context.cs</LastGenOutput>
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
+      <LastGenOutput>DroneDBModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\DroneDBModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
