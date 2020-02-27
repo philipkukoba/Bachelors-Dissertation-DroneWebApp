@@ -52,6 +52,7 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -165,6 +166,14 @@
     <Compile Include="Models\DroneFlight.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\PDFParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\GCPError.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -183,6 +192,7 @@
     <Compile Include="Models\RawImage.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
