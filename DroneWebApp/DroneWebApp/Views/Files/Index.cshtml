@@ -5,23 +5,12 @@
 
 <h2>Index</h2>
 
-<h2>Upload</h2>
+<form action="" method="post" enctype="multipart/form-data">
 
-<h2>Basic File Upload</h2>
-@using (Html.BeginForm("Upload",
-                        "Files",
-                        FormMethod.Post,
-                        new { enctype = "multipart/form-data" }))
-{
-    <label for="file">Upload Image:</label>
+    <label for="file">Filename:</label>
     <input type="file" name="file" id="file" />
-    <br>
-    <br>
 
-    <input type="submit" value="Upload Image" />
-
-    <br>
-    <br>
-
+    <input type="submit" />
     @ViewBag.Message
-}
+</form>
+

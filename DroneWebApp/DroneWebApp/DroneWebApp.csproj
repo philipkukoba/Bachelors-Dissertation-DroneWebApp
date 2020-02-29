@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.DurableInstancing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -262,7 +263,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -284,7 +284,6 @@
     <Content Include="Views\Pilots\Details.cshtml" />
     <Content Include="Views\Pilots\Edit.cshtml" />
     <Content Include="Views\Pilots\Index.cshtml" />
-    <Content Include="Views\Files\Upload.cshtml" />
     <Content Include="Views\Files\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

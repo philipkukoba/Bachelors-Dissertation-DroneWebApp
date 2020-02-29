@@ -54,7 +54,7 @@
         @Html.ActionLink("Delete", "Delete", new { id = item.FlightId })
     </td>
     <td>
-        @if (item.hasQR)
+        @if (!item.hasQR)
         {
             <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
                 <i class="icon-pencil icon-white"></i>
@@ -70,7 +70,7 @@
                 </span>
             </a>
         }
-        @if (item.hasGCPs)
+        @if (!item.hasGCPs)
         {
             <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm ">
                 <i class="icon-pencil icon-white"></i>
@@ -82,7 +82,7 @@
             <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
                 <i class="icon-pencil icon-white"></i>
                 <span>
-                    TFW
+                    GCP
                 </span>
             </a>
         }

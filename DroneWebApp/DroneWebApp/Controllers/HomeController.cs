@@ -1,7 +1,4 @@
-﻿using DroneWebApp.Models;
-using DroneWebApp.Models.SimpleFactoryPattern;
-using DroneWebApp.Models.SimpleFactoryPattern.Parsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

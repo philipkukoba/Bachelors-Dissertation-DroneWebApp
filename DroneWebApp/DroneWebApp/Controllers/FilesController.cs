@@ -14,6 +14,7 @@ namespace DroneWebApp.Controllers
 
         public ActionResult Index(HttpPostedFileBase file)
         {
+            
             if (file != null && file.ContentLength > 0)
                 try
                 {
@@ -30,13 +31,11 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.Message = "You have not specified a file.";
             }
+
+
+
             return View();
         }
-        // POST: File
-        [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
-        {
-            return View();
-        }
+
     }
 }
