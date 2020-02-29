@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AbsoluteGeoreferencingVariance">
           <Key>
             <PropertyRef Name="AbsoluteGeolocationVariance" />
@@ -67,13 +67,14 @@
           <Property Name="DroneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Registration" Type="varchar" MaxLength="50" />
           <Property Name="DroneType" Type="varchar" MaxLength="50" />
+          <Property Name="DroneName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DroneFlight">
           <Key>
             <PropertyRef Name="FlightId" />
           </Key>
-          <Property Name="FlightId" Type="int" Nullable="false" />
-          <Property Name="DroneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FlightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DroneId" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="PilotName" Type="varchar" MaxLength="50" />
@@ -431,8 +432,7 @@
             <End Role="Uncertainty" EntitySet="Uncertainty" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -503,13 +503,14 @@
           <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
+          <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DroneFlight">
           <Key>
             <PropertyRef Name="FlightId" />
           </Key>
-          <Property Name="FlightId" Type="Int32" Nullable="false" />
-          <Property Name="DroneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DroneId" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -956,6 +957,7 @@
           <EntitySetMapping Name="Drones">
             <EntityTypeMapping TypeName="DroneDBModel.Drone">
               <MappingFragment StoreEntitySet="Drone">
+                <ScalarProperty Name="DroneName" ColumnName="DroneName" />
                 <ScalarProperty Name="DroneId" ColumnName="DroneId" />
                 <ScalarProperty Name="Registration" ColumnName="Registration" />
                 <ScalarProperty Name="DroneType" ColumnName="DroneType" />

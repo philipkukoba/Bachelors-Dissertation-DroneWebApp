@@ -7,7 +7,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class CSVParser : IParser
     {
-        public void Parse(string path, string date_and_location)
+        public void Parse(string path, int flightId)
         {
             throw new NotImplementedException();
         }

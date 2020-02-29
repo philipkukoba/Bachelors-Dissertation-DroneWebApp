@@ -23,7 +23,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -40,8 +40,8 @@ namespace DroneWebApp.Controllers
         // GET: DroneFlights/Create
         public ActionResult Create()
         {
-            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration");
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "Street");
+            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
+            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName");
             return View();
         }
 
@@ -59,13 +59,13 @@ namespace DroneWebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "Street", droneFlight.PilotName);
+            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
+            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName", droneFlight.PilotName);
             return View(droneFlight);
         }
 
         // GET: DroneFlights/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -77,7 +77,7 @@ namespace DroneWebApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "Street", droneFlight.PilotName);
+            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName", droneFlight.PilotName);
             return View(droneFlight);
         }
 
@@ -100,7 +100,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {

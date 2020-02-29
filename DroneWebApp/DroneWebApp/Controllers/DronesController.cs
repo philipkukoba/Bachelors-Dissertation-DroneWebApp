@@ -46,10 +46,14 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType")] Drone drone)
+        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName")] Drone drone)
         {
             if (ModelState.IsValid)
             {
+                if(drone.DroneName == null)
+                {
+                    drone.DroneName = drone.DroneType + ":" + drone.Registration;
+                }
                 db.Drones.Add(drone);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,7 +82,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType, DroneName")] Drone drone)
         {
             if (ModelState.IsValid)
             {

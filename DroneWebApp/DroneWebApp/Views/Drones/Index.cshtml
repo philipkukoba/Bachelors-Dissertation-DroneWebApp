@@ -1,39 +1,45 @@
 ﻿@model IEnumerable<DroneWebApp.Models.Drone>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Drone Index";
 }
 
-<h2>Index</h2>
+<h2>Drone Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create new Drone", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Registration)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DroneType)
+            @Html.DisplayName("Drone Type")
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Registration)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DroneType)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DroneId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DroneId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DroneId })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.DroneName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Registration)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DroneType)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.DroneId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.DroneId })
+    </td>
+</tr>
 }
 
 </table>

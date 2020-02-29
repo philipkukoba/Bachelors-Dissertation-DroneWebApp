@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<DroneWebApp.Models.Pilot>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pilot Index";
 }
 
-<h2>Index</h2>
+<h2>Pilot Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create new Pilot", "Create")
 </p>
 <table class="table">
     <tr>
@@ -30,13 +30,13 @@
             @Html.DisplayNameFor(model => model.Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LicenseNo)
+            @Html.DisplayName("License no.")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmergencyPhone)
+            @Html.DisplayName("Emergency Phone")
         </th>
         <th></th>
     </tr>

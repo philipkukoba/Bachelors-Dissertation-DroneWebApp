@@ -4,12 +4,19 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Drone Details</h2>
 
 <div>
-    <h4>Drone</h4>
+    <h4><strong>@Model.DroneType:@Model.Registration</strong></h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DroneName)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Registration)
         </dt>
@@ -25,7 +32,6 @@
         <dd>
             @Html.DisplayFor(model => model.DroneType)
         </dd>
-
     </dl>
 </div>
 <p>

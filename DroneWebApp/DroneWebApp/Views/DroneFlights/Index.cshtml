@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
 
 @{
-    ViewBag.Title = "Drone Flight Overview";
+    ViewBag.Title = "Drone Flight Index";
 }
 
-<h2>Drone Flights</h2>
+<h2>Drone Flights Index</h2>
 
 <p>
     @Html.ActionLink("Create new Drone Flight", "Create")
@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Flight")
+            @Html.DisplayName("Flight Id")
         </th>
         <th>
             @Html.DisplayName("Location")
@@ -42,7 +42,7 @@
         @item.Date.ToString("dd/MM/yy")
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Drone.DroneId)
+        @Html.DisplayFor(modelItem => item.Drone.DroneName)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Pilot.PilotName)

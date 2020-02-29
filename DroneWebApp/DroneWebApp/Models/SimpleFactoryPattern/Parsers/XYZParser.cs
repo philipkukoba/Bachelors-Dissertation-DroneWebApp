@@ -8,12 +8,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class XYZParser : IParser
     {
-        public void Parse(string path, string date_and_location)
+        public void Parse(string path, int flightId)
         {
-            using (DroneDBEntities context = new DroneDBEntities())
+            using (DroneDBEntities db = new DroneDBEntities())
             {
                 // Get the approriate DroneFlight that goes with this data
-                DroneFlight droneFlight = context.DroneFlights.Find(date_and_location);
+                DroneFlight droneFlight = db.DroneFlights.Find(flightId);
                 PointCloudXYZ pointCloudXYZ;
 
                 // Parse
@@ -64,7 +64,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         pointCloudXYZ.FlightId = droneFlight.FlightId;
 
                         // Add to my List of PointCloudXYZs that are to be added to the DB
-                        context.PointCloudXYZs.Add(pointCloudXYZ);
+                        db.PointCloudXYZs.Add(pointCloudXYZ);
 
                         //temp (so I'm not reading a billion lines for testing purposes)
                         i++;
@@ -72,7 +72,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
 
                     // Commit changes to the DB
-                    context.SaveChanges();
+                    db.SaveChanges();
                 }
             }
         }

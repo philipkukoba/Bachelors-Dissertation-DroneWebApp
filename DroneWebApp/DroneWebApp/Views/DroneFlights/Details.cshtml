@@ -1,13 +1,13 @@
 ﻿@model DroneWebApp.Models.DroneFlight
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Drone Flight Details";
 }
 
-<h2>Details</h2>
+    <h2>Drone Flight @Model.FlightId Details</h2>
 
 <div>
-    <h4>DroneFlight</h4>
+    <h4>Drone Flight</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -31,23 +31,16 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Drone.DroneId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Drone.Registration)
-        </dt>
-
-        <dd>
+            @Html.DisplayFor(model => model.Drone.DroneType):
             @Html.DisplayFor(model => model.Drone.Registration)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Pilot.Street)
+            @Html.DisplayName("Pilot")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Pilot.Street)
+            @Html.DisplayFor(model => model.PilotName)
         </dd>
 
     </dl>
