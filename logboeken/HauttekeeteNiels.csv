@@ -8,3 +8,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 24/02/20,17:30,18:00,Extern,Parsen van GCP csv file,21,
 24/02/20,20:00,21:00,Extern,Aparte klasse maken van csvparser en informatie opzoeken over PRJ file en DAT conversieprogramma uittesten,21+20+26,
 25/02/20,08:15,12:30,Contacturen,Presentatie eindverslag schrijven en proberen DAT file te parsen,26,
+27/02/20,13:30,17:45,Contacturen,DAT file proberen parsen,26,
+28/02/20,13:00,15:45,Extern,DatCon uittesten en output files analyseren,26,
