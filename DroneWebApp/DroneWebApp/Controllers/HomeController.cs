@@ -32,15 +32,11 @@ namespace DroneWebApp.Controllers
             // TODO: have the user enter date & location via the View
             string location = "Harelbeke";
             string date = "190912";
-            StringBuilder date_and_loc = new StringBuilder(date + "-" + location); // TODO: what if I have multiple flights in the same city on the day? Add number?
 
             // Use ORM to write to Database 
             using (DroneDBEntities context = new DroneDBEntities())
             {
-                DroneFlight droneFlight = new DroneFlight
-                {
-                    FlightId = date_and_loc.ToString()
-                };
+                DroneFlight droneFlight = new DroneFlight();
                 // Check if this Primary Key already exists
                 if (!context.DroneFlights.Any(flight => flight.FlightId == droneFlight.FlightId))
                 {
@@ -50,19 +46,19 @@ namespace DroneWebApp.Controllers
             }
 
             // Parse data and write to Database
-            creator.GetParser(ext, strPath, date_and_loc.ToString());
+            //creator.GetParser(ext, strPath, date_and_loc.ToString()); // FIX
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Please contact us:";
 
             return View();
         }
 
-
+        /*
         // TODO: improve this (move this?)
         public ActionResult FileUpload()
         {
@@ -70,6 +66,6 @@ namespace DroneWebApp.Controllers
 
             return View();
         }
-
+        */
     }
 }

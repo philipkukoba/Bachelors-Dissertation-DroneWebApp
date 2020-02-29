@@ -16,7 +16,7 @@ namespace DroneWebApp.Models
     {
         public string ImageName { get; set; }
         public byte[] Image { get; set; }
-        public string FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

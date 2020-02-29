@@ -137,7 +137,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DroneFlightsController.cs" />
+    <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PilotsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -266,6 +269,21 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\FileUpload.cshtml" />
+    <Content Include="Views\DroneFlights\Create.cshtml" />
+    <Content Include="Views\DroneFlights\Delete.cshtml" />
+    <Content Include="Views\DroneFlights\Details.cshtml" />
+    <Content Include="Views\DroneFlights\Edit.cshtml" />
+    <Content Include="Views\DroneFlights\Index.cshtml" />
+    <Content Include="Views\Drones\Create.cshtml" />
+    <Content Include="Views\Drones\Delete.cshtml" />
+    <Content Include="Views\Drones\Details.cshtml" />
+    <Content Include="Views\Drones\Edit.cshtml" />
+    <Content Include="Views\Drones\Index.cshtml" />
+    <Content Include="Views\Pilots\Create.cshtml" />
+    <Content Include="Views\Pilots\Delete.cshtml" />
+    <Content Include="Views\Pilots\Details.cshtml" />
+    <Content Include="Views\Pilots\Edit.cshtml" />
+    <Content Include="Views\Pilots\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

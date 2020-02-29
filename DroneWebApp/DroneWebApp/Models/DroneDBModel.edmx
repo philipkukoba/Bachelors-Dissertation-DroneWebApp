@@ -48,7 +48,7 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
           <Property Name="UTCTime" Type="time" Precision="7" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="DestinationInfo">
           <Key>
@@ -58,7 +58,7 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
           <Property Name="UTCTime" Type="time" Precision="7" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="Drone">
           <Key>
@@ -72,9 +72,10 @@
           <Key>
             <PropertyRef Name="FlightId" />
           </Key>
-          <Property Name="FlightId" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="DroneId" Type="int" />
-          <Property Name="Date" Type="date" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
+          <Property Name="DroneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="PilotName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="GCPError">
@@ -101,7 +102,7 @@
           <Property Name="X" Type="float" />
           <Property Name="Y" Type="float" />
           <Property Name="Z" Type="float" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="Pilot">
           <Key>
@@ -129,14 +130,14 @@
           <Property Name="Green" Type="int" />
           <Property Name="Blue" Type="int" />
           <Property Name="Intensity" Type="float" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="QualityReport">
           <Key>
             <PropertyRef Name="QualityReportId" />
           </Key>
           <Property Name="QualityReportId" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
           <Property Name="Processed" Type="datetime" />
           <Property Name="CameraModelName" Type="varchar" MaxLength="50" />
           <Property Name="AverageGSD" Type="float" />
@@ -167,7 +168,7 @@
           </Key>
           <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Image" Type="image" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -190,7 +191,7 @@
           <Property Name="xRotationTerm_Y" Type="float" />
           <Property Name="yNegativeScale_Y" Type="float" />
           <Property Name="TranslationTerm_Y" Type="float" />
-          <Property Name="FlightId" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" />
         </EntityType>
         <EntityType Name="Uncertainty">
           <Key>
@@ -254,7 +255,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -480,7 +481,7 @@
           <Property Name="Longitude" Type="Double" />
           <Property Name="Latitude" Type="Double" />
           <Property Name="UTCTime" Type="Time" Precision="7" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DepartureInfo" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DestinationInfo">
@@ -491,7 +492,7 @@
           <Property Name="Longitude" Type="Double" />
           <Property Name="Latitude" Type="Double" />
           <Property Name="UTCTime" Type="Time" Precision="7" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DestinationInfo" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="Drone">
@@ -507,9 +508,10 @@
           <Key>
             <PropertyRef Name="FlightId" />
           </Key>
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DroneId" Type="Int32" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <Property Name="DroneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DepartureInfoes" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
           <NavigationProperty Name="DestinationInfoes" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
@@ -546,7 +548,7 @@
           <Property Name="X" Type="Double" />
           <Property Name="Y" Type="Double" />
           <Property Name="Z" Type="Double" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_GroundControlPoints_DroneFlight" FromRole="GroundControlPoints" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="Pilot">
@@ -576,7 +578,7 @@
           <Property Name="Green" Type="Int32" />
           <Property Name="Blue" Type="Int32" />
           <Property Name="Intensity" Type="Double" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="PointCloudXYZ" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="QualityReport">
@@ -584,7 +586,7 @@
             <PropertyRef Name="QualityReportId" />
           </Key>
           <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <Property Name="Processed" Type="DateTime" Precision="3" />
           <Property Name="CameraModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AverageGSD" Type="Double" />
@@ -620,7 +622,7 @@
           </Key>
           <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -644,7 +646,7 @@
           <Property Name="xRotationTerm_Y" Type="Double" />
           <Property Name="yNegativeScale_Y" Type="Double" />
           <Property Name="TranslationTerm_Y" Type="Double" />
-          <Property Name="FlightId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_TFW_DroneFlight" FromRole="TFW" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="Uncertainty">
@@ -710,7 +712,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -965,6 +967,7 @@
               <MappingFragment StoreEntitySet="DroneFlight">
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="DroneId" ColumnName="DroneId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="PilotName" ColumnName="PilotName" />
               </MappingFragment>

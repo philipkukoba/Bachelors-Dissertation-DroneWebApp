@@ -26,9 +26,10 @@ namespace DroneWebApp.Models
             this.TFWs = new HashSet<TFW>();
         }
     
-        public string FlightId { get; set; }
-        public Nullable<int> DroneId { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public int FlightId { get; set; }
+        public int DroneId { get; set; }
+        public string Location { get; set; }
+        public System.DateTime Date { get; set; }
         public string PilotName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

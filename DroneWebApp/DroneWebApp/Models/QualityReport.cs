@@ -24,7 +24,7 @@ namespace DroneWebApp.Models
         }
     
         public string QualityReportId { get; set; }
-        public string FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
         public Nullable<System.DateTime> Processed { get; set; }
         public string CameraModelName { get; set; }
         public Nullable<double> AverageGSD { get; set; }

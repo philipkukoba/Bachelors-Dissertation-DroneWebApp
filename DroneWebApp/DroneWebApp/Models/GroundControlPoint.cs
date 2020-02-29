@@ -18,7 +18,7 @@ namespace DroneWebApp.Models
         public Nullable<double> X { get; set; }
         public Nullable<double> Y { get; set; }
         public Nullable<double> Z { get; set; }
-        public string FlightId { get; set; }
+        public Nullable<int> FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

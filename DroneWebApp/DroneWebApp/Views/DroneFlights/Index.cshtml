@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
+
+@{
+    ViewBag.Title = "Drone Flight Overview";
+}
+
+<h2>Drone Flights</h2>
+
+<p>
+    @Html.ActionLink("Create new Drone Flight", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Flight")
+        </th>
+        <th>
+            @Html.DisplayName("Location")
+        </th>
+        <th>
+            @Html.DisplayName("Date")
+        </th>
+        <th>
+            @Html.DisplayName("Drone")
+        </th>
+        <th>
+            @Html.DisplayName("Pilot")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.FlightId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Location)
+    </td>
+    <td>
+        @item.Date.ToString("dd/MM/yy")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Drone.DroneId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Pilot.PilotName)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.FlightId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.FlightId })
+    </td>
+</tr>
+    }
+
+</table>
