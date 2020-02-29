@@ -50,7 +50,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FlightId,DroneId,Location,Date,PilotName")] DroneFlight droneFlight)
+        public ActionResult Create([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId,DroneId,Location,Date,PilotName")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {

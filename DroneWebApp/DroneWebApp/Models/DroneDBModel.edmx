@@ -78,6 +78,12 @@
           <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="PilotName" Type="varchar" MaxLength="50" />
+          <Property Name="hasTFW" Type="bit" Nullable="false" />
+          <Property Name="hasGCPs" Type="bit" Nullable="false" />
+          <Property Name="hasDepInfo" Type="bit" Nullable="false" />
+          <Property Name="hasDestInfo" Type="bit" Nullable="false" />
+          <Property Name="hasQR" Type="bit" Nullable="false" />
+          <Property Name="hasXYZ" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="GCPError">
           <Key>
@@ -523,6 +529,12 @@
           <NavigationProperty Name="QualityReports" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="DroneFlight" ToRole="QualityReport" />
           <NavigationProperty Name="RawImages" Relationship="Self.FK_RawImages_DroneFlight" FromRole="DroneFlight" ToRole="RawImages" />
           <NavigationProperty Name="TFWs" Relationship="Self.FK_TFW_DroneFlight" FromRole="DroneFlight" ToRole="TFW" />
+          <Property Name="hasTFW" Type="Boolean" Nullable="false" />
+          <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
+          <Property Name="hasDepInfo" Type="Boolean" Nullable="false" />
+          <Property Name="hasDestInfo" Type="Boolean" Nullable="false" />
+          <Property Name="hasQR" Type="Boolean" Nullable="false" />
+          <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="GCPError">
           <Key>
@@ -967,6 +979,12 @@
           <EntitySetMapping Name="DroneFlights">
             <EntityTypeMapping TypeName="DroneDBModel.DroneFlight">
               <MappingFragment StoreEntitySet="DroneFlight">
+                <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
+                <ScalarProperty Name="hasQR" ColumnName="hasQR" />
+                <ScalarProperty Name="hasDestInfo" ColumnName="hasDestInfo" />
+                <ScalarProperty Name="hasDepInfo" ColumnName="hasDepInfo" />
+                <ScalarProperty Name="hasGCPs" ColumnName="hasGCPs" />
+                <ScalarProperty Name="hasTFW" ColumnName="hasTFW" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="DroneId" ColumnName="DroneId" />
                 <ScalarProperty Name="Location" ColumnName="Location" />

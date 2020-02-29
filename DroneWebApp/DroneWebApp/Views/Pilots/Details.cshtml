@@ -1,15 +1,22 @@
 ﻿@model DroneWebApp.Models.Pilot
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Pilot Details";
 }
 
-<h2>Details Pilot</h2>
+<h2>Pilot Details</h2>
 
 <div>
     <h4><strong>@Model.PilotName</strong></h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Name")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PilotName)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Street)
         </dt>

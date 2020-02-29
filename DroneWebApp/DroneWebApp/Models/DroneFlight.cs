@@ -31,6 +31,12 @@ namespace DroneWebApp.Models
         public string Location { get; set; }
         public System.DateTime Date { get; set; }
         public string PilotName { get; set; }
+        public bool hasTFW { get; set; }
+        public bool hasGCPs { get; set; }
+        public bool hasDepInfo { get; set; }
+        public bool hasDestInfo { get; set; }
+        public bool hasQR { get; set; }
+        public bool hasXYZ { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartureInfo> DepartureInfoes { get; set; }

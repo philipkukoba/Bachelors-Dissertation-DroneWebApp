@@ -4,10 +4,10 @@
     ViewBag.Title = "Drone Flight Details";
 }
 
-    <h2>Drone Flight @Model.FlightId Details</h2>
+    <h2>Drone Flight Details</h2>
 
 <div>
-    <h4>Drone Flight</h4>
+    <h4>Drone Flight @Model.FlightId</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -42,7 +42,6 @@
         <dd>
             @Html.DisplayFor(model => model.PilotName)
         </dd>
-
     </dl>
 </div>
 <p>
