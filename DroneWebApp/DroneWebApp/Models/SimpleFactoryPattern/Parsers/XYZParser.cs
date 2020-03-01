@@ -8,72 +8,69 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class XYZParser : IParser
     {
-        public void Parse(string path, int flightId)
+        public void Parse(string path, int flightId, DroneDBEntities db)
         {
-            using (DroneDBEntities db = new DroneDBEntities())
+            // Get the approriate DroneFlight that goes with this data
+            DroneFlight droneFlight = db.DroneFlights.Find(flightId);
+            PointCloudXYZ pointCloudXYZ;
+
+            // Parse
+            using (TextFieldParser parser = new TextFieldParser(path))
             {
-                // Get the approriate DroneFlight that goes with this data
-                DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-                PointCloudXYZ pointCloudXYZ;
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(" ");
 
-                // Parse
-                using (TextFieldParser parser = new TextFieldParser(path))
+                //temp
+                int i = 0;
+
+                // Set culture to ensure decimal point
+                CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+                customCulture.NumberFormat.NumberDecimalSeparator = ".";
+                System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+                while (!parser.EndOfData)
                 {
-                    parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(" ");
-
-                    //temp
-                    int i = 0;
-
-                    // Set culture to ensure decimal point
-                    CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-                    customCulture.NumberFormat.NumberDecimalSeparator = ".";
-                    System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-                    while (!parser.EndOfData)
+                    //Process a row and parse string fields to floats
+                    IList<string> attributes_strings = parser.ReadFields();
+                    List<double> attributes_doubles = new List<double>();
+                    foreach (string xyzAttribute in attributes_strings)
                     {
-                        //Process a row and parse string fields to floats
-                        IList<string> attributes_strings = parser.ReadFields();
-                        List<double> attributes_doubles = new List<double>();
-                        foreach (string xyzAttribute in attributes_strings)
-                        {
-                            attributes_doubles.Add(double.Parse(xyzAttribute, customCulture));
-                        }
-                        // Create ORM-object for database mapping
-                        pointCloudXYZ = new PointCloudXYZ
-                        {
-                            // xyz
-                            X = attributes_doubles[0],
-                            Y = attributes_doubles[1],
-                            Z = attributes_doubles[2]
-                        };
-                        if (attributes_doubles.Count == 6)
-                        {
-                            // xyz + rgb
-                            pointCloudXYZ.Red = (int)attributes_doubles[3];
-                            pointCloudXYZ.Green = (int)attributes_doubles[4];
-                            pointCloudXYZ.Blue = (int)attributes_doubles[5];
-                        }
-                        else if (attributes_doubles.Count == 7)
-                        {
-                            // xyz + i + rgb
-                            pointCloudXYZ.Intensity = attributes_doubles[6]; // TODO: (int) weg en float in database
-                        }
-
-                        // Assign data to the appropriate FlightId
-                        pointCloudXYZ.FlightId = droneFlight.FlightId;
-
-                        // Add to my List of PointCloudXYZs that are to be added to the DB
-                        db.PointCloudXYZs.Add(pointCloudXYZ);
-
-                        //temp (so I'm not reading a billion lines for testing purposes)
-                        i++;
-                        if (i > 5) { break; }
+                        attributes_doubles.Add(double.Parse(xyzAttribute, customCulture));
+                    }
+                    // Create ORM-object for database mapping
+                    pointCloudXYZ = new PointCloudXYZ
+                    {
+                        // xyz
+                        X = attributes_doubles[0],
+                        Y = attributes_doubles[1],
+                        Z = attributes_doubles[2]
+                    };
+                    if (attributes_doubles.Count == 6)
+                    {
+                        // xyz + rgb
+                        pointCloudXYZ.Red = (int)attributes_doubles[3];
+                        pointCloudXYZ.Green = (int)attributes_doubles[4];
+                        pointCloudXYZ.Blue = (int)attributes_doubles[5];
+                    }
+                    else if (attributes_doubles.Count == 7)
+                    {
+                        // xyz + i + rgb
+                        pointCloudXYZ.Intensity = attributes_doubles[6]; // TODO: (int) weg en float in database
                     }
 
-                    // Commit changes to the DB
-                    db.SaveChanges();
+                    // Assign data to the appropriate FlightId
+                    pointCloudXYZ.FlightId = droneFlight.FlightId;
+
+                    // Add to my List of PointCloudXYZs that are to be added to the DB
+                    db.PointCloudXYZs.Add(pointCloudXYZ);
+
+                    //temp (so I'm not reading a billion lines for testing purposes)
+                    i++;
+                    if (i > 5) { break; }
                 }
+
+                // Commit changes to the DB
+                db.SaveChanges();
             }
         }
     }

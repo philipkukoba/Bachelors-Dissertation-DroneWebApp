@@ -1,6 +1,8 @@
-﻿using DroneWebApp.Models.SimpleFactoryPattern;
+﻿using DroneWebApp.Models;
+using DroneWebApp.Models.SimpleFactoryPattern;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -10,7 +12,13 @@ namespace DroneWebApp.Controllers
 {
     public class FilesController : Controller
     {
-        private Creator creator = new Creator();
+        private Creator creator;
+        public FilesController(DbContext db)
+        {
+            this.Db = (DroneDBEntities)db;
+            creator = new Creator(Db);
+        }
+        public DroneDBEntities Db { get; set; }
 
         public ActionResult Index(HttpPostedFileBase file)
         {

@@ -13,7 +13,12 @@ namespace DroneWebApp.Controllers
 {
     public class DroneFlightsController : Controller
     {
-        private DroneDBEntities db = new DroneDBEntities();
+        private DroneDBEntities db;
+
+        public DroneFlightsController(DbContext db)
+        {
+            this.db = (DroneDBEntities) db;
+        }
 
         // GET: DroneFlights
         public ActionResult Index()
@@ -117,7 +122,7 @@ namespace DroneWebApp.Controllers
         // POST: DroneFlights/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             db.DroneFlights.Remove(droneFlight);

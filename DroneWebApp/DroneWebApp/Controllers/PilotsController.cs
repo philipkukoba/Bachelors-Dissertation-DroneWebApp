@@ -12,7 +12,12 @@ namespace DroneWebApp.Controllers
 {
     public class PilotsController : Controller
     {
-        private DroneDBEntities db = new DroneDBEntities();
+        private DroneDBEntities db;
+
+        public PilotsController(DbContext db)
+        {
+            this.db = (DroneDBEntities) db;
+        }
 
         // GET: Pilots
         public ActionResult Index()
