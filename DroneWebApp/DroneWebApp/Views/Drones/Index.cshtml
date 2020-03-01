@@ -4,42 +4,46 @@
     ViewBag.Title = "Drone Index";
 }
 
+<br />
 <h2>Drone Index</h2>
 
 <p>
     @Html.ActionLink("Create new Drone", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Name")
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Registration)
-        </th>
-        <th>
-            @Html.DisplayName("Drone Type")
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.DroneName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Registration)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DroneType)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |
-        @Html.ActionLink("Details", "Details", new { id = item.DroneId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.DroneId })
-    </td>
-</tr>
-}
-
+<table id="dtable" class="ui celled table table-hover" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Name")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayName("Drone Type")
+            </th>
+            <th></th>
+        </tr>
+     </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneType)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.DroneId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.DroneId })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

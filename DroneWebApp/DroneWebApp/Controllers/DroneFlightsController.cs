@@ -23,6 +23,7 @@ namespace DroneWebApp.Controllers
         // GET: DroneFlights
         public ActionResult Index(string sortOrder, string searchString)
         {
+            /*
             // Sorting
             ViewBag.CurrentSort = sortOrder;
             //ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "flight Id" : "";
@@ -31,10 +32,10 @@ namespace DroneWebApp.Controllers
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.DroneSortParm = sortOrder == "Drone" ? "drone_desc" : "Drone";
             ViewBag.PilotSortParm = sortOrder == "Pilot" ? "pilot_desc" : "Pilot";
-
+            */
             // Flights
             var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot);
-            
+            /*
             // Search
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -79,7 +80,7 @@ namespace DroneWebApp.Controllers
                     droneFlights = droneFlights.OrderBy(df => df.FlightId);
                     break;
             }
-
+            */
             return View(droneFlights.ToList());
         }
 
