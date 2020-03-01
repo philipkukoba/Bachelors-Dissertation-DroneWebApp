@@ -21,9 +21,65 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
+            // Sorting
+            ViewBag.CurrentSort = sortOrder;
+            //ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "flight Id" : "";
+            ViewBag.IdSortParam = sortOrder == "Flight Id" || String.IsNullOrEmpty(sortOrder) ? "Id" : "";
+            ViewBag.LocationSortParm = sortOrder == "Location" ? "location_desc" : "Location";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.DroneSortParm = sortOrder == "Drone" ? "drone_desc" : "Drone";
+            ViewBag.PilotSortParm = sortOrder == "Pilot" ? "pilot_desc" : "Pilot";
+
+            // Flights
             var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot);
+            
+            // Search
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                droneFlights = droneFlights.Where(df => df.Location.Contains(searchString)
+                                       || df.Date.ToString().Contains(searchString)
+                                       || df.Drone.DroneName.Contains(searchString)
+                                       || df.Pilot.PilotName.Contains(searchString));
+
+            }
+
+            // Sorting
+            switch (sortOrder)
+            {
+                case "Id":
+                    droneFlights = droneFlights.OrderByDescending(df => df.FlightId);
+                    break;
+                case "Location":
+                    droneFlights = droneFlights.OrderBy(df => df.Location);
+                    break;
+                case "location_desc":
+                    droneFlights = droneFlights.OrderByDescending(df => df.Location);
+                    break;
+                case "Date":
+                    droneFlights = droneFlights.OrderBy(df => df.Date);
+                    break;
+                case "date_desc":
+                    droneFlights = droneFlights.OrderByDescending(df => df.Date);
+                    break;
+                case "Drone":
+                    droneFlights = droneFlights.OrderBy(df => df.Drone.DroneName);
+                    break;
+                case "drone_desc":
+                    droneFlights = droneFlights.OrderByDescending(df => df.Drone.DroneName);
+                    break;
+                case "Pilot":
+                    droneFlights = droneFlights.OrderBy(df => df.PilotName);
+                    break;
+                case "pilot_desc":
+                    droneFlights = droneFlights.OrderByDescending(df => df.PilotName);
+                    break;
+                default:    // FlightId ascending
+                    droneFlights = droneFlights.OrderBy(df => df.FlightId);
+                    break;
+            }
+
             return View(droneFlights.ToList());
         }
 
