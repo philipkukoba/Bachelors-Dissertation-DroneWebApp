@@ -1,0 +1,89 @@
+﻿@model DroneWebApp.Models.Pilot
+
+@{
+    ViewBag.Title = "Pilot Details";
+}
+
+<h2>Pilot Details</h2>
+
+<div>
+    <h4><strong>@Model.PilotName</strong></h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Name")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PilotName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ZIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            License no.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LicenseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Emergency Phone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmergencyPhone)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PilotName }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

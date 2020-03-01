@@ -1,0 +1,1156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AbsoluteGeoreferencingVariance">
+          <Key>
+            <PropertyRef Name="AbsoluteGeolocationVariance" />
+          </Key>
+          <Property Name="AbsoluteGeolocationVariance" Type="int" Nullable="false" />
+          <Property Name="AGVMeanError_x" Type="float" />
+          <Property Name="AGVMeanError_y" Type="float" />
+          <Property Name="AGVMeanError_z" Type="float" />
+          <Property Name="AGVSigma_x" Type="float" />
+          <Property Name="AGVSigma_y" Type="float" />
+          <Property Name="AGVSigma_z" Type="float" />
+          <Property Name="AGVRMS_x" Type="float" />
+          <Property Name="AGVRMS_y" Type="float" />
+          <Property Name="AGVRMS_z" Type="float" />
+          <Property Name="QualityReportId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="AbsoluteUncertainty">
+          <Key>
+            <PropertyRef Name="UncertaintyId" />
+          </Key>
+          <Property Name="UncertaintyId" Type="int" Nullable="false" />
+          <Property Name="AMU_x" Type="float" />
+          <Property Name="AMU_y" Type="float" />
+          <Property Name="AMU_z" Type="float" />
+          <Property Name="ASU_x" Type="float" />
+          <Property Name="ASU_y" Type="float" />
+          <Property Name="ASU_z" Type="float" />
+          <Property Name="RMU_x" Type="float" />
+          <Property Name="RMU_y" Type="float" />
+          <Property Name="RMU_z" Type="float" />
+          <Property Name="RSU_x" Type="float" />
+          <Property Name="RSU_y" Type="float" />
+          <Property Name="RSU_z" Type="float" />
+          <Property Name="QualityReportId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DepartureInfo">
+          <Key>
+            <PropertyRef Name="DepartureInfoId" />
+          </Key>
+          <Property Name="DepartureInfoId" Type="int" Nullable="false" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="UTCTime" Type="time" Precision="7" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="DestinationInfo">
+          <Key>
+            <PropertyRef Name="DestinationInfoId" />
+          </Key>
+          <Property Name="DestinationInfoId" Type="int" Nullable="false" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="UTCTime" Type="time" Precision="7" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="Drone">
+          <Key>
+            <PropertyRef Name="DroneId" />
+          </Key>
+          <Property Name="DroneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Registration" Type="varchar" MaxLength="50" />
+          <Property Name="DroneType" Type="varchar" MaxLength="50" />
+          <Property Name="DroneName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DroneFlight">
+          <Key>
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="FlightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DroneId" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="PilotName" Type="varchar" MaxLength="50" />
+          <Property Name="hasTFW" Type="bit" Nullable="false" />
+          <Property Name="hasGCPs" Type="bit" Nullable="false" />
+          <Property Name="hasDepInfo" Type="bit" Nullable="false" />
+          <Property Name="hasDestInfo" Type="bit" Nullable="false" />
+          <Property Name="hasQR" Type="bit" Nullable="false" />
+          <Property Name="hasXYZ" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GCPError">
+          <Key>
+            <PropertyRef Name="GCPErrorId" />
+          </Key>
+          <Property Name="GCPErrorId" Type="int" Nullable="false" />
+          <Property Name="GCPMeanError_x" Type="float" />
+          <Property Name="GCPMeanError_y" Type="float" />
+          <Property Name="GCPMeanError_z" Type="float" />
+          <Property Name="GCPSigma_x" Type="float" />
+          <Property Name="GCPSigma_y" Type="float" />
+          <Property Name="GCPSigma_z" Type="float" />
+          <Property Name="GCPRMS_x" Type="float" />
+          <Property Name="GCPRMS_y" Type="float" />
+          <Property Name="GCPRMS_z" Type="float" />
+          <Property Name="QualityReportId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="GroundControlPoints">
+          <Key>
+            <PropertyRef Name="GCPId" />
+          </Key>
+          <Property Name="GCPId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="X" Type="float" />
+          <Property Name="Y" Type="float" />
+          <Property Name="Z" Type="float" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="PilotName" />
+          </Key>
+          <Property Name="PilotName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Street" Type="varchar" MaxLength="50" />
+          <Property Name="ZIP" Type="int" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="LicenseNo" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="EmergencyPhone" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PointCloudXYZ">
+          <Key>
+            <PropertyRef Name="PointCloudXYZId" />
+          </Key>
+          <Property Name="PointCloudXYZId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="X" Type="float" />
+          <Property Name="Y" Type="float" />
+          <Property Name="Z" Type="float" />
+          <Property Name="Red" Type="int" />
+          <Property Name="Green" Type="int" />
+          <Property Name="Blue" Type="int" />
+          <Property Name="Intensity" Type="float" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="QualityReport">
+          <Key>
+            <PropertyRef Name="QualityReportId" />
+          </Key>
+          <Property Name="QualityReportId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightId" Type="int" />
+          <Property Name="Processed" Type="datetime" />
+          <Property Name="CameraModelName" Type="varchar" MaxLength="50" />
+          <Property Name="AverageGSD" Type="float" />
+          <Property Name="AreaCovered" Type="float" />
+          <Property Name="InitialProcessingTime" Type="time" Precision="7" />
+          <Property Name="DatasetAmountCalibrated" Type="int" />
+          <Property Name="DatasetAmountTotal" Type="int" />
+          <Property Name="DatasetStatus" Type="char" MaxLength="1" />
+          <Property Name="CameraOptimizationAmount" Type="float" />
+          <Property Name="CameraOptimizationStatus" Type="char" MaxLength="1" />
+          <Property Name="GeoreferencingGCPs" Type="int" />
+          <Property Name="GeoreferencingRMS" Type="float" />
+          <Property Name="GeoreferencingStatus" Type="char" MaxLength="1" />
+          <Property Name="CPU" Type="varchar" MaxLength="50" />
+          <Property Name="RAM" Type="int" />
+          <Property Name="GPU" Type="varchar" MaxLength="50" />
+          <Property Name="OS" Type="varchar" MaxLength="100" />
+          <Property Name="ImageCoordinateSystem" Type="varchar" MaxLength="100" />
+          <Property Name="GCPCoordinateSystem" Type="varchar" MaxLength="100" />
+          <Property Name="OutputCoordinateSystem" Type="varchar" MaxLength="100" />
+          <Property Name="GeneratedTiles" Type="int" />
+          <Property Name="DensifiedPoints3D" Type="int" />
+          <Property Name="AverageDensity" Type="float" />
+        </EntityType>
+        <EntityType Name="RawImages">
+          <Key>
+            <PropertyRef Name="ImageName" />
+          </Key>
+          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Image" Type="image" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TFW">
+          <Key>
+            <PropertyRef Name="TFWId" />
+          </Key>
+          <Property Name="TFWId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="xScale_X" Type="float" />
+          <Property Name="yRotationTerm_X" Type="float" />
+          <Property Name="TranslationTerm_X" Type="float" />
+          <Property Name="xRotationTerm_Y" Type="float" />
+          <Property Name="yNegativeScale_Y" Type="float" />
+          <Property Name="TranslationTerm_Y" Type="float" />
+          <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="Uncertainty">
+          <Key>
+            <PropertyRef Name="UncertaintyId" />
+          </Key>
+          <Property Name="UncertaintyId" Type="int" Nullable="false" />
+          <Property Name="AMU_x" Type="float" />
+          <Property Name="AMU_y" Type="float" />
+          <Property Name="AMU_z" Type="float" />
+          <Property Name="ASU_x" Type="float" />
+          <Property Name="ASU_y" Type="float" />
+          <Property Name="ASU_z" Type="float" />
+          <Property Name="QualityReportId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_AbsoluteGeoreferencingVariance_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="AbsoluteGeoreferencingVariance" Type="Self.AbsoluteGeoreferencingVariance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteGeoreferencingVariance">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbsoluteUncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="AbsoluteUncertainty" Type="Self.AbsoluteUncertainty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteUncertainty">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartureInfo_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DepartureInfo" Type="Self.DepartureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="DepartureInfo">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DestinationInfo_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DestinationInfo" Type="Self.DestinationInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="DestinationInfo">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DroneFlight_Drone">
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drone">
+              <PropertyRef Name="DroneId" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="DroneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DroneFlight_Pilot">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="PilotName" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="PilotName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GCPError_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="GCPError" Type="Self.GCPError" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="GCPError">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroundControlPoints_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="GroundControlPoints" Type="Self.GroundControlPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="GroundControlPoints">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointCloudXYZ_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="PointCloudXYZ" Type="Self.PointCloudXYZ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="PointCloudXYZ">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QualityReport_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="QualityReport">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RawImages_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="RawImages" Type="Self.RawImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="RawImages">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TFW_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="TFW" Type="Self.TFW" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="TFW">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="Uncertainty">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DroneDBModelStoreContainer">
+          <EntitySet Name="AbsoluteGeoreferencingVariance" EntityType="Self.AbsoluteGeoreferencingVariance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbsoluteUncertainty" EntityType="Self.AbsoluteUncertainty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DepartureInfo" EntityType="Self.DepartureInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DestinationInfo" EntityType="Self.DestinationInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Drone" EntityType="Self.Drone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DroneFlight" EntityType="Self.DroneFlight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GCPError" EntityType="Self.GCPError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroundControlPoints" EntityType="Self.GroundControlPoints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PointCloudXYZ" EntityType="Self.PointCloudXYZ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityReport" EntityType="Self.QualityReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RawImages" EntityType="Self.RawImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TFW" EntityType="Self.TFW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uncertainty" EntityType="Self.Uncertainty" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AbsoluteGeoreferencingVariance_QualityReport" Association="Self.FK_AbsoluteGeoreferencingVariance_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="AbsoluteGeoreferencingVariance" EntitySet="AbsoluteGeoreferencingVariance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbsoluteUncertainty_QualityReport" Association="Self.FK_AbsoluteUncertainty_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="AbsoluteUncertainty" EntitySet="AbsoluteUncertainty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartureInfo_DroneFlight" Association="Self.FK_DepartureInfo_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="DepartureInfo" EntitySet="DepartureInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DestinationInfo_DroneFlight" Association="Self.FK_DestinationInfo_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="DestinationInfo" EntitySet="DestinationInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Drone" Association="Self.FK_DroneFlight_Drone">
+            <End Role="Drone" EntitySet="Drone" />
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Pilot" Association="Self.FK_DroneFlight_Pilot">
+            <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GCPError_QualityReport" Association="Self.FK_GCPError_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="GCPError" EntitySet="GCPError" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroundControlPoints_DroneFlight" Association="Self.FK_GroundControlPoints_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="GroundControlPoints" EntitySet="GroundControlPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointCloudXYZ_DroneFlight" Association="Self.FK_PointCloudXYZ_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="PointCloudXYZ" EntitySet="PointCloudXYZ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QualityReport_DroneFlight" Association="Self.FK_QualityReport_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="QualityReport" EntitySet="QualityReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RawImages_DroneFlight" Association="Self.FK_RawImages_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="RawImages" EntitySet="RawImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TFW_DroneFlight" Association="Self.FK_TFW_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+            <End Role="TFW" EntitySet="TFW" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uncertainty_QualityReport" Association="Self.FK_Uncertainty_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="Uncertainty" EntitySet="Uncertainty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AbsoluteGeoreferencingVariance">
+          <Key>
+            <PropertyRef Name="AbsoluteGeolocationVariance" />
+          </Key>
+          <Property Name="AbsoluteGeolocationVariance" Type="Int32" Nullable="false" />
+          <Property Name="AGVMeanError_x" Type="Double" />
+          <Property Name="AGVMeanError_y" Type="Double" />
+          <Property Name="AGVMeanError_z" Type="Double" />
+          <Property Name="AGVSigma_x" Type="Double" />
+          <Property Name="AGVSigma_y" Type="Double" />
+          <Property Name="AGVSigma_z" Type="Double" />
+          <Property Name="AGVRMS_x" Type="Double" />
+          <Property Name="AGVRMS_y" Type="Double" />
+          <Property Name="AGVRMS_z" Type="Double" />
+          <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_AbsoluteGeoreferencingVariance_QualityReport" FromRole="AbsoluteGeoreferencingVariance" ToRole="QualityReport" />
+        </EntityType>
+        <EntityType Name="AbsoluteUncertainty">
+          <Key>
+            <PropertyRef Name="UncertaintyId" />
+          </Key>
+          <Property Name="UncertaintyId" Type="Int32" Nullable="false" />
+          <Property Name="AMU_x" Type="Double" />
+          <Property Name="AMU_y" Type="Double" />
+          <Property Name="AMU_z" Type="Double" />
+          <Property Name="ASU_x" Type="Double" />
+          <Property Name="ASU_y" Type="Double" />
+          <Property Name="ASU_z" Type="Double" />
+          <Property Name="RMU_x" Type="Double" />
+          <Property Name="RMU_y" Type="Double" />
+          <Property Name="RMU_z" Type="Double" />
+          <Property Name="RSU_x" Type="Double" />
+          <Property Name="RSU_y" Type="Double" />
+          <Property Name="RSU_z" Type="Double" />
+          <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_AbsoluteUncertainty_QualityReport" FromRole="AbsoluteUncertainty" ToRole="QualityReport" />
+        </EntityType>
+        <EntityType Name="DepartureInfo">
+          <Key>
+            <PropertyRef Name="DepartureInfoId" />
+          </Key>
+          <Property Name="DepartureInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="UTCTime" Type="Time" Precision="7" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DepartureInfo" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="DestinationInfo">
+          <Key>
+            <PropertyRef Name="DestinationInfoId" />
+          </Key>
+          <Property Name="DestinationInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="UTCTime" Type="Time" Precision="7" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DestinationInfo" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="Drone">
+          <Key>
+            <PropertyRef Name="DroneId" />
+          </Key>
+          <Property Name="DroneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
+          <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DroneFlight">
+          <Key>
+            <PropertyRef Name="FlightId" />
+          </Key>
+          <Property Name="FlightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DroneId" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DepartureInfoes" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
+          <NavigationProperty Name="DestinationInfoes" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
+          <NavigationProperty Name="Drone" Relationship="Self.FK_DroneFlight_Drone" FromRole="DroneFlight" ToRole="Drone" />
+          <NavigationProperty Name="Pilot" Relationship="Self.FK_DroneFlight_Pilot" FromRole="DroneFlight" ToRole="Pilot" />
+          <NavigationProperty Name="GroundControlPoints" Relationship="Self.FK_GroundControlPoints_DroneFlight" FromRole="DroneFlight" ToRole="GroundControlPoints" />
+          <NavigationProperty Name="PointCloudXYZs" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="DroneFlight" ToRole="PointCloudXYZ" />
+          <NavigationProperty Name="QualityReports" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="DroneFlight" ToRole="QualityReport" />
+          <NavigationProperty Name="RawImages" Relationship="Self.FK_RawImages_DroneFlight" FromRole="DroneFlight" ToRole="RawImages" />
+          <NavigationProperty Name="TFWs" Relationship="Self.FK_TFW_DroneFlight" FromRole="DroneFlight" ToRole="TFW" />
+          <Property Name="hasTFW" Type="Boolean" Nullable="false" />
+          <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
+          <Property Name="hasDepInfo" Type="Boolean" Nullable="false" />
+          <Property Name="hasDestInfo" Type="Boolean" Nullable="false" />
+          <Property Name="hasQR" Type="Boolean" Nullable="false" />
+          <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GCPError">
+          <Key>
+            <PropertyRef Name="GCPErrorId" />
+          </Key>
+          <Property Name="GCPErrorId" Type="Int32" Nullable="false" />
+          <Property Name="GCPMeanError_x" Type="Double" />
+          <Property Name="GCPMeanError_y" Type="Double" />
+          <Property Name="GCPMeanError_z" Type="Double" />
+          <Property Name="GCPSigma_x" Type="Double" />
+          <Property Name="GCPSigma_y" Type="Double" />
+          <Property Name="GCPSigma_z" Type="Double" />
+          <Property Name="GCPRMS_x" Type="Double" />
+          <Property Name="GCPRMS_y" Type="Double" />
+          <Property Name="GCPRMS_z" Type="Double" />
+          <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_GCPError_QualityReport" FromRole="GCPError" ToRole="QualityReport" />
+        </EntityType>
+        <EntityType Name="GroundControlPoint">
+          <Key>
+            <PropertyRef Name="GCPId" />
+          </Key>
+          <Property Name="GCPId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="X" Type="Double" />
+          <Property Name="Y" Type="Double" />
+          <Property Name="Z" Type="Double" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_GroundControlPoints_DroneFlight" FromRole="GroundControlPoints" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="PilotName" />
+          </Key>
+          <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZIP" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LicenseNo" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmergencyPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Pilot" FromRole="Pilot" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="PointCloudXYZ">
+          <Key>
+            <PropertyRef Name="PointCloudXYZId" />
+          </Key>
+          <Property Name="PointCloudXYZId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="X" Type="Double" />
+          <Property Name="Y" Type="Double" />
+          <Property Name="Z" Type="Double" />
+          <Property Name="Red" Type="Int32" />
+          <Property Name="Green" Type="Int32" />
+          <Property Name="Blue" Type="Int32" />
+          <Property Name="Intensity" Type="Double" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="PointCloudXYZ" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="QualityReport">
+          <Key>
+            <PropertyRef Name="QualityReportId" />
+          </Key>
+          <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <Property Name="Processed" Type="DateTime" Precision="3" />
+          <Property Name="CameraModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AverageGSD" Type="Double" />
+          <Property Name="AreaCovered" Type="Double" />
+          <Property Name="InitialProcessingTime" Type="Time" Precision="7" />
+          <Property Name="DatasetAmountCalibrated" Type="Int32" />
+          <Property Name="DatasetAmountTotal" Type="Int32" />
+          <Property Name="DatasetStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CameraOptimizationAmount" Type="Double" />
+          <Property Name="CameraOptimizationStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="GeoreferencingGCPs" Type="Int32" />
+          <Property Name="GeoreferencingRMS" Type="Double" />
+          <Property Name="GeoreferencingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RAM" Type="Int32" />
+          <Property Name="GPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ImageCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GCPCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OutputCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GeneratedTiles" Type="Int32" />
+          <Property Name="DensifiedPoints3D" Type="Int32" />
+          <Property Name="AverageDensity" Type="Double" />
+          <NavigationProperty Name="AbsoluteGeoreferencingVariances" Relationship="Self.FK_AbsoluteGeoreferencingVariance_QualityReport" FromRole="QualityReport" ToRole="AbsoluteGeoreferencingVariance" />
+          <NavigationProperty Name="AbsoluteUncertainties" Relationship="Self.FK_AbsoluteUncertainty_QualityReport" FromRole="QualityReport" ToRole="AbsoluteUncertainty" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="QualityReport" ToRole="DroneFlight" />
+          <NavigationProperty Name="GCPErrors" Relationship="Self.FK_GCPError_QualityReport" FromRole="QualityReport" ToRole="GCPError" />
+          <NavigationProperty Name="Uncertainties" Relationship="Self.FK_Uncertainty_QualityReport" FromRole="QualityReport" ToRole="Uncertainty" />
+        </EntityType>
+        <EntityType Name="RawImage">
+          <Key>
+            <PropertyRef Name="ImageName" />
+          </Key>
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TFW">
+          <Key>
+            <PropertyRef Name="TFWId" />
+          </Key>
+          <Property Name="TFWId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="xScale_X" Type="Double" />
+          <Property Name="yRotationTerm_X" Type="Double" />
+          <Property Name="TranslationTerm_X" Type="Double" />
+          <Property Name="xRotationTerm_Y" Type="Double" />
+          <Property Name="yNegativeScale_Y" Type="Double" />
+          <Property Name="TranslationTerm_Y" Type="Double" />
+          <Property Name="FlightId" Type="Int32" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_TFW_DroneFlight" FromRole="TFW" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="Uncertainty">
+          <Key>
+            <PropertyRef Name="UncertaintyId" />
+          </Key>
+          <Property Name="UncertaintyId" Type="Int32" Nullable="false" />
+          <Property Name="AMU_x" Type="Double" />
+          <Property Name="AMU_y" Type="Double" />
+          <Property Name="AMU_z" Type="Double" />
+          <Property Name="ASU_x" Type="Double" />
+          <Property Name="ASU_y" Type="Double" />
+          <Property Name="ASU_z" Type="Double" />
+          <Property Name="QualityReportId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_Uncertainty_QualityReport" FromRole="Uncertainty" ToRole="QualityReport" />
+        </EntityType>
+        <Association Name="FK_AbsoluteGeoreferencingVariance_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="AbsoluteGeoreferencingVariance" Type="Self.AbsoluteGeoreferencingVariance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteGeoreferencingVariance">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbsoluteUncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="AbsoluteUncertainty" Type="Self.AbsoluteUncertainty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteUncertainty">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartureInfo_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DepartureInfo" Type="Self.DepartureInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="DepartureInfo">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DestinationInfo_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DestinationInfo" Type="Self.DestinationInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="DestinationInfo">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DroneFlight_Drone">
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drone">
+              <PropertyRef Name="DroneId" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="DroneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DroneFlight_Pilot">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="PilotName" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="PilotName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroundControlPoints_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="GroundControlPoints" Type="Self.GroundControlPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="GroundControlPoints">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointCloudXYZ_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="PointCloudXYZ" Type="Self.PointCloudXYZ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="PointCloudXYZ">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QualityReport_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="QualityReport">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RawImages_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="RawImages" Type="Self.RawImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="RawImages">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TFW_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="TFW" Type="Self.TFW" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="TFW">
+              <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GCPError_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="GCPError" Type="Self.GCPError" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="GCPError">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="Uncertainty">
+              <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DroneDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AbsoluteGeoreferencingVariances" EntityType="Self.AbsoluteGeoreferencingVariance" />
+          <EntitySet Name="AbsoluteUncertainties" EntityType="Self.AbsoluteUncertainty" />
+          <EntitySet Name="DepartureInfoes" EntityType="Self.DepartureInfo" />
+          <EntitySet Name="DestinationInfoes" EntityType="Self.DestinationInfo" />
+          <EntitySet Name="Drones" EntityType="Self.Drone" />
+          <EntitySet Name="DroneFlights" EntityType="Self.DroneFlight" />
+          <EntitySet Name="GCPErrors" EntityType="Self.GCPError" />
+          <EntitySet Name="GroundControlPoints" EntityType="Self.GroundControlPoint" />
+          <EntitySet Name="Pilots" EntityType="Self.Pilot" />
+          <EntitySet Name="PointCloudXYZs" EntityType="Self.PointCloudXYZ" />
+          <EntitySet Name="QualityReports" EntityType="Self.QualityReport" />
+          <EntitySet Name="RawImages" EntityType="Self.RawImage" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TFWs" EntityType="Self.TFW" />
+          <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
+          <AssociationSet Name="FK_AbsoluteGeoreferencingVariance_QualityReport" Association="Self.FK_AbsoluteGeoreferencingVariance_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="AbsoluteGeoreferencingVariance" EntitySet="AbsoluteGeoreferencingVariances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbsoluteUncertainty_QualityReport" Association="Self.FK_AbsoluteUncertainty_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="AbsoluteUncertainty" EntitySet="AbsoluteUncertainties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartureInfo_DroneFlight" Association="Self.FK_DepartureInfo_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="DepartureInfo" EntitySet="DepartureInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DestinationInfo_DroneFlight" Association="Self.FK_DestinationInfo_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="DestinationInfo" EntitySet="DestinationInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Drone" Association="Self.FK_DroneFlight_Drone">
+            <End Role="Drone" EntitySet="Drones" />
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Pilot" Association="Self.FK_DroneFlight_Pilot">
+            <End Role="Pilot" EntitySet="Pilots" />
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroundControlPoints_DroneFlight" Association="Self.FK_GroundControlPoints_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="GroundControlPoints" EntitySet="GroundControlPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointCloudXYZ_DroneFlight" Association="Self.FK_PointCloudXYZ_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="PointCloudXYZ" EntitySet="PointCloudXYZs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QualityReport_DroneFlight" Association="Self.FK_QualityReport_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="QualityReport" EntitySet="QualityReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RawImages_DroneFlight" Association="Self.FK_RawImages_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="RawImages" EntitySet="RawImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TFW_DroneFlight" Association="Self.FK_TFW_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="TFW" EntitySet="TFWs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GCPError_QualityReport" Association="Self.FK_GCPError_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="GCPError" EntitySet="GCPErrors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uncertainty_QualityReport" Association="Self.FK_Uncertainty_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="Uncertainty" EntitySet="Uncertainties" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DroneDBModelStoreContainer" CdmEntityContainer="DroneDBEntities">
+          <EntitySetMapping Name="AbsoluteGeoreferencingVariances">
+            <EntityTypeMapping TypeName="DroneDBModel.AbsoluteGeoreferencingVariance">
+              <MappingFragment StoreEntitySet="AbsoluteGeoreferencingVariance">
+                <ScalarProperty Name="AbsoluteGeolocationVariance" ColumnName="AbsoluteGeolocationVariance" />
+                <ScalarProperty Name="AGVMeanError_x" ColumnName="AGVMeanError_x" />
+                <ScalarProperty Name="AGVMeanError_y" ColumnName="AGVMeanError_y" />
+                <ScalarProperty Name="AGVMeanError_z" ColumnName="AGVMeanError_z" />
+                <ScalarProperty Name="AGVSigma_x" ColumnName="AGVSigma_x" />
+                <ScalarProperty Name="AGVSigma_y" ColumnName="AGVSigma_y" />
+                <ScalarProperty Name="AGVSigma_z" ColumnName="AGVSigma_z" />
+                <ScalarProperty Name="AGVRMS_x" ColumnName="AGVRMS_x" />
+                <ScalarProperty Name="AGVRMS_y" ColumnName="AGVRMS_y" />
+                <ScalarProperty Name="AGVRMS_z" ColumnName="AGVRMS_z" />
+                <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbsoluteUncertainties">
+            <EntityTypeMapping TypeName="DroneDBModel.AbsoluteUncertainty">
+              <MappingFragment StoreEntitySet="AbsoluteUncertainty">
+                <ScalarProperty Name="UncertaintyId" ColumnName="UncertaintyId" />
+                <ScalarProperty Name="AMU_x" ColumnName="AMU_x" />
+                <ScalarProperty Name="AMU_y" ColumnName="AMU_y" />
+                <ScalarProperty Name="AMU_z" ColumnName="AMU_z" />
+                <ScalarProperty Name="ASU_x" ColumnName="ASU_x" />
+                <ScalarProperty Name="ASU_y" ColumnName="ASU_y" />
+                <ScalarProperty Name="ASU_z" ColumnName="ASU_z" />
+                <ScalarProperty Name="RMU_x" ColumnName="RMU_x" />
+                <ScalarProperty Name="RMU_y" ColumnName="RMU_y" />
+                <ScalarProperty Name="RMU_z" ColumnName="RMU_z" />
+                <ScalarProperty Name="RSU_x" ColumnName="RSU_x" />
+                <ScalarProperty Name="RSU_y" ColumnName="RSU_y" />
+                <ScalarProperty Name="RSU_z" ColumnName="RSU_z" />
+                <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartureInfoes">
+            <EntityTypeMapping TypeName="DroneDBModel.DepartureInfo">
+              <MappingFragment StoreEntitySet="DepartureInfo">
+                <ScalarProperty Name="DepartureInfoId" ColumnName="DepartureInfoId" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="UTCTime" ColumnName="UTCTime" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DestinationInfoes">
+            <EntityTypeMapping TypeName="DroneDBModel.DestinationInfo">
+              <MappingFragment StoreEntitySet="DestinationInfo">
+                <ScalarProperty Name="DestinationInfoId" ColumnName="DestinationInfoId" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="UTCTime" ColumnName="UTCTime" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drones">
+            <EntityTypeMapping TypeName="DroneDBModel.Drone">
+              <MappingFragment StoreEntitySet="Drone">
+                <ScalarProperty Name="DroneName" ColumnName="DroneName" />
+                <ScalarProperty Name="DroneId" ColumnName="DroneId" />
+                <ScalarProperty Name="Registration" ColumnName="Registration" />
+                <ScalarProperty Name="DroneType" ColumnName="DroneType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DroneFlights">
+            <EntityTypeMapping TypeName="DroneDBModel.DroneFlight">
+              <MappingFragment StoreEntitySet="DroneFlight">
+                <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
+                <ScalarProperty Name="hasQR" ColumnName="hasQR" />
+                <ScalarProperty Name="hasDestInfo" ColumnName="hasDestInfo" />
+                <ScalarProperty Name="hasDepInfo" ColumnName="hasDepInfo" />
+                <ScalarProperty Name="hasGCPs" ColumnName="hasGCPs" />
+                <ScalarProperty Name="hasTFW" ColumnName="hasTFW" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="DroneId" ColumnName="DroneId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PilotName" ColumnName="PilotName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GCPErrors">
+            <EntityTypeMapping TypeName="DroneDBModel.GCPError">
+              <MappingFragment StoreEntitySet="GCPError">
+                <ScalarProperty Name="GCPErrorId" ColumnName="GCPErrorId" />
+                <ScalarProperty Name="GCPMeanError_x" ColumnName="GCPMeanError_x" />
+                <ScalarProperty Name="GCPMeanError_y" ColumnName="GCPMeanError_y" />
+                <ScalarProperty Name="GCPMeanError_z" ColumnName="GCPMeanError_z" />
+                <ScalarProperty Name="GCPSigma_x" ColumnName="GCPSigma_x" />
+                <ScalarProperty Name="GCPSigma_y" ColumnName="GCPSigma_y" />
+                <ScalarProperty Name="GCPSigma_z" ColumnName="GCPSigma_z" />
+                <ScalarProperty Name="GCPRMS_x" ColumnName="GCPRMS_x" />
+                <ScalarProperty Name="GCPRMS_y" ColumnName="GCPRMS_y" />
+                <ScalarProperty Name="GCPRMS_z" ColumnName="GCPRMS_z" />
+                <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroundControlPoints">
+            <EntityTypeMapping TypeName="DroneDBModel.GroundControlPoint">
+              <MappingFragment StoreEntitySet="GroundControlPoints">
+                <ScalarProperty Name="GCPId" ColumnName="GCPId" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="Z" ColumnName="Z" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pilots">
+            <EntityTypeMapping TypeName="DroneDBModel.Pilot">
+              <MappingFragment StoreEntitySet="Pilot">
+                <ScalarProperty Name="PilotName" ColumnName="PilotName" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="ZIP" ColumnName="ZIP" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmergencyPhone" ColumnName="EmergencyPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PointCloudXYZs">
+            <EntityTypeMapping TypeName="DroneDBModel.PointCloudXYZ">
+              <MappingFragment StoreEntitySet="PointCloudXYZ">
+                <ScalarProperty Name="PointCloudXYZId" ColumnName="PointCloudXYZId" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="Z" ColumnName="Z" />
+                <ScalarProperty Name="Red" ColumnName="Red" />
+                <ScalarProperty Name="Green" ColumnName="Green" />
+                <ScalarProperty Name="Blue" ColumnName="Blue" />
+                <ScalarProperty Name="Intensity" ColumnName="Intensity" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityReports">
+            <EntityTypeMapping TypeName="DroneDBModel.QualityReport">
+              <MappingFragment StoreEntitySet="QualityReport">
+                <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="Processed" ColumnName="Processed" />
+                <ScalarProperty Name="CameraModelName" ColumnName="CameraModelName" />
+                <ScalarProperty Name="AverageGSD" ColumnName="AverageGSD" />
+                <ScalarProperty Name="AreaCovered" ColumnName="AreaCovered" />
+                <ScalarProperty Name="InitialProcessingTime" ColumnName="InitialProcessingTime" />
+                <ScalarProperty Name="DatasetAmountCalibrated" ColumnName="DatasetAmountCalibrated" />
+                <ScalarProperty Name="DatasetAmountTotal" ColumnName="DatasetAmountTotal" />
+                <ScalarProperty Name="DatasetStatus" ColumnName="DatasetStatus" />
+                <ScalarProperty Name="CameraOptimizationAmount" ColumnName="CameraOptimizationAmount" />
+                <ScalarProperty Name="CameraOptimizationStatus" ColumnName="CameraOptimizationStatus" />
+                <ScalarProperty Name="GeoreferencingGCPs" ColumnName="GeoreferencingGCPs" />
+                <ScalarProperty Name="GeoreferencingRMS" ColumnName="GeoreferencingRMS" />
+                <ScalarProperty Name="GeoreferencingStatus" ColumnName="GeoreferencingStatus" />
+                <ScalarProperty Name="CPU" ColumnName="CPU" />
+                <ScalarProperty Name="RAM" ColumnName="RAM" />
+                <ScalarProperty Name="GPU" ColumnName="GPU" />
+                <ScalarProperty Name="OS" ColumnName="OS" />
+                <ScalarProperty Name="ImageCoordinateSystem" ColumnName="ImageCoordinateSystem" />
+                <ScalarProperty Name="GCPCoordinateSystem" ColumnName="GCPCoordinateSystem" />
+                <ScalarProperty Name="OutputCoordinateSystem" ColumnName="OutputCoordinateSystem" />
+                <ScalarProperty Name="GeneratedTiles" ColumnName="GeneratedTiles" />
+                <ScalarProperty Name="DensifiedPoints3D" ColumnName="DensifiedPoints3D" />
+                <ScalarProperty Name="AverageDensity" ColumnName="AverageDensity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RawImages">
+            <EntityTypeMapping TypeName="DroneDBModel.RawImage">
+              <MappingFragment StoreEntitySet="RawImages">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TFWs">
+            <EntityTypeMapping TypeName="DroneDBModel.TFW">
+              <MappingFragment StoreEntitySet="TFW">
+                <ScalarProperty Name="TFWId" ColumnName="TFWId" />
+                <ScalarProperty Name="xScale_X" ColumnName="xScale_X" />
+                <ScalarProperty Name="yRotationTerm_X" ColumnName="yRotationTerm_X" />
+                <ScalarProperty Name="TranslationTerm_X" ColumnName="TranslationTerm_X" />
+                <ScalarProperty Name="xRotationTerm_Y" ColumnName="xRotationTerm_Y" />
+                <ScalarProperty Name="yNegativeScale_Y" ColumnName="yNegativeScale_Y" />
+                <ScalarProperty Name="TranslationTerm_Y" ColumnName="TranslationTerm_Y" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uncertainties">
+            <EntityTypeMapping TypeName="DroneDBModel.Uncertainty">
+              <MappingFragment StoreEntitySet="Uncertainty">
+                <ScalarProperty Name="UncertaintyId" ColumnName="UncertaintyId" />
+                <ScalarProperty Name="AMU_x" ColumnName="AMU_x" />
+                <ScalarProperty Name="AMU_y" ColumnName="AMU_y" />
+                <ScalarProperty Name="AMU_z" ColumnName="AMU_z" />
+                <ScalarProperty Name="ASU_x" ColumnName="ASU_x" />
+                <ScalarProperty Name="ASU_y" ColumnName="ASU_y" />
+                <ScalarProperty Name="ASU_z" ColumnName="ASU_z" />
+                <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

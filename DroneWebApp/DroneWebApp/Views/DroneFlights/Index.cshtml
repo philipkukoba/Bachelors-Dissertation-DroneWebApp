@@ -1,0 +1,124 @@
+﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
+
+@{
+    ViewBag.Title = "Drone Flight Index";
+}
+
+<h2>Drone Flights Index</h2>
+
+<p>
+    @Html.ActionLink("Create new Drone Flight", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Flight Id")
+        </th>
+        <th>
+            @Html.DisplayName("Location")
+        </th>
+        <th>
+            @Html.DisplayName("Date")
+        </th>
+        <th>
+            @Html.DisplayName("Drone")
+        </th>
+        <th>
+            @Html.DisplayName("Pilot")
+        </th>
+        <th></th>
+        <th>Files</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.FlightId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Location)
+    </td>
+    <td>
+        @item.Date.ToString("dd/MM/yy")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Drone.DroneName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Pilot.PilotName)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.FlightId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.FlightId })
+    </td>
+    <td>
+        @if (!item.hasQR)
+        {
+            <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    QR
+                </span>
+            </a>
+        }else { 
+            <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    QR
+                </span>
+            </a>
+        }
+        @if (!item.hasGCPs)
+        {
+            <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm ">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    GCP
+                </span>
+            </a>
+        }else { 
+            <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    GCP
+                </span>
+            </a>
+        }
+        @if (!item.hasTFW)
+        {
+            <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    TFW
+                </span>
+            </a>
+        }else { 
+            <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    TFW
+                </span>
+            </a>
+        }
+        @if (!item.hasXYZ)
+        {
+            <a href="@Url.Action("Index", "Upload")" class="btn btn-danger btn-sm">
+                <span>
+                    XYZ
+                </span>
+            </a>
+        }else { 
+            <a href="@Url.Action("Index", "Upload")" class="btn btn-success btn-sm disabled">
+                <i class="icon-pencil icon-white"></i>
+                <span>
+                    XYZ
+                </span>
+            </a>
+        }
+    </td>
+    </tr>
+    }
+
+</table>
