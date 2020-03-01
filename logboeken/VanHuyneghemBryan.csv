@@ -20,3 +20,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 28/02/20,11:25,11:45,Extern,Scrumboard opschonen + toevoegen van nieuwe issues 51 + 53,,
 29/02/20,13:15,23:55,Extern,Implementatie van interface website,39/48/50/51/53/61-63/65,
 01/03/20,12:15,19:30,Extern,Implementatie van sorting + searching en paging op data tables,59/67/68,
+01/03/20,19:45,23:00,Extern,Debugging,11,
