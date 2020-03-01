@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DroneWebApp.Models;
+using DroneWebApp.Models.SimpleFactoryPattern;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +22,10 @@ namespace DroneWebApp.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+            DbContext dbx = new DroneDBEntities();
+            Creator c = new Creator(dbx);
+            c.GetParser(".pdf", "path", 1); 
+
             return View();
         }
 
