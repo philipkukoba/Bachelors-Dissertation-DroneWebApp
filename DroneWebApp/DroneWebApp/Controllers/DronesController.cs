@@ -116,7 +116,7 @@ namespace DroneWebApp.Controllers
         // POST: Drones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             Drone drone = db.Drones.Find(id);
             db.Drones.Remove(drone);
