@@ -180,6 +180,9 @@
     <Compile Include="Models\Drone.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DroneAttributeValue.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DroneDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -196,6 +199,27 @@
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneFlight.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneGP.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneIMU_ATTI.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneLog.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneMotor.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneOA.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneRC.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneRTKData.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GCPError.cs">
@@ -305,7 +329,6 @@
     <Content Include="Views\Pilots\Edit.cshtml" />
     <Content Include="Views\Pilots\Index.cshtml" />
     <Content Include="Views\Files\Index.cshtml" />
-    <Content Include="TestUploadedFiles\Harelbeke-191210_report_Hightlighted.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -40,5 +40,13 @@ namespace DroneWebApp.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TFW> TFWs { get; set; }
         public virtual DbSet<Uncertainty> Uncertainties { get; set; }
+        public virtual DbSet<DroneAttributeValue> DroneAttributeValues { get; set; }
+        public virtual DbSet<DroneGP> DroneGPS { get; set; }
+        public virtual DbSet<DroneIMU_ATTI> DroneIMU_ATTI { get; set; }
+        public virtual DbSet<DroneLog> DroneLogs { get; set; }
+        public virtual DbSet<DroneMotor> DroneMotors { get; set; }
+        public virtual DbSet<DroneOA> DroneOAs { get; set; }
+        public virtual DbSet<DroneRC> DroneRCs { get; set; }
+        public virtual DbSet<DroneRTKData> DroneRTKDatas { get; set; }
     }
 }

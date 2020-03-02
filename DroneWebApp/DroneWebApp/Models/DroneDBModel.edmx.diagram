@@ -33,6 +33,22 @@
         <AssociationConnector Association="DroneDBModel.FK_TFW_DroneFlight" ManuallyRouted="false" />
         <AssociationConnector Association="DroneDBModel.FK_GCPError_QualityReport" ManuallyRouted="false" />
         <AssociationConnector Association="DroneDBModel.FK_Uncertainty_QualityReport" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneAttributeValue" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneGP" Width="1.5" PointX="5.25" PointY="37.5" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneIMU_ATTI" Width="1.5" PointX="5.25" PointY="47.375" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneLog" Width="1.5" PointX="3" PointY="45.875" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneMotor" Width="1.5" PointX="5.25" PointY="54.375" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneOA" Width="1.5" PointX="5.25" PointY="57.5" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneRC" Width="1.5" PointX="5.25" PointY="51.25" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneRTKData" Width="1.5" PointX="5.25" PointY="42.75" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneAttributeValues_Drone" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneLog_Drone" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneGPS_DroneLog" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneIMU_ATTI_DroneLog" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneMotor_DroneLog" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneOA_DroneLog" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneRC_DroneLog" />
+        <AssociationConnector Association="DroneDBModel.FK_DroneRTKData_DroneLog" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
