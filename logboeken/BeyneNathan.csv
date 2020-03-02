@@ -20,4 +20,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 29/02/20,20:30,21:30,Extern,Documenten communicatie nalezen + beginnen aan tussentijds verslag,58,
 01/03/20,11:45,12:30,Extern,Verderwerken aan tussentijds verslag,58,
 01/03/20,15:00,17:00,Extern,Tussentijds verslag afwerken + nieuw toegevoegde code bekijken en proberen te laten werken op eigen laptop,58,
-01/03/20,22:20,23:30,Extern,Database model Dronelog in sql server management studio zetten,41,
+01/03/20,22:20,23:59,Extern,Database model Dronelog in sql server management studio zetten en ordenen,41,In magagement studio zetten samen met Bryan via parsec en Teamspeak
+02/03/20,00:00,02:00,Extern,Database model open krijgen in sql server management studio en tabellen goed plaatsen voor foto,41,
