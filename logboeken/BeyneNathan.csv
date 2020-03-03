@@ -22,3 +22,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 01/03/20,15:00,17:00,Extern,Tussentijds verslag afwerken + nieuw toegevoegde code bekijken en proberen te laten werken op eigen laptop,58,
 01/03/20,22:20,23:59,Extern,Database model Dronelog in sql server management studio zetten en ordenen,41,In magagement studio zetten samen met Bryan via parsec en Teamspeak
 02/03/20,00:00,02:00,Extern,Database model open krijgen in sql server management studio en tabellen goed plaatsen voor foto,41,
+02/03/20,21:30,23:59,Extern,Laatste aanpassingen verslag en bronvermelding + problemen met applicatie op eigen laptop oplossen,58,
+03/03/20,00:00,01:30,Extern,TFWParser schrijven + info lezen over connecteren met sql server,13,
