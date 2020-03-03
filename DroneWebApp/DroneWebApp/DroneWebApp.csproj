@@ -159,10 +159,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AbsoluteGeoreferencingVariance.cs">
+    <Compile Include="Models\AbsoluteGeolocationVariance.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AbsoluteUncertainty.cs">
+    <Compile Include="Models\CTRLPoint.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DepartureInfo.cs">
@@ -172,6 +172,9 @@
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Drone.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneAttributeValue.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneDBModel.Context.cs">
@@ -190,6 +193,27 @@
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneFlight.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneGP.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneIMU_ATTI.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneLog.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneMotor.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneOA.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneRC.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneRTKData.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GCPError.cs">

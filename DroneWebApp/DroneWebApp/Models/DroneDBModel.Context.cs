@@ -25,12 +25,20 @@ namespace DroneWebApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AbsoluteGeoreferencingVariance> AbsoluteGeoreferencingVariances { get; set; }
-        public virtual DbSet<AbsoluteUncertainty> AbsoluteUncertainties { get; set; }
+        public virtual DbSet<AbsoluteGeolocationVariance> AbsoluteGeolocationVariances { get; set; }
+        public virtual DbSet<CTRLPoint> CTRLPoints { get; set; }
         public virtual DbSet<DepartureInfo> DepartureInfoes { get; set; }
         public virtual DbSet<DestinationInfo> DestinationInfoes { get; set; }
         public virtual DbSet<Drone> Drones { get; set; }
+        public virtual DbSet<DroneAttributeValue> DroneAttributeValues { get; set; }
         public virtual DbSet<DroneFlight> DroneFlights { get; set; }
+        public virtual DbSet<DroneGP> DroneGPS { get; set; }
+        public virtual DbSet<DroneIMU_ATTI> DroneIMU_ATTI { get; set; }
+        public virtual DbSet<DroneLog> DroneLogs { get; set; }
+        public virtual DbSet<DroneMotor> DroneMotors { get; set; }
+        public virtual DbSet<DroneOA> DroneOAs { get; set; }
+        public virtual DbSet<DroneRC> DroneRCs { get; set; }
+        public virtual DbSet<DroneRTKData> DroneRTKDatas { get; set; }
         public virtual DbSet<GCPError> GCPErrors { get; set; }
         public virtual DbSet<GroundControlPoint> GroundControlPoints { get; set; }
         public virtual DbSet<Pilot> Pilots { get; set; }

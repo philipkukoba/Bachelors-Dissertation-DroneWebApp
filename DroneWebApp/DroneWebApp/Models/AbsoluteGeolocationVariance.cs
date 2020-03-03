@@ -12,9 +12,9 @@ namespace DroneWebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AbsoluteGeoreferencingVariance
+    public partial class AbsoluteGeolocationVariance
     {
-        public int AbsoluteGeolocationVariance { get; set; }
+        public int AbsoluteGeolocationVariance1 { get; set; }
         public Nullable<double> AGVMeanError_x { get; set; }
         public Nullable<double> AGVMeanError_y { get; set; }
         public Nullable<double> AGVMeanError_z { get; set; }
@@ -24,7 +24,7 @@ namespace DroneWebApp.Models
         public Nullable<double> AGVRMS_x { get; set; }
         public Nullable<double> AGVRMS_y { get; set; }
         public Nullable<double> AGVRMS_z { get; set; }
-        public string QualityReportId { get; set; }
+        public Nullable<int> QualityReportId { get; set; }
     
         public virtual QualityReport QualityReport { get; set; }
     }
