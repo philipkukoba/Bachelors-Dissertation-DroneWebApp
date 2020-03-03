@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DroneWebApp.Models;
+using DroneWebApp.Models.SimpleFactoryPattern;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,7 +28,6 @@ namespace DroneWebApp.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Please contact us:";
-
             return View();
         }
     }
