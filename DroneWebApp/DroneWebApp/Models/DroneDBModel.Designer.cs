@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\bryan\source\repos\bp-2020\drone1\DroneWebApp\DroneWebApp\Models\DroneDBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\p_kuk\Desktop\BP\drone1\DroneWebApp\DroneWebApp\Models\DroneDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

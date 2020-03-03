@@ -21,7 +21,13 @@ namespace DroneWebApp.Models
         public Nullable<double> ASU_x { get; set; }
         public Nullable<double> ASU_y { get; set; }
         public Nullable<double> ASU_z { get; set; }
-        public string QualityReportId { get; set; }
+        public Nullable<double> RMU_x { get; set; }
+        public Nullable<double> RMU_y { get; set; }
+        public Nullable<double> RMU_z { get; set; }
+        public Nullable<double> RSU_x { get; set; }
+        public Nullable<double> RSU_y { get; set; }
+        public Nullable<double> RSU_z { get; set; }
+        public Nullable<int> QualityReportId { get; set; }
     
         public virtual QualityReport QualityReport { get; set; }
     }
