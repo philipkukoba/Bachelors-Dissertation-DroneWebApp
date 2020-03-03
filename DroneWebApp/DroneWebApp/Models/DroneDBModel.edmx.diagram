@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d033ea3ddbfb4c6e953154cc81276903" Name="Diagram1">
+      <Diagram DiagramId="88940d413f54415c848ba02a673ac4c1" Name="Diagram1">
         <EntityTypeShape EntityType="DroneDBModel.AbsoluteGeolocationVariance" Width="1.5" PointX="7.5" PointY="32.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DepartureInfo" Width="1.5" PointX="5.25" PointY="17.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DestinationInfo" Width="1.5" PointX="5.25" PointY="20" IsExpanded="true" />
