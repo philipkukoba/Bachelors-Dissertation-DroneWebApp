@@ -168,9 +168,6 @@
     <Compile Include="Models\AbsoluteGeoreferencingVariance.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AbsoluteUncertainty.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DepartureInfo.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>

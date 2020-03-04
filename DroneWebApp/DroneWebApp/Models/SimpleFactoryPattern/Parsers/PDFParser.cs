@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System;
 using IvyPdf;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
@@ -11,8 +10,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
     {
         public void Parse(string path, int flightId, DroneDBEntities db)
         {
+            DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             PdfParser p = new PdfParser(IvyDocumentReader.ReadPdf(@"C:\Users\p_kuk\Desktop\BP\Harelbeke-191210_report_Hightlighted.pdf"));
             QualityReport qrp = new QualityReport();
+            qrp.QualityReportId = "1";
+            droneFlight.hasQR = true;
+            qrp.FlightId = droneFlight.FlightId;
 
             //summary
             string Processed = p.Find("Processed").Right().Text;
@@ -21,25 +24,38 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string AreaCovered = p.Find("Area Covered").Right().Text + p.Right().Text + p.Right().Text;
             string TimeForInitialProcessing = p.Find("Time for Initial Processing (without report)").Right().Text;
 
-            Console.WriteLine("Processed: " + Processed);
             qrp.Processed = Convert.ToDateTime(Processed);
+            qrp.CameraModelName = CameraModelNames;
+            qrp.AverageGSD = Convert.ToDouble(AverageGroundSamplingDistance);
+            qrp.AreaCovered = Convert.ToDouble(AreaCovered);
+            qrp.InitialProcessingTime = TimeSpan.Parse(TimeForInitialProcessing); //?? 
 
+            /*
+            Console.WriteLine("Processed: " + Processed);
             Console.WriteLine("CameraModelNames: " + CameraModelNames);
             Console.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
             Console.WriteLine("AreaCovered: " + AreaCovered);
             Console.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
+            */
 
             //quality check
             string Dataset = p.Find("Dataset").Right().Text;
             string CameraOptimization = p.Find("Camera Optimization").Right().Text;
             string Georeferencing = p.Find("Georeferencing").Right().Text;
 
+            //TODO!! dataset,cameraoptimiz, georef
+
+            /*
             Console.WriteLine("Dataset: " + Dataset);
             Console.WriteLine("CameraOptimization: " + CameraOptimization);
             Console.WriteLine("Georeferencing: " + Georeferencing);
+            */
 
             //absolute camera position and orientation uncertainties 
             //todo omzetten naar float? 
+
+            Uncertainty uncertainty = new Uncertainty();
+            uncertainty.UncertaintyId = 1; 
 
             p.FilterPage(3); //voor de zekerheid dat hij op pagina 3 zit
             string AbsoluteMeanX = p.Find("Mean").Right().Text;
@@ -51,12 +67,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string AbsoluteSigmaZ = p.Right().Text;
             p.FilterClear();
 
+            uncertainty.AMU_x = Convert.ToDouble(AbsoluteMeanX);
+            uncertainty.AMU_y = Convert.ToDouble(AbsoluteMeanY);
+            uncertainty.AMU_z = Convert.ToDouble(AbsoluteMeanZ);
+            uncertainty.ASU_x = Convert.ToDouble(AbsoluteSigmaX);
+            uncertainty.ASU_y = Convert.ToDouble(AbsoluteSigmaY);
+            uncertainty.ASU_z = Convert.ToDouble(AbsoluteSigmaZ);
+
+            /*
             Console.WriteLine("0.008 ?: " + AbsoluteMeanX);
             Console.WriteLine("0.008 ?: " + AbsoluteMeanY);
             Console.WriteLine("0.014 ?: " + AbsoluteMeanZ);
             Console.WriteLine("0.001 ?: " + AbsoluteSigmaX);
             Console.WriteLine("0.001 ?: " + AbsoluteSigmaY);
             Console.WriteLine("0.001 ?: " + AbsoluteSigmaZ);
+            */
 
             //absolute camera position and orientation uncertainties 
             //todo omzetten naar float? 
@@ -69,7 +94,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string RelativeSigmaY = p.Right().Text;
             string RelativeSigmaZ = p.Right().Text;
 
+            uncertainty.RMU_x = Convert.ToDouble(RelativeMeanX);
+            uncertainty.RMU_y = Convert.ToDouble(RelativeMeanY);
+            uncertainty.RMU_z = Convert.ToDouble(RelativeMeanZ);
+            uncertainty.RSU_x = Convert.ToDouble(RelativeSigmaX);
+            uncertainty.RSU_y = Convert.ToDouble(RelativeSigmaY);
+            uncertainty.RSU_z = Convert.ToDouble(RelativeSigmaZ);
 
+            /*
             Console.WriteLine("RelativeMeanX 0.007: " + RelativeMeanX);
             Console.WriteLine("RelativeMeanY 0.006: " + RelativeMeanY);
             Console.WriteLine("RelativeMeanZ 0.008: " + RelativeMeanZ);
@@ -77,7 +109,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             Console.WriteLine("RelativeSigmaX 0.002: " + RelativeSigmaX);
             Console.WriteLine("RelativeSigmaY 0.002: " + RelativeSigmaY);
             Console.WriteLine("RelativeSigmaZ 0.004: " + RelativeSigmaZ);
-
+            */
 
             //Ground control points 
             string MeanErrorX = p.Find("Mean").Right().Text;
@@ -92,6 +124,22 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string RMSErrorY = p.Right().Text;
             string RMSErrorZ = p.Right().Text;
 
+            GCPError gcperror = new GCPError();
+            gcperror.GCPErrorId = 1;
+
+            gcperror.GCPMeanError_x = Convert.ToDouble(MeanErrorX);
+            gcperror.GCPMeanError_y = Convert.ToDouble(MeanErrorY);
+            gcperror.GCPMeanError_z = Convert.ToDouble(MeanErrorZ);
+
+            gcperror.GCPSigma_x = Convert.ToDouble(SigmaErrorX);
+            gcperror.GCPSigma_y = Convert.ToDouble(SigmaErrorY);
+            gcperror.GCPSigma_z = Convert.ToDouble(SigmaErrorZ);
+
+            gcperror.GCPRMS_x = Convert.ToDouble(RMSErrorX);
+            gcperror.GCPRMS_y = Convert.ToDouble(RMSErrorY);
+            gcperror.GCPRMS_z = Convert.ToDouble(RMSErrorZ);
+
+            /*
             Console.WriteLine("MeanErrorX -0.000051: " + MeanErrorX);
             Console.WriteLine("MeanErrorY -0.000158: " + MeanErrorY);
             Console.WriteLine("MeanErrorZ -0.000181: " + MeanErrorZ);
@@ -103,6 +151,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             Console.WriteLine("RMSErrorX 0.007058: " + RMSErrorX);
             Console.WriteLine("RMSErrorY 0.009430: " + RMSErrorY);
             Console.WriteLine("RMSErrorZ 0.005906: " + RMSErrorZ);
+            */
+
+
 
             //absolute geolocation variance 
             string MeanGeolocationErrorX = p.Find("Mean").Right().Text;
@@ -136,6 +187,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             p.FilterClear();
             string OperatingSystem = p.Find("Operating System").Right().Text;
 
+            //qrp.CPU .. qrp.RAM .. qrp.GPU  => TODO
+            qrp.OS = OperatingSystem;
+
             Console.WriteLine("hardware: " + Hardware);
             Console.WriteLine("OperatingSystem: " + OperatingSystem);
 
@@ -144,9 +198,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string GroundControlPointCoordinateSystem = p.Find("Ground Control Point (GCP) Coordinate System").Right().Text;
             string OutputCoordinateSystem = p.Find("Output Coordinate System").Right().Text;
 
+            qrp.ImageCoordinateSystem = ImageCoordinateSystem;
+            qrp.GCPCoordinateSystem = GroundControlPointCoordinateSystem;
+            qrp.OutputCoordinateSystem = OutputCoordinateSystem;
+
+            /*
             Console.WriteLine("ImageCoordinateSystem: " + ImageCoordinateSystem);
             Console.WriteLine("GroundControlPointCoordinateSystem: " + GroundControlPointCoordinateSystem);
             Console.WriteLine("OutputCoordinateSystem: " + OutputCoordinateSystem);
+            */
 
             //results
             //omzetten naar int/floats? 
@@ -154,11 +214,20 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             string NumberOf3DDensifiedPoints = p.Find("Number of 3D Densified Points").Right().Text;
             string AverageDensity = p.FindPattern("Average Density*").Right().Right().Right().Text;
 
+            qrp.GeneratedTiles = Convert.ToInt32(NumberOfGeneratedTiles);
+            qrp.DensifiedPoints3D = Convert.ToInt32(NumberOf3DDensifiedPoints);
+            qrp.AverageDensity = float.Parse(AverageDensity);
+
+            /*
             Console.WriteLine("NumberOfGeneratedTiles: " + NumberOfGeneratedTiles);
             Console.WriteLine("NumberOf3DDensifiedPoints: " + NumberOf3DDensifiedPoints);
             Console.WriteLine("AverageDensity: " + AverageDensity);
+            */
 
-
+            db.GCPErrors.Add(gcperror);
+            db.Uncertainties.Add(uncertainty);
+            db.QualityReports.Add(qrp);
+            db.SaveChanges();
         }
     }
 }
