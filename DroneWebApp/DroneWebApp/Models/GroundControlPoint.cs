@@ -14,7 +14,8 @@ namespace DroneWebApp.Models
     
     public partial class GroundControlPoint
     {
-        public string GCPId { get; set; }
+        public int GCPId { get; set; }
+        public string GCPName { get; set; }
         public Nullable<double> X { get; set; }
         public Nullable<double> Y { get; set; }
         public Nullable<double> Z { get; set; }

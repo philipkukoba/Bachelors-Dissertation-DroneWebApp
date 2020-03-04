@@ -14,7 +14,7 @@ namespace DroneWebApp.Models
     
     public partial class AbsoluteGeolocationVariance
     {
-        public int AbsoluteGeolocationVariance1 { get; set; }
+        public int AbsoluteGeolocationVarianceId { get; set; }
         public Nullable<double> AGVMeanError_x { get; set; }
         public Nullable<double> AGVMeanError_y { get; set; }
         public Nullable<double> AGVMeanError_z { get; set; }

@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AbsoluteGeolocationVariance">
           <Key>
-            <PropertyRef Name="AbsoluteGeolocationVariance" />
+            <PropertyRef Name="AbsoluteGeolocationVarianceId" />
           </Key>
-          <Property Name="AbsoluteGeolocationVariance" Type="int" Nullable="false" />
+          <Property Name="AbsoluteGeolocationVarianceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AGVMeanError_x" Type="float" />
           <Property Name="AGVMeanError_y" Type="float" />
           <Property Name="AGVMeanError_z" Type="float" />
@@ -36,7 +36,7 @@
           <Key>
             <PropertyRef Name="DepartureInfoId" />
           </Key>
-          <Property Name="DepartureInfoId" Type="int" Nullable="false" />
+          <Property Name="DepartureInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
           <Property Name="UTCTime" Type="time" Precision="7" />
@@ -46,7 +46,7 @@
           <Key>
             <PropertyRef Name="DestinationInfoId" />
           </Key>
-          <Property Name="DestinationInfoId" Type="int" Nullable="false" />
+          <Property Name="DestinationInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
           <Property Name="UTCTime" Type="time" Precision="7" />
@@ -206,7 +206,7 @@
           <Key>
             <PropertyRef Name="GCPErrorId" />
           </Key>
-          <Property Name="GCPErrorId" Type="int" Nullable="false" />
+          <Property Name="GCPErrorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GCPMeanError_x" Type="float" />
           <Property Name="GCPMeanError_y" Type="float" />
           <Property Name="GCPMeanError_z" Type="float" />
@@ -222,7 +222,8 @@
           <Key>
             <PropertyRef Name="GCPId" />
           </Key>
-          <Property Name="GCPId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GCPId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GCPName" Type="varchar" MaxLength="50" />
           <Property Name="X" Type="float" />
           <Property Name="Y" Type="float" />
           <Property Name="Z" Type="float" />
@@ -321,7 +322,7 @@
           <Key>
             <PropertyRef Name="UncertaintyId" />
           </Key>
-          <Property Name="UncertaintyId" Type="int" Nullable="false" />
+          <Property Name="UncertaintyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AMU_x" Type="float" />
           <Property Name="AMU_y" Type="float" />
           <Property Name="AMU_z" Type="float" />
@@ -697,15 +698,16 @@
             <End Role="TFW" EntitySet="TFW" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AbsoluteGeolocationVariance">
           <Key>
-            <PropertyRef Name="AbsoluteGeolocationVariance1" />
+            <PropertyRef Name="AbsoluteGeolocationVarianceId" />
           </Key>
-          <Property Name="AbsoluteGeolocationVariance1" Type="Int32" Nullable="false" />
+          <Property Name="AbsoluteGeolocationVarianceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AGVMeanError_x" Type="Double" />
           <Property Name="AGVMeanError_y" Type="Double" />
           <Property Name="AGVMeanError_z" Type="Double" />
@@ -722,19 +724,19 @@
           <Key>
             <PropertyRef Name="CTRLId" />
           </Key>
-          <Property Name="CTRLId" Type="Int32" Nullable="false" />
+          <Property Name="CTRLId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CTRLName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="X" Type="Double" />
           <Property Name="Y" Type="Double" />
           <Property Name="Z" Type="Double" />
           <Property Name="FlightId" Type="Int32" />
-          <Property Name="CTRLName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DroneFlight" Relationship="DroneDBModel.FK_CTRLPoints_DroneFlight" FromRole="CTRLPoint" ToRole="DroneFlight" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_CTRLPoints_DroneFlight" FromRole="CTRLPoints" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DepartureInfo">
           <Key>
             <PropertyRef Name="DepartureInfoId" />
           </Key>
-          <Property Name="DepartureInfoId" Type="Int32" Nullable="false" />
+          <Property Name="DepartureInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Longitude" Type="Double" />
           <Property Name="Latitude" Type="Double" />
           <Property Name="UTCTime" Type="Time" Precision="7" />
@@ -745,7 +747,7 @@
           <Key>
             <PropertyRef Name="DestinationInfoId" />
           </Key>
-          <Property Name="DestinationInfoId" Type="Int32" Nullable="false" />
+          <Property Name="DestinationInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Longitude" Type="Double" />
           <Property Name="Latitude" Type="Double" />
           <Property Name="UTCTime" Type="Time" Precision="7" />
@@ -794,6 +796,7 @@
           <Property Name="hasDestInfo" Type="Boolean" Nullable="false" />
           <Property Name="hasQR" Type="Boolean" Nullable="false" />
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CTRLPoints" Relationship="Self.FK_CTRLPoints_DroneFlight" FromRole="DroneFlight" ToRole="CTRLPoints" />
           <NavigationProperty Name="DepartureInfoes" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
           <NavigationProperty Name="DestinationInfoes" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
           <NavigationProperty Name="Drone" Relationship="Self.FK_DroneFlight_Drone" FromRole="DroneFlight" ToRole="Drone" />
@@ -803,7 +806,6 @@
           <NavigationProperty Name="QualityReports" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="DroneFlight" ToRole="QualityReport" />
           <NavigationProperty Name="RawImages" Relationship="Self.FK_RawImages_DroneFlight" FromRole="DroneFlight" ToRole="RawImages" />
           <NavigationProperty Name="TFWs" Relationship="Self.FK_TFW_DroneFlight" FromRole="DroneFlight" ToRole="TFW" />
-          <NavigationProperty Name="CTRLPoints" Relationship="DroneDBModel.FK_CTRLPoints_DroneFlight" FromRole="DroneFlight" ToRole="CTRLPoint" />
         </EntityType>
         <EntityType Name="DroneGP">
           <Key>
@@ -933,7 +935,7 @@
           <Key>
             <PropertyRef Name="GCPErrorId" />
           </Key>
-          <Property Name="GCPErrorId" Type="Int32" Nullable="false" />
+          <Property Name="GCPErrorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GCPMeanError_x" Type="Double" />
           <Property Name="GCPMeanError_y" Type="Double" />
           <Property Name="GCPMeanError_z" Type="Double" />
@@ -950,7 +952,8 @@
           <Key>
             <PropertyRef Name="GCPId" />
           </Key>
-          <Property Name="GCPId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GCPId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GCPName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="X" Type="Double" />
           <Property Name="Y" Type="Double" />
           <Property Name="Z" Type="Double" />
@@ -1030,6 +1033,16 @@
           <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TFW">
           <Key>
             <PropertyRef Name="TFWId" />
@@ -1048,7 +1061,7 @@
           <Key>
             <PropertyRef Name="UncertaintyId" />
           </Key>
-          <Property Name="UncertaintyId" Type="Int32" Nullable="false" />
+          <Property Name="UncertaintyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AMU_x" Type="Double" />
           <Property Name="AMU_y" Type="Double" />
           <Property Name="AMU_z" Type="Double" />
@@ -1073,6 +1086,18 @@
             </Principal>
             <Dependent Role="AbsoluteGeolocationVariance">
               <PropertyRef Name="QualityReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTRLPoints_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="CTRLPoints" Type="Self.CTRLPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="CTRLPoints">
+              <PropertyRef Name="FlightId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1325,11 +1350,16 @@
           <EntitySet Name="PointCloudXYZs" EntityType="Self.PointCloudXYZ" />
           <EntitySet Name="QualityReports" EntityType="Self.QualityReport" />
           <EntitySet Name="RawImages" EntityType="Self.RawImage" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TFWs" EntityType="Self.TFW" />
           <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
           <AssociationSet Name="FK_AbsoluteGeoreferencingVariance_QualityReport" Association="Self.FK_AbsoluteGeoreferencingVariance_QualityReport">
             <End Role="QualityReport" EntitySet="QualityReports" />
             <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="CTRLPoints" EntitySet="CTRLPoints" />
           </AssociationSet>
           <AssociationSet Name="FK_DepartureInfo_DroneFlight" Association="Self.FK_DepartureInfo_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlights" />
@@ -1407,34 +1437,7 @@
             <End Role="QualityReport" EntitySet="QualityReports" />
             <End Role="Uncertainty" EntitySet="Uncertainties" />
           </AssociationSet>
-          <EntitySet Name="sysdiagrams" EntityType="DroneDBModel.sysdiagram" />
-          <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="DroneDBModel.FK_CTRLPoints_DroneFlight">
-            <End Role="DroneFlight" EntitySet="DroneFlights" />
-            <End Role="CTRLPoint" EntitySet="CTRLPoints" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <Association Name="FK_CTRLPoints_DroneFlight">
-          <End Type="DroneDBModel.DroneFlight" Role="DroneFlight" Multiplicity="0..1" />
-          <End Type="DroneDBModel.CTRLPoint" Role="CTRLPoint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DroneFlight">
-              <PropertyRef Name="FlightId" />
-            </Principal>
-            <Dependent Role="CTRLPoint">
-              <PropertyRef Name="FlightId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1444,7 +1447,7 @@
           <EntitySetMapping Name="AbsoluteGeolocationVariances">
             <EntityTypeMapping TypeName="DroneDBModel.AbsoluteGeolocationVariance">
               <MappingFragment StoreEntitySet="AbsoluteGeolocationVariance">
-                <ScalarProperty Name="AbsoluteGeolocationVariance1" ColumnName="AbsoluteGeolocationVariance" />
+                <ScalarProperty Name="AbsoluteGeolocationVarianceId" ColumnName="AbsoluteGeolocationVarianceId" />
                 <ScalarProperty Name="AGVMeanError_x" ColumnName="AGVMeanError_x" />
                 <ScalarProperty Name="AGVMeanError_y" ColumnName="AGVMeanError_y" />
                 <ScalarProperty Name="AGVMeanError_z" ColumnName="AGVMeanError_z" />
@@ -1461,8 +1464,8 @@
           <EntitySetMapping Name="CTRLPoints">
             <EntityTypeMapping TypeName="DroneDBModel.CTRLPoint">
               <MappingFragment StoreEntitySet="CTRLPoints">
-                <ScalarProperty Name="CTRLName" ColumnName="CTRLName" />
                 <ScalarProperty Name="CTRLId" ColumnName="CTRLId" />
+                <ScalarProperty Name="CTRLName" ColumnName="CTRLName" />
                 <ScalarProperty Name="X" ColumnName="X" />
                 <ScalarProperty Name="Y" ColumnName="Y" />
                 <ScalarProperty Name="Z" ColumnName="Z" />
@@ -1673,6 +1676,7 @@
             <EntityTypeMapping TypeName="DroneDBModel.GroundControlPoint">
               <MappingFragment StoreEntitySet="GroundControlPoints">
                 <ScalarProperty Name="GCPId" ColumnName="GCPId" />
+                <ScalarProperty Name="GCPName" ColumnName="GCPName" />
                 <ScalarProperty Name="X" ColumnName="X" />
                 <ScalarProperty Name="Y" ColumnName="Y" />
                 <ScalarProperty Name="Z" ColumnName="Z" />
@@ -1750,6 +1754,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TFWs">
             <EntityTypeMapping TypeName="DroneDBModel.TFW">
               <MappingFragment StoreEntitySet="TFW">
@@ -1781,17 +1796,6 @@
                 <ScalarProperty Name="RSU_y" ColumnName="RSU_y" />
                 <ScalarProperty Name="RSU_z" ColumnName="RSU_z" />
                 <ScalarProperty Name="QualityReportId" ColumnName="QualityReportId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

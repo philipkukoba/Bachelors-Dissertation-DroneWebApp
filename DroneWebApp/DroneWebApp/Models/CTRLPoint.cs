@@ -15,11 +15,11 @@ namespace DroneWebApp.Models
     public partial class CTRLPoint
     {
         public int CTRLId { get; set; }
+        public string CTRLName { get; set; }
         public Nullable<double> X { get; set; }
         public Nullable<double> Y { get; set; }
         public Nullable<double> Z { get; set; }
         public Nullable<int> FlightId { get; set; }
-        public string CTRLName { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

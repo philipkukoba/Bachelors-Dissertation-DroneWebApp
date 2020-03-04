@@ -17,6 +17,7 @@ namespace DroneWebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DroneFlight()
         {
+            this.CTRLPoints = new HashSet<CTRLPoint>();
             this.DepartureInfoes = new HashSet<DepartureInfo>();
             this.DestinationInfoes = new HashSet<DestinationInfo>();
             this.GroundControlPoints = new HashSet<GroundControlPoint>();
@@ -24,7 +25,6 @@ namespace DroneWebApp.Models
             this.QualityReports = new HashSet<QualityReport>();
             this.RawImages = new HashSet<RawImage>();
             this.TFWs = new HashSet<TFW>();
-            this.CTRLPoints = new HashSet<CTRLPoint>();
         }
     
         public int FlightId { get; set; }
@@ -39,6 +39,8 @@ namespace DroneWebApp.Models
         public bool hasQR { get; set; }
         public bool hasXYZ { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartureInfo> DepartureInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -55,7 +57,5 @@ namespace DroneWebApp.Models
         public virtual ICollection<RawImage> RawImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TFW> TFWs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
     }
 }
