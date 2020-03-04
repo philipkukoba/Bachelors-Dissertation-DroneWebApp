@@ -16,3 +16,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 02/03/20,15:00,17:00,Extern,Use case diagram verbeteren,30,
 02/03/20,21:00,22:30,Extern,csv file van geconverteerde dat file proberen parsen,26,
 03/03/20,08:15,12:30,Contacturen,GCP parser implementeren + connectie maken met SQL Server databank,21,
+04/03/20,13:30,14:00,Extern,Use case diagram verder aanpassen,30,
