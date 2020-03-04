@@ -26,3 +26,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/03/20,00:00,01:30,Extern,TFWParser schrijven + info lezen over connecteren met sql server,13/35,
 03/03/20,08:15,12:35,Contacturen,TFWParser implementeren in de applicatie + Alles klaarzetten in verband met de databank op de server,13/35,
 04/03/20,14:00,16:00,Extern,Recentste database model diagram maken en toevoegen aan tussentijds verslag + bronvermelding + info zoeken over date checker voor website,58/61,
+04/03/20,16:45,19:45,Extern,Recentste versie laten werken op eigen laptop + datepicker geschreven in aparte solution + datepicker proberen implementeren in applicatie,61,
