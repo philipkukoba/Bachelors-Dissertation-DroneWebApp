@@ -24,6 +24,7 @@ namespace DroneWebApp.Models
             this.QualityReports = new HashSet<QualityReport>();
             this.RawImages = new HashSet<RawImage>();
             this.TFWs = new HashSet<TFW>();
+            this.CTRLPoints = new HashSet<CTRLPoint>();
         }
     
         public int FlightId { get; set; }
@@ -54,5 +55,7 @@ namespace DroneWebApp.Models
         public virtual ICollection<RawImage> RawImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TFW> TFWs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
     }
 }

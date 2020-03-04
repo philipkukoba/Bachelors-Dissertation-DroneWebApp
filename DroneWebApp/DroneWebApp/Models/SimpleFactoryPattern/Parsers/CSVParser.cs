@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -28,7 +30,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     
                     for (int i=1; i<4; i++)
                     {
-                        fields_double.Add(double.Parse(fields_string[i]), customCulture);
+                        fields_double.Add(double.Parse(fields_string[i], customCulture));
                     }
 
                     gcp = new GroundControlPoint
