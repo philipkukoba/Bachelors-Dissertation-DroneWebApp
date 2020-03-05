@@ -45,7 +45,7 @@
                 @Html.DisplayName("Pilot")
             </th>
             <td>
-                @Html.DisplayFor(model => model.PilotName)
+                @Html.DisplayFor(model => model.Pilot.PilotName)
             </td>
         </tr>
 
@@ -90,7 +90,7 @@
                 {
                     <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm ">
                         <span>
-                            GCP
+                            GCP/CTRL
                         </span>
                     </a>
                 }
@@ -98,7 +98,7 @@
                 {
                     <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
                         <span>
-                            GCP
+                            GCP/CTRL
                         </span>
                     </a>
                 }
@@ -137,6 +137,7 @@
 
             </td>
         </tr>
+
         <tr>
             <th>
                 @Html.DisplayName("Quality Report")
@@ -145,6 +146,35 @@
                 @Html.ActionLink("View Quality Report", "QualityReport", new { id = Model.FlightId })
             </td>
         </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Ground Control Points")
+            </th>
+            <td>
+                @Html.ActionLink("View Ground Control Points", "GCPPoints", new { id = Model.FlightId })
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Control Points")
+            </th>
+            <td>
+                @Html.ActionLink("View Control Points", "CTRLPoints", new { id = Model.FlightId })
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("TFW")
+            </th>
+            <td>
+                @Html.ActionLink("View TFW", "TFW", new { id = Model.FlightId })
+            </td>
+        </tr>
+
+
     </table>
 </div>
 <p>

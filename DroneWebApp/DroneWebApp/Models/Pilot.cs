@@ -20,6 +20,7 @@ namespace DroneWebApp.Models
             this.DroneFlights = new HashSet<DroneFlight>();
         }
     
+        public int PilotId { get; set; }
         public string PilotName { get; set; }
         public string Street { get; set; }
         public Nullable<int> ZIP { get; set; }

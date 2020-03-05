@@ -26,7 +26,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Pilots/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -70,7 +70,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Pilots/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -101,7 +101,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Pilots/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -118,7 +118,7 @@ namespace DroneWebApp.Controllers
         // POST: Pilots/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             Pilot pilot = db.Pilots.Find(id);
             db.Pilots.Remove(pilot);

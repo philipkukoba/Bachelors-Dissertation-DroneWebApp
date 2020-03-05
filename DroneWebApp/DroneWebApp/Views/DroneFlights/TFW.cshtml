@@ -1,0 +1,87 @@
+﻿@model DroneWebApp.Models.TFW
+
+@{
+    ViewBag.Title = "TFW";
+}
+
+<br />
+<h2>TFW</h2>
+
+<div>
+    <h4>TFW for Flight @ViewBag.droneFlight.FlightId, in @ViewBag.droneFlight.Location on @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy")</h4>
+    <hr />
+    <table class="table table-bordered table-hover table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.xScale_X)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.xScale_X)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.yRotationTerm_X)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.yRotationTerm_X)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TranslationTerm_X)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.TranslationTerm_X)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.xRotationTerm_Y)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.xRotationTerm_Y)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.yNegativeScale_Y)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.yNegativeScale_Y)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TranslationTerm_Y)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.TranslationTerm_Y)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DroneFlight.Location)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.DroneFlight.Location)
+            </td>
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -46,7 +46,7 @@ namespace DroneWebApp.Controllers
         public ActionResult Create()
         {
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName");
+            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName");
             return View();
         }
 
@@ -55,7 +55,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
+        public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace DroneWebApp.Controllers
             }
 
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName", droneFlight.PilotName);
+            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
         }
 
@@ -82,7 +82,7 @@ namespace DroneWebApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "PilotName", droneFlight.PilotName);
+            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
         }
 
@@ -91,7 +91,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasCTRL, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace DroneWebApp.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
-            ViewBag.PilotName = new SelectList(db.Pilots, "PilotName", "Street", droneFlight.PilotName);
+            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
         }
 
@@ -145,6 +145,54 @@ namespace DroneWebApp.Controllers
                 return HttpNotFound();
             }
             return View(qualityReport);
+        }
+
+        public ActionResult CTRLPoints(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DroneFlight droneFlight = db.DroneFlights.Find(id);
+            ViewBag.droneFlight = droneFlight;
+
+            if (droneFlight == null)
+            {
+                return HttpNotFound();
+            }
+            return View(droneFlight.CTRLPoints.ToList());
+        }
+
+        public ActionResult GCPPoints(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DroneFlight droneFlight = db.DroneFlights.Find(id);
+            ViewBag.droneFlight = droneFlight;
+
+            if (droneFlight == null)
+            {
+                return HttpNotFound();
+            }
+            return View(droneFlight.GroundControlPoints.ToList());
+        }
+
+        public ActionResult TFW(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DroneFlight droneFlight = db.DroneFlights.Find(id);
+            ViewBag.droneFlight = droneFlight;
+
+            if (droneFlight == null)
+            {
+                return HttpNotFound();
+            }
+            return View(droneFlight.TFW);
         }
 
         protected override void Dispose(bool disposing)

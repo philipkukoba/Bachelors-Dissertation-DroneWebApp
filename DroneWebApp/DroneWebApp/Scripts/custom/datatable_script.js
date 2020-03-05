@@ -24,3 +24,11 @@ $(document).ready(function () {
         ]
     });
 });
+
+$(document).ready(function () {
+    $('#ctrlptable').dataTable();
+});
+
+$(document).ready(function () {
+    $('#gcpptable').dataTable();
+});

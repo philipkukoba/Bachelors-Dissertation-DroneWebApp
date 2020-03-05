@@ -28,7 +28,6 @@ namespace DroneWebApp.Models
         public int DroneId { get; set; }
         public string Location { get; set; }
         public System.DateTime Date { get; set; }
-        public string PilotName { get; set; }
         public bool hasTFW { get; set; }
         public bool hasGCPs { get; set; }
         public bool hasCTRLs { get; set; }
@@ -37,6 +36,7 @@ namespace DroneWebApp.Models
         public bool hasQR { get; set; }
         public bool hasXYZ { get; set; }
         public bool hasDroneLog { get; set; }
+        public int PilotId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
