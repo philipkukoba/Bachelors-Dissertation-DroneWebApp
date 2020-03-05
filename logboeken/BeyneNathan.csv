@@ -29,3 +29,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 04/03/20,16:45,19:45,Extern,Recentste versie laten werken op eigen laptop + datepicker geschreven in aparte solution + datepicker proberen implementeren in applicatie,61,
 05/03/20,13:30,17:50,Contacturen,Database model optimaliseren + datepicker optimaliseren en proberen implementeren in eigen applicatie,41/61,
 05/03/20,18:45,20:20,Extern,Problemen in DATParser proberen oplossen in verband met vernieuwd database model,,
+05/03/20,21:10,21:55,Extern,Datepicker toegevoegd aan create en edit van DroneFlights,61,
