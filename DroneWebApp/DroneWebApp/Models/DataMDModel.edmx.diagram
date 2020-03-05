@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3fcf63c514f14af3800050a135309cb9" Name="Diagram1">
+      <Diagram DiagramId="2347589f81304e39bc48e66030ba621c" Name="Diagram1">
         <EntityTypeShape EntityType="DroneDBModel.AbsoluteGeolocationVariance" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.CTRLPoint" Width="1.5" PointX="5.25" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DepartureInfo" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
@@ -25,7 +25,6 @@
         <EntityTypeShape EntityType="DroneDBModel.PointCloudXYZ" Width="1.5" PointX="5.25" PointY="34.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.QualityReport" Width="1.5" PointX="8.25" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.RawImage" Width="1.5" PointX="5.25" PointY="38.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.TFW" Width="1.5" PointX="5.25" PointY="48" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.Uncertainty" Width="1.5" PointX="6" PointY="41.875" IsExpanded="true" />
         <AssociationConnector Association="DroneDBModel.FK_QualityReport_AbsoluteGeolocationVariance" ManuallyRouted="false" />
