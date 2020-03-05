@@ -35,7 +35,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                     gcp = new GroundControlPoint
                     {
-                        GCPId = fields_string[0],
+                        GCPId = int.Parse(fields_string[0]),
                         X = fields_double[0],
                         Y = fields_double[1],
                         Z = fields_double[2]
