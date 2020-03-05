@@ -13,9 +13,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             PdfParser p = new PdfParser(IvyDocumentReader.ReadPdf(@"C:\Users\p_kuk\Desktop\BP\Harelbeke-191210_report_Hightlighted.pdf"));
             QualityReport qrp = new QualityReport();
-            qrp.QualityReportId = 1;
+            qrp.QualityReportId = droneFlight.FlightId;
             droneFlight.hasQR = true;
-            qrp.FlightId = droneFlight.FlightId;
 
             //summary
             string Processed = p.Find("Processed").Right().Text;

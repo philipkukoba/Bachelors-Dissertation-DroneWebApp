@@ -30,8 +30,7 @@ namespace DroneWebApp.Models
         public Nullable<double> VelN { get; set; }
         public Nullable<double> VelE { get; set; }
         public Nullable<double> VelD { get; set; }
-        public int DroneLogId { get; set; }
     
-        public virtual DroneLog DroneLog { get; set; }
+        public virtual DroneLogEntry DroneLogEntry { get; set; }
     }
 }

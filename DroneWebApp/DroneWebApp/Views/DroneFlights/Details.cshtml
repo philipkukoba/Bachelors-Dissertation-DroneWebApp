@@ -19,17 +19,17 @@
                 @Html.DisplayFor(model => model.Location)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
 
             <td>
-                @Model.Date.ToString("dd/MM/yy")
+                @Model.Date.ToString("dd/MM/yyyy")
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Drone)
@@ -39,7 +39,7 @@
                 @Html.DisplayFor(model => model.Drone.Registration)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayName("Pilot")
@@ -137,7 +137,14 @@
 
             </td>
         </tr>
-        
+        <tr>
+            <th>
+                @Html.DisplayName("Quality Report")
+            </th>
+            <td>
+                @Html.ActionLink("View Quality Report", "QualityReport", new { id = Model.FlightId })
+            </td>
+        </tr>
     </table>
 </div>
 <p>

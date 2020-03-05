@@ -91,7 +91,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId,DroneId,Location,Date,PilotName, hasTFW, hasGCP, hasCTRL, hasDepInfo, hasDestInfo, hasQR, hasXYZ")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -128,6 +128,23 @@ namespace DroneWebApp.Controllers
             db.DroneFlights.Remove(droneFlight);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult QualityReport(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DroneFlight droneFlight = db.DroneFlights.Find(id);
+            QualityReport qualityReport = droneFlight.QualityReport;
+            ViewBag.droneFlight = droneFlight;
+
+            if (droneFlight == null)
+            {
+                return HttpNotFound();
+            }
+            return View(qualityReport);
         }
 
         protected override void Dispose(bool disposing)

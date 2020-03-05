@@ -209,7 +209,7 @@
     <Compile Include="Models\DroneIMU_ATTI.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DroneLog.cs">
+    <Compile Include="Models\DroneLogEntry.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneMotor.cs">
@@ -294,6 +294,8 @@
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom\datatable_script.js" />
+    <Content Include="Scripts\custom\datetime-moment.js" />
+    <Content Include="Scripts\custom\moment.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -333,6 +335,7 @@
     <Content Include="Views\Pilots\Edit.cshtml" />
     <Content Include="Views\Pilots\Index.cshtml" />
     <Content Include="Views\Files\Index.cshtml" />
+    <Content Include="Views\DroneFlights\QualityReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

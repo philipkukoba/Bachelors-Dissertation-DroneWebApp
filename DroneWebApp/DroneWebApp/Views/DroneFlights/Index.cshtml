@@ -32,7 +32,7 @@
                 <th></th>
                 <th>Files</th>
             </tr>
-        </theadclass="thead-dark">
+        </thead>
         <tbody>
             @foreach (var item in Model)
             {
@@ -44,7 +44,7 @@
                         @Html.DisplayFor(modelItem => item.Location)
                     </td>
                     <td>
-                        @item.Date.ToString("dd/MM/yy")
+                        @item.Date.ToString("dd/MM/yyyy")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Drone.DroneName)

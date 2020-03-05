@@ -36,7 +36,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 };
 
                 //Assign data to the appropriate flightId
-                tfw.FlightId = droneFlight.FlightId;
+                tfw.TFWId = droneFlight.FlightId;
 
                 //Add to list of TFWs to be added to the database
                 db.TFWs.Add(tfw);

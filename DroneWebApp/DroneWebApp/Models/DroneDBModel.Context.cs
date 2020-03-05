@@ -34,7 +34,7 @@ namespace DroneWebApp.Models
         public virtual DbSet<DroneFlight> DroneFlights { get; set; }
         public virtual DbSet<DroneGP> DroneGPS { get; set; }
         public virtual DbSet<DroneIMU_ATTI> DroneIMU_ATTI { get; set; }
-        public virtual DbSet<DroneLog> DroneLogs { get; set; }
+        public virtual DbSet<DroneLogEntry> DroneLogEntries { get; set; }
         public virtual DbSet<DroneMotor> DroneMotors { get; set; }
         public virtual DbSet<DroneOA> DroneOAs { get; set; }
         public virtual DbSet<DroneRC> DroneRCs { get; set; }

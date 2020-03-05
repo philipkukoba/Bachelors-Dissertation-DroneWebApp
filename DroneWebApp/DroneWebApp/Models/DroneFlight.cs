@@ -18,14 +18,10 @@ namespace DroneWebApp.Models
         public DroneFlight()
         {
             this.CTRLPoints = new HashSet<CTRLPoint>();
-            this.DepartureInfoes = new HashSet<DepartureInfo>();
-            this.DestinationInfoes = new HashSet<DestinationInfo>();
-            this.DroneLogs = new HashSet<DroneLog>();
+            this.DroneLogEntries = new HashSet<DroneLogEntry>();
             this.GroundControlPoints = new HashSet<GroundControlPoint>();
             this.PointCloudXYZs = new HashSet<PointCloudXYZ>();
-            this.QualityReports = new HashSet<QualityReport>();
             this.RawImages = new HashSet<RawImage>();
-            this.TFWs = new HashSet<TFW>();
         }
     
         public int FlightId { get; set; }
@@ -44,23 +40,20 @@ namespace DroneWebApp.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DepartureInfo> DepartureInfoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DestinationInfo> DestinationInfoes { get; set; }
+        public virtual DepartureInfo DepartureInfo { get; set; }
+        public virtual DestinationInfo DestinationInfo { get; set; }
         public virtual Drone Drone { get; set; }
+        public virtual DroneAttributeValue DroneAttributeValue { get; set; }
         public virtual Pilot Pilot { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DroneLog> DroneLogs { get; set; }
+        public virtual ICollection<DroneLogEntry> DroneLogEntries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroundControlPoint> GroundControlPoints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointCloudXYZ> PointCloudXYZs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QualityReport> QualityReports { get; set; }
+        public virtual QualityReport QualityReport { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RawImage> RawImages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TFW> TFWs { get; set; }
+        public virtual TFW TFW { get; set; }
     }
 }

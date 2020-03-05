@@ -19,8 +19,7 @@ namespace DroneWebApp.Models
         public string AirportLimit { get; set; }
         public string GroundForceLanding { get; set; }
         public string VertAirportLimit { get; set; }
-        public int DroneLogId { get; set; }
     
-        public virtual DroneLog DroneLog { get; set; }
+        public virtual DroneLogEntry DroneLogEntry { get; set; }
     }
 }

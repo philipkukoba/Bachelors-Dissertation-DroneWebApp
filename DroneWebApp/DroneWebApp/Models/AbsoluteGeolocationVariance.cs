@@ -24,7 +24,6 @@ namespace DroneWebApp.Models
         public Nullable<double> AGVRMS_x { get; set; }
         public Nullable<double> AGVRMS_y { get; set; }
         public Nullable<double> AGVRMS_z { get; set; }
-        public Nullable<int> QualityReportId { get; set; }
     
         public virtual QualityReport QualityReport { get; set; }
     }

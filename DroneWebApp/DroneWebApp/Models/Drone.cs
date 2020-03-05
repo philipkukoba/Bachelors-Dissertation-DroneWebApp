@@ -17,7 +17,6 @@ namespace DroneWebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Drone()
         {
-            this.DroneAttributeValues = new HashSet<DroneAttributeValue>();
             this.DroneFlights = new HashSet<DroneFlight>();
         }
     
@@ -26,8 +25,6 @@ namespace DroneWebApp.Models
         public string DroneType { get; set; }
         public string DroneName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DroneAttributeValue> DroneAttributeValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DroneFlight> DroneFlights { get; set; }
     }

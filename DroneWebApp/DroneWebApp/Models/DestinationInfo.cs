@@ -18,7 +18,6 @@ namespace DroneWebApp.Models
         public Nullable<double> Longitude { get; set; }
         public Nullable<double> Latitude { get; set; }
         public Nullable<System.TimeSpan> UTCTime { get; set; }
-        public Nullable<int> FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }
