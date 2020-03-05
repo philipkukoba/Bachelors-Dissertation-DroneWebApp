@@ -13,6 +13,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         {
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             GroundControlPoint gcp;
+            CTRLPoint ctrl;
 
             using (TextFieldParser parser = new TextFieldParser(path))
             {
@@ -33,16 +34,32 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         fields_double.Add(double.Parse(fields_string[i], customCulture));
                     }
 
-                    gcp = new GroundControlPoint
+                    if (fields_string[0].Contains("gcp"))
                     {
-                        GCPId = int.Parse(fields_string[0]),
-                        X = fields_double[0],
-                        Y = fields_double[1],
-                        Z = fields_double[2]
-                    };
-                    gcp.FlightId = droneFlight.FlightId;
+                        gcp = new GroundControlPoint
+                        {
+                            GCPName = fields_string[0],
+                            X = fields_double[0],
+                            Y = fields_double[1],
+                            Z = fields_double[2]
+                        };
+                        gcp.FlightId = droneFlight.FlightId;
 
-                    db.GroundControlPoints.Add(gcp);
+                        db.GroundControlPoints.Add(gcp);
+                    }
+                    else
+                    {
+                        ctrl = new CTRLPoint
+                        {
+                            CTRLName = fields_string[0],
+                            X = fields_double[0],
+                            Y = fields_double[1],
+                            Z = fields_double[2]
+                        };
+                        ctrl.FlightId = droneFlight.FlightId;
+
+                        db.CTRLPoints.Add(ctrl);
+                    }
                 }
 
                 db.SaveChanges();
