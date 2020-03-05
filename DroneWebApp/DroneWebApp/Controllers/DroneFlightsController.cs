@@ -21,7 +21,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index()
         {
             var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot);
             return View(droneFlights.ToList());

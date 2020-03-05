@@ -86,10 +86,12 @@
           <Property Name="PilotName" Type="varchar" MaxLength="50" />
           <Property Name="hasTFW" Type="bit" Nullable="false" />
           <Property Name="hasGCPs" Type="bit" Nullable="false" />
+          <Property Name="hasCTRLs" Type="bit" Nullable="false" />
           <Property Name="hasDepInfo" Type="bit" Nullable="false" />
           <Property Name="hasDestInfo" Type="bit" Nullable="false" />
           <Property Name="hasQR" Type="bit" Nullable="false" />
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
+          <Property Name="hasDroneLog" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DroneGPS">
           <Key>
@@ -148,7 +150,7 @@
           <Property Name="ConnectedToRC" Type="varchar" MaxLength="50" />
           <Property Name="BatteryLowVoltage" Type="varchar" MaxLength="50" />
           <Property Name="GPSUsed" Type="varchar" MaxLength="50" />
-          <Property Name="DroneId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DroneMotor">
           <Key>
@@ -457,15 +459,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLog_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
+        <Association Name="FK_DroneLog_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
           <End Role="DroneLog" Type="Self.DroneLog" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Drone">
-              <PropertyRef Name="DroneId" />
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
             </Principal>
             <Dependent Role="DroneLog">
-              <PropertyRef Name="DroneId" />
+              <PropertyRef Name="FlightId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -653,8 +655,8 @@
             <End Role="DroneLog" EntitySet="DroneLog" />
             <End Role="DroneIMU_ATTI" EntitySet="DroneIMU_ATTI" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLog_Drone" Association="Self.FK_DroneLog_Drone">
-            <End Role="Drone" EntitySet="Drone" />
+          <AssociationSet Name="FK_DroneLog_DroneFlight" Association="Self.FK_DroneLog_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="DroneLog" EntitySet="DroneLog" />
           </AssociationSet>
           <AssociationSet Name="FK_DroneMotor_DroneLog" Association="Self.FK_DroneMotor_DroneLog">
@@ -764,7 +766,6 @@
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneAttributeValues" Relationship="Self.FK_DroneAttributeValues_Drone" FromRole="Drone" ToRole="DroneAttributeValues" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
-          <NavigationProperty Name="DroneLogs" Relationship="Self.FK_DroneLog_Drone" FromRole="Drone" ToRole="DroneLog" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
           <Key>
@@ -792,15 +793,18 @@
           <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="hasTFW" Type="Boolean" Nullable="false" />
           <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
+          <Property Name="hasCTRLs" Type="Boolean" Nullable="false" />
           <Property Name="hasDepInfo" Type="Boolean" Nullable="false" />
           <Property Name="hasDestInfo" Type="Boolean" Nullable="false" />
           <Property Name="hasQR" Type="Boolean" Nullable="false" />
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
+          <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CTRLPoints" Relationship="Self.FK_CTRLPoints_DroneFlight" FromRole="DroneFlight" ToRole="CTRLPoints" />
           <NavigationProperty Name="DepartureInfoes" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
           <NavigationProperty Name="DestinationInfoes" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
           <NavigationProperty Name="Drone" Relationship="Self.FK_DroneFlight_Drone" FromRole="DroneFlight" ToRole="Drone" />
           <NavigationProperty Name="Pilot" Relationship="Self.FK_DroneFlight_Pilot" FromRole="DroneFlight" ToRole="Pilot" />
+          <NavigationProperty Name="DroneLogs" Relationship="Self.FK_DroneLog_DroneFlight" FromRole="DroneFlight" ToRole="DroneLog" />
           <NavigationProperty Name="GroundControlPoints" Relationship="Self.FK_GroundControlPoints_DroneFlight" FromRole="DroneFlight" ToRole="GroundControlPoints" />
           <NavigationProperty Name="PointCloudXYZs" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="DroneFlight" ToRole="PointCloudXYZ" />
           <NavigationProperty Name="QualityReports" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="DroneFlight" ToRole="QualityReport" />
@@ -866,8 +870,8 @@
           <Property Name="ConnectedToRC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BatteryLowVoltage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GPSUsed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DroneId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Drone" Relationship="Self.FK_DroneLog_Drone" FromRole="DroneLog" ToRole="Drone" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DroneLog_DroneFlight" FromRole="DroneLog" ToRole="DroneFlight" />
           <NavigationProperty Name="DroneGPS" Relationship="Self.FK_DroneGPS_DroneLog" FromRole="DroneLog" ToRole="DroneGPS" />
           <NavigationProperty Name="DroneIMU_ATTI" Relationship="Self.FK_DroneIMU_ATTI_DroneLog" FromRole="DroneLog" ToRole="DroneIMU_ATTI" />
           <NavigationProperty Name="DroneMotors" Relationship="Self.FK_DroneMotor_DroneLog" FromRole="DroneLog" ToRole="DroneMotor" />
@@ -1149,18 +1153,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLog_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
-          <End Role="DroneLog" Type="Self.DroneLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Drone">
-              <PropertyRef Name="DroneId" />
-            </Principal>
-            <Dependent Role="DroneLog">
-              <PropertyRef Name="DroneId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DroneFlight_Pilot">
           <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
@@ -1170,6 +1162,18 @@
             </Principal>
             <Dependent Role="DroneFlight">
               <PropertyRef Name="PilotName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DroneLog_DroneFlight">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneLog" Type="Self.DroneLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DroneFlight">
+              <PropertyRef Name="FlightId" />
+            </Principal>
+            <Dependent Role="DroneLog">
+              <PropertyRef Name="FlightId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1377,13 +1381,13 @@
             <End Role="Drone" EntitySet="Drones" />
             <End Role="DroneFlight" EntitySet="DroneFlights" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLog_Drone" Association="Self.FK_DroneLog_Drone">
-            <End Role="Drone" EntitySet="Drones" />
-            <End Role="DroneLog" EntitySet="DroneLogs" />
-          </AssociationSet>
           <AssociationSet Name="FK_DroneFlight_Pilot" Association="Self.FK_DroneFlight_Pilot">
             <End Role="Pilot" EntitySet="Pilots" />
             <End Role="DroneFlight" EntitySet="DroneFlights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneLog_DroneFlight" Association="Self.FK_DroneLog_DroneFlight">
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+            <End Role="DroneLog" EntitySet="DroneLogs" />
           </AssociationSet>
           <AssociationSet Name="FK_GroundControlPoints_DroneFlight" Association="Self.FK_GroundControlPoints_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlights" />
@@ -1530,10 +1534,12 @@
                 <ScalarProperty Name="PilotName" ColumnName="PilotName" />
                 <ScalarProperty Name="hasTFW" ColumnName="hasTFW" />
                 <ScalarProperty Name="hasGCPs" ColumnName="hasGCPs" />
+                <ScalarProperty Name="hasCTRLs" ColumnName="hasCTRLs" />
                 <ScalarProperty Name="hasDepInfo" ColumnName="hasDepInfo" />
                 <ScalarProperty Name="hasDestInfo" ColumnName="hasDestInfo" />
                 <ScalarProperty Name="hasQR" ColumnName="hasQR" />
                 <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
+                <ScalarProperty Name="hasDroneLog" ColumnName="hasDroneLog" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1595,7 +1601,7 @@
                 <ScalarProperty Name="ConnectedToRC" ColumnName="ConnectedToRC" />
                 <ScalarProperty Name="BatteryLowVoltage" ColumnName="BatteryLowVoltage" />
                 <ScalarProperty Name="GPSUsed" ColumnName="GPSUsed" />
-                <ScalarProperty Name="DroneId" ColumnName="DroneId" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -41,9 +41,9 @@ namespace DroneWebApp.Models
         public string ConnectedToRC { get; set; }
         public string BatteryLowVoltage { get; set; }
         public string GPSUsed { get; set; }
-        public int DroneId { get; set; }
+        public int FlightId { get; set; }
     
-        public virtual Drone Drone { get; set; }
+        public virtual DroneFlight DroneFlight { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DroneGP> DroneGPS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

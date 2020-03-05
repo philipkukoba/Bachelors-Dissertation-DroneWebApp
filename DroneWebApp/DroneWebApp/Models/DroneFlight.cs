@@ -20,6 +20,7 @@ namespace DroneWebApp.Models
             this.CTRLPoints = new HashSet<CTRLPoint>();
             this.DepartureInfoes = new HashSet<DepartureInfo>();
             this.DestinationInfoes = new HashSet<DestinationInfo>();
+            this.DroneLogs = new HashSet<DroneLog>();
             this.GroundControlPoints = new HashSet<GroundControlPoint>();
             this.PointCloudXYZs = new HashSet<PointCloudXYZ>();
             this.QualityReports = new HashSet<QualityReport>();
@@ -34,10 +35,12 @@ namespace DroneWebApp.Models
         public string PilotName { get; set; }
         public bool hasTFW { get; set; }
         public bool hasGCPs { get; set; }
+        public bool hasCTRLs { get; set; }
         public bool hasDepInfo { get; set; }
         public bool hasDestInfo { get; set; }
         public bool hasQR { get; set; }
         public bool hasXYZ { get; set; }
+        public bool hasDroneLog { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }
@@ -47,6 +50,8 @@ namespace DroneWebApp.Models
         public virtual ICollection<DestinationInfo> DestinationInfoes { get; set; }
         public virtual Drone Drone { get; set; }
         public virtual Pilot Pilot { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DroneLog> DroneLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroundControlPoint> GroundControlPoints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

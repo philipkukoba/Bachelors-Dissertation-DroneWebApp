@@ -70,6 +70,22 @@
                         </span>
                     </a>
                 }
+                @if (!@Model.hasDroneLog)
+                {
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
+                        <span>
+                            DroneLog
+                        </span>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
+                        <span>
+                            QR
+                        </span>
+                    </a>
+                }
                 @if (!@Model.hasGCPs)
                 {
                     <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm ">
@@ -118,6 +134,7 @@
                         </span>
                     </a>
                 }
+
             </td>
         </tr>
         

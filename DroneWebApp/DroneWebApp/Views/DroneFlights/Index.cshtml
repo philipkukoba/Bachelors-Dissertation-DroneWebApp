@@ -74,6 +74,22 @@
                                 </span>
                             </a>
                         }
+                        @if (!item.hasXYZ)
+                        {
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
+                                <span>
+                                    DroneLog
+                                </span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
+                                <span>
+                                    DroneLog
+                                </span>
+                            </a>
+                        }
                         @if (!item.hasGCPs)
                         {
                             <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm ">
@@ -108,7 +124,7 @@
                         }
                         @if (!item.hasXYZ)
                         {
-                            <a href="@Url.Action("Index", "Upload")" class="btn btn-danger btn-sm">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-sm">
                                 <span>
                                     XYZ
                                 </span>
@@ -116,7 +132,7 @@
                         }
                         else
                         {
-                            <a href="@Url.Action("Index", "Upload")" class="btn btn-success btn-sm disabled">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-success btn-sm disabled">
                                 <span>
                                     XYZ
                                 </span>
