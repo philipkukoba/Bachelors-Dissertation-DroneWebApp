@@ -1,3 +1,3 @@
 ﻿$(document).ready(function () {
-    $("#Date").datepicker();
+    $("#Date").datepicker({ dateFormat: 'dd/mm/yy' });
 })
