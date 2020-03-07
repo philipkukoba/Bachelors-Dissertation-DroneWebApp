@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿// These scripts change the regular tables selected by id into DataTables that have searchability, sortability and paging
+
+$(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
 
     $('#dftable').dataTable({
