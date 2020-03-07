@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Create new Drone", "Create")
 </p>
-<table id="dtable" class="ui celled table table-hover" cellspacing="0" width="100%">
+<table id="dtable" class="ui celled table table-hover" cellspacing="0" width="100%" style="text-align: center">
     <thead>
         <tr>
             <th>
@@ -21,6 +21,9 @@
             </th>
             <th>
                 @Html.DisplayName("Drone Type")
+            </th>
+            <th>
+                @Html.DisplayName("Total Flights")
             </th>
             <th></th>
         </tr>
@@ -37,6 +40,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DroneType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |

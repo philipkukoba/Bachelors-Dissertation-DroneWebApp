@@ -10,8 +10,7 @@
 <div>
     <h4><strong>@Model.DroneName</strong></h4>
     <hr />
-    <table class= "table table-bordered table-hover table-striped">
-        
+    <table class="table table-bordered table-hover table-striped">
         <tr>
             <th>
                 @Html.DisplayName("Name")
@@ -20,7 +19,16 @@
                 @Html.DisplayFor(model => model.DroneName)
             </td>
         </tr>
-        
+
+        <tr>
+            <th>
+                @Html.DisplayName("Total Flights")
+            </th>
+            <td>
+                @Model.DroneFlights.Count
+            </td>
+        </tr>
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Registration)
@@ -29,7 +37,7 @@
                 @Html.DisplayFor(model => model.Registration)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.DroneType)

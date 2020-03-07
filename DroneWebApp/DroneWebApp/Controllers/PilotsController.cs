@@ -31,14 +31,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }
@@ -54,7 +56,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
+        public ActionResult Create([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
             if (ModelState.IsValid)
             {
@@ -78,14 +80,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }
@@ -95,7 +99,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
+        public ActionResult Edit([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
             if (ModelState.IsValid)
             {
@@ -111,14 +115,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }

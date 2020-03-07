@@ -3,16 +3,21 @@
 
     $('#dftable').dataTable({
         "columnDefs": [
-            { "orderable": false, "targets": [5,6] }
+            {
+                "orderable": false, "targets": [5, 6, 7],
+                "searchable": false, "targets": [5, 6, 7]
+            }
         ]
-    });
-    
+      }); 
 });
 
 $(document).ready(function () {
     $('#dtable').dataTable({
         "columnDefs": [
-            { "orderable": false, "targets": 3 }
+            {
+                "orderable": false, "targets": 4,
+                "searchable": false, "targets": 4
+            }
         ]
     });
 });
@@ -20,7 +25,10 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#ptable').dataTable({
         "columnDefs": [
-            { "orderable": false, "targets": 9 }
+            {
+                "orderable": false, "targets": 6,
+                "searchable": false, "targets": 6
+            }
         ]
     });
 });

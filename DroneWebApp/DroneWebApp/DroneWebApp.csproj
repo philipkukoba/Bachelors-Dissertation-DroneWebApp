@@ -378,6 +378,9 @@
     <Content Include="Views\Files\Index.cshtml" />
     <Content Include="Views\DroneFlights\QualityReport.cshtml" />
     <Content Include="Views\ErrorPage\Error.cshtml" />
+    <Content Include="Views\DroneFlights\CTRLPoints.cshtml" />
+    <Content Include="Views\DroneFlights\GCPPoints.cshtml" />
+    <Content Include="Views\DroneFlights\TFW.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
