@@ -32,11 +32,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(droneFlight);
@@ -60,7 +62,7 @@ namespace DroneWebApp.Controllers
             if (ModelState.IsValid)
             {
                 db.DroneFlights.Add(droneFlight);
-                db.SaveChanges(); // TODO: check for dup keys
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -74,11 +76,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
@@ -109,11 +113,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(droneFlight);
@@ -134,6 +140,7 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
@@ -142,6 +149,7 @@ namespace DroneWebApp.Controllers
 
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(qualityReport);
@@ -151,6 +159,7 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
@@ -158,6 +167,7 @@ namespace DroneWebApp.Controllers
 
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(droneFlight.CTRLPoints.ToList());
@@ -167,6 +177,7 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
@@ -174,6 +185,7 @@ namespace DroneWebApp.Controllers
 
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(droneFlight.GroundControlPoints.ToList());
@@ -183,6 +195,7 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             DroneFlight droneFlight = db.DroneFlights.Find(id);
@@ -190,6 +203,7 @@ namespace DroneWebApp.Controllers
 
             if (droneFlight == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(droneFlight.TFW);

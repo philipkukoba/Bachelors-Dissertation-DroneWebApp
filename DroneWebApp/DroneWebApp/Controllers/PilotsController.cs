@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -30,11 +31,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(pilot);
@@ -55,12 +58,13 @@ namespace DroneWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
+                bool pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
                 if (pilotAlreadyExists)
                 {
-                    ModelState.AddModelError("Pilot", "Pilot already exists. Consider Editing this pilot.");
+                    ViewBag.ErrorPilotCreate = "Pilot already exists. Please choose a different name.";
                     return View(pilot);
                 }
+                
                 db.Pilots.Add(pilot);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,11 +78,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(pilot);
@@ -105,11 +111,13 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
+                //return View("~/Views/ErrorPage/Error.cshtml");
                 return HttpNotFound();
             }
             return View(pilot);
@@ -121,8 +129,15 @@ namespace DroneWebApp.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             Pilot pilot = db.Pilots.Find(id);
-            db.Pilots.Remove(pilot);
-            db.SaveChanges();
+            try
+            {
+                db.Pilots.Remove(pilot);
+                db.SaveChanges();
+            }
+            catch(Exception ex) {
+                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
+                return View(pilot);
+            }
             return RedirectToAction("Index");
         }
 
