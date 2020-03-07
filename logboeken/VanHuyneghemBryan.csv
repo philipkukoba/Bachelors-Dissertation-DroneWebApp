@@ -29,3 +29,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 05/03/20,12:45,17:55,Extern,Debugging + aanpassen db model + toevoegen nieuwe webpagina's,58/71/72/73/74/75,
 05/03/20,19:05,23:40,Extern,Debugging + toevoegen nieuwe webpagina's,58/60/71/72/73/74/75,
 07/03/20,09:55,12:20,Contacturen,Debugging + error handling,69/78, Opendeurdag
+07/03/20,14:00,18:00,Extern,Debugging + error handling,69/78/79,
