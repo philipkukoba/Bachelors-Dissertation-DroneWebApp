@@ -4,6 +4,68 @@
 
 <br />
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<h3>Doelstellingen van het project</h3>
+<p>
+    (1)	De eerste en onmiddellijk meest cruciale doelstelling bestaat erin alle aanwezige data in kaart te brengen 
+    en logisch te groeperen. Vervolgens wordt hieruit in SQL Server Management Studio met SQL Server 2019 een 
+    databankmodel aangemaakt dat de relaties tussen de verscheidene datagroepen beschrijft en vastlegt. Dit 
+    model kan eenvoudig uitgebreid worden, indien hier een noodzaak voor zou bestaan.
+</p>
+<p>
+    (2)	De databank, beschreven door voorgaand model, moet nu data gaan bevatten. De tweede doelstelling beoogt daarom 
+    om echte data los te laten op dit model en het te onderwerpen aan enkele testen. De data van Jan De Nul, die relevant 
+    zijn voor dit project, zijn beschikbaar onder verschillende bestandsvarianten, zoals csv, pdf, tfw en xyz. Jan De 
+    Nul genereert kwaliteitsrapporten van hun vluchten en wil deze informatie makkelijk kunnen opslaan in de databank. 
+    Verder vult elke piloot op dit moment een papieren logboek aan voor hun dronevluchten. Dit moet vervangen worden door 
+    een eenvoudige interface die hoort bij de databank en deze informatie moet bevatten.
+
+    Dit betekent dat er een applicatie ontworpen moet worden die bestanden van deze types automatisch kan verwerken na uploaden. 
+    Deze gegevensverwerking of parsing van data gebeurt in dit geval met parser classes die via een simple factory pattern beschreven worden.
+
+    Er wordt gebruikgemaakt van het Entity Framework (EF) in de computertaal C# dat via Object Relational Mapping (ORM) 
+    objecten aanmaakt van de databanktabellen. Alle ingelezen data wordt weggeschreven in deze objecten en nadien opgeslagen in de databank.
+</p>
+<p>
+    (3)	De derde doelstelling beschrijft hoe Jan De Nul deze data kan raadplegen en op welke manier ermee gewerkt kan worden. 
+    Er wordt een webapplicatie ontworpen die toelaat deze data te bekijken en, indien noodzakelijk, aan te passen met een 
+    manuele ingreep. Deze applicatie beschrijft in eerste instantie alle dronevluchten, alle drones en alle piloten die in 
+    de databank aanwezig zijn. In tweede instantie kan meer gedetailleerde data geraadpleegd worden door de details van deze 
+    hoofdcategorieën te bekijken. Voorbeelden hiervan zijn de eerder vermelde kwaliteitsrapporten en dronelogboeken. Zeer 
+    specifieke data, die gebruikt worden in de vierde doelstelling, visualisatie, worden niet getoond in de webapplicatie 
+    en zijn enkel rechtstreeks aanspreekbaar via de databank. Het gaat hier immers om zeer grote hoeveelheden, moeilijk leesbare data.
+</p>
+<p>
+    (4)	De vierde doelstelling bestaat erin om, zoals eerder werd vermeld, de gigantische volumes aan data te visualiseren met 
+    de ArcGIS API. Deze visualisaties kunnen aangesproken worden in de webviewer sectie van de webapplicatie en hebben een 
+    belangrijke subdoelstelling: de webviewer moet eenvoudig navigeerbaar zijn voor leken en hen toelaten om op intuïtieve 
+    manier een beeld van een visualisatie te delen. Enkele voorbeelden van visualisaties zijn: het tonen van dronepaden; het 
+    tonen van ground control points (GCP); het visualiseren van het batterijgebruik van de drone; het visualiseren van 
+    hoogteverschillen in de gescande oppervlakte; etc. De bibliotheek van ArcGIS heeft een ruim aanbod aan functionaliteiten, 
+    wat toelaat om op vraag nadien nog visualisaties toe te voegen aan de webapplicatie.
+</p>
+<p>
+    (5)	Als laatste doelstelling moet het mogelijk zijn voor Jan De Nul om de ingelezen data opnieuw te kunnen exporteren 
+    naar bestanden van een ander bestandsformaat.
+</p>
+
+<h3>Gebruik van de applicatie</h3>
+<p>
+    Om een dronevlucht toe te voegen moeten eerst een piloot en een drone toegevoegd worden. Om dit te doen moet je naar
+    de Pilots/Drones pagina gaan en op create pilot/drone klikken. Hierna vul je de nodige gegevens in in de tekstvelden 
+    en klik je op create. Nu kan de dronevlucht op dezelfde manier gecreëerd worden op de Drone Flights pagina. Nadat de 
+    dronevlucht aangemaakt is kunnen de bijhorende bestanden toegevoegd worden door op het gewenste bestand te klikken 
+    in de Files colom.
+</p>
+
+<p>
+    Om data te verwijderen kan je op delete klikken in de rij van het te verwijderen object.
+</p>
+
+<p>
+    Om data te wijzigen kan je op edit klikken in de rij van het te wijzigen object. Hierna kan je de nodige tekstvelden veranderen.
+</p>
+
+<p>
+    Om de details van een object te bekijken kan je op detail klikken in de rij het het object waarvan je de details wil zien.
+</p>
