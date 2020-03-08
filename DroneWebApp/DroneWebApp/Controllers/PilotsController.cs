@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -30,12 +31,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }
@@ -51,16 +56,17 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
+        public ActionResult Create([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
             if (ModelState.IsValid)
             {
-                var pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
+                bool pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
                 if (pilotAlreadyExists)
                 {
-                    ModelState.AddModelError("Pilot", "Pilot already exists. Consider Editing this pilot.");
+                    ViewBag.ErrorPilotCreate = "Pilot already exists. Please choose a different name.";
                     return View(pilot);
                 }
+                
                 db.Pilots.Add(pilot);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,12 +80,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }
@@ -89,7 +99,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
+        public ActionResult Edit([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
             if (ModelState.IsValid)
             {
@@ -105,12 +115,16 @@ namespace DroneWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
             }
             return View(pilot);
         }
@@ -121,8 +135,15 @@ namespace DroneWebApp.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             Pilot pilot = db.Pilots.Find(id);
-            db.Pilots.Remove(pilot);
-            db.SaveChanges();
+            try
+            {
+                db.Pilots.Remove(pilot);
+                db.SaveChanges();
+            }
+            catch(Exception ex) {
+                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
+                return View(pilot);
+            }
             return RedirectToAction("Index");
         }
 

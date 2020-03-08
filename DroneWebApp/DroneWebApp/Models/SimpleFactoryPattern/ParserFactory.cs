@@ -36,6 +36,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             {
                 parser = new DATParser();
             }
+            // For any other filetype, parser remains null
 
             return parser;
         }

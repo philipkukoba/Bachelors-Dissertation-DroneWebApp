@@ -22,10 +22,6 @@ namespace DroneWebApp.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            DbContext dbx = new DroneDBEntities();
-            Creator c = new Creator(dbx);
-            string path = @"C:\Users\bryan\source\repos\bp-2020\drone1\DroneWebApp\DroneWebApp\TestUploadedFiles\Harelbeke-191210_report_Hightlighted.pdf";
-            c.GetParser(".pdf", path, 1); 
 
             return View();
         }

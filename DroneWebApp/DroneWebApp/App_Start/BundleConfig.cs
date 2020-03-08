@@ -14,7 +14,7 @@ namespace DroneWebApp
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            // added custom scripts
+            // added bundle for custom scripts
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
                         "~/Scripts/custom/*.js"));
 

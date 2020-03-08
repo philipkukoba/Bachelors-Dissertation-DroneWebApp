@@ -76,8 +76,8 @@
             <PropertyRef Name="FlightId" />
           </Key>
           <Property Name="FlightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DroneId" Type="int" Nullable="false" />
-          <Property Name="Location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DroneId" Type="int" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="hasTFW" Type="bit" Nullable="false" />
           <Property Name="hasGCPs" Type="bit" Nullable="false" />
@@ -87,7 +87,7 @@
           <Property Name="hasQR" Type="bit" Nullable="false" />
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
-          <Property Name="PilotId" Type="int" Nullable="false" />
+          <Property Name="PilotId" Type="int" />
         </EntityType>
         <EntityType Name="DroneGPS">
           <Key>
@@ -365,7 +365,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -377,7 +377,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Pilot">
-          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pilot">
@@ -758,8 +758,8 @@
             <PropertyRef Name="FlightId" />
           </Key>
           <Property Name="FlightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DroneId" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DroneId" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="hasTFW" Type="Boolean" Nullable="false" />
           <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
@@ -769,7 +769,7 @@
           <Property Name="hasQR" Type="Boolean" Nullable="false" />
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
           <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
-          <Property Name="PilotId" Type="Int32" Nullable="false" />
+          <Property Name="PilotId" Type="Int32" />
           <NavigationProperty Name="CTRLPoints" Relationship="Self.FK_CTRLPoints_DroneFlight" FromRole="DroneFlight" ToRole="CTRLPoints" />
           <NavigationProperty Name="DepartureInfo" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
           <NavigationProperty Name="DestinationInfo" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
@@ -1083,7 +1083,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -1107,7 +1107,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Pilot">
-          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pilot">

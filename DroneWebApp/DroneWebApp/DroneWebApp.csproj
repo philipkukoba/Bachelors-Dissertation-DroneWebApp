@@ -168,79 +168,79 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AbsoluteGeolocationVariance.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CTRLPoint.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DepartureInfo.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DestinationInfo.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Drone.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneAttributeValue.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DroneDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DroneDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DroneDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneFlight.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneGP.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneIMU_ATTI.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneLogEntry.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneMotor.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneOA.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneRC.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DroneRTKData.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GCPError.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GroundControlPoint.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Pilot.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PointCloudXYZ.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QualityReport.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RawImage.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
     <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
@@ -252,10 +252,10 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
     <Compile Include="Models\TFW.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Uncertainty.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -311,24 +311,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Model1.Context.tt">
+    <Content Include="Models\DroneDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>DroneDBModel.edmx</DependentUpon>
+      <LastGenOutput>DroneDBModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Model1.tt">
+    <Content Include="Models\DroneDBModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>DroneDBModel.edmx</DependentUpon>
+      <LastGenOutput>DroneDBModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Model1.edmx">
+    <EntityDeploy Include="Models\DroneDBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>DroneDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="Models\DroneDBModel.edmx.diagram">
+      <DependentUpon>DroneDBModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom\datatable_script.js" />
@@ -377,6 +377,10 @@
     <Content Include="Views\Pilots\Index.cshtml" />
     <Content Include="Views\Files\Index.cshtml" />
     <Content Include="Views\DroneFlights\QualityReport.cshtml" />
+    <Content Include="Views\ErrorPage\Error.cshtml" />
+    <Content Include="Views\DroneFlights\CTRLPoints.cshtml" />
+    <Content Include="Views\DroneFlights\GCPPoints.cshtml" />
+    <Content Include="Views\DroneFlights\TFW.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

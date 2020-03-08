@@ -22,30 +22,33 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 CultureInfo customeCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
                 customeCulture.NumberFormat.NumberDecimalSeparator = ".";
                 System.Threading.Thread.CurrentThread.CurrentCulture = customeCulture;
-
-                //Create ORM-object for database mapping
-                tfw = new TFW
+                try
                 {
-                    //Process all elements and store in the right variables
-                    xScale_X = float.Parse(parser.ReadLine()),
-                    xRotationTerm_Y = float.Parse(parser.ReadLine()),
-                    yRotationTerm_X = float.Parse(parser.ReadLine()),
-                    yNegativeScale_Y = float.Parse(parser.ReadLine()),
-                    TranslationTerm_X = float.Parse(parser.ReadLine()),
-                    TranslationTerm_Y = float.Parse(parser.ReadLine())
-                };
+                    //Create ORM-object for database mapping
+                    tfw = new TFW
+                    {
+                        //Process all elements and store in the right variables
+                        xScale_X = float.Parse(parser.ReadLine()),
+                        xRotationTerm_Y = float.Parse(parser.ReadLine()),
+                        yRotationTerm_X = float.Parse(parser.ReadLine()),
+                        yNegativeScale_Y = float.Parse(parser.ReadLine()),
+                        TranslationTerm_X = float.Parse(parser.ReadLine()),
+                        TranslationTerm_Y = float.Parse(parser.ReadLine())
+                    };
 
-                //Assign data to the appropriate flightId
-                tfw.TFWId = droneFlight.FlightId;
+                    //Assign data the appropriate flightId
+                    tfw.TFWId = droneFlight.FlightId;
 
-                //Add to list of TFWs to be added to the database
-                db.TFWs.Add(tfw);
+                    //Add to list of TFWs to be added to the database
+                    db.TFWs.Add(tfw);
 
-                //Set hasTFW to true
-                droneFlight.hasTFW = true;
+                    //Set hasTFW to true
+                    droneFlight.hasTFW = true;
 
-                //Save changes to the database
-                db.SaveChanges();
+                    //Save changes to the database
+                    db.SaveChanges();
+                }
+                catch(Exception ex) { }
             }
         }
     }

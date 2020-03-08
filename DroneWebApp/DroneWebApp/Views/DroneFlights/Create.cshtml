@@ -7,13 +7,6 @@
 <h2>Create new Drone Flight</h2>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-}
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -65,3 +58,7 @@
 <div>
     @Html.ActionLink("Back to Drone Flights List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
