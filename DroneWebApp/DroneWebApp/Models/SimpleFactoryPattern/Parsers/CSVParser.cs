@@ -55,6 +55,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                             //Add to list of GroundControlPoints to be added to the database
                             db.GroundControlPoints.Add(gcp);
+                            // Set hasCTRLs to true
+                            droneFlight.hasGCPs = true;
                         }
                         else if (fields_string[0].Contains("ctrl"))
                         {
@@ -70,10 +72,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                             //Add to list of CTRLPoints to be added to the database
                             db.CTRLPoints.Add(ctrl);
+                            // Set hasCTRLs to true
+                            droneFlight.hasCTRLs = true;
                         }
-
-                        // Set hasCTRLs to true
-                        droneFlight.hasCTRLs = true;
 
                         // Save changes to the database
                         db.SaveChanges();

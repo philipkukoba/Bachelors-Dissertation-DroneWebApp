@@ -255,25 +255,28 @@
           </Key>
           <Property Name="QualityReportId" Type="int" Nullable="false" />
           <Property Name="Processed" Type="datetime" />
-          <Property Name="CameraModelName" Type="varchar" MaxLength="50" />
+          <Property Name="CameraModelName" Type="varchar" MaxLength="256" />
           <Property Name="AverageGSD" Type="float" />
           <Property Name="AreaCovered" Type="float" />
           <Property Name="InitialProcessingTime" Type="time" Precision="7" />
+          <Property Name="Dataset" Type="varchar" MaxLength="256" />
           <Property Name="DatasetAmountCalibrated" Type="int" />
           <Property Name="DatasetAmountTotal" Type="int" />
           <Property Name="DatasetStatus" Type="char" MaxLength="1" />
+          <Property Name="CameraOptimization" Type="varchar" MaxLength="256" />
           <Property Name="CameraOptimizationAmount" Type="float" />
           <Property Name="CameraOptimizationStatus" Type="char" MaxLength="1" />
+          <Property Name="Georeferencing" Type="varchar" MaxLength="256" />
           <Property Name="GeoreferencingGCPs" Type="int" />
           <Property Name="GeoreferencingRMS" Type="float" />
           <Property Name="GeoreferencingStatus" Type="char" MaxLength="1" />
-          <Property Name="CPU" Type="varchar" MaxLength="50" />
+          <Property Name="CPU" Type="varchar" MaxLength="256" />
           <Property Name="RAM" Type="int" />
-          <Property Name="GPU" Type="varchar" MaxLength="50" />
-          <Property Name="OS" Type="varchar" MaxLength="100" />
-          <Property Name="ImageCoordinateSystem" Type="varchar" MaxLength="100" />
-          <Property Name="GCPCoordinateSystem" Type="varchar" MaxLength="100" />
-          <Property Name="OutputCoordinateSystem" Type="varchar" MaxLength="100" />
+          <Property Name="GPU" Type="varchar" MaxLength="256" />
+          <Property Name="OS" Type="varchar" MaxLength="256" />
+          <Property Name="ImageCoordinateSystem" Type="varchar" MaxLength="256" />
+          <Property Name="GCPCoordinateSystem" Type="varchar" MaxLength="256" />
+          <Property Name="OutputCoordinateSystem" Type="varchar" MaxLength="256" />
           <Property Name="GeneratedTiles" Type="int" />
           <Property Name="DensifiedPoints3D" Type="int" />
           <Property Name="AverageDensity" Type="float" />
@@ -966,25 +969,28 @@
           </Key>
           <Property Name="QualityReportId" Type="Int32" Nullable="false" />
           <Property Name="Processed" Type="DateTime" Precision="3" />
-          <Property Name="CameraModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CameraModelName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="AverageGSD" Type="Double" />
           <Property Name="AreaCovered" Type="Double" />
           <Property Name="InitialProcessingTime" Type="Time" Precision="7" />
+          <Property Name="Dataset" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="DatasetAmountCalibrated" Type="Int32" />
           <Property Name="DatasetAmountTotal" Type="Int32" />
           <Property Name="DatasetStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CameraOptimization" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="CameraOptimizationAmount" Type="Double" />
           <Property Name="CameraOptimizationStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Georeferencing" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="GeoreferencingGCPs" Type="Int32" />
           <Property Name="GeoreferencingRMS" Type="Double" />
           <Property Name="GeoreferencingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CPU" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="RAM" Type="Int32" />
-          <Property Name="GPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ImageCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="GCPCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OutputCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GPU" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="OS" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ImageCoordinateSystem" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="GCPCoordinateSystem" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="OutputCoordinateSystem" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="GeneratedTiles" Type="Int32" />
           <Property Name="DensifiedPoints3D" Type="Int32" />
           <Property Name="AverageDensity" Type="Double" />
@@ -1671,11 +1677,14 @@
                 <ScalarProperty Name="AverageGSD" ColumnName="AverageGSD" />
                 <ScalarProperty Name="AreaCovered" ColumnName="AreaCovered" />
                 <ScalarProperty Name="InitialProcessingTime" ColumnName="InitialProcessingTime" />
+                <ScalarProperty Name="Dataset" ColumnName="Dataset" />
                 <ScalarProperty Name="DatasetAmountCalibrated" ColumnName="DatasetAmountCalibrated" />
                 <ScalarProperty Name="DatasetAmountTotal" ColumnName="DatasetAmountTotal" />
                 <ScalarProperty Name="DatasetStatus" ColumnName="DatasetStatus" />
+                <ScalarProperty Name="CameraOptimization" ColumnName="CameraOptimization" />
                 <ScalarProperty Name="CameraOptimizationAmount" ColumnName="CameraOptimizationAmount" />
                 <ScalarProperty Name="CameraOptimizationStatus" ColumnName="CameraOptimizationStatus" />
+                <ScalarProperty Name="Georeferencing" ColumnName="Georeferencing" />
                 <ScalarProperty Name="GeoreferencingGCPs" ColumnName="GeoreferencingGCPs" />
                 <ScalarProperty Name="GeoreferencingRMS" ColumnName="GeoreferencingRMS" />
                 <ScalarProperty Name="GeoreferencingStatus" ColumnName="GeoreferencingStatus" />
