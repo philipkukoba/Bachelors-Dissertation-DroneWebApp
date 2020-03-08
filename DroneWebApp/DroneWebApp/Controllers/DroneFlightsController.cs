@@ -89,7 +89,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "Registration", droneFlight.DroneId);
+            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
         }
@@ -107,8 +107,8 @@ namespace DroneWebApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DroneId = new SelectList(db.Drones, "DroneIds", "Registration", droneFlight.DroneId);
-            ViewBag.PilotId = new SelectList(db.Pilots, "PilotIds", "PilotName", droneFlight.PilotId);
+            ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
+            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
         }
 
