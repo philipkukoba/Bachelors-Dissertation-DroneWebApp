@@ -42,7 +42,7 @@ namespace DroneWebApp.Controllers
                 var fileName = Path.GetFileName(files.FileName);
                 // store the file inside ~/App_Data/uploads folder
                 path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                files.SaveAs(path);
+                files.SaveAs(path);              
             }
 
             //parsen hier. 
@@ -55,9 +55,16 @@ namespace DroneWebApp.Controllers
                 c.GetParser(".pdf", path, 1);
             }
 
+            //TODO andere files parsen 
 
+
+            System.Diagnostics.Debug.WriteLine("net voor de return");
+
+            return View(); //gwn op zelfde pagina blijven
+
+            // onderstaande code zorgde voor 403.14
             // redirect back to the index action to show the form once again
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
         }
 
         //public ActionResult Index(HttpPostedFileBase file)

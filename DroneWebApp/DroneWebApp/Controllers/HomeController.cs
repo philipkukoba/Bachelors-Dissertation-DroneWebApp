@@ -23,6 +23,11 @@ namespace DroneWebApp.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
+            DroneDBEntities db = new DroneDBEntities();
+            Creator c = new Creator(db);
+            c.GetParser(".pdf", "1", 1);  //3e veld aanpassen vlucht 
+            
+
             return View();
         }
 
