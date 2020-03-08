@@ -20,11 +20,14 @@ namespace DroneWebApp.Models
         public Nullable<double> AverageGSD { get; set; }
         public Nullable<double> AreaCovered { get; set; }
         public Nullable<System.TimeSpan> InitialProcessingTime { get; set; }
+        public string Dataset { get; set; }
         public Nullable<int> DatasetAmountCalibrated { get; set; }
         public Nullable<int> DatasetAmountTotal { get; set; }
         public string DatasetStatus { get; set; }
+        public string CameraOptimization { get; set; }
         public Nullable<double> CameraOptimizationAmount { get; set; }
         public string CameraOptimizationStatus { get; set; }
+        public string Georeferencing { get; set; }
         public Nullable<int> GeoreferencingGCPs { get; set; }
         public Nullable<double> GeoreferencingRMS { get; set; }
         public string GeoreferencingStatus { get; set; }
