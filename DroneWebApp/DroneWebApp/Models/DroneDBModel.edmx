@@ -255,7 +255,7 @@
           </Key>
           <Property Name="QualityReportId" Type="int" Nullable="false" />
           <Property Name="Processed" Type="datetime" />
-          <Property Name="CameraModelName" Type="varchar" MaxLength="50" />
+          <Property Name="CameraModelName" Type="varchar" MaxLength="100" />
           <Property Name="AverageGSD" Type="float" />
           <Property Name="AreaCovered" Type="float" />
           <Property Name="InitialProcessingTime" Type="time" Precision="7" />
@@ -266,13 +266,13 @@
           <Property Name="CameraOptimization" Type="varchar" MaxLength="100" />
           <Property Name="CameraOptimizationAmount" Type="float" />
           <Property Name="CameraOptimizationStatus" Type="char" MaxLength="1" />
-          <Property Name="Georeferencing" Type="varchar" MaxLength="50" />
+          <Property Name="Georeferencing" Type="varchar" MaxLength="100" />
           <Property Name="GeoreferencingGCPs" Type="int" />
           <Property Name="GeoreferencingRMS" Type="float" />
           <Property Name="GeoreferencingStatus" Type="char" MaxLength="1" />
-          <Property Name="CPU" Type="varchar" MaxLength="50" />
+          <Property Name="CPU" Type="varchar" MaxLength="100" />
           <Property Name="RAM" Type="int" />
-          <Property Name="GPU" Type="varchar" MaxLength="50" />
+          <Property Name="GPU" Type="varchar" MaxLength="100" />
           <Property Name="OS" Type="varchar" MaxLength="100" />
           <Property Name="ImageCoordinateSystem" Type="varchar" MaxLength="100" />
           <Property Name="GCPCoordinateSystem" Type="varchar" MaxLength="100" />
@@ -969,7 +969,7 @@
           </Key>
           <Property Name="QualityReportId" Type="Int32" Nullable="false" />
           <Property Name="Processed" Type="DateTime" Precision="3" />
-          <Property Name="CameraModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CameraModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="AverageGSD" Type="Double" />
           <Property Name="AreaCovered" Type="Double" />
           <Property Name="InitialProcessingTime" Type="Time" Precision="7" />
@@ -980,13 +980,13 @@
           <Property Name="CameraOptimization" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CameraOptimizationAmount" Type="Double" />
           <Property Name="CameraOptimizationStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Georeferencing" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Georeferencing" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="GeoreferencingGCPs" Type="Int32" />
           <Property Name="GeoreferencingRMS" Type="Double" />
           <Property Name="GeoreferencingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CPU" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="RAM" Type="Int32" />
-          <Property Name="GPU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPU" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="OS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ImageCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="GCPCoordinateSystem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
