@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx
+DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx.diagram
+DroneWebApp/DroneWebApp/Web.config

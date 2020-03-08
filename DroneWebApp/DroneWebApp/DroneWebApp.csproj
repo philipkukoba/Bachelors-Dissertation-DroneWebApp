@@ -251,9 +251,6 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -335,7 +332,7 @@
     <Content Include="Views\Files\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
