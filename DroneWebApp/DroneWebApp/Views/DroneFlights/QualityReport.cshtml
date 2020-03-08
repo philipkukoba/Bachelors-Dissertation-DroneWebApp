@@ -20,7 +20,7 @@
                 @Html.DisplayFor(model => model.Processed)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CameraModelName)
@@ -63,6 +63,16 @@
 
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Dataset)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.Dataset)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayNameFor(model => model.DatasetAmountCalibrated)
             </th>
 
@@ -93,6 +103,16 @@
 
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.CameraOptimization)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.CameraOptimization)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayNameFor(model => model.CameraOptimizationAmount)
             </th>
 
@@ -108,6 +128,16 @@
 
             <td>
                 @Html.DisplayFor(model => model.CameraOptimizationStatus)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Georeferencing)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.Georeferencing)
             </td>
         </tr>
 
@@ -241,7 +271,7 @@
             </td>
         </tr>
 
-        
+
     </table>
 </div>
 <p>
