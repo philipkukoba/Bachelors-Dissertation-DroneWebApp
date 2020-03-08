@@ -16,6 +16,7 @@ namespace DroneWebApp
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
+            // Register the database and let Unity manage it for Dependency Injection
             container.RegisterType<DbContext, DroneDBEntities > (); // added
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

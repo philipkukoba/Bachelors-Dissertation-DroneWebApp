@@ -19,7 +19,17 @@
                 @Html.DisplayFor(model => model.PilotName)
             </td>
         </tr>
-        
+
+        <tr>
+            <th>
+                @Html.DisplayName("Total Flights")
+            </th>
+
+            <td>
+                @Model.DroneFlights.Count
+            </td>
+        </tr>
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Street)
@@ -29,7 +39,7 @@
                 @Html.DisplayFor(model => model.Street)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ZIP)
@@ -39,7 +49,7 @@
                 @Html.DisplayFor(model => model.ZIP)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.City)
@@ -49,7 +59,7 @@
                 @Html.DisplayFor(model => model.City)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Country)
@@ -69,7 +79,7 @@
                 @Html.DisplayFor(model => model.Phone)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayName("License No")
@@ -79,7 +89,7 @@
                 @Html.DisplayFor(model => model.LicenseNo)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -89,7 +99,7 @@
                 @Html.DisplayFor(model => model.Email)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayName("Emergency Phone")
@@ -102,6 +112,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PilotName }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PilotId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -19,8 +19,7 @@ namespace DroneWebApp.Models
         public Nullable<double> CurrentLFront { get; set; }
         public Nullable<double> CurrentLBack { get; set; }
         public Nullable<double> CurrentRBack { get; set; }
-        public int DroneLogId { get; set; }
     
-        public virtual DroneLog DroneLog { get; set; }
+        public virtual DroneLogEntry DroneLogEntry { get; set; }
     }
 }

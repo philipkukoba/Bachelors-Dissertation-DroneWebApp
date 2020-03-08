@@ -22,8 +22,7 @@ namespace DroneWebApp.Models
         public Nullable<double> GeoDeclination { get; set; }
         public Nullable<double> GeoInclination { get; set; }
         public Nullable<double> GeoIntensity { get; set; }
-        public int DroneId { get; set; }
     
-        public virtual Drone Drone { get; set; }
+        public virtual DroneFlight DroneFlight { get; set; }
     }
 }

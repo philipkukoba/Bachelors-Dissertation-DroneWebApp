@@ -7,11 +7,18 @@
 <br />
 <h2>Create new Pilot</h2>
 
+@if (@ViewBag.ErrorPilotCreate != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorPilotCreate
+    </div>
+}
 
-@using (Html.BeginForm()) 
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

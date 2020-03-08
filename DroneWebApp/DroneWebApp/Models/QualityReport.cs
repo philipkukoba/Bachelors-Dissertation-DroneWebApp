@@ -14,16 +14,7 @@ namespace DroneWebApp.Models
     
     public partial class QualityReport
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QualityReport()
-        {
-            this.AbsoluteGeolocationVariances = new HashSet<AbsoluteGeolocationVariance>();
-            this.GCPErrors = new HashSet<GCPError>();
-            this.Uncertainties = new HashSet<Uncertainty>();
-        }
-    
         public int QualityReportId { get; set; }
-        public Nullable<int> FlightId { get; set; }
         public Nullable<System.DateTime> Processed { get; set; }
         public string CameraModelName { get; set; }
         public Nullable<double> AverageGSD { get; set; }
@@ -48,12 +39,9 @@ namespace DroneWebApp.Models
         public Nullable<int> DensifiedPoints3D { get; set; }
         public Nullable<double> AverageDensity { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AbsoluteGeolocationVariance> AbsoluteGeolocationVariances { get; set; }
+        public virtual AbsoluteGeolocationVariance AbsoluteGeolocationVariance { get; set; }
         public virtual DroneFlight DroneFlight { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GCPError> GCPErrors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Uncertainty> Uncertainties { get; set; }
+        public virtual GCPError GCPError { get; set; }
+        public virtual Uncertainty Uncertainty { get; set; }
     }
 }

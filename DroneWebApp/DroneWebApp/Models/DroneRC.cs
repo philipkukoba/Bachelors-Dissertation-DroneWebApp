@@ -19,8 +19,7 @@ namespace DroneWebApp.Models
         public string DataLost { get; set; }
         public string AppLost { get; set; }
         public string ModeSwitch { get; set; }
-        public int DroneLogId { get; set; }
     
-        public virtual DroneLog DroneLog { get; set; }
+        public virtual DroneLogEntry DroneLogEntry { get; set; }
     }
 }

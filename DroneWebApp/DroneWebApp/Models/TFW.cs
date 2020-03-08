@@ -21,7 +21,6 @@ namespace DroneWebApp.Models
         public Nullable<double> xRotationTerm_Y { get; set; }
         public Nullable<double> yNegativeScale_Y { get; set; }
         public Nullable<double> TranslationTerm_Y { get; set; }
-        public Nullable<int> FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }
