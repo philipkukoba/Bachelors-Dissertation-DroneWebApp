@@ -34,3 +34,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 08/03/20,13:40,16:40,Extern,Analyseverslag schrijven + pdf-parser debuggen met Philip,30/80,
 08/03/20,16:55,17:30,Extern,Analyseverslag,30,
 08/03/20,18:00,19:15,Extern,Aanpassing db model voor pdfparserklasse en analyseverslag,30/80,
+08/03/20,21:00,21:25,Extern,debugging,,
