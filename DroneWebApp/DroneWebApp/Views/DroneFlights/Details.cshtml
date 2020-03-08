@@ -87,7 +87,7 @@
                 CTRL
             </th>
             <td>
-                @if (!@Model.hasGCPs)
+                @if (!@Model.hasCTRLs)
                 {
                     @Html.ActionLink("CTRL", "CTRLPoints", new { id = @Model.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                 }
