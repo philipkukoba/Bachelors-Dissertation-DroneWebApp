@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "File Upload";
+}
+
+<p></p>
+<h2>File Upload</h2>
+
+@if (@ViewBag.Success != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Success
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="btn-danger btn-sm" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong>, at <strong>@ViewBag.Location</strong> on <strong>@ViewBag.Date</strong> </h4>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="files" id="file" value="Select a file."/><br />
+    <input type="submit" value="Upload" class="btn-info btn-sm"/>
+</form>
+
