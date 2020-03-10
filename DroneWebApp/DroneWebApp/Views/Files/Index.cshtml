@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "File Upload";
 }
 
-<br />
+<p></p>
 <h3>File Upload</h3>
 
 
@@ -11,18 +11,23 @@
 
         @if (ViewBag.ErrorMessage != null)
         {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.ErrorMessage
-        </div>            
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
         }
 
+        @*ORIGINAL WORKING FORM*@
+        <h4>Please select the file you want to add to Flight @ViewBag.Location, @ViewBag.Date</h4>
         <form method="post" enctype="multipart/form-data">
 
-            <label for="file">Filename:</label>
+            @*<label for="file">Filename:</label>*@
             <input type="file" name="files" id="file" />
 
             <input type="submit" />
         </form>
+
+       
+
     </div>
 </div>
 

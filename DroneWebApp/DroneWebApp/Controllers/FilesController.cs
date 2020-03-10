@@ -24,15 +24,19 @@ namespace DroneWebApp.Controllers
         public DroneDBEntities Db { get; set; }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
+            DroneFlight droneFlight = Db.DroneFlights.Find((int) id);
+            ViewBag.Location = droneFlight.Location;
+            ViewBag.Date = droneFlight.Date;
             return View();
         }
 
         //Single File Upload
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase files)
-        {            
+        public ActionResult Index(int? id, HttpPostedFileBase files)
+        {
+
             // Verify that the user selected a file
             var path = "";
             if (files != null && files.ContentLength > 0)
@@ -55,7 +59,8 @@ namespace DroneWebApp.Controllers
             DbContext dbx = new DroneDBEntities();
             Creator c = new Creator(dbx);
 
-            c.GetParser(fileExtension, path, 1);
+            System.Diagnostics.Debug.WriteLine("params for c.GetParser: " + fileExtension + " " + path + " " + (int)id);
+            c.GetParser(fileExtension, path, (int) id);
             //c.GetParser(".dat", path, 1); //dat testing 
 
             System.Diagnostics.Debug.WriteLine("net voor de return");
