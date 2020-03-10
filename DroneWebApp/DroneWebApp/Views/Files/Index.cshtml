@@ -1,35 +1,33 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "File Upload";
 }
 
-<h2>Index</h2>
+<p></p>
+<h3>File Upload</h3>
 
-<div class="jumbotron">
-    <h1>Simple File Upload ASP.NET MVC</h1>
-</div>
 
 <div class="row">
     <div class="col-md-4">
-        @*@using (Html.BeginForm("Index", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <input type="file" name="files" />
-            <input type="submit" value="OK" />
-        }*@
 
         @if (ViewBag.ErrorMessage != null)
         {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.ErrorMessage
-        </div>            
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
         }
 
+        @*ORIGINAL WORKING FORM*@
+        <h4>Please select the file you want to add to Flight @ViewBag.Location, @ViewBag.Date</h4>
         <form method="post" enctype="multipart/form-data">
 
-            <label for="file">Filename:</label>
+            @*<label for="file">Filename:</label>*@
             <input type="file" name="files" id="file" />
 
             <input type="submit" />
         </form>
+
+       
+
     </div>
 </div>
 
