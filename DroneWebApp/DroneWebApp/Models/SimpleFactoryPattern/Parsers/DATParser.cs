@@ -305,10 +305,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS = new DroneGP();
                         droneOA = new DroneOA();
 
-                       
-
-                        
-
                         // Read data
                         fields = parser.ReadFields();
 
@@ -403,9 +399,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         droneLogEntry.FlightId = droneFlight.FlightId;
                         // Add to list of DroneLogEntries that are to be added to the DB
-                        db.DroneLogEntries.Add(droneLogEntry);
-                        db.SaveChanges();
-
                         droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
                         droneIMU.IMU_ATTI_Id = droneLogEntry.DroneLogEntryId;
                         droneMotor.MotorId = droneLogEntry.DroneLogEntryId;
@@ -420,8 +413,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneLogEntry.DroneRC = droneRC;
                         droneLogEntry.DroneGP = droneGPS;
                         droneLogEntry.DroneOA = droneOA;
-                        
 
+                        db.DroneLogEntries.Add(droneLogEntry);
 
 
                         //Set hasDroneLog to true

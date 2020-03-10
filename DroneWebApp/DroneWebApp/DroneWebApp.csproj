@@ -251,6 +251,9 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
