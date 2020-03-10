@@ -21,7 +21,7 @@ Deze repository bevat volgende mappen:
 ## Maak de databank aan:
 1. Start SQL Server Management Studio op en verbind met uw machine. Het veld _Server name_ wordt automatisch ingevuld. Hou deze naam bij, want u heeft deze zometeen nodig. Klik op **Connect**.
 2. Klik op het **File** menu bovenaan links. Kies **Open>File**. Navigeer naar het script _DroneDB.sql_ en open dit.
-3. Klik op **Execute** om het script uit te voeren. In het **Messages** venster verschijnt _Command completed successfully_. 
+3. Klik op **Execute** om het script uit te voeren. In het **Messages** venster verschijnt _Commands completed successfully_. 
 4. Klik in het **Object Explorer** venster op refresh en vouw de **Machinenaam-map** en **Databases-map** open. Hierin bevindt zich nu de nieuwe database **DroneDB**. Merk op dat de Machinenaam-map dezelfde naam heeft als uw eerder genoteerde _Server name_.
 5. Sluit SQL Server Management Studio.
 
