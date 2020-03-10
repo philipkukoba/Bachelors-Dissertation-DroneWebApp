@@ -39,7 +39,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                 }
             }
-            catch(Exception ex) { }
+            catch(Exception ex) {
+                System.Diagnostics.Debug.WriteLine("Caught exception in first try/Catch (mapping): " + ex.Message);
+            }
 
             
             // Parse
@@ -183,7 +185,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         // Commit changes to the DB
                         db.SaveChanges();
                     }
-                    catch(Exception ex) { }
+                    catch(Exception ex) {
+                        System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
+                    }
                 }
             }
         }

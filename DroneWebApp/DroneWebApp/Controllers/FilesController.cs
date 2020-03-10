@@ -46,20 +46,17 @@ namespace DroneWebApp.Controllers
             }
 
             //parsen hier. 
-            if (files.ContentType.Equals("application/pdf"))
-            {
-                //pdf parsing
-                DbContext dbx = new DroneDBEntities();
-                Creator c = new Creator(dbx);
-                //string path = @"C:\Users\bryan\source\repos\bp-2020\drone1\DroneWebApp\DroneWebApp\TestUploadedFiles\Harelbeke-191210_report_Hightlighted.pdf";
-                c.GetParser(".pdf", path, 1);
-            }
+            //if (files.ContentType.Equals("application/pdf"))
+            //if (files.FileName.EndsWith(".pdf"))
+            string filename = files.FileName;
+            string fileExtension = filename.Substring(filename.Length - 4);
+            DbContext dbx = new DroneDBEntities();
+            Creator c = new Creator(dbx);
 
-            //TODO andere files parsen 
-
+            c.GetParser(fileExtension, path, 1);
+            //c.GetParser(".dat", path, 1); //dat testing 
 
             System.Diagnostics.Debug.WriteLine("net voor de return");
-
             return View(); //gwn op zelfde pagina blijven
 
             // onderstaande code zorgde voor 403.14

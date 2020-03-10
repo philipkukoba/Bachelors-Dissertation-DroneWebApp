@@ -20,6 +20,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(" ");
 
+                int i = 0;
+                int limit = 5000;
+
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
                 customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -69,12 +72,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
+     
+                        //if(i == 5) { break; }
+                        System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
+                        i++;
+                        if (i == limit) break; 
 
-                        // Commit changes to the DB
-                        db.SaveChanges();
                     }
                     catch(Exception ex) { }
                 }
+
+                // Commit changes to the DB
+                db.SaveChanges();
             }
         }
     }

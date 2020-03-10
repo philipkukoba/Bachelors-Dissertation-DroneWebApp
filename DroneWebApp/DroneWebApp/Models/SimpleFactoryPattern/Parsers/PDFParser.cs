@@ -42,28 +42,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 AreaCovered = Regex.Replace(AreaCovered, " km2(.*)", ""); //enkel km2 waarde behouden
                 TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "m", ""); // 'm' wegdoen
                 TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "s", ""); // 's' wegdoen
-                //todo timespan fixen 
                 TimeForInitialProcessing = "00:" + TimeForInitialProcessing; // "00:" er bij plakken in het begin voor de juiste timespan format
-
-
-                System.Diagnostics.Debug.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
-                System.Diagnostics.Debug.WriteLine("AreaCovered: " + AreaCovered);
-                System.Diagnostics.Debug.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
-
 
                 qrp.Processed = Convert.ToDateTime(Processed);
                 qrp.CameraModelName = CameraModelNames;
                 qrp.AverageGSD = Convert.ToDouble(AverageGroundSamplingDistance, customCulture);
                 qrp.AreaCovered = Convert.ToDouble(AreaCovered, customCulture);
                 qrp.InitialProcessingTime = TimeSpan.ParseExact(TimeForInitialProcessing, "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
-
-
-                System.Diagnostics.Debug.WriteLine("Processed: " + Processed);
-                System.Diagnostics.Debug.WriteLine("CameraModelNames: " + CameraModelNames);
-                System.Diagnostics.Debug.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
-                System.Diagnostics.Debug.WriteLine("AreaCovered: " + AreaCovered);
-                System.Diagnostics.Debug.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
-
 
                 //quality check
                 string Dataset = pdfParser.Find("Dataset").Right().Text;
@@ -74,6 +59,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.CameraOptimization = CameraOptimization;
                 qrp.Georeferencing = Georeferencing;
 
+                #region Regex DataSet (unused)
                 //Regex dataset
                 //Regex datasetRegex = new Regex(@"(\d+?) out of (\d+?) images calibrated \((?:\d+?)%\), (.*)", RegexOptions.Singleline | RegexOptions.Compiled);
                 //Match mDataSet = datasetRegex.Match(Dataset);
@@ -87,11 +73,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 //Regex cameraoptimization
                 //Regex georeferencingRegex = new Regex(@"(.*?), (\d*?) GCPs (?:.*?) RMS error = (.*?) m", RegexOptions.Singleline | RegexOptions.Compiled);
-
-                System.Diagnostics.Debug.WriteLine("Dataset: " + Dataset);
-                System.Diagnostics.Debug.WriteLine("CameraOptimization: " + CameraOptimization);
-                System.Diagnostics.Debug.WriteLine("Georeferencing: " + Georeferencing);
-
+                #endregion
 
                 //absolute camera position and orientation uncertainties 
                 uncertainty = new Uncertainty();
@@ -113,15 +95,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 uncertainty.ASU_y = Convert.ToDouble(AbsoluteSigmaY, customCulture);
                 uncertainty.ASU_z = Convert.ToDouble(AbsoluteSigmaZ, customCulture);
 
-
-                System.Diagnostics.Debug.WriteLine("0.008 ?: " + AbsoluteMeanX);
-                System.Diagnostics.Debug.WriteLine("0.008 ?: " + AbsoluteMeanY);
-                System.Diagnostics.Debug.WriteLine("0.014 ?: " + AbsoluteMeanZ);
-                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaX);
-                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaY);
-                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaZ);
-
-
                 //absolute camera position and orientation uncertainties 
                 pdfParser.FilterPage(6);
                 string RelativeMeanX = pdfParser.Find("Mean").Right().Text;
@@ -139,16 +112,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 uncertainty.RSU_y = Convert.ToDouble(RelativeSigmaY, customCulture);
                 uncertainty.RSU_z = Convert.ToDouble(RelativeSigmaZ, customCulture);
 
-
-                System.Diagnostics.Debug.WriteLine("RelativeMeanX 0.007: " + RelativeMeanX);
-                System.Diagnostics.Debug.WriteLine("RelativeMeanY 0.006: " + RelativeMeanY);
-                System.Diagnostics.Debug.WriteLine("RelativeMeanZ 0.008: " + RelativeMeanZ);
-
-                System.Diagnostics.Debug.WriteLine("RelativeSigmaX 0.002: " + RelativeSigmaX);
-                System.Diagnostics.Debug.WriteLine("RelativeSigmaY 0.002: " + RelativeSigmaY);
-                System.Diagnostics.Debug.WriteLine("RelativeSigmaZ 0.004: " + RelativeSigmaZ);
-
-
                 //Ground control points 
                 string MeanErrorX = pdfParser.Find("Mean").Right().Text;
                 string MeanErrorY = pdfParser.Right().Text;
@@ -162,6 +125,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 string RMSErrorY = pdfParser.Right().Text;
                 string RMSErrorZ = pdfParser.Right().Text;
 
+                //define gcpError object for ORM mapping
                 gcpError = new GCPError
                 {
                     GCPMeanError_x = Convert.ToDouble(MeanErrorX, customCulture),
@@ -177,20 +141,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     GCPRMS_z = Convert.ToDouble(RMSErrorZ, customCulture)
                 };
 
-
-                System.Diagnostics.Debug.WriteLine("MeanErrorX -0.000051: " + MeanErrorX);
-                System.Diagnostics.Debug.WriteLine("MeanErrorY -0.000158: " + MeanErrorY);
-                System.Diagnostics.Debug.WriteLine("MeanErrorZ -0.000181: " + MeanErrorZ);
-
-                System.Diagnostics.Debug.WriteLine("SigmaErrorX 0.007058: " + SigmaErrorX);
-                System.Diagnostics.Debug.WriteLine("SigmaErrorY 0.009429: " + SigmaErrorY);
-                System.Diagnostics.Debug.WriteLine("SigmaErrorZ 0.005903: " + SigmaErrorZ);
-
-                System.Diagnostics.Debug.WriteLine("RMSErrorX 0.007058: " + RMSErrorX);
-                System.Diagnostics.Debug.WriteLine("RMSErrorY 0.009430: " + RMSErrorY);
-                System.Diagnostics.Debug.WriteLine("RMSErrorZ 0.005906: " + RMSErrorZ);
-
-
                 //absolute geolocation variance 
                 string MeanGeolocationErrorX = pdfParser.Find("Mean").Right().Text;
                 string MeanGeolocationErrorY = pdfParser.Right().Text;
@@ -205,18 +155,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 string RMSGeolocationErrorZ = pdfParser.Right().Text;
                 pdfParser.FilterClear(); //eind pagina 6
 
-                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorX -0.715677: " + MeanGeolocationErrorX);
-                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorY -0.235702: " + MeanGeolocationErrorY);
-                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorZ -122.511322: " + MeanGeolocationErrorZ);
-
-                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorX 1.235047: " + SigmaGeolocationErrorX);
-                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorY 1.445375: " + SigmaGeolocationErrorY);
-                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorZ 0.837803: " + SigmaGeolocationErrorZ);
-
-                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorX 1.427423: " + RMSGeolocationErrorX);
-                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorY 1.464467: " + RMSGeolocationErrorY);
-                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorZ 122.514187: " + RMSGeolocationErrorZ);
-
+                //define absoluteGeolocationVariance object for ORM mapping
                 absoluteGeolocationVariance = new AbsoluteGeolocationVariance
                 {
                     AGVMeanError_x = Convert.ToDouble(MeanGeolocationErrorX, customCulture),
@@ -247,20 +186,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 string GPU = m.Groups[3].Value;
                 GPU.Trim();
 
-
-                System.Diagnostics.Debug.WriteLine("CPU: *" + CPU + "*");
-                System.Diagnostics.Debug.WriteLine("RAM: *" + RAM + "*");
-                System.Diagnostics.Debug.WriteLine("GPU: *" + GPU + "*");
-                System.Diagnostics.Debug.WriteLine(GPU.Length);
-
-
                 qrp.CPU = CPU;
                 qrp.RAM = Int32.Parse(RAM); //GB
                 qrp.GPU = GPU; 
                 qrp.OS = OperatingSystem;
-
-                System.Diagnostics.Debug.WriteLine("hardware: " + Hardware);
-                System.Diagnostics.Debug.WriteLine("OperatingSystem: " + OperatingSystem);
 
                 //coordinate systems 
                 string ImageCoordinateSystem = pdfParser.Find("Image Coordinate System").Right().Text;
@@ -271,14 +200,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.GCPCoordinateSystem = GroundControlPointCoordinateSystem;
                 qrp.OutputCoordinateSystem = OutputCoordinateSystem;
 
-
-                System.Diagnostics.Debug.WriteLine("ImageCoordinateSystem: " + ImageCoordinateSystem);
-                System.Diagnostics.Debug.WriteLine("GroundControlPointCoordinateSystem: " + GroundControlPointCoordinateSystem);
-                System.Diagnostics.Debug.WriteLine("OutputCoordinateSystem: " + OutputCoordinateSystem);
-
-
                 //results
-                //omzetten naar int/floats? 
                 string NumberOfGeneratedTiles = pdfParser.Find("Number of Generated Tiles").Right().Text;
                 string NumberOf3DDensifiedPoints = pdfParser.Find("Number of 3D Densified Points").Right().Text;
                 string AverageDensity = pdfParser.FindPattern("Average Density*").Right().Right().Right().Text;
@@ -286,12 +208,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.GeneratedTiles = Convert.ToInt32(NumberOfGeneratedTiles);
                 qrp.DensifiedPoints3D = Convert.ToInt32(NumberOf3DDensifiedPoints);
                 qrp.AverageDensity = float.Parse(AverageDensity);
-
-
-                System.Diagnostics.Debug.WriteLine("NumberOfGeneratedTiles: " + NumberOfGeneratedTiles);
-                System.Diagnostics.Debug.WriteLine("NumberOf3DDensifiedPoints: " + NumberOf3DDensifiedPoints);
-                System.Diagnostics.Debug.WriteLine("AverageDensity: " + AverageDensity);
-
 
                 //Assign data the appropriate FlightId
                 qrp.QualityReportId = droneFlight.FlightId;
@@ -317,9 +233,86 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 // Save changes to the database
                 db.SaveChanges();
+
+
+                #region Debugging with Console 
+                System.Diagnostics.Debug.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
+                System.Diagnostics.Debug.WriteLine("AreaCovered: " + AreaCovered);
+                System.Diagnostics.Debug.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
+
+                System.Diagnostics.Debug.WriteLine("Processed: " + Processed);
+                System.Diagnostics.Debug.WriteLine("CameraModelNames: " + CameraModelNames);
+                System.Diagnostics.Debug.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
+                System.Diagnostics.Debug.WriteLine("AreaCovered: " + AreaCovered);
+                System.Diagnostics.Debug.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
+
+                System.Diagnostics.Debug.WriteLine("Dataset: " + Dataset);
+                System.Diagnostics.Debug.WriteLine("CameraOptimization: " + CameraOptimization);
+                System.Diagnostics.Debug.WriteLine("Georeferencing: " + Georeferencing);
+
+                System.Diagnostics.Debug.WriteLine("0.008 ?: " + AbsoluteMeanX);
+                System.Diagnostics.Debug.WriteLine("0.008 ?: " + AbsoluteMeanY);
+                System.Diagnostics.Debug.WriteLine("0.014 ?: " + AbsoluteMeanZ);
+                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaX);
+                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaY);
+                System.Diagnostics.Debug.WriteLine("0.001 ?: " + AbsoluteSigmaZ);
+
+
+                System.Diagnostics.Debug.WriteLine("RelativeMeanX 0.007: " + RelativeMeanX);
+                System.Diagnostics.Debug.WriteLine("RelativeMeanY 0.006: " + RelativeMeanY);
+                System.Diagnostics.Debug.WriteLine("RelativeMeanZ 0.008: " + RelativeMeanZ);
+
+                System.Diagnostics.Debug.WriteLine("RelativeSigmaX 0.002: " + RelativeSigmaX);
+                System.Diagnostics.Debug.WriteLine("RelativeSigmaY 0.002: " + RelativeSigmaY);
+                System.Diagnostics.Debug.WriteLine("RelativeSigmaZ 0.004: " + RelativeSigmaZ);
+
+                System.Diagnostics.Debug.WriteLine("MeanErrorX -0.000051: " + MeanErrorX);
+                System.Diagnostics.Debug.WriteLine("MeanErrorY -0.000158: " + MeanErrorY);
+                System.Diagnostics.Debug.WriteLine("MeanErrorZ -0.000181: " + MeanErrorZ);
+
+                System.Diagnostics.Debug.WriteLine("SigmaErrorX 0.007058: " + SigmaErrorX);
+                System.Diagnostics.Debug.WriteLine("SigmaErrorY 0.009429: " + SigmaErrorY);
+                System.Diagnostics.Debug.WriteLine("SigmaErrorZ 0.005903: " + SigmaErrorZ);
+
+                System.Diagnostics.Debug.WriteLine("RMSErrorX 0.007058: " + RMSErrorX);
+                System.Diagnostics.Debug.WriteLine("RMSErrorY 0.009430: " + RMSErrorY);
+                System.Diagnostics.Debug.WriteLine("RMSErrorZ 0.005906: " + RMSErrorZ);
+
+                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorX -0.715677: " + MeanGeolocationErrorX);
+                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorY -0.235702: " + MeanGeolocationErrorY);
+                System.Diagnostics.Debug.WriteLine("MeanGeolocationErrorZ -122.511322: " + MeanGeolocationErrorZ);
+
+                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorX 1.235047: " + SigmaGeolocationErrorX);
+                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorY 1.445375: " + SigmaGeolocationErrorY);
+                System.Diagnostics.Debug.WriteLine("SigmaGeolocationErrorZ 0.837803: " + SigmaGeolocationErrorZ);
+
+                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorX 1.427423: " + RMSGeolocationErrorX);
+                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorY 1.464467: " + RMSGeolocationErrorY);
+                System.Diagnostics.Debug.WriteLine("RMSGeolocationErrorZ 122.514187: " + RMSGeolocationErrorZ);
+                System.Diagnostics.Debug.WriteLine("CPU: *" + CPU + "*");
+                System.Diagnostics.Debug.WriteLine("RAM: *" + RAM + "*");
+                System.Diagnostics.Debug.WriteLine("GPU: *" + GPU + "*");
+                System.Diagnostics.Debug.WriteLine(GPU.Length);
+
+
+                System.Diagnostics.Debug.WriteLine("hardware: " + Hardware);
+                System.Diagnostics.Debug.WriteLine("OperatingSystem: " + OperatingSystem);
+
+
+                System.Diagnostics.Debug.WriteLine("ImageCoordinateSystem: " + ImageCoordinateSystem);
+                System.Diagnostics.Debug.WriteLine("GroundControlPointCoordinateSystem: " + GroundControlPointCoordinateSystem);
+                System.Diagnostics.Debug.WriteLine("OutputCoordinateSystem: " + OutputCoordinateSystem);
+
+
+                System.Diagnostics.Debug.WriteLine("NumberOfGeneratedTiles: " + NumberOfGeneratedTiles);
+                System.Diagnostics.Debug.WriteLine("NumberOf3DDensifiedPoints: " + NumberOf3DDensifiedPoints);
+                System.Diagnostics.Debug.WriteLine("AverageDensity: " + AverageDensity);
+                #endregion 
+
             }
             catch (DbEntityValidationException e)
             {
+                //important debugging code, prints out readable Database exceptions
                 foreach (var eve in e.EntityValidationErrors)
                 {
                     System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -333,8 +326,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //throw;
             }
             catch (Exception ex) {
+                //for all other exceptions
                 System.Diagnostics.Debug.WriteLine("Exception caught in PDFParser: " + ex);
-
             }
         }
     }

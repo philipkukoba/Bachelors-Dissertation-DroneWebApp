@@ -58,7 +58,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             // Set hasCTRLs to true
                             droneFlight.hasGCPs = true;
                         }
-                        else if (fields_string[0].Contains("ctrl"))
+                        else if (fields_string[0].Contains("ctrl") || fields_string[0].Contains("crtl"))
                         {
                             ctrl = new CTRLPoint
                             {
