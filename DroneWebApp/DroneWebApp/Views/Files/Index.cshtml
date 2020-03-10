@@ -3,31 +3,26 @@
 }
 
 <p></p>
-<h3>File Upload</h3>
+<h2>File Upload</h2>
 
-
-<div class="row">
-    <div class="col-md-4">
-
-        @if (ViewBag.ErrorMessage != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewBag.ErrorMessage
-            </div>
-        }
-
-        @*ORIGINAL WORKING FORM*@
-        <h4>Please select the file you want to add to Flight @ViewBag.Location, @ViewBag.Date</h4>
-        <form method="post" enctype="multipart/form-data">
-
-            @*<label for="file">Filename:</label>*@
-            <input type="file" name="files" id="file" />
-
-            <input type="submit" />
-        </form>
-
-       
-
+@if (@ViewBag.Success != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Success
     </div>
-</div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="btn-danger btn-sm" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong>, at <strong>@ViewBag.Location</strong> on <strong>@ViewBag.Date</strong> </h4>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="files" id="file" value="Select a file."/><br />
+    <input type="submit" value="Upload" class="btn-info btn-sm"/>
+</form>
 

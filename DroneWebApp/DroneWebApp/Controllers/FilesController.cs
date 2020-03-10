@@ -26,9 +26,15 @@ namespace DroneWebApp.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
             DroneFlight droneFlight = Db.DroneFlights.Find((int) id);
+            ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
-            ViewBag.Date = droneFlight.Date;
+            ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
             return View();
         }
 
@@ -36,7 +42,11 @@ namespace DroneWebApp.Controllers
         [HttpPost]
         public ActionResult Index(int? id, HttpPostedFileBase files)
         {
-
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
             // Verify that the user selected a file
             var path = "";
             if (files != null && files.ContentLength > 0)
@@ -56,17 +66,14 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
             }
 
-            DbContext dbx = new DroneDBEntities();
-            Creator c = new Creator(dbx);
+            creator.GetParser(fileExtension, path, (int)id);
 
-            System.Diagnostics.Debug.WriteLine("params for c.GetParser: " + fileExtension + " " + path + " " + (int)id);
-            //c.GetParser(fileExtension, path, (int) id);
-            //c.GetParser(".dat", path, 1); //dat testing 
-            //c.GetParser(fileExtension, path, 1);
-            c.GetParser(".dat", path, 3); //dat testing 
-
-            //System.Diagnostics.Debug.WriteLine("net voor de return");
-            return View(); //gwn op zelfde pagina blijven
+            if (filename.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+            {
+                creator.GetParser(".dat", path, (int)id);
+            }
+            ViewBag.Success = "File has been successfully added to your Flight.";
+            return View();
         }
     }
 }
