@@ -16,6 +16,13 @@
             <input type="submit" value="OK" />
         }*@
 
+        @if (ViewBag.ErrorMessage != null)
+        {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>            
+        }
+
         <form method="post" enctype="multipart/form-data">
 
             <label for="file">Filename:</label>
