@@ -33,7 +33,8 @@ Deze repository bevat volgende mappen:
 4. Sla dit bestand op (**Save**).
 5. Verander van **Debug** naar **Release** en voer de webapplicatie uit met **F5**.
 6. De allereerste keer kan een venster verschijnen dat u vraagt om het **IIS Express SSL certificate** te vertrouwen. Klik _yes_.
-7. U kunt nu aan de slag met de dronewebapplicatie.
+7. Er verschijnt een **Security warning**. Klik _yes_.
+8. U kunt nu aan de slag met de dronewebapplicatie.
 
 ## Werking
 
