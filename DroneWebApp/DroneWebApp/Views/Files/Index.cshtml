@@ -2,19 +2,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<br />
+<h3>File Upload</h3>
 
-<div class="jumbotron">
-    <h1>Simple File Upload ASP.NET MVC</h1>
-</div>
 
 <div class="row">
     <div class="col-md-4">
-        @*@using (Html.BeginForm("Index", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <input type="file" name="files" />
-            <input type="submit" value="OK" />
-        }*@
 
         @if (ViewBag.ErrorMessage != null)
         {
