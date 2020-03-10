@@ -28,6 +28,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             try
             {
                 qrp = new QualityReport();
+                qrp.QualityReportId = droneFlight.FlightId;
                 pdfParser = new PdfParser(IvyDocumentReader.ReadPdf(path));
 
                 //summary
@@ -40,15 +41,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //regex conversions 
                 AverageGroundSamplingDistance = Regex.Replace(AverageGroundSamplingDistance, " cm(.*)", ""); //enkel cm waarde behouden
                 AreaCovered = Regex.Replace(AreaCovered, " km2(.*)", ""); //enkel km2 waarde behouden
-                TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "m", ""); // 'm' wegdoen
-                TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "s", ""); // 's' wegdoen
+                //TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "m", ""); // 'm' wegdoen
+                //TimeForInitialProcessing = Regex.Replace(TimeForInitialProcessing, "s", ""); // 's' wegdoen
                 TimeForInitialProcessing = "00:" + TimeForInitialProcessing; // "00:" er bij plakken in het begin voor de juiste timespan format
 
                 qrp.Processed = Convert.ToDateTime(Processed);
                 qrp.CameraModelName = CameraModelNames;
                 qrp.AverageGSD = Convert.ToDouble(AverageGroundSamplingDistance, customCulture);
                 qrp.AreaCovered = Convert.ToDouble(AreaCovered, customCulture);
-                qrp.InitialProcessingTime = TimeSpan.ParseExact(TimeForInitialProcessing, "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
+                //qrp.InitialProcessingTime = TimeSpan.ParseExact(TimeForInitialProcessing, "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
 
                 //quality check
                 string Dataset = pdfParser.Find("Dataset").Right().Text;
@@ -58,6 +59,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.Dataset = Dataset;
                 qrp.CameraOptimization = CameraOptimization;
                 qrp.Georeferencing = Georeferencing;
+
+                // DroneFlight now has a Quality Report
+                droneFlight.hasQR = true;
+                //Add to list of QualityReports to be added to the database
+                db.QualityReports.Add(qrp);
+                // Save changes to the database
+                db.SaveChanges();
 
                 #region Regex DataSet (unused)
                 //Regex dataset
@@ -74,7 +82,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //Regex cameraoptimization
                 //Regex georeferencingRegex = new Regex(@"(.*?), (\d*?) GCPs (?:.*?) RMS error = (.*?) m", RegexOptions.Singleline | RegexOptions.Compiled);
                 #endregion
-
+                
                 //absolute camera position and orientation uncertainties 
                 uncertainty = new Uncertainty();
 
@@ -209,8 +217,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.DensifiedPoints3D = Convert.ToInt32(NumberOf3DDensifiedPoints);
                 qrp.AverageDensity = float.Parse(AverageDensity);
 
-                //Assign data the appropriate FlightId
-                qrp.QualityReportId = droneFlight.FlightId;
+                // Map all ids 1-to-1
                 uncertainty.UncertaintyId = qrp.QualityReportId; //droneFlight.FlightId;
                 gcpError.GCPErrorId = qrp.QualityReportId; //droneFlight.FlightId;
                 absoluteGeolocationVariance.AbsoluteGeolocationVarianceId = qrp.QualityReportId;
@@ -219,17 +226,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //Add to list of GCPErrors to be added to the database
                 db.GCPErrors.Add(gcpError);
 
-                //Add to list of GCPErrors to be added to the database
+                //Add to list of Uncertainties to be added to the database
                 db.Uncertainties.Add(uncertainty);
 
                 //Add to list of AbsoluteGeolocationVariances to be added to the database
                 db.AbsoluteGeolocationVariances.Add(absoluteGeolocationVariance);
-
-                //Add to list of QualityReports to be added to the database
-                db.QualityReports.Add(qrp);
-
-                // Set hasQR to true
-                droneFlight.hasQR = true;
 
                 // Save changes to the database
                 db.SaveChanges();
@@ -308,7 +309,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 System.Diagnostics.Debug.WriteLine("NumberOf3DDensifiedPoints: " + NumberOf3DDensifiedPoints);
                 System.Diagnostics.Debug.WriteLine("AverageDensity: " + AverageDensity);
                 #endregion 
-
+                
             }
             catch (DbEntityValidationException e)
             {
