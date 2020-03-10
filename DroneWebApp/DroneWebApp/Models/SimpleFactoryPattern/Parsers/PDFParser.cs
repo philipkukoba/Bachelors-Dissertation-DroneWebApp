@@ -235,8 +235,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 // Save changes to the database
                 db.SaveChanges();
 
-
+                
                 #region Debugging with Console 
+                /*
                 System.Diagnostics.Debug.WriteLine("AverageGroundSamplingDistance: " + AverageGroundSamplingDistance);
                 System.Diagnostics.Debug.WriteLine("AreaCovered: " + AreaCovered);
                 System.Diagnostics.Debug.WriteLine("TimeForInitialProcessing: " + TimeForInitialProcessing);
@@ -308,6 +309,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 System.Diagnostics.Debug.WriteLine("NumberOfGeneratedTiles: " + NumberOfGeneratedTiles);
                 System.Diagnostics.Debug.WriteLine("NumberOf3DDensifiedPoints: " + NumberOf3DDensifiedPoints);
                 System.Diagnostics.Debug.WriteLine("AverageDensity: " + AverageDensity);
+                */
                 #endregion 
                 
             }
