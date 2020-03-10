@@ -21,28 +21,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DroneOA droneOA;
 
             Dictionary<string, int> dict = null;
-            try
-            {
-                dict = new Dictionary<string, int>();
-
-                // Parse
-                using (TextFieldParser parser = new TextFieldParser(@"C:\Users\niels\OneDrive\Documents\UGent\Industrieel ingenieur\3de bachelor\Bachelorproef\Drone\Fields of interest_drone logging.csv"))
-                {
-                    parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(",");
-
-                    // Read data
-                    while (!parser.EndOfData)
-                    {
-                        string[] fields = parser.ReadFields();
-                        dict.Add(fields[0], 1);
-                    }
-                }
-            }
-            catch(Exception ex) {
-                System.Diagnostics.Debug.WriteLine("Caught exception in first try/Catch (mapping): " + ex.Message);
-            }
-
             
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
@@ -50,18 +28,270 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
 
+                dict = new Dictionary<string, int>();
+
                 CultureInfo customCulture = (CultureInfo) System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
                 customCulture.NumberFormat.NumberDecimalSeparator = ".";
                 System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
                 string[] fields = parser.ReadFields();
+
                 for (int i = 0; i < fields.Length; i++)
                 {
-                    if (dict.ContainsKey(fields[i]))
+                    if (fields[i].Equals("Tick#"))
                     {
-                        dict[fields[i]] = i;
+                        dict.Add("Tick#", i);
+                    }
+                    else if (fields[i].Equals("offsetTime"))
+                    {
+                        dict.Add("offsetTime", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):GPS-H"))
+                    {
+                        dict.Add("IMU_ATTI(0):GPS-H", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):roll"))
+                    {
+                        dict.Add("IMU_ATTI(0):roll", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):pitch"))
+                    {
+                        dict.Add("IMU_ATTI(0):pitch", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):yaw"))
+                    {
+                        dict.Add("IMU_ATTI(0):yaw", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):distanceTravelled"))
+                    {
+                        dict.Add("IMU_ATTI(0):distanceTravelled", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):directionOfTravel[mag]"))
+                    {
+                        dict.Add("IMU_ATTI(0):directionOfTravel[mag]", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):directionOfTravel[true]"))
+                    {
+                        dict.Add("IMU_ATTI(0):directionOfTravel[true]", i);
+                    }
+                    else if (fields[i].Equals("IMU_ATTI(0):temperature"))
+                    {
+                        dict.Add("IMU_ATTI(0):temperature", i);
+                    }
+                    else if (fields[i].Equals("flightTime"))
+                    {
+                        dict.Add("flightTime", i);
+                    }
+                    else if (fields[i].Equals("navHealth"))
+                    {
+                        dict.Add("navHealth", i);
+                    }
+                    else if (fields[i].Equals("General:relativeHeight"))
+                    {
+                        dict.Add("General:relativeHeight", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):Long"))
+                    {
+                        dict.Add("GPS(0):Long", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):Lat"))
+                    {
+                        dict.Add("GPS(0):Lat", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):Date"))
+                    {
+                        dict.Add("GPS(0):Date", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):Time"))
+                    {
+                        dict.Add("GPS(0):Time", i);
+                    }
+                    else if (fields[i].Equals("GPS:dateTimeStamp"))
+                    {
+                        dict.Add("GPS:dateTimeStamp", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):heightMSL"))
+                    {
+                        dict.Add("GPS(0):heightMSL", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):hDOP"))
+                    {
+                        dict.Add("GPS(0):hDOP", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):pDOP"))
+                    {
+                        dict.Add("GPS(0):pDOP", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):sAcc"))
+                    {
+                        dict.Add("GPS(0):sAcc", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):numGPS"))
+                    {
+                        dict.Add("GPS(0):numGPS", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):numGLNAS"))
+                    {
+                        dict.Add("GPS(0):numGLNAS", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):numSV"))
+                    {
+                        dict.Add("GPS(0):numSV", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):velN"))
+                    {
+                        dict.Add("GPS(0):velN", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):velE"))
+                    {
+                        dict.Add("GPS(0):velE", i);
+                    }
+                    else if (fields[i].Equals("GPS(0):velD"))
+                    {
+                        dict.Add("GPS(0):velD", i);
+                    }
+                    else if (fields[i].Equals("Controller:ctrlMode"))
+                    {
+                        dict.Add("Controller:ctrlMode", i);
+                    }
+                    else if (fields[i].Equals("RC:failSafe"))
+                    {
+                        dict.Add("RC:failSafe", i);
+                    }
+                    else if (fields[i].Equals("RC:dataLost"))
+                    {
+                        dict.Add("RC:dataLost", i);
+                    }
+                    else if (fields[i].Equals("RC:appLost"))
+                    {
+                        dict.Add("RC:appLost", i);
+                    }
+                    else if (fields[i].Equals("Battery:status"))
+                    {
+                        dict.Add("Battery:status", i);
+                    }
+                    else if (fields[i].Equals("SMART_BATT:goHome%"))
+                    {
+                        dict.Add("SMART_BATT:goHome%", i);
+                    }
+                    else if (fields[i].Equals("SMART_BATT:land%"))
+                    {
+                        dict.Add("SMART_BATT:land%", i);
+                    }
+                    else if (fields[i].Equals("OA:avoidObst"))
+                    {
+                        dict.Add("OA:avoidObst", i);
+                    }
+                    else if (fields[i].Equals("OA:airportLimit"))
+                    {
+                        dict.Add("OA:airportLimit", i);
+                    }
+                    else if (fields[i].Equals("OA:groundForceLanding"))
+                    {
+                        dict.Add("OA:groundForceLanding", i);
+                    }
+                    else if (fields[i].Equals("OA:vertAirportLimit"))
+                    {
+                        dict.Add("OA:vertAirportLimit", i);
+                    }
+                    else if (fields[i].Equals("Motor:Current:RFront"))
+                    {
+                        dict.Add("Motor:Current:RFront", i);
+                    }
+                    else if (fields[i].Equals("Motor:Current:LFront"))
+                    {
+                        dict.Add("Motor:Current:LFront", i);
+                    }
+                    else if (fields[i].Equals("Motor:Current:LBack"))
+                    {
+                        dict.Add("Motor:Current:LBack", i);
+                    }
+                    else if (fields[i].Equals("Motor:Current:RBack"))
+                    {
+                        dict.Add("Motor:Current:RBack", i);
+                    }
+                    else if (fields[i].Equals("flyCState") && !dict.ContainsKey("flyCState"))
+                    {
+                        dict.Add("flyCState", i);
+                    }
+                    else if (fields[i].Equals("nonGPSCause"))
+                    {
+                        dict.Add("nonGPSCause", i);
+                    }
+                    else if (fields[i].Equals("compassError"))
+                    {
+                        dict.Add("compassError", i);
+                    }
+                    else if (fields[i].Equals("connectedToRC"))
+                    {
+                        dict.Add("connectedToRC", i);
+                    }
+                    else if (fields[i].Equals("Battery:lowVoltage"))
+                    {
+                        dict.Add("Battery:lowVoltage", i);
+                    }
+                    else if (fields[i].Equals("RC:ModeSwitch"))
+                    {
+                        dict.Add("RC:ModeSwitch", i);
+                    }
+                    else if (fields[i].Equals("gpsUsed"))
+                    {
+                        dict.Add("gpsUsed", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Date"))
+                    {
+                        dict.Add("RTKdata:Date", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Time"))
+                    {
+                        dict.Add("RTKdata:Time", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Lon_P"))
+                    {
+                        dict.Add("RTKdata:Lon_P", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Lat_P"))
+                    {
+                        dict.Add("RTKdata:Lat_P", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Hmsl_P"))
+                    {
+                        dict.Add("RTKdata:Hmsl_P", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Lon_S"))
+                    {
+                        dict.Add("RTKdata:Lon_S", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Lat_S"))
+                    {
+                        dict.Add("RTKdata:Lat_S", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Hmsl_S"))
+                    {
+                        dict.Add("RTKdata:Hmsl_S", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Vel_N"))
+                    {
+                        dict.Add("RTKdata:Vel_N", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Vel_E"))
+                    {
+                        dict.Add("RTKdata:Vel_E", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:Vel_D"))
+                    {
+                        dict.Add("RTKdata:Vel_D", i);
+                    }
+                    else if (fields[i].Equals("RTKdata:hdop"))
+                    {
+                        dict.Add("RTKdata:hdop", i);
+                    }
+                    else if (fields[i].Equals("Attribute|Value"))
+                    {
+                        dict.Add("Attribute|Value", i);
                     }
                 }
+
                 parser.ReadFields();
                 while (!parser.EndOfData)
                 {
@@ -74,6 +304,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneRC = new DroneRC();
                         droneGPS = new DroneGP();
                         droneOA = new DroneOA();
+
+                       
+
+                        
 
                         // Read data
                         fields = parser.ReadFields();
@@ -95,7 +329,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneLogEntry.SmartBattLand = Int32.TryParse(fields[dict["SMART_BATT:land%"]], out iValue) ? iValue : 0;
                         droneLogEntry.Tick_no = long.TryParse(fields[dict["Tick#"]], out long lValue) ? lValue : 0;
                         // Assign data the appropriate FlightId
-                        droneLogEntry.FlightId = droneFlight.FlightId;
 
                         // **DroneRTK**
                         droneRTK.Date = Int32.TryParse(fields[dict["RTKdata:Date"]], out iValue) ? iValue : 0;
@@ -111,8 +344,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneRTK.VelE = Double.TryParse(fields[dict["RTKdata:Vel_E"]], out dValue) ? dValue : 0.0;
                         droneRTK.VelN = Double.TryParse(fields[dict["RTKdata:Vel_N"]], out dValue) ? dValue : 0.0;
                         // Assign data the appropriate FlightId
-                        droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
-
+                        
+                        System.Diagnostics.Debug.WriteLine(droneLogEntry.DroneLogEntryId);
                         // **DroneIMU**
                         droneIMU.DistanceTravelled = Double.TryParse(fields[dict["IMU_ATTI(0):distanceTravelled"]], out dValue) ? dValue : 0.0;
                         droneIMU.GPS_H = Double.TryParse(fields[dict["IMU_ATTI(0):GPS-H"]], out dValue) ? dValue : 0.0;
@@ -123,7 +356,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneIMU.TrueDirectionOfTravel = Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[true]"]], out dValue) ? dValue : 0.0;
                         droneIMU.Yaw = Double.TryParse(fields[dict["IMU_ATTI(0):yaw"]], out dValue) ? dValue : 0.0;
                         // Assign data the appropriate FlightId
-                        droneIMU.IMU_ATTI_Id = droneLogEntry.DroneLogEntryId;
+                        
 
                         // **DroneMotor**
                         droneMotor.CurrentLBack = Double.TryParse(fields[dict["Motor:Current:LBack"]], out dValue) ? dValue : 0.0;
@@ -131,7 +364,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneMotor.CurrentRBack = Double.TryParse(fields[dict["Motor:Current:RBack"]], out dValue) ? dValue : 0.0;
                         droneMotor.CurrentRFront = Double.TryParse(fields[dict["Motor:Current:RFront"]], out dValue) ? dValue : 0.0;
                         // Assign data the appropriate FlightId
-                        droneMotor.MotorId = droneLogEntry.DroneLogEntryId;
+                        
 
                         // **DroneRC**
                         droneRC.AppLost = fields[dict["RC:appLost"]];
@@ -139,7 +372,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneRC.FailSafe = fields[dict["RC:failSafe"]];
                         droneRC.ModeSwitch = fields[dict["RC:ModeSwitch"]];
                         // Assign data the appropriate FlightId
-                        droneRC.RCId = droneLogEntry.DroneLogEntryId;
+                        
 
                         // **DroneGPS**
                         droneGPS.Date = Int32.TryParse(fields[dict["GPS(0):Date"]], out iValue) ? iValue : 0;
@@ -158,7 +391,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelE = Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : 0.0;
                         droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
                         // Assign data the appropriate FlightId
-                        droneGPS.GPSId = droneLogEntry.DroneLogEntryId;
+                        
 
                         // **DroneOA**
                         droneOA.AirportLimit = fields[dict["OA:airportLimit"]];
@@ -166,6 +399,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneOA.GroundForceLanding = fields[dict["OA:groundForceLanding"]];
                         droneOA.VertAirportLimit = fields[dict["OA:vertAirportLimit"]];
                         // Assign data the appropriate FlightId
+                        
+
+                        droneLogEntry.FlightId = droneFlight.FlightId;
+                        // Add to list of DroneLogEntries that are to be added to the DB
+                        db.DroneLogEntries.Add(droneLogEntry);
+                        db.SaveChanges();
+
+                        droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
+                        droneIMU.IMU_ATTI_Id = droneLogEntry.DroneLogEntryId;
+                        droneMotor.MotorId = droneLogEntry.DroneLogEntryId;
+                        droneRC.RCId = droneLogEntry.DroneLogEntryId;
+                        droneGPS.GPSId = droneLogEntry.DroneLogEntryId;
                         droneOA.OAId = droneLogEntry.DroneLogEntryId;
 
                         // Set appropriate fields for DroneLogEntry
@@ -175,18 +420,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneLogEntry.DroneRC = droneRC;
                         droneLogEntry.DroneGP = droneGPS;
                         droneLogEntry.DroneOA = droneOA;
+                        
 
-                        // Add to list of DroneLogEntries that are to be added to the DB
-                        db.DroneLogEntries.Add(droneLogEntry);
+
 
                         //Set hasDroneLog to true
                         droneFlight.hasDroneLog = true;
 
+                        System.Diagnostics.Debug.WriteLine("save");
+
                         // Commit changes to the DB
                         db.SaveChanges();
+                        
+                        System.Diagnostics.Debug.WriteLine("end");
                     }
                     catch(Exception ex) {
                         System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
+                        System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
                     }
                 }
             }
