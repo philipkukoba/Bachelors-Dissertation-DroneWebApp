@@ -60,12 +60,12 @@ namespace DroneWebApp.Controllers
             Creator c = new Creator(dbx);
 
             System.Diagnostics.Debug.WriteLine("params for c.GetParser: " + fileExtension + " " + path + " " + (int)id);
-            c.GetParser(fileExtension, path, (int) id);
+            //c.GetParser(fileExtension, path, (int) id);
             //c.GetParser(".dat", path, 1); //dat testing 
             //c.GetParser(fileExtension, path, 1);
-            //c.GetParser(".dat", path, 3); //dat testing 
+            c.GetParser(".dat", path, 3); //dat testing 
 
-            System.Diagnostics.Debug.WriteLine("net voor de return");
+            //System.Diagnostics.Debug.WriteLine("net voor de return");
             return View(); //gwn op zelfde pagina blijven
         }
     }

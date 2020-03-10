@@ -253,7 +253,7 @@
           <Key>
             <PropertyRef Name="QualityReportId" />
           </Key>
-          <Property Name="QualityReportId" Type="int" Nullable="false" />
+          <Property Name="QualityReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Processed" Type="datetime" />
           <Property Name="CameraModelName" Type="varchar" MaxLength="256" />
           <Property Name="AverageGSD" Type="float" />
@@ -288,6 +288,16 @@
           <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Image" Type="image" />
           <Property Name="FlightId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TFW">
           <Key>
@@ -427,51 +437,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneMotor">
-          <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneMotor_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneMotor">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneMotor">
               <PropertyRef Name="MotorId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneOA">
-          <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneOA_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneOA">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneOA">
               <PropertyRef Name="OAId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneRC">
-          <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneRC_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneRC">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneRC">
               <PropertyRef Name="RCId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneRTKData">
-          <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneRTKData_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneRTKData">
-              <PropertyRef Name="RTKDataId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
+            <Principal Role="DroneLogEntry">
               <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneRTKData">
+              <PropertyRef Name="RTKDataId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -592,6 +602,7 @@
           <EntitySet Name="PointCloudXYZ" EntityType="Self.PointCloudXYZ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QualityReport" EntityType="Self.QualityReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RawImages" EntityType="Self.RawImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TFW" EntityType="Self.TFW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uncertainty" EntityType="Self.Uncertainty" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
@@ -630,21 +641,21 @@
             <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneMotor" Association="Self.FK_DroneLogEntry_DroneMotor">
+          <AssociationSet Name="FK_DroneMotor_DroneLogEntry" Association="Self.FK_DroneMotor_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
             <End Role="DroneMotor" EntitySet="DroneMotor" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneOA" Association="Self.FK_DroneLogEntry_DroneOA">
+          <AssociationSet Name="FK_DroneOA_DroneLogEntry" Association="Self.FK_DroneOA_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
             <End Role="DroneOA" EntitySet="DroneOA" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneRC" Association="Self.FK_DroneLogEntry_DroneRC">
+          <AssociationSet Name="FK_DroneRC_DroneLogEntry" Association="Self.FK_DroneRC_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
             <End Role="DroneRC" EntitySet="DroneRC" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneRTKData" Association="Self.FK_DroneLogEntry_DroneRTKData">
-            <End Role="DroneRTKData" EntitySet="DroneRTKData" />
+          <AssociationSet Name="FK_DroneRTKData_DroneLogEntry" Association="Self.FK_DroneRTKData_DroneLogEntry">
             <End Role="DroneLogEntry" EntitySet="DroneLogEntry" />
+            <End Role="DroneRTKData" EntitySet="DroneRTKData" />
           </AssociationSet>
           <AssociationSet Name="FK_GCPError_QualityReport1" Association="Self.FK_GCPError_QualityReport1">
             <End Role="QualityReport" EntitySet="QualityReport" />
@@ -847,10 +858,10 @@
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_DroneLog_DroneFlight" FromRole="DroneLogEntry" ToRole="DroneFlight" />
           <NavigationProperty Name="DroneGP" Relationship="Self.FK_DroneGPS_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneGPS" />
           <NavigationProperty Name="DroneIMU_ATTI" Relationship="Self.FK_DroneIMU_ATTI_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneIMU_ATTI" />
-          <NavigationProperty Name="DroneMotor" Relationship="Self.FK_DroneLogEntry_DroneMotor" FromRole="DroneLogEntry" ToRole="DroneMotor" />
-          <NavigationProperty Name="DroneOA" Relationship="Self.FK_DroneLogEntry_DroneOA" FromRole="DroneLogEntry" ToRole="DroneOA" />
-          <NavigationProperty Name="DroneRC" Relationship="Self.FK_DroneLogEntry_DroneRC" FromRole="DroneLogEntry" ToRole="DroneRC" />
-          <NavigationProperty Name="DroneRTKData" Relationship="Self.FK_DroneLogEntry_DroneRTKData" FromRole="DroneLogEntry" ToRole="DroneRTKData" />
+          <NavigationProperty Name="DroneMotor" Relationship="Self.FK_DroneMotor_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneMotor" />
+          <NavigationProperty Name="DroneOA" Relationship="Self.FK_DroneOA_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneOA" />
+          <NavigationProperty Name="DroneRC" Relationship="Self.FK_DroneRC_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneRC" />
+          <NavigationProperty Name="DroneRTKData" Relationship="Self.FK_DroneRTKData_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneRTKData" />
         </EntityType>
         <EntityType Name="DroneMotor">
           <Key>
@@ -861,7 +872,7 @@
           <Property Name="CurrentLFront" Type="Double" />
           <Property Name="CurrentLBack" Type="Double" />
           <Property Name="CurrentRBack" Type="Double" />
-          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneLogEntry_DroneMotor" FromRole="DroneMotor" ToRole="DroneLogEntry" />
+          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneMotor_DroneLogEntry" FromRole="DroneMotor" ToRole="DroneLogEntry" />
         </EntityType>
         <EntityType Name="DroneOA">
           <Key>
@@ -872,7 +883,7 @@
           <Property Name="AirportLimit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GroundForceLanding" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VertAirportLimit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneLogEntry_DroneOA" FromRole="DroneOA" ToRole="DroneLogEntry" />
+          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneOA_DroneLogEntry" FromRole="DroneOA" ToRole="DroneLogEntry" />
         </EntityType>
         <EntityType Name="DroneRC">
           <Key>
@@ -883,7 +894,7 @@
           <Property Name="DataLost" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AppLost" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModeSwitch" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneLogEntry_DroneRC" FromRole="DroneRC" ToRole="DroneLogEntry" />
+          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneRC_DroneLogEntry" FromRole="DroneRC" ToRole="DroneLogEntry" />
         </EntityType>
         <EntityType Name="DroneRTKData">
           <Key>
@@ -902,7 +913,7 @@
           <Property Name="VelE" Type="Double" />
           <Property Name="VelD" Type="Double" />
           <Property Name="HDOP" Type="Double" />
-          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneLogEntry_DroneRTKData" FromRole="DroneRTKData" ToRole="DroneLogEntry" />
+          <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneRTKData_DroneLogEntry" FromRole="DroneRTKData" ToRole="DroneLogEntry" />
         </EntityType>
         <EntityType Name="GCPError">
           <Key>
@@ -967,7 +978,7 @@
           <Key>
             <PropertyRef Name="QualityReportId" />
           </Key>
-          <Property Name="QualityReportId" Type="Int32" Nullable="false" />
+          <Property Name="QualityReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Processed" Type="DateTime" Precision="3" />
           <Property Name="CameraModelName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="AverageGSD" Type="Double" />
@@ -1007,6 +1018,16 @@
           <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TFW">
           <Key>
@@ -1220,51 +1241,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneMotor">
-          <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneMotor_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneMotor">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneMotor">
               <PropertyRef Name="MotorId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneOA">
-          <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneOA_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneOA">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneOA">
               <PropertyRef Name="OAId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneRC">
-          <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneRC_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneRC">
+            <Principal Role="DroneLogEntry">
+              <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneRC">
               <PropertyRef Name="RCId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
-              <PropertyRef Name="DroneLogEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DroneLogEntry_DroneRTKData">
-          <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="1" />
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="0..1" />
+        <Association Name="FK_DroneRTKData_DroneLogEntry">
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="DroneRTKData">
-              <PropertyRef Name="RTKDataId" />
-            </Principal>
-            <Dependent Role="DroneLogEntry">
+            <Principal Role="DroneLogEntry">
               <PropertyRef Name="DroneLogEntryId" />
+            </Principal>
+            <Dependent Role="DroneRTKData">
+              <PropertyRef Name="RTKDataId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1313,6 +1334,7 @@
           <EntitySet Name="PointCloudXYZs" EntityType="Self.PointCloudXYZ" />
           <EntitySet Name="QualityReports" EntityType="Self.QualityReport" />
           <EntitySet Name="RawImages" EntityType="Self.RawImage" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TFWs" EntityType="Self.TFW" />
           <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
           <AssociationSet Name="FK_QualityReport_AbsoluteGeolocationVariance" Association="Self.FK_QualityReport_AbsoluteGeolocationVariance">
@@ -1375,21 +1397,21 @@
             <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
             <End Role="DroneIMU_ATTI" EntitySet="DroneIMU_ATTI" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneMotor" Association="Self.FK_DroneLogEntry_DroneMotor">
+          <AssociationSet Name="FK_DroneMotor_DroneLogEntry" Association="Self.FK_DroneMotor_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
             <End Role="DroneMotor" EntitySet="DroneMotors" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneOA" Association="Self.FK_DroneLogEntry_DroneOA">
+          <AssociationSet Name="FK_DroneOA_DroneLogEntry" Association="Self.FK_DroneOA_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
             <End Role="DroneOA" EntitySet="DroneOAs" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneRC" Association="Self.FK_DroneLogEntry_DroneRC">
+          <AssociationSet Name="FK_DroneRC_DroneLogEntry" Association="Self.FK_DroneRC_DroneLogEntry">
+            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
             <End Role="DroneRC" EntitySet="DroneRCs" />
-            <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
           </AssociationSet>
-          <AssociationSet Name="FK_DroneLogEntry_DroneRTKData" Association="Self.FK_DroneLogEntry_DroneRTKData">
-            <End Role="DroneRTKData" EntitySet="DroneRTKDatas" />
+          <AssociationSet Name="FK_DroneRTKData_DroneLogEntry" Association="Self.FK_DroneRTKData_DroneLogEntry">
             <End Role="DroneLogEntry" EntitySet="DroneLogEntries" />
+            <End Role="DroneRTKData" EntitySet="DroneRTKDatas" />
           </AssociationSet>
           <AssociationSet Name="FK_GCPError_QualityReport1" Association="Self.FK_GCPError_QualityReport1">
             <End Role="QualityReport" EntitySet="QualityReports" />
@@ -1707,6 +1729,17 @@
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -28,7 +28,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             try
             {
                 qrp = new QualityReport();
-                pdfParser = new PdfParser(IvyDocumentReader.ReadPdf(@"C:\Users\p_kuk\Desktop\BP\Harelbeke-191210_report_Hightlighted.pdf"));
+                pdfParser = new PdfParser(IvyDocumentReader.ReadPdf(path));
 
                 //summary
                 string Processed = pdfParser.Find("Processed").Right().Text;

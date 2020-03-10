@@ -22,7 +22,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
             Dictionary<string, int> dict = null;
             
-            // Parse
+            // Prepare map useful fields
             using (TextFieldParser parser = new TextFieldParser(path))
             {
                 parser.TextFieldType = FieldType.Delimited;
@@ -292,18 +292,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                 }
 
+                // Parse the file
                 parser.ReadFields();
                 while (!parser.EndOfData)
                 {
                     try
                     {
+                        // Create ORM object
                         droneLogEntry = new DroneLogEntry();
-                        droneRTK = new DroneRTKData();
-                        droneIMU = new DroneIMU_ATTI();
-                        droneMotor = new DroneMotor();
-                        droneRC = new DroneRC();
-                        droneGPS = new DroneGP();
-                        droneOA = new DroneOA();
 
                         // Read data
                         fields = parser.ReadFields();
@@ -324,8 +320,30 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneLogEntry.SmartBattGoHome = Int32.TryParse(fields[dict["SMART_BATT:goHome%"]], out iValue) ? iValue : 0;
                         droneLogEntry.SmartBattLand = Int32.TryParse(fields[dict["SMART_BATT:land%"]], out iValue) ? iValue : 0;
                         droneLogEntry.Tick_no = long.TryParse(fields[dict["Tick#"]], out long lValue) ? lValue : 0;
+                        
+                        
                         // Assign data the appropriate FlightId
+                        droneLogEntry.FlightId = droneFlight.FlightId;
+                        
+                        //Set hasDroneLog to true for the Drone Flight
+                        droneFlight.hasDroneLog = true;
 
+                        // Add the DroneLogEntry to the list to be added to the database
+                        db.DroneLogEntries.Add(droneLogEntry);
+
+                        // Commit changes to the DB
+                        db.SaveChanges();
+
+
+                        // Create ORM objects that have 1-to-1 relationship with a DroneLogEntry
+                        droneRTK = new DroneRTKData();
+                        droneIMU = new DroneIMU_ATTI();
+                        droneMotor = new DroneMotor();
+                        droneRC = new DroneRC();
+                        droneGPS = new DroneGP();
+                        droneOA = new DroneOA();
+
+                        
                         // **DroneRTK**
                         droneRTK.Date = Int32.TryParse(fields[dict["RTKdata:Date"]], out iValue) ? iValue : 0;
                         droneRTK.HDOP = Double.TryParse(fields[dict["RTKdata:hdop"]], out dValue) ? dValue : 0.0;
@@ -339,9 +357,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneRTK.VelD = Double.TryParse(fields[dict["RTKdata:Vel_D"]], out dValue) ? dValue : 0.0;
                         droneRTK.VelE = Double.TryParse(fields[dict["RTKdata:Vel_E"]], out dValue) ? dValue : 0.0;
                         droneRTK.VelN = Double.TryParse(fields[dict["RTKdata:Vel_N"]], out dValue) ? dValue : 0.0;
-                        // Assign data the appropriate FlightId
-                        
-                        System.Diagnostics.Debug.WriteLine(droneLogEntry.DroneLogEntryId);
+
                         // **DroneIMU**
                         droneIMU.DistanceTravelled = Double.TryParse(fields[dict["IMU_ATTI(0):distanceTravelled"]], out dValue) ? dValue : 0.0;
                         droneIMU.GPS_H = Double.TryParse(fields[dict["IMU_ATTI(0):GPS-H"]], out dValue) ? dValue : 0.0;
@@ -351,24 +367,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneIMU.Temperature = Double.TryParse(fields[dict["IMU_ATTI(0):temperature"]], out dValue) ? dValue : 0.0;
                         droneIMU.TrueDirectionOfTravel = Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[true]"]], out dValue) ? dValue : 0.0;
                         droneIMU.Yaw = Double.TryParse(fields[dict["IMU_ATTI(0):yaw"]], out dValue) ? dValue : 0.0;
-                        // Assign data the appropriate FlightId
-                        
 
                         // **DroneMotor**
                         droneMotor.CurrentLBack = Double.TryParse(fields[dict["Motor:Current:LBack"]], out dValue) ? dValue : 0.0;
                         droneMotor.CurrentLFront = Double.TryParse(fields[dict["Motor:Current:LFront"]], out dValue) ? dValue : 0.0;
                         droneMotor.CurrentRBack = Double.TryParse(fields[dict["Motor:Current:RBack"]], out dValue) ? dValue : 0.0;
                         droneMotor.CurrentRFront = Double.TryParse(fields[dict["Motor:Current:RFront"]], out dValue) ? dValue : 0.0;
-                        // Assign data the appropriate FlightId
                         
-
                         // **DroneRC**
                         droneRC.AppLost = fields[dict["RC:appLost"]];
                         droneRC.DataLost = fields[dict["RC:dataLost"]];
                         droneRC.FailSafe = fields[dict["RC:failSafe"]];
                         droneRC.ModeSwitch = fields[dict["RC:ModeSwitch"]];
-                        // Assign data the appropriate FlightId
-                        
 
                         // **DroneGPS**
                         droneGPS.Date = Int32.TryParse(fields[dict["GPS(0):Date"]], out iValue) ? iValue : 0;
@@ -386,19 +396,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelD = Double.TryParse(fields[dict["GPS(0):velD"]], out dValue) ? dValue : 0.0;
                         droneGPS.VelE = Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : 0.0;
                         droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
-                        // Assign data the appropriate FlightId
-                        
 
                         // **DroneOA**
                         droneOA.AirportLimit = fields[dict["OA:airportLimit"]];
                         droneOA.AvoidObst = fields[dict["OA:avoidObst"]];
                         droneOA.GroundForceLanding = fields[dict["OA:groundForceLanding"]];
                         droneOA.VertAirportLimit = fields[dict["OA:vertAirportLimit"]];
-                        // Assign data the appropriate FlightId
-                        
 
-                        droneLogEntry.FlightId = droneFlight.FlightId;
-                        // Add to list of DroneLogEntries that are to be added to the DB
+                        
+                        // Map all ids 1-to-1
                         droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
                         droneIMU.IMU_ATTI_Id = droneLogEntry.DroneLogEntryId;
                         droneMotor.MotorId = droneLogEntry.DroneLogEntryId;
@@ -406,28 +412,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.GPSId = droneLogEntry.DroneLogEntryId;
                         droneOA.OAId = droneLogEntry.DroneLogEntryId;
 
-                        // Set appropriate fields for DroneLogEntry
-                        droneLogEntry.DroneRTKData = droneRTK;
-                        droneLogEntry.DroneIMU_ATTI = droneIMU;
-                        droneLogEntry.DroneMotor = droneMotor;
-                        droneLogEntry.DroneRC = droneRC;
-                        droneLogEntry.DroneGP = droneGPS;
-                        droneLogEntry.DroneOA = droneOA;
-
-                        db.DroneLogEntries.Add(droneLogEntry);
-
-
-                        //Set hasDroneLog to true
-                        droneFlight.hasDroneLog = true;
-
-                        System.Diagnostics.Debug.WriteLine("save");
+                        // Add all ORM-objects to lists to be added to the database
+                        db.DroneRTKDatas.Add(droneRTK);
+                        db.DroneIMU_ATTI.Add(droneIMU);
+                        db.DroneMotors.Add(droneMotor);
+                        db.DroneRCs.Add(droneRC);
+                        db.DroneGPS.Add(droneGPS);
+                        db.DroneOAs.Add(droneOA);
 
                         // Commit changes to the DB
                         db.SaveChanges();
-                        
-                        System.Diagnostics.Debug.WriteLine("end");
                     }
-                    catch(Exception ex) {
+                    catch (Exception ex) {
                         System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
                         System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
                     }
