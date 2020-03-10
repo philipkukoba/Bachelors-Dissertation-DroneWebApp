@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DroneWebApp.Models.Pilot>
+
+@{
+    ViewBag.Title = "Pilot Index";
+}
+
+<br />
+<h2>Pilot Index</h2>
+
+<h4>@Html.ActionLink("Create new Pilot", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+
+
+<table id="ptable" class="ui celled table table-hover" cellspacing="0" width="100%" style="text-align: center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Pilot")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZIP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayName("Total Flights")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PilotName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZIP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PilotId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PilotId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PilotId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

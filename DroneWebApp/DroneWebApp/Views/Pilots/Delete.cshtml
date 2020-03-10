@@ -1,0 +1,96 @@
+﻿@model DroneWebApp.Models.Pilot
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<br />
+<h2>Delete Pilot: @Model.PilotName</h2>
+
+<h3>Are you sure you want to delete this <strong>Pilot</strong>?</h3>
+@if (@ViewBag.ErrorPilotDelete != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorPilotDelete
+    </div>
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ZIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("License No")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LicenseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Emergency Phone")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmergencyPhone)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
