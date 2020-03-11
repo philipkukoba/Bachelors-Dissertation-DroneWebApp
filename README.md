@@ -3,8 +3,9 @@
 ## Opbouw van deze repository:
 
 Deze repository bevat volgende mappen:
+* De **DroneWebApp** map met de solution en het project;
+* De map **demo_docs** om snel aan documenten voor de demo te kunnen;
 * De map **documenten** bevat het _analyseverslag_, de _groepsbesprekingen_, _informatie van de klant_, het _tussentijds verslag_ en informatie over de _virtuele machine_;
-* De **DroneApp** map met de solution en het project;
 * De map met de **logboeken**;
 * Het SQL-script `DroneDB.sql` dat gebruikt wordt om de databank aan te maken.
 
