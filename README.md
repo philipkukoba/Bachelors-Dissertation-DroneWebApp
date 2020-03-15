@@ -19,6 +19,10 @@ Deze repository bevat volgende mappen:
  
 * Installeer Visual Studio 2019 op uw machine. Bij installatie kiest u om de volgende Workloads te installeren: _ASP.NET and web development_ en _Data storage and processing_. [Klik hier om Visual Studio te downloaden.](https://visualstudio.microsoft.com/downloads/)
 
+* Installeer Ivytools op uw machine. Op de download pagina is er een download link. Installeer Ivytools. Na de installatie moet u een proeflicentie activeren. Op de download pagina ziet u onderaan **"Click here to get your free personal license key"**. Klik daarop en kopieer de key. Open **"IvyTemplateEditor.exe"** op de plaats van installatie op uw machine. Navigeer via de bovenstaande balk naar **Help>About>Apply License Code**. Plak de gekopieerde key en druk op OK. Controleer of de licentie geactiveerd is en sluit IvyTemplateEditor af. 
+
+  [Klik hier om om naar de download pagina te gaan van Ivytools](http://www.ivytools.net/downloads.html)
+
 ## Maak de databank aan:
 1. Start SQL Server Management Studio op en verbind met uw machine. Het veld _Server name_ wordt automatisch ingevuld. Hou deze naam bij, want u heeft deze zometeen nodig. Klik op **Connect**.
 2. Klik op het **File** menu bovenaan links. Kies **Open>File**. Navigeer naar het script _DroneDB.sql_ en open dit.
