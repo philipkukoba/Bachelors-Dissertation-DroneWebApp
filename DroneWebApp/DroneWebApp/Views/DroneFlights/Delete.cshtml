@@ -14,6 +14,12 @@
         @ViewBag.ErrorDroneDelete
     </div>
 }
+@if (@Model.hasXYZ || @Model.hasCTRLs || @Model.hasGCPs || @Model.hasDepInfo || @Model.hasDestInfo || @Model.hasTFW || @Model.hasDroneLog || @Model.hasQR)
+{
+    <div class="alert alert-danger" role="alert">
+        This Flight currently has documents uploaded to it. Currently, you can not delete this Flight. Cascading delete will be implemented in the next version.
+    </div>
+}
 <div>
     <h4>Drone Flight @Model.FlightId</h4>
     <hr />

@@ -47,6 +47,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
+
             // Verify that the user selected a file
             var path = "";
             if (files != null && files.ContentLength > 0)

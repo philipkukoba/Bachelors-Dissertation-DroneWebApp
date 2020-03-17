@@ -1,0 +1,41 @@
+Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+11/02/20,08:15,12:30,Contacturen,Uitlegsessie BP,,
+13/02/20,13:30,17:45,Contacturen,Gesprek met de klant,,
+18/02/20,08:15,12:30,Contacturen,Data analyseren en sprint 1 beschrijven,,Overleg groep - technologieen en haalbaarheid
+19/02/20,10:15,10:45,Extern,Data analyseren,,
+20/02/20,13:30,17:45,Contacturen,Stagebeurs,,
+23/02/20,14:30,18:00,Extern,Nieuwe data analyseren en issues opstellen,6/11-13/16-21/27/29,Oude data is niet meer relevant
+23/02/20,19:30,23:00,Extern,Leren werken met SQLServer in Visual Studio,,
+24/02/20,11:30,13:00,Extern,Leren werken met SQLServer en Visual Studio,29 en 32,Bekijken van mogelijke oplossing met ORM
+24/02/20,13:30,19:40,Extern,Databank model opstellen en leren werken met Entity Framework,11,Ook takenverdeling en issue-aanmaken
+24/02/20,20:00,20:30,Extern,Databank model opstellen en leren werken met Entity Framework,11,Ook takenverdeling en issue-aanmaken
+24/02/20,21:40,22:00,Extern,Taken toevoegen en nalezen betekenis puntenwolk,,
+25/02/20,08:15,10:25,Contacturen,Communicatielessen,,
+25/02/20,10:45,12:35,Contacturen,Overleg databank model en verdere aanmaak van model,,
+25/02/20,14:15,17:45,Extern,Uitwerking Design van databank model + testen in Entity Framework,11/32/36/38/40,
+26/02/20,13:15,17:20,Extern,Uitwerking Design van databank model + testen in Entity Framework + takenverdeling tussentijds verslag,18/32/41-43,Samen met Nathan op Parsec en Teamspeak
+27/02/20,11:45,13:15,Extern,Opstellen van groepsbespreking + xyz Parser,,
+27/02/20,13:15,17:45,Contacturen,Simple Factory pattern + testen MVC naar View schrijven + Parserklassen implementeren,6/13/45/48,met Nathan
+27/02/20,19:20,23:30,Extern,Oplossen van fout in Database model + afwerken Parserklassen + onderzoeken hoe ik files kan inlezen vanuit View,6/11/13/21/32/47-49,Mail naar JDN verzonden met vragen en voorstel DB Model
+28/02/20,11:25,11:45,Extern,Scrumboard opschonen + toevoegen van nieuwe issues 51 + 53,,
+29/02/20,13:15,23:55,Extern,Implementatie van interface website,39/48/50/51/53/61-63/65,
+01/03/20,12:15,19:30,Extern,Implementatie van sorting + searching en paging op data tables,59/67/68,
+01/03/20,19:45,23:00,Extern,Debugging,11,
+01/03/20,19:55,23:20,Extern,Integratie pdfParser en toevoegen laatste onderdeel (Drone datafile) aan databank model,,
+03/03/20,08:10,12:35,Contacturen,Debugging + groepsondersteuning + virtuele server opzetten + updaten van databank model,,
+03/03/20,13:20,16:00,Extern,Tussentijds verslag schrijven + analysedocument opstellen en schrijven,19/30/35/58,
+04/03/20,13:20,14:35,Extern,Tussentijds verslag + debugging + herorganiseren van folders op git,,
+05/03/20,12:00,12:30,Extern,Issues toevoegen + omschrijven en toekennen,,
+05/03/20,12:45,17:55,Extern,Debugging + aanpassen db model + toevoegen nieuwe webpagina's,58/71/72/73/74/75,
+05/03/20,19:05,23:40,Extern,Debugging + toevoegen nieuwe webpagina's,58/60/71/72/73/74/75,
+07/03/20,09:55,12:20,Contacturen,Debugging + error handling,69/78, Opendeurdag
+07/03/20,14:00,19:10,Extern,Debugging + error handling,69/78/79/80,
+08/03/20,09:40,13:20,Extern,Analyseverslag schrijven,30,
+08/03/20,13:40,16:40,Extern,Analyseverslag schrijven + pdf-parser debuggen met Philip,30/80,
+08/03/20,16:55,17:30,Extern,Analyseverslag,30,
+08/03/20,18:00,19:15,Extern,Aanpassing db model voor pdfparserklasse en analyseverslag,30/80,
+08/03/20,21:00,21:25,Extern,debugging,,
+10/03/20,08:05,12:30,Contacturen,analyseverslag + deployment diagram + readme.md + debugging,30/83,Finalisatie van Sprint 1
+10/03/20,12:30,15:00,Contacturen,debugging,83,Finalisatie van Sprint 1
+10/03/20,16:20,23:00,Extern,debugging + opmaak UI + finalisatie + nalezen analyseverslag,30/85/86,Finalisatie van Sprint 1
+11/03/20,09:30,15:00,Extern,debugging + opmaak UI + finalisatie,61/83,Finalisatie van Sprint 1

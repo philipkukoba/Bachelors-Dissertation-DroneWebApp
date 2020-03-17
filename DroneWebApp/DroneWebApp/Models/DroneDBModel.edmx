@@ -253,7 +253,7 @@
           <Key>
             <PropertyRef Name="QualityReportId" />
           </Key>
-          <Property Name="QualityReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QualityReportId" Type="int" Nullable="false" />
           <Property Name="Processed" Type="datetime" />
           <Property Name="CameraModelName" Type="varchar" MaxLength="256" />
           <Property Name="AverageGSD" Type="float" />
@@ -329,6 +329,18 @@
           <Property Name="RSU_y" Type="float" />
           <Property Name="RSU_z" Type="float" />
         </EntityType>
+        <Association Name="FK_AbsoluteGeolocationVariance_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteGeolocationVariance">
+              <PropertyRef Name="AbsoluteGeolocationVarianceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CTRLPoints_DroneFlight">
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
           <End Role="CTRLPoints" Type="Self.CTRLPoints" Multiplicity="*" />
@@ -521,36 +533,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QualityReport_AbsoluteGeolocationVariance">
-          <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="1" />
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="AbsoluteGeolocationVariance">
-              <PropertyRef Name="AbsoluteGeolocationVarianceId" />
-            </Principal>
-            <Dependent Role="QualityReport">
-              <PropertyRef Name="QualityReportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_QualityReport_DroneFlight">
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
           <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
               <PropertyRef Name="FlightId" />
-            </Principal>
-            <Dependent Role="QualityReport">
-              <PropertyRef Name="QualityReportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QualityReport_Uncertainty">
-          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="1" />
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Uncertainty">
-              <PropertyRef Name="UncertaintyId" />
             </Principal>
             <Dependent Role="QualityReport">
               <PropertyRef Name="QualityReportId" />
@@ -581,6 +569,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Uncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="QualityReport">
+              <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="Uncertainty">
+              <PropertyRef Name="UncertaintyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DroneDBModelStoreContainer">
           <EntitySet Name="AbsoluteGeolocationVariance" EntityType="Self.AbsoluteGeolocationVariance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTRLPoints" EntityType="Self.CTRLPoints" Schema="dbo" store:Type="Tables" />
@@ -605,6 +605,10 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TFW" EntityType="Self.TFW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uncertainty" EntityType="Self.Uncertainty" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariance" />
+          </AssociationSet>
           <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="CTRLPoints" EntitySet="CTRLPoints" />
@@ -669,16 +673,8 @@
             <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="PointCloudXYZ" EntitySet="PointCloudXYZ" />
           </AssociationSet>
-          <AssociationSet Name="FK_QualityReport_AbsoluteGeolocationVariance" Association="Self.FK_QualityReport_AbsoluteGeolocationVariance">
-            <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariance" />
-            <End Role="QualityReport" EntitySet="QualityReport" />
-          </AssociationSet>
           <AssociationSet Name="FK_QualityReport_DroneFlight" Association="Self.FK_QualityReport_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlight" />
-            <End Role="QualityReport" EntitySet="QualityReport" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QualityReport_Uncertainty" Association="Self.FK_QualityReport_Uncertainty">
-            <End Role="Uncertainty" EntitySet="Uncertainty" />
             <End Role="QualityReport" EntitySet="QualityReport" />
           </AssociationSet>
           <AssociationSet Name="FK_RawImages_DroneFlight" Association="Self.FK_RawImages_DroneFlight">
@@ -688,6 +684,10 @@
           <AssociationSet Name="FK_TFW_DroneFlight" Association="Self.FK_TFW_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="TFW" EntitySet="TFW" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uncertainty_QualityReport" Association="Self.FK_Uncertainty_QualityReport">
+            <End Role="QualityReport" EntitySet="QualityReport" />
+            <End Role="Uncertainty" EntitySet="Uncertainty" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -709,7 +709,7 @@
           <Property Name="AGVRMS_x" Type="Double" />
           <Property Name="AGVRMS_y" Type="Double" />
           <Property Name="AGVRMS_z" Type="Double" />
-          <NavigationProperty Name="QualityReport" Relationship="Self.FK_QualityReport_AbsoluteGeolocationVariance" FromRole="AbsoluteGeolocationVariance" ToRole="QualityReport" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_AbsoluteGeolocationVariance_QualityReport" FromRole="AbsoluteGeolocationVariance" ToRole="QualityReport" />
         </EntityType>
         <EntityType Name="CTRLPoint">
           <Key>
@@ -978,7 +978,7 @@
           <Key>
             <PropertyRef Name="QualityReportId" />
           </Key>
-          <Property Name="QualityReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QualityReportId" Type="Int32" Nullable="false" />
           <Property Name="Processed" Type="DateTime" Precision="3" />
           <Property Name="CameraModelName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="AverageGSD" Type="Double" />
@@ -1005,10 +1005,10 @@
           <Property Name="GeneratedTiles" Type="Int32" />
           <Property Name="DensifiedPoints3D" Type="Int32" />
           <Property Name="AverageDensity" Type="Double" />
-          <NavigationProperty Name="AbsoluteGeolocationVariance" Relationship="Self.FK_QualityReport_AbsoluteGeolocationVariance" FromRole="QualityReport" ToRole="AbsoluteGeolocationVariance" />
+          <NavigationProperty Name="AbsoluteGeolocationVariance" Relationship="Self.FK_AbsoluteGeolocationVariance_QualityReport" FromRole="QualityReport" ToRole="AbsoluteGeolocationVariance" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="QualityReport" ToRole="DroneFlight" />
           <NavigationProperty Name="GCPError" Relationship="Self.FK_GCPError_QualityReport1" FromRole="QualityReport" ToRole="GCPError" />
-          <NavigationProperty Name="Uncertainty" Relationship="Self.FK_QualityReport_Uncertainty" FromRole="QualityReport" ToRole="Uncertainty" />
+          <NavigationProperty Name="Uncertainty" Relationship="Self.FK_Uncertainty_QualityReport" FromRole="QualityReport" ToRole="Uncertainty" />
         </EntityType>
         <EntityType Name="RawImage">
           <Key>
@@ -1059,17 +1059,17 @@
           <Property Name="RSU_x" Type="Double" />
           <Property Name="RSU_y" Type="Double" />
           <Property Name="RSU_z" Type="Double" />
-          <NavigationProperty Name="QualityReport" Relationship="Self.FK_QualityReport_Uncertainty" FromRole="Uncertainty" ToRole="QualityReport" />
+          <NavigationProperty Name="QualityReport" Relationship="Self.FK_Uncertainty_QualityReport" FromRole="Uncertainty" ToRole="QualityReport" />
         </EntityType>
-        <Association Name="FK_QualityReport_AbsoluteGeolocationVariance">
-          <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="1" />
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+        <Association Name="FK_AbsoluteGeolocationVariance_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="AbsoluteGeolocationVariance">
-              <PropertyRef Name="AbsoluteGeolocationVarianceId" />
-            </Principal>
-            <Dependent Role="QualityReport">
+            <Principal Role="QualityReport">
               <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="AbsoluteGeolocationVariance">
+              <PropertyRef Name="AbsoluteGeolocationVarianceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1301,15 +1301,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QualityReport_Uncertainty">
-          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="1" />
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
+        <Association Name="FK_Uncertainty_QualityReport">
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Uncertainty">
-              <PropertyRef Name="UncertaintyId" />
-            </Principal>
-            <Dependent Role="QualityReport">
+            <Principal Role="QualityReport">
               <PropertyRef Name="QualityReportId" />
+            </Principal>
+            <Dependent Role="Uncertainty">
+              <PropertyRef Name="UncertaintyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1337,9 +1337,9 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TFWs" EntityType="Self.TFW" />
           <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
-          <AssociationSet Name="FK_QualityReport_AbsoluteGeolocationVariance" Association="Self.FK_QualityReport_AbsoluteGeolocationVariance">
-            <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariances" />
+          <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
             <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariances" />
           </AssociationSet>
           <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlights" />
@@ -1417,9 +1417,9 @@
             <End Role="QualityReport" EntitySet="QualityReports" />
             <End Role="GCPError" EntitySet="GCPErrors" />
           </AssociationSet>
-          <AssociationSet Name="FK_QualityReport_Uncertainty" Association="Self.FK_QualityReport_Uncertainty">
-            <End Role="Uncertainty" EntitySet="Uncertainties" />
+          <AssociationSet Name="FK_Uncertainty_QualityReport" Association="Self.FK_Uncertainty_QualityReport">
             <End Role="QualityReport" EntitySet="QualityReports" />
+            <End Role="Uncertainty" EntitySet="Uncertainties" />
           </AssociationSet>
         </EntityContainer>
       </Schema>

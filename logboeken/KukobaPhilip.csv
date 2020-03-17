@@ -1,0 +1,25 @@
+Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+11/02/20,08:45,12:30,Contacturen,Uitlegsessie BP - Voorbereiden gesprek klant,,
+13/02/20,13:30,17:45,Contacturen,Gesprek met de klant - Backlog opstellen - Research TICK, ,
+18/02/20,08:15,12:30,Contacturen,Bekijken van data - opstelling plan Scrum1 en Bachelorproef, , 
+20/02/20,13:30,17:45,Contacturen,Hermes jobbeurs, , Presentatie gevolgd met masterstudenten (vergissing)
+23/02/20,16:45,18:15,Extern, Analyse nieuwe data en issues opstellen,, in Google Doc
+24/02/20,18:15,19:30,Extern, Begonnen met PDF parsen en SQLServer documentatie bekeken en besproken met groep,34 en 29,
+25/02/20,08:15,12:30,Contacturen, Presentatie Leen Pollefiet - bespreking in groep (over databank) en met prof - zelf werken aan PDF Parser,34,
+27/02/20,13:30,17:45,Contacturen, Werken aan PDF Parser met nieuwe library/tools,34,
+29/02/20,15:30,17:45,Extern, Tussentijds verslag schrijven,,
+29/02/20,20:45,23:00,Extern, Verderwerken PDFParser met IvyLibrary,34,
+01/03/20,00:15,00:45,Extern, Eurekamoment ivm parser - even doorgewerkt,34,
+01/03/20,17:00,17:40,Extern, PDFParser afgewerkt,34,
+01/03/20,20:35,22:20,Extern, Huidige website/databank begrijpen en PDFParser proberen integreren,34,Met Bryan (Teamspeak)
+03/03/20,08:15,12:35,Contacturen, PDFParser integreren databank aanpassen,34,
+05/03/20,13:30,17:45,Contacturen, File uploading implementeren,39,
+07/03/20,10:00,12:15,Contacturen, Analyseverslag - wiki in orde brengen - master branch opschonen,,
+08/03/20,13:30,15:00,Extern, Klassendiagram Simple Factory voor analyseverslag,30, Met Bryan (TeamSpeak)
+08/03/20,15:00,17:00,Extern, Debugging PDFParser,80, Met Bryan (TeamSpeak)
+08/03/20,17:30,20:00,Extern, Debugging PDFParser,80,
+08/03/20,20:00,21:20,Extern, Debugging file uploading - issues bijwerken,39,
+10/03/20,08:15,12:30,Contacturen, PDFParser code opschonen - File uploading afgewerkt (voor elke filetype) - afwerking, 80 - 39,
+10/03/20,20:30,21:00,Extern,PDFParser debugging,80,
+10/03/20,21:30,22:00,Extern, helpen met debugging db/pdfparser,,
+15/03/20,12:15,14:30,Extern,Readme update - PDFParser afwerken (werkt nu voor elke pdf),88,

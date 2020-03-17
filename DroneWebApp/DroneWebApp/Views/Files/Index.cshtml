@@ -8,7 +8,8 @@
 @if (@ViewBag.Success != null)
 {
     <div class="alert alert-success" role="alert">
-        @ViewBag.Success
+        @ViewBag.Success<br />
+        @Html.ActionLink("Back to Drone List", "Index", "DroneFlights")
     </div>
 }
 
@@ -19,10 +20,27 @@
     </div>
 }
 
-<h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong>, at <strong>@ViewBag.Location</strong> on <strong>@ViewBag.Date</strong> </h4>
+@if (@ViewBag.Success == null)
+{
+    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong>, at <strong>@ViewBag.Location</strong> on <strong>@ViewBag.Date</strong> </h4>
+}
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="files" id="file" value="Select a file."/><br />
-    <input type="submit" value="Upload" class="btn-info btn-sm"/>
-</form>
+
+@*<form method="post" enctype="multipart/form-data">
+        <input type="file" name="files" id="file" value="Select a file."/><br />
+        <input type="submit" value="Upload" class="btn-info btn-sm"/>
+    </form>*@
+
+
+<div class="card" style="padding: 20px; width:auto">
+    <form class="form-inline" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="InputFile">Bestand:</label>
+            <input type="file" class="form-control mx-sm-3" id="file" name="files">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Upload" class="btn btn-primary mx-sm-3">
+        </div>
+    </form>
+</div>
 
