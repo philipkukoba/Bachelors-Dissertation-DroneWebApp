@@ -163,6 +163,7 @@
     <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -350,6 +351,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -384,9 +386,12 @@
     <Content Include="Views\DroneFlights\CTRLPoints.cshtml" />
     <Content Include="Views\DroneFlights\GCPPoints.cshtml" />
     <Content Include="Views\DroneFlights\TFW.cshtml" />
+    <Content Include="Views\Shared\_MapLayout.cshtml" />
+    <Content Include="Views\Map\ViewMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

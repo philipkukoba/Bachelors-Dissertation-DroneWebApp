@@ -1,16 +1,30 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>@ViewBag.Title - Drone Planner</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 
-    <!-- Huisstijl van JDN?-->
+    @* jQuery *@
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
+    @* ArcGIS css & js api *@
+    <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.14/"></script>
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    @* Bootstrap css *@
     @Styles.Render("~/Content/css")
+
+    @* modernizr *@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -33,41 +47,16 @@
                     <li>@Html.ActionLink("Pilots", "Index", "Pilots")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    @*<li>@Html.ActionLink("Files[test env]", "Index", "Files\\Index")</li>*@
                 </ul>
             </div>
         </div>
     </div>
 
     <!--Content-->
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Jan De Nul, Drone Flights Application</p>
-        </footer>
-    </div>
-
-    @* jQuery *@
-    @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-
-    @* Datatables *@
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-
-
-    @* Moment *@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
-    @RenderSection("scripts", required: false)
-
-    @* Bootstrap *@
-    @Scripts.Render("~/bundles/bootstrap")
-
-
-    @* Custom *@
-    @Scripts.Render("~/bundles/custom")
-
+    @RenderBody()
 </body>
+
+@Scripts.Render("~/bundles/jquery")
+@RenderSection("scripts", required: false)
+
 </html>
