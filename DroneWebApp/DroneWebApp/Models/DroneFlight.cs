@@ -37,6 +37,11 @@ namespace DroneWebApp.Models
         public bool hasXYZ { get; set; }
         public bool hasDroneLog { get; set; }
         public Nullable<int> PilotId { get; set; }
+        public Nullable<System.TimeSpan> AirplaneTime { get; set; }
+        public string Other { get; set; }
+        public string Simulator { get; set; }
+        public string Instructor { get; set; }
+        public string Remarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTRLPoint> CTRLPoints { get; set; }

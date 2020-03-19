@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AbsoluteGeolocationVariance">
           <Key>
             <PropertyRef Name="AbsoluteGeolocationVarianceId" />
@@ -88,6 +88,11 @@
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
           <Property Name="PilotId" Type="int" />
+          <Property Name="AirplaneTime" Type="time" Precision="7" />
+          <Property Name="Other" Type="varchar" MaxLength="255" />
+          <Property Name="Simulator" Type="varchar" MaxLength="255" />
+          <Property Name="Instructor" Type="varchar" MaxLength="100" />
+          <Property Name="Remarks" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DroneGPS">
           <Key>
@@ -690,8 +695,7 @@
             <End Role="Uncertainty" EntitySet="Uncertainty" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -796,6 +800,11 @@
           <NavigationProperty Name="QualityReport" Relationship="Self.FK_QualityReport_DroneFlight" FromRole="DroneFlight" ToRole="QualityReport" />
           <NavigationProperty Name="RawImages" Relationship="Self.FK_RawImages_DroneFlight" FromRole="DroneFlight" ToRole="RawImages" />
           <NavigationProperty Name="TFW" Relationship="Self.FK_TFW_DroneFlight" FromRole="DroneFlight" ToRole="TFW" />
+          <Property Name="AirplaneTime" Type="Time" Precision="7" />
+          <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Simulator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Instructor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DroneGP">
           <Key>
@@ -1503,6 +1512,11 @@
           <EntitySetMapping Name="DroneFlights">
             <EntityTypeMapping TypeName="DroneDBModel.DroneFlight">
               <MappingFragment StoreEntitySet="DroneFlight">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="Simulator" ColumnName="Simulator" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="AirplaneTime" ColumnName="AirplaneTime" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="DroneId" ColumnName="DroneId" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
