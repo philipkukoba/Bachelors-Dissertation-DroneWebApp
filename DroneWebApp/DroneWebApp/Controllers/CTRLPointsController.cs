@@ -18,9 +18,11 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db = new DroneDBEntities();
 
-        // GET: api/CTRLPoints
+        // GET: api/CTRLPoints    
+        //[HttpGet]            //not sure if needed
         public IQueryable<CTRLPoint> GetCTRLPoints()
         {
+            System.Diagnostics.Debug.WriteLine("CALLED GETCTRLPOINTS");
             return db.CTRLPoints;
         }
 
