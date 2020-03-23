@@ -68,7 +68,7 @@
                     {
                         @Html.ActionLink("GCP", "GCPPoints", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
-                    @if (!item.hasGCPs)
+                    @if (!item.hasCTRLs)
                     {
                         @Html.ActionLink("CTRL", "CTRLPoints", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
