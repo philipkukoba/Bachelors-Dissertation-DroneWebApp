@@ -91,7 +91,7 @@
     //#region AJAX Testing
     $.ajax({
         type: "GET",
-        url: "/api/CTRLPoints/", // the URL of the controller action method
+        url: "/api/CTRLPoints/1/", // the URL of the controller action method
         data: null, // optional data
         success: function (result) {
             console.log(result);

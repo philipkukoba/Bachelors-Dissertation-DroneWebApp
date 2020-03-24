@@ -6,9 +6,12 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DroneWebApp.Models;
+using Newtonsoft.Json;
+
 
 // TEST
 
@@ -19,24 +22,38 @@ namespace DroneWebApp.Controllers
         private DroneDBEntities db = new DroneDBEntities();
 
         // GET: api/CTRLPoints    
-        //[HttpGet]            //not sure if needed
-        public IQueryable<CTRLPoint> GetCTRLPoints()
+        //  Hier kan je ook via tags [HttpGet] en [Route("find")] de http type en de route instellen (niet nodig)
+        public HttpResponseMessage GetCTRLPoints()
         {
-            System.Diagnostics.Debug.WriteLine("CALLED GETCTRLPOINTS");
-            return db.CTRLPoints;
+            //nodige data projection 
+            var ctrlPoints = db.CTRLPoints.Select(c => new { c.CTRLId, c.CTRLName, c.X, c.Y, c.Z, c.FlightId }).ToList();
+
+            //config to set to json 
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(ctrlPoints));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            return response;
         }
 
         // GET: api/CTRLPoints/5
-        [ResponseType(typeof(CTRLPoint))]
-        public IHttpActionResult GetCTRLPoint(int id)
+        //[ResponseType(typeof(CTRLPoint))]   //niet nodig? 
+        public HttpResponseMessage GetCTRLPointsByFlightID(int FlightID)    //lampje kwam op als je methode renamet (?) 
         {
-            CTRLPoint cTRLPoint = db.CTRLPoints.Find(id);
-            if (cTRLPoint == null)
+            var Flight = db.DroneFlights.Find(FlightID);   //bijhorende vlucht vinden 
+            if (Flight == null)
             {
-                return NotFound();
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
-            return Ok(cTRLPoint);
+            var ctrlPoints = Flight.CTRLPoints.Select(c => new { c.CTRLId, c.CTRLName, c.X, c.Y, c.Z, c.FlightId }).ToList();
+
+            //config to set to json 
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(ctrlPoints));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            return response;
         }
 
         // PUT: api/CTRLPoints/5
