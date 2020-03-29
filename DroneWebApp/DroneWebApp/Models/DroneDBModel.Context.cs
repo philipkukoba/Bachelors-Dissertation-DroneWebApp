@@ -43,6 +43,7 @@ namespace DroneWebApp.Models
         public virtual DbSet<GroundControlPoint> GroundControlPoints { get; set; }
         public virtual DbSet<Pilot> Pilots { get; set; }
         public virtual DbSet<PointCloudXYZ> PointCloudXYZs { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<QualityReport> QualityReports { get; set; }
         public virtual DbSet<RawImage> RawImages { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

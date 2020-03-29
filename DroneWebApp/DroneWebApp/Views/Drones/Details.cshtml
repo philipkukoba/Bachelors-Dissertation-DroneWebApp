@@ -5,7 +5,7 @@
 }
 
 <br />
-<h2>Drone Details</h2>
+<h2 style="text-align:center">Drone Details</h2>
 
 <div>
     <h4><strong>@Model.DroneName</strong></h4>
@@ -26,6 +26,15 @@
             </th>
             <td>
                 @Model.DroneFlights.Count
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Total Time Flown")
+            </th>
+            <td>
+                @Model.TotalFlightTime.ToString()
             </td>
         </tr>
 

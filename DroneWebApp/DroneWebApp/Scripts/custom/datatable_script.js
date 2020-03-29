@@ -17,8 +17,8 @@ $(document).ready(function () {
     $('#dtable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": 4,
-                "searchable": false, "targets": 4
+                "orderable": false, "targets": 5,
+                "searchable": false, "targets": 5
             }
         ]
     });

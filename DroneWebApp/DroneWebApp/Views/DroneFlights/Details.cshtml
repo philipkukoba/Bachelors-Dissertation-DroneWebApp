@@ -5,7 +5,7 @@
 }
 
 <br />
-<h2>Drone Flight Details</h2>
+<h2 style="text-align:center">Drone Flight Details</h2>
 
 <div>
     <h4>Drone Flight @Model.FlightId</h4>
@@ -33,10 +33,23 @@
 
         <tr>
             <th>
+                @Html.DisplayName("Type of Activity")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.TypeOfActivity)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayNameFor(model => model.Drone)
             </th>
             <td>
-                @Html.DisplayFor(model => model.Drone.DroneType):
+                @Html.DisplayFor(model => model.Drone.DroneType)
+                @if (Model.Drone != null)
+                {
+                    @Html.DisplayName(":")
+                }
                 @Html.DisplayFor(model => model.Drone.Registration)
             </td>
         </tr>

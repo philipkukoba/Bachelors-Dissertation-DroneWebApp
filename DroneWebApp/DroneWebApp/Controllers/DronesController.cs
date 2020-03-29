@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DroneWebApp.Models;
+using DroneWebApp.Models.Helper;
 
 namespace DroneWebApp.Controllers
 {
@@ -17,6 +19,7 @@ namespace DroneWebApp.Controllers
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
+            Helper.UpdateTotalDroneFlightTime(this.db);
         }
 
         // GET: Drones
@@ -41,6 +44,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
+            // Calculate total flight time drone
             return View(drone);
         }
 

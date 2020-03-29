@@ -20,7 +20,7 @@ namespace DroneWebApp.Controllers
     public class CTRLPointsController : ApiController
     {
         private DroneDBEntities db = new DroneDBEntities();
-
+        /*
         // GET: api/CTRLPoints    
         //  Hier kan je ook via tags [HttpGet] en [Route("find")] de http type en de route instellen (niet nodig)
         public HttpResponseMessage GetCTRLPoints()
@@ -35,12 +35,12 @@ namespace DroneWebApp.Controllers
 
             return response;
         }
-
+        */
         // GET: api/CTRLPoints/5
         //[ResponseType(typeof(CTRLPoint))]   //niet nodig? 
-        public HttpResponseMessage GetCTRLPointsByFlightID(int FlightID)    //lampje kwam op als je methode renamet (?) 
+        public HttpResponseMessage GetCTRLPointsByFlightID(int id)    //lampje kwam op als je methode renamet (?) 
         {
-            var Flight = db.DroneFlights.Find(FlightID);   //bijhorende vlucht vinden 
+            var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 
             if (Flight == null)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);

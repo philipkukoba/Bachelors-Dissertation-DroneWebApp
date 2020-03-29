@@ -242,10 +242,14 @@
     <Compile Include="Models\GroundControlPoint.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Helper\Helper.cs" />
     <Compile Include="Models\Pilot.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PointCloudXYZ.cs">
+      <DependentUpon>DroneDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Project.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QualityReport.cs">

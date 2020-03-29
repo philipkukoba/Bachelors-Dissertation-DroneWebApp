@@ -19,6 +19,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DroneRC droneRC;
             DroneGP droneGPS;
             DroneOA droneOA;
+            int startTime = 0;
+            int finalTime = 0;
+            bool readStartTime = false;
 
             Dictionary<string, int> dict = null;
             
@@ -397,6 +400,16 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelE = Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : 0.0;
                         droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
 
+                        // Keep track of start time and final time to calculate total flight time
+                        if (!readStartTime) {
+                            startTime = (int) droneGPS.Time;
+                            readStartTime = true;
+                        }
+                        if(droneGPS.Time > finalTime)
+                        {
+                            finalTime = (int) droneGPS.Time;
+                        }
+
                         // **DroneOA**
                         droneOA.AirportLimit = fields[dict["OA:airportLimit"]];
                         droneOA.AvoidObst = fields[dict["OA:avoidObst"]];
@@ -429,6 +442,22 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                 }
             }
+            System.Diagnostics.Debug.WriteLine("Start: " + startTime + " " + "End: " + finalTime);
+            try
+            {
+                droneFlight.StartTime = startTime.ToString();
+                droneFlight.StopTime = finalTime.ToString();
+                // Commit changes to the DB
+                db.SaveChanges();
+                // Update the Drone's total flight time
+                Helper.Helper.UpdateTotalDroneFlightTime(db);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
+            }
+            
         }
     }
 }
