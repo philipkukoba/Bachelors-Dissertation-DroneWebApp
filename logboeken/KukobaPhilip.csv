@@ -32,3 +32,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 22/03/20,20:30,22:00,Extern, Documentatie webapicontroller&ajax - uiteindelijk ajax call naar web api aan de praat gekregen,17,
 24/03/20,08:15,12:30,Contacturen, Presentatie sprint1 voor de klant - verderwerken webapicontroller (CTRLPointsController), 118 - 119,
 26/03/20,13:30,17:45,Contacturen, Alle nodige ApiControllers schrijven, 118 - 119,
+29/03/20,15:30,17:30,Extern, Alle controllers afgewerkt,118,
+29/03/20,17:30,18:30,Extern, Visualisatie van XYZ pointclouds,17,
+29/03/20,19:00,20:00,Extern, Visualisatie van XYZ pointclouds afgewerkt,17,
