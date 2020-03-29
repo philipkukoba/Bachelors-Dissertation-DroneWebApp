@@ -1,8 +1,11 @@
 ﻿require([
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/FeatureLayer"
-], function (Map, MapView, FeatureLayer) {
+    "esri/layers/FeatureLayer",
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer",
+    "esri/geometry/SpatialReference"
+], function (Map, MapView, FeatureLayer, Graphic, GraphicsLayer, SpatialReference) {
 
     // Create the map
     var map = new Map({
@@ -13,8 +16,8 @@
     var view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [3.2, 51.2],
-        zoom: 11
+        center: [3.30120924, 50.85590007],
+        zoom: 20
     });
 
     // #region Example labels: trails near LA
@@ -88,21 +91,68 @@
 
     // #endregion
 
-    //#region AJAX Testing
+    //Add Graphics Layer
+    var graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
+    //#region AJAX Testing AND XYZ VISUALISATION
+    //var belgianLambertWKT = PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["D_Belge_1972",SPHEROID["International_1924",6378388,297]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],UNIT["Meter",1]];
+
+    var sr = { // autocasts to esri/geometry/SpatialReference
+        //imageCoordinateSystem: { id: imageId }
+        wkid: 31370
+    };
+
     $.ajax({
         type: "GET",
-        url: "/api/CTRLPoints/1/", // the URL of the controller action method
+        url: "/api/PointCloudXYZs/1", // the URL of the controller action method
         data: null, // optional data
         success: function (result) {
-            console.log(result);
+            console.log("AJAX: SUCCESS");
+            for (let i = 0; i < 999; i++) {
+                console.log(result[i]);
+                var point = {
+                    type: "point",
+                    x: result[i].X,
+                    y: result[i].Y,
+                    z: result[i].Z,
+                    //!!! spatial reference instellen 
+                    spatialReference: sr
+                };
+                console.log(point);
+
+                var simpleMarkerSymbol = {
+                    type: "simple-marker",
+                    color: [result[i].Red, result[i].Green, result[i].Blue],
+                    size: "7px",
+                    outline: {
+                        color: [255, 255, 255], // white
+                        width: 1
+                    }
+                };
+                console.log(simpleMarkerSymbol);
+
+                var pointGraphic = new Graphic({
+                    geometry: point,
+                    symbol: simpleMarkerSymbol
+                });
+                console.log(pointGraphic);
+
+                graphicsLayer.add(pointGraphic);
+            }
         },
         error: function (req, status, error) {
+            console.log("AJAX: FAIL");
             console.log(req);
             console.log(status);
             console.log(error);
         }
     });
     //#endregion 
+
+    //#region XYZ Visualisation testing 
+
+    //#endregion
 });
 
 
