@@ -29,6 +29,7 @@
             </th>
             <th>Files</th>
             <th></th>
+            <th></th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -121,6 +122,9 @@
                 </td>
                 <td>
                     @Html.ActionLink("Upload File", "Index", "Files", new { id = item.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+                </td>
+                <td>
+                    @Html.ActionLink("View Droneflight", "Map", new { id = item.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
