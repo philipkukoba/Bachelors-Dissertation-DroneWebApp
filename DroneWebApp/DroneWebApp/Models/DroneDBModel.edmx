@@ -308,6 +308,16 @@
           <Property Name="Image" Type="image" />
           <Property Name="FlightId" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TFW">
           <Key>
             <PropertyRef Name="TFWId" />
@@ -662,6 +672,7 @@
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QualityReport" EntityType="Self.QualityReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RawImages" EntityType="Self.RawImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TFW" EntityType="Self.TFW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uncertainty" EntityType="Self.Uncertainty" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
@@ -1103,6 +1114,16 @@
           <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TFW">
           <Key>
             <PropertyRef Name="TFWId" />
@@ -1459,6 +1480,7 @@
           <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="QualityReports" EntityType="Self.QualityReport" />
           <EntitySet Name="RawImages" EntityType="Self.RawImage" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TFWs" EntityType="Self.TFW" />
           <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
           <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
@@ -1877,6 +1899,17 @@
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
