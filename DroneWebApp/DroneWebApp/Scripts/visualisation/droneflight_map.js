@@ -4,8 +4,10 @@
     "esri/layers/FeatureLayer",
     "esri/Graphic",
     "esri/layers/GraphicsLayer",
-    "esri/geometry/SpatialReference"
-], function (Map, MapView, FeatureLayer, Graphic, GraphicsLayer, SpatialReference) {
+    "esri/geometry/SpatialReference",
+    "esri/widgets/LayerList",
+    "esri/PopupTemplate"
+], function (Map, MapView, FeatureLayer, Graphic, GraphicsLayer, SpatialReference, LayerList, PopupTemplate) {
 
     // Create the map
     var map = new Map({
@@ -19,6 +21,16 @@
         center: [3.30120924, 50.85590007],
         zoom: 20
     });
+
+    //#region LAYERLIST TESTING
+    var layerList = new LayerList({
+        view: view
+    });
+
+    // Adds widget below other elements in the top right corner of the view
+    view.ui.add(layerList, "top-right");
+
+    //#endregion 
 
     // #region Coordinate Widget
     // Create a coordinate widget
@@ -48,51 +60,164 @@
 
     // #endregion
 
-    //Add Graphics Layer
-    var graphicsLayer = new GraphicsLayer();
-    map.add(graphicsLayer);
-
-    //#region GCP VISUALISATION
-    //var belgianLambertWKT = PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["D_Belge_1972",SPHEROID["International_1924",6378388,297]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],UNIT["Meter",1]];
-
-    var sr = { // autocasts to esri/geometry/SpatialReference
-        //imageCoordinateSystem: { id: imageId }
-        wkid: 31370
-    };
-
+    //ID van de droneflight, nodig voor visualisation 
     var id = $("#viewDiv").data("id");
     console.log(id);
 
-    var urlGCP = "/api/GCP/" + id;
-    console.log(urlGCP);
+    //#region XYZ VISUALISATION
+    //var belgianLambertWKT = PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["D_Belge_1972",SPHEROID["International_1924",6378388,297]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],UNIT["Meter",1]];
 
-        function displayGCP(gcp) {
-            var point = {
-                type: "point",
-                x: gcp.X,
-                y: gcp.Y,
-                z: gcp.Z,
-                spatialReference: sr
-            };
+    //popup for XYZ
+    //werkt niet 
+    var popupXYZ = new PopupTemplate({
+        "title": "XYZ Information",
+        "content": "SAMPLE CONTENT"
+    });
 
-            var simpleMarkerSymbol = {
-                type: "simple-marker",
-                color: "red",
-                size: "7px",
-                outline: {
-                    color: [255, 255, 255], // white
-                    width: 1
-                }
-            };
+    //add graphics layer 
+    var XYZGraphicsLayer = new GraphicsLayer({
+        title: "XYZ",
+        //outFields: ["PointcloudXYZId", "X", "Y", "Z"],
+        popupTemplate: popupXYZ
+    });
+    map.add(XYZGraphicsLayer);
 
-            var pointGraphic = new Graphic({
-                geometry: point,
-                symbol: simpleMarkerSymbol
-            });
+    var sr = {
+        wkid: 31370
+    };
 
-            graphicsLayer.add(pointGraphic);
+    let displayXYZ = (ajaxresult) => {
+        var point = {
+            type: "point",
+            x: ajaxresult.X,
+            y: ajaxresult.Y,
+            z: ajaxresult.Z,
+            //!!! spatial reference instellen 
+            spatialReference: sr
+        };
+
+        var simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: [ajaxresult.Red, ajaxresult.Green, ajaxresult.Blue],
+            size: "7px",
+            outline: {
+                color: [255, 255, 255], // white
+                width: 1
+            }
+        };
+
+        var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol
+        });
+
+        XYZGraphicsLayer.add(pointGraphic);
+    }
+
+    $.ajax({
+        type: "GET",
+        url: "/WebAPI/api/PointCloudXYZs/" + id, // the URL of the controller action method
+        //data: null, // optional data
+        success: function (result) {
+            console.log("AJAX: SUCCESS");
+            for (let i = 0; i < 2000; i++) {
+                displayXYZ(result[i]);
+            }
+        },
+        error: function (req, status, error) {
+            console.log("AJAX: FAIL");
+            console.log(req + status + error);
         }
+    });
+    //#endregion 
 
+    //#region CTRLPoints VISUALISATION 
+    var CTRLPointsLayer = new GraphicsLayer({
+        title: "CTRL"
+    });
+    map.add(CTRLPointsLayer);
+
+    let displayCTRL = (ajaxresult) => {
+        var point = {
+            type: "point",
+            x: ajaxresult.X,
+            y: ajaxresult.Y,
+            z: ajaxresult.Z,
+            //!!! spatial reference instellen 
+            spatialReference: sr
+        };
+
+        var simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: [255, 255, 255], //white 
+            size: "12px",
+            outline: {
+                color: [0, 0, 0], // black
+                width: 1
+            }
+        };
+
+        var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol
+        });
+
+        CTRLPointsLayer.add(pointGraphic);
+    }
+
+    $.ajax({
+        type: "GET",
+        url: "/WebAPI/api/CTRLPoints/" + id, // the URL of the controller action method
+        //data: null, // optional data
+        success: function (result) {
+            console.log("AJAX: SUCCESS");
+            var count = Object.keys(result).length;
+            for (let i = 0; i < count; i++) {
+                displayCTRL(result[i]);
+            }
+        },
+        error: function (req, status, error) {
+            console.log("AJAX: FAIL");
+            console.log(req + status + error);
+        }
+    });
+    //#endregion
+
+    //#region GCP VISUALISATION
+    var urlGCP = "/WebAPI/api/GCP/" + id;
+
+    //add graphics layer 
+    var GCPGraphicsLayer = new GraphicsLayer({
+        title: "GCP",
+    });
+    map.add(GCPGraphicsLayer);
+
+    function displayGCP(gcp) {
+        var point = {
+            type: "point",
+            x: gcp.X,
+            y: gcp.Y,
+            z: gcp.Z,
+            spatialReference: sr
+        };
+
+        var simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: "red",
+            size: "7px",
+            outline: {
+                color: [255, 255, 255], // white
+                width: 1
+            }
+        };
+
+        var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol
+        });
+
+        GCPGraphicsLayer.add(pointGraphic);
+    }
     $.ajax({
         type: "GET",
         url: urlGCP, // the URL of the controller action method
@@ -108,10 +233,6 @@
             console.log(error);
         }
     });
-    //#endregion 
-
-    //#region XYZ Visualisation testing 
-
     //#endregion
 });
 

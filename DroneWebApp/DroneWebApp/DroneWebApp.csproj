@@ -169,16 +169,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\CTRLPointsController.cs" />
-    <Compile Include="Controllers\DroneFlightsAPIController.cs" />
+    <Compile Include="Controllers\WebAPI\CTRLPointsController.cs" />
+    <Compile Include="Controllers\WebAPI\DroneFlightsAPIController.cs" />
     <Compile Include="Controllers\DroneFlightsController.cs" />
     <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
-    <Compile Include="Controllers\GCPController.cs" />
+    <Compile Include="Controllers\WebAPI\GCPController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
-    <Compile Include="Controllers\PointCloudXYZsController.cs" />
+    <Compile Include="Controllers\WebAPI\PointCloudXYZsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -276,9 +276,6 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>

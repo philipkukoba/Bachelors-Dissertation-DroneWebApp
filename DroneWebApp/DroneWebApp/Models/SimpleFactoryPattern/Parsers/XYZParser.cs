@@ -27,7 +27,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.SetDelimiters(" ");
 
                 int i = 0;
-                int limit = 1000;
+                int limit = 2000;
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -78,13 +78,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
-     
+
                         System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
                         i++;
-                        if (i == limit) break; 
+                        if (i == limit) break;
 
                     }
-                    catch(Exception ex) { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
 
                 // Commit changes to the DB

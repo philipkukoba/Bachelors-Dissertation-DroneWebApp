@@ -11,7 +11,8 @@ namespace DroneWebApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DroneFlight
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,10 +26,13 @@ namespace DroneWebApp.Models
         }
     
         public int FlightId { get; set; }
+        [Required(ErrorMessage = "Drone is required")]
         public int DroneId { get; set; }
         public Nullable<int> ProjectId { get; set; }
-        public Nullable<int> PilotId { get; set; }
+        [Required(ErrorMessage = "Pilot is required")]
+        public int PilotId { get; set; }
         public string Location { get; set; }
+        [Required(ErrorMessage = "Date is required")]
         public System.DateTime Date { get; set; }
         public bool hasTFW { get; set; }
         public bool hasGCPs { get; set; }
