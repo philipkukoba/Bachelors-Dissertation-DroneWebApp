@@ -47,4 +47,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 26/03/20,13:30,17:45,Contacturen,WebAPI controllers,,
 29/03/20,15:30,20:00,Extern,Update database + GUI + cascading delete + flight hours drone,82/103/107/108/113/120/121,
 31/03/20,08:00,12:30,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,120/124,
-31/03/20,12:30,13:30,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,120/124, 
+31/03/20,12:30,13:45,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,81/120/124, 
