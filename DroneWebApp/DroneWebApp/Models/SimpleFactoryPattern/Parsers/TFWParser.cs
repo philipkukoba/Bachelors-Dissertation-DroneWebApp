@@ -48,7 +48,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     //Save changes to the database
                     db.SaveChanges();
                 }
-                catch(Exception ex) { }
+                catch(Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
             }
         }
     }
