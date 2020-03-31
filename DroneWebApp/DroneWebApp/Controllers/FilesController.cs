@@ -14,12 +14,14 @@ namespace DroneWebApp.Controllers
     public class FilesController : Controller
     {
         private Creator creator;
-        private List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
+        private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
 
         public FilesController(DbContext db)
         {
             this.Db = (DroneDBEntities)db;
             creator = new Creator(Db);
+            ViewBag.Status = true;
+            ViewBag.showInitialMessage = true;
         }
         public DroneDBEntities Db { get; set; }
 
@@ -42,9 +44,16 @@ namespace DroneWebApp.Controllers
         [HttpPost]
         public ActionResult Index(int? id, HttpPostedFileBase files)
         {
+            // Check if an id was submitted & whether a drone flight with this id exists
+            DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            else if (droneFlight == null)
+            {
+                ViewBag.ErrorMessage = "This Drone Flight does not exist.";
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
 
@@ -59,22 +68,28 @@ namespace DroneWebApp.Controllers
                 files.SaveAs(path);              
             }
 
-            string filename = files.FileName;
-            string fileExtension = filename.Substring(filename.Length - 4);
+            string file_name = files.FileName;
+            string fileExtension = file_name.Substring(file_name.Length - 4);
 
+            // Verify that the user's file is an appropriate filetype
             if (!validExtensions.Contains(fileExtension))
             {
                 ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
             }
-
-            creator.GetParser(fileExtension, path, (int)id);
-
-            if (filename.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+            else
             {
-                creator.GetParser(".dat", path, (int)id);
+                // Parsing
+                ViewBag.Status = creator.GetParser(fileExtension, path, (int)id);
+
+                if (file_name.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                {
+                    ViewBag.Status = creator.GetParser(".dat", path, (int)id);
+                }
+                ViewBag.FileName = file_name;
             }
-            ViewBag.Success = "File has been successfully added to your Flight.";
+            ViewBag.showInitialMessage = false;
             return View();
         }
+
     }
 }

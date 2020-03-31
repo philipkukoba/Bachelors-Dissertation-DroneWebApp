@@ -9,7 +9,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class DATParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             DroneLogEntry droneLogEntry;
@@ -457,7 +457,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
             }
-            
+            return true;
         }
     }
 }

@@ -413,6 +413,7 @@
     <Content Include="Views\DroneFlights\TFW.cshtml" />
     <Content Include="Views\Shared\_MapLayout.cshtml" />
     <Content Include="Views\Map\ViewMap.cshtml" />
+    <Content Include="Views\Pilots\DroneFlights.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

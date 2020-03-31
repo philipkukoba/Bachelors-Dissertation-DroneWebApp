@@ -11,7 +11,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class PDFParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             PdfParser pdfParser;
@@ -362,6 +362,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //for all other exceptions
                 System.Diagnostics.Debug.WriteLine("Exception caught in PDFParser: " + ex);
             }
+            return true;
         }
     }
 }

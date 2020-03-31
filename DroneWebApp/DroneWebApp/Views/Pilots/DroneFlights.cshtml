@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
 
 @{
-    ViewBag.Title = "Drone Flight Index";
+    ViewBag.Title = "Drone Flights for " + @ViewBag.Pilot;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <br />
-<h2 style="text-align:center">Drone Flight Index</h2>
+<h2 style="text-align: center">@ViewBag.Pilot's Flights</h2>
 
-<h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
-
-<table id="dftable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
+<table id="pdftable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
     <thead>
         <tr>
             <th>
@@ -24,13 +22,8 @@
             <th>
                 @Html.DisplayName("Drone")
             </th>
-            <th>
-                @Html.DisplayName("Pilot")
-            </th>
             <th>Files</th>
-            <th></th>
             <th>ArcGIS</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -50,40 +43,37 @@
                     @Html.DisplayFor(modelItem => item.Drone.DroneName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Pilot.PilotName)
-                </td>
-                <td>
                     @if (!item.hasQR)
                     {
-                        @Html.ActionLink("QR", "QualityReport", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("QR", "QualityReport", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasGCPs)
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasCTRLs)
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasTFW)
                     {
-                        @Html.ActionLink("TFW", "TFW", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("TFW", "TFW", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     <br />
                     <p></p>
@@ -121,17 +111,12 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("Upload File", "Index", "Files", new { id = item.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })
-                </td>
-                <td>
-                    @Html.ActionLink("View Flight", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.FlightId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.FlightId })
+                    @Html.ActionLink("View Flight", "Map", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<p>
+    @Html.ActionLink("Back to Pilot Details", "Details", new { id = @ViewBag.PilotId })
+</p>

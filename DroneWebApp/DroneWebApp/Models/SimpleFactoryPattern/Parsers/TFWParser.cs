@@ -9,7 +9,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class TFWParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             //Get the appropriate DroneFlight that goes with this data
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
@@ -50,6 +50,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 }
                 catch(Exception ex) { }
             }
+            return true;
         }
     }
 }

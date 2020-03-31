@@ -6,8 +6,9 @@
 
 <br />
 <h2>Control Points</h2>
+<h4>Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy"))</h4>
 
-<h4>Control Points for Flight @ViewBag.droneFlight.FlightId, in @ViewBag.droneFlight.Location on @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy")</h4>
+<p>@Html.ActionLink("Upload File", "Index", "Files", new { id = ViewBag.DroneFlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })</p>
 
 <div>
     <table id="ctrlptable" class="ui celled table table-hover" cellspacing="0" width="100%">
@@ -51,5 +52,5 @@
 
 <p>
     @Html.ActionLink("Back to Flight Details", "Details", new { id = ViewBag.DroneFlightId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Drone Flights List", "Index")
 </p>

@@ -8,6 +8,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public interface IParser
     {
-        void Parse(string path, int flightId, DroneDBEntities db);
+        bool Parse(string path, int flightId, DroneDBEntities db);
     }
 }

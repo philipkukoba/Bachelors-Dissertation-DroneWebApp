@@ -10,7 +10,7 @@
 <div>
     <h4><strong>@Model.DroneName</strong></h4>
     <hr />
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
                 @Html.DisplayName("Name")
@@ -25,7 +25,7 @@
                 @Html.DisplayName("Total Flights")
             </th>
             <td>
-                @Model.DroneFlights.Count
+                @Model.DroneFlights.Count 
             </td>
         </tr>
 
@@ -58,6 +58,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.DroneId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit Drone", "Edit", new { id = Model.DroneId }) |
+    @Html.ActionLink("Back to Drones List", "Index")
 </p>

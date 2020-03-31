@@ -5,11 +5,18 @@
 <p></p>
 <h2>File Upload</h2>
 
-@if (@ViewBag.Success != null)
+@if (@ViewBag.FileName != null && @ViewBag.Status)
 {
     <div class="alert alert-success" role="alert">
-        @ViewBag.Success<br />
-        @Html.ActionLink("Back to Drone List", "Index", "DroneFlights")
+        File <strong>@ViewBag.FileName</strong> has been successfully added to your Flight.<br />
+        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+    </div>
+}
+else if(!@ViewBag.Status)
+{
+    <div class="alert alert-danger" role="alert">
+        File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
+        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
     </div>
 }
 
@@ -20,22 +27,15 @@
     </div>
 }
 
-@if (@ViewBag.Success == null)
+@if (@ViewBag.showInitialMessage)
 {
-    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong>, at <strong>@ViewBag.Location</strong> on <strong>@ViewBag.Date</strong> </h4>
+    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
 }
-
-
-@*<form method="post" enctype="multipart/form-data">
-        <input type="file" name="files" id="file" value="Select a file."/><br />
-        <input type="submit" value="Upload" class="btn-info btn-sm"/>
-    </form>*@
-
 
 <div class="card" style="padding: 20px; width:auto">
     <form class="form-inline" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="InputFile">Bestand:</label>
+            <label for="InputFile">File:</label>
             <input type="file" class="form-control mx-sm-3" id="file" name="files">
         </div>
         <div class="form-group">
@@ -45,6 +45,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Back to Drone Flights List", "Index","DroneFlights")
+    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
 </p>
 
