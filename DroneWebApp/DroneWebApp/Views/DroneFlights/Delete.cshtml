@@ -29,7 +29,7 @@ else
 <div>
     <h4>Drone Flight @Model.FlightId</h4>
     <hr />
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Location)
@@ -51,6 +51,44 @@ else
 
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Drone)
+            </th>
+            <td>
+                @Html.ActionLink(@Model.Drone.DroneName, "Details", "Drones", new { id = @Model.DroneId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Pilot")
+            </th>
+            <td>
+                @Html.ActionLink(@Model.Pilot.PilotName, "Details", "Pilots", new { id = @Model.PilotId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Starting time (UTC)")
+            </th>
+
+            <td>
+                @Model.DepartureInfo.UTCTime.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Ending time (UTC)")
+            </th>
+
+            <td>
+                @Model.DestinationInfo.UTCTime.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayName("Type of Activity")
             </th>
             <td>
@@ -60,30 +98,16 @@ else
 
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Drone)
+                @Html.DisplayName("Remarks")
             </th>
             <td>
-                @Html.DisplayFor(model => model.Drone.DroneType)
-                @if (Model.Drone != null)
-                {
-                    @Html.DisplayName(":")
-                }
-                @Html.DisplayFor(model => model.Drone.Registration)
+                @Html.DisplayFor(model => model.Remarks)
             </td>
         </tr>
 
         <tr>
             <th>
-                @Html.DisplayName("Pilot")
-            </th>
-            <td>
-                @Html.DisplayFor(model => model.Pilot.PilotName)
-            </td>
-        </tr>
-
-        <tr>
-            <th>
-                QR
+                Quality Report
             </th>
             <td>
                 @if (!@Model.hasQR)
@@ -99,7 +123,7 @@ else
 
         <tr>
             <th>
-                GCPs
+                Ground Control Points
             </th>
             <td>
                 @if (!@Model.hasGCPs)
@@ -115,7 +139,7 @@ else
 
         <tr>
             <th>
-                CTRL
+                Control Points
             </th>
             <td>
                 @if (!@Model.hasCTRLs)
@@ -171,7 +195,7 @@ else
 
         <tr>
             <th>
-                Drone Log for Flight
+                Drone Log
             </th>
             <td>
                 @if (@Model.DroneLogEntries.Count == 0)
@@ -200,7 +224,7 @@ else
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to Drone Flights List", "Index")
         </div>
     }
 </div>

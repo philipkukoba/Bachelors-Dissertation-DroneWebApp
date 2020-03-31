@@ -33,7 +33,7 @@ namespace DroneWebApp.Controllers
             if (Flight == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             //data projection
-            var flightProjected = (new { Flight.FlightId, Flight.DroneId, Flight.Location, Flight.Date, Flight.hasTFW, Flight.hasGCPs, Flight.hasCTRLs, Flight.hasDepInfo, Flight.hasDestInfo, Flight.hasQR, Flight.hasXYZ, Flight.hasDroneLog, Flight.PilotId, Flight.StartTime, Flight.StopTime, Flight.TypeOfActivity, Flight.Other, Flight.Simulator, Flight.Instructor, Flight.Remarks });
+            var flightProjected = (new { Flight.FlightId, Flight.DroneId, Flight.Location, Flight.Date, Flight.hasTFW, Flight.hasGCPs, Flight.hasCTRLs, Flight.hasDepInfo, Flight.hasDestInfo, Flight.hasQR, Flight.hasXYZ, Flight.hasDroneLog, Flight.PilotId, Flight.TypeOfActivity, Flight.Other, Flight.Simulator, Flight.Instructor, Flight.Remarks });
 
             //config to set to json 
             var response = new HttpResponseMessage(HttpStatusCode.OK);

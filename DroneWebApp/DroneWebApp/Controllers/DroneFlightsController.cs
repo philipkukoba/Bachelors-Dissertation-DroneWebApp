@@ -143,7 +143,7 @@ namespace DroneWebApp.Controllers
                 db.DroneFlights.Remove(droneFlight);
                 db.SaveChanges();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ViewBag.ErrorDroneFlightDelete = "Cannot delete this Drone Flight.";
                 return View(droneFlight);

@@ -140,7 +140,7 @@ namespace DroneWebApp.Controllers
                 db.Pilots.Remove(pilot);
                 db.SaveChanges();
             }
-            catch(Exception ex) {
+            catch(Exception) {
                 ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
                 return View(pilot);
             }

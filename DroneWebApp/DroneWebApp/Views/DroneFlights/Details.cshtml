@@ -52,6 +52,26 @@
 
         <tr>
             <th>
+                @Html.DisplayName("Starting time (UTC)")
+            </th>
+
+            <td>
+                @Model.DepartureInfo.UTCTime.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Ending time (UTC)")
+            </th>
+
+            <td>
+                @Model.DestinationInfo.UTCTime.ToString()
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayName("Type of Activity")
             </th>
             <td>

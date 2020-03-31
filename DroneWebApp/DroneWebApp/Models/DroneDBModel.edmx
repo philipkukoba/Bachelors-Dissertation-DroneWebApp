@@ -91,8 +91,6 @@
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
           <Property Name="TypeOfActivity" Type="varchar" MaxLength="500" />
-          <Property Name="StartTime" Type="varchar" MaxLength="50" />
-          <Property Name="StopTime" Type="varchar" MaxLength="50" />
           <Property Name="Other" Type="varchar" MaxLength="255" />
           <Property Name="Simulator" Type="varchar" MaxLength="255" />
           <Property Name="Instructor" Type="varchar" MaxLength="100" />
@@ -850,8 +848,6 @@
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
           <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
           <Property Name="TypeOfActivity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="StartTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StopTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Simulator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Instructor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -1647,8 +1643,6 @@
                 <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
                 <ScalarProperty Name="hasDroneLog" ColumnName="hasDroneLog" />
                 <ScalarProperty Name="TypeOfActivity" ColumnName="TypeOfActivity" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="StopTime" ColumnName="StopTime" />
                 <ScalarProperty Name="Other" ColumnName="Other" />
                 <ScalarProperty Name="Simulator" ColumnName="Simulator" />
                 <ScalarProperty Name="Instructor" ColumnName="Instructor" />
