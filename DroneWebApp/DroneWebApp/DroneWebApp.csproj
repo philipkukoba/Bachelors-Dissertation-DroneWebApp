@@ -170,12 +170,15 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CTRLPointsController.cs" />
+    <Compile Include="Controllers\DroneFlightsAPIController.cs" />
     <Compile Include="Controllers\DroneFlightsController.cs" />
     <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\GCPController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
+    <Compile Include="Controllers\PointCloudXYZsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -246,6 +249,12 @@
     <Compile Include="Models\Pilot.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PointcloudControlTool\Face.cs" />
+    <Compile Include="Models\PointcloudControlTool\Plane.cs" />
+    <Compile Include="Models\PointcloudControlTool\Polygon.cs" />
+    <Compile Include="Models\PointcloudControlTool\PolygonProcedure.cs" />
+    <Compile Include="Models\PointcloudControlTool\Utility.cs" />
+    <Compile Include="Models\PointcloudControlTool\Vector.cs" />
     <Compile Include="Models\PointCloudXYZ.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -363,6 +372,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\visualisation\droneflight_map.js" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
