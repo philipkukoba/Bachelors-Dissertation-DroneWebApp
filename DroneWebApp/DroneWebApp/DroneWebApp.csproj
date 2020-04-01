@@ -172,6 +172,7 @@
     <Compile Include="Controllers\CTRLPointsController.cs" />
     <Compile Include="Controllers\DroneFlightsAPIController.cs" />
     <Compile Include="Controllers\DroneFlightsController.cs" />
+    <Compile Include="Controllers\DroneGPsController.cs" />
     <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\GCPController.cs" />
@@ -276,9 +277,6 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -413,6 +411,7 @@
     <Content Include="Views\DroneFlights\TFW.cshtml" />
     <Content Include="Views\Shared\_MapLayout.cshtml" />
     <Content Include="Views\Map\ViewMap.cshtml" />
+    <Content Include="Views\DroneFlights\Map.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
