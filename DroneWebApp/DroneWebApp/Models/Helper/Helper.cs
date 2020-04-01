@@ -20,7 +20,7 @@ namespace DroneWebApp.Models.Helper
                 {
                     if (df != null && df.hasDroneLog)
                     {
-                        totalTime = totalTime.Add((TimeSpan.ParseExact(df.StopTime, "hhmmss", CultureInfo.InvariantCulture).Subtract(TimeSpan.ParseExact(df.StartTime, "hhmmss", CultureInfo.InvariantCulture))));
+                        totalTime = totalTime.Add(((TimeSpan)df.DestinationInfo.UTCTime).Subtract((TimeSpan)df.DepartureInfo.UTCTime));
                     }
                 }
                 d.TotalFlightTime = totalTime;

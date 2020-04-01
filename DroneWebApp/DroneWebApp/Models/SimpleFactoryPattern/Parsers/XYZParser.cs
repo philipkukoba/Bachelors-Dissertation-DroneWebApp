@@ -8,11 +8,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class XYZParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             // Get the approriate DroneFlight that goes with this data
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             PointCloudXYZ pointCloudXYZ;
+
+            // Do not parse a new file, if this flight already has an XYZ file
+            if (droneFlight.hasXYZ)
+            {
+                return false;
+            }
 
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
@@ -21,7 +27,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.SetDelimiters(" ");
 
                 int i = 0;
-                int limit = 1000;
+                int limit = 2000;
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -72,18 +78,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
-     
+
                         System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
                         i++;
-                        if (i == limit) break; 
+                        if (i == limit) break;
 
                     }
-                    catch(Exception ex) { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
 
                 // Commit changes to the DB
                 db.SaveChanges();
             }
+            return true;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace DroneWebApp.Models
         public int FlightId { get; set; }
         public int DroneId { get; set; }
         public Nullable<int> ProjectId { get; set; }
-        public Nullable<int> PilotId { get; set; }
+        public int PilotId { get; set; }
         public string Location { get; set; }
         public System.DateTime Date { get; set; }
         public bool hasTFW { get; set; }
@@ -39,8 +39,6 @@ namespace DroneWebApp.Models
         public bool hasXYZ { get; set; }
         public bool hasDroneLog { get; set; }
         public string TypeOfActivity { get; set; }
-        public string StartTime { get; set; }
-        public string StopTime { get; set; }
         public string Other { get; set; }
         public string Simulator { get; set; }
         public string Instructor { get; set; }

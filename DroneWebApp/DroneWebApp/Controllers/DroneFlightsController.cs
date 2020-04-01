@@ -61,7 +61,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
+        public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace DroneWebApp.Controllers
                 db.DroneFlights.Remove(droneFlight);
                 db.SaveChanges();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ViewBag.ErrorDroneFlightDelete = "Cannot delete this Drone Flight.";
                 return View(droneFlight);

@@ -6,30 +6,29 @@
 
 <br />
 <h2 style="text-align:center">Edit Drone Flight @Model.FlightId</h2>
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Drone Flight</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.FlightId)
+<div class="form-horizontal">
+    <h4>Drone Flight</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.FlightId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
         </div>
+    </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Date, "Date*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Date, new { @type = "date", @class = "btn btn-info", required = "True" })
+                @Html.TextBoxFor(model => model.Date, new { @type = "date", @class = "btn btn-info" })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -37,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DroneId, "Drone*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DroneId", null, "Select Drone", htmlAttributes: new { @class = "form-control", required = "True" })
+                @Html.DropDownList("DroneId", null, "Select Drone", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DroneId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -45,22 +44,38 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PilotId, "Pilot*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("PilotId", null, "Select Pilot", htmlAttributes: new { @class = "form-control", required = "True" })
+                @Html.DropDownList("PilotId", null, "Select Pilot", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PilotId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div>* required</div>
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TypeOfActivity, "Type of Activity", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TypeOfActivity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TypeOfActivity, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Remarks, new { maxlength = 2000, height = "400", width = "400" })
+            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div>* required</div>
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Drone Flights List", "Index")
 </div>
 
 @section Scripts {

@@ -6,11 +6,24 @@ $(document).ready(function () {
     $('#dftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [5, 6, 7],
-                "searchable": false, "targets": [5, 6, 7]
+                "orderable": false, "targets": [5, 6, 7, 8],
+                "searchable": false, "targets": [5, 6, 7, 8]
             }
         ]
       }); 
+});
+
+$(document).ready(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#pdftable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [4, 5],
+                "searchable": false, "targets": [4, 5]
+            }
+        ]
+    });
 });
 
 $(document).ready(function () {

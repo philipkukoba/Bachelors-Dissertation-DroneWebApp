@@ -9,7 +9,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class DATParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             DroneLogEntry droneLogEntry;
@@ -19,9 +19,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DroneRC droneRC;
             DroneGP droneGPS;
             DroneOA droneOA;
+            DepartureInfo departureInfo;
+            DestinationInfo destinationInfo;
             int startTime = 0;
             int finalTime = 0;
-            bool readStartTime = false;
+            bool firstRead = false; // bool to read in the starting time and starting latitude & longitude
 
             Dictionary<string, int> dict = null;
             
@@ -401,13 +403,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
 
                         // Keep track of start time and final time to calculate total flight time
-                        if (!readStartTime) {
+                        if (!firstRead) {
                             startTime = (int) droneGPS.Time;
-                            readStartTime = true;
+                            // todo: add starting long & lat
+                            firstRead = true;
                         }
                         if(droneGPS.Time > finalTime)
                         {
                             finalTime = (int) droneGPS.Time;
+                            // todo: add ending long & lat
                         }
 
                         // **DroneOA**
@@ -442,11 +446,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine("Start: " + startTime + " " + "End: " + finalTime);
             try
             {
-                droneFlight.StartTime = startTime.ToString();
-                droneFlight.StopTime = finalTime.ToString();
+                departureInfo = new DepartureInfo();
+                destinationInfo = new DestinationInfo();
+
+                // Map all ids 1-to-1
+                departureInfo.DepartureInfoId = droneFlight.FlightId;
+                destinationInfo.DestinationInfoId = droneFlight.FlightId;
+
+                // Assign fields for DepartureInfo and DestinationInfo of flight
+                departureInfo.UTCTime = TimeSpan.ParseExact(startTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
+                destinationInfo.UTCTime = TimeSpan.ParseExact(finalTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
+                
+                // Add all ORM-objects to lists to be added to the database
+                db.DepartureInfoes.Add(departureInfo);
+                db.DestinationInfoes.Add(destinationInfo);
+
                 // Commit changes to the DB
                 db.SaveChanges();
                 // Update the Drone's total flight time
@@ -457,7 +473,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
             }
-            
+            return true;
         }
     }
 }

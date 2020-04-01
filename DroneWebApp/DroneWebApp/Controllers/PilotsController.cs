@@ -140,11 +140,32 @@ namespace DroneWebApp.Controllers
                 db.Pilots.Remove(pilot);
                 db.SaveChanges();
             }
-            catch(Exception ex) {
+            catch(Exception) {
                 ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
                 return View(pilot);
             }
             return RedirectToAction("Index");
+        }
+
+        // GET: Pilots/DroneFlights/5
+        public ActionResult DroneFlights(int? id)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pilot pilot = db.Pilots.Find(id);
+            if (pilot == null)
+            {
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            ViewBag.Pilot = pilot.PilotName;
+            ViewBag.PilotId = id;
+            return View(pilot.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)

@@ -19,7 +19,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DroneType, "DroneType*", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DroneType, new { htmlAttributes = new { @class = "form-control", required = "True" } })
+            @Html.EditorFor(model => model.DroneType, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.DroneType, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Registration, "Registration*", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Registration, new { htmlAttributes = new { @class = "form-control", required = "True" } })
+            @Html.EditorFor(model => model.Registration, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Registration, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -51,7 +51,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Drones List", "Index")
 </div>
 
 @section Scripts {
