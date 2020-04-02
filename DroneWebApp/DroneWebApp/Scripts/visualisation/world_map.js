@@ -1,13 +1,14 @@
 ﻿require([
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/FeatureLayer",
     "esri/Graphic",
     "esri/layers/GraphicsLayer",
     "esri/geometry/SpatialReference",
     "esri/widgets/LayerList",
+    "esri/widgets/Search",
+    "esri/widgets/Legend",
     "esri/PopupTemplate"
-], function (Map, MapView, FeatureLayer, Graphic, GraphicsLayer, SpatialReference, LayerList, PopupTemplate) {
+], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate) {
 
     // Create the map
     var map = new Map({
@@ -22,7 +23,7 @@
         zoom: 20
     });
 
-    //#region LAYERLIST TESTING
+    //#region LAYERLIST
     var layerList = new LayerList({
         view: view
     });
@@ -31,6 +32,30 @@
     view.ui.add(layerList, "top-right");
 
     //#endregion 
+
+    //#region LEGEND Widget
+    var legend = new Legend({
+        view: view,
+        style: "classic", // other styles include 'card'
+        label: {
+            title: "DEFAULT TITLE"
+        }
+    });
+    view.ui.add(legend, "bottom-left");
+    //#endregion
+
+    //#region Search widget
+    const searchWidget = new Search({
+        view: view
+    });
+    // Adds the search widget below other elements in
+    // the top left corner of the view
+    view.ui.add(searchWidget, {
+        position: "bottom-right",
+        //index: 2
+    });
+    //#endregion
+
 
     // #region Coordinate Widget
     // Create a coordinate widget
@@ -68,7 +93,7 @@
     //var belgianLambertWKT = PROJCS["Belge 1972 / Belgian Lambert 72",GEOGCS["Belge 1972",DATUM["D_Belge_1972",SPHEROID["International_1924",6378388,297]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",51.16666723333333],PARAMETER["standard_parallel_2",49.8333339],PARAMETER["latitude_of_origin",90],PARAMETER["central_meridian",4.367486666666666],PARAMETER["false_easting",150000.013],PARAMETER["false_northing",5400088.438],UNIT["Meter",1]];
 
     //popup for XYZ
-    //werkt niet 
+    //werkt niet want dit is enkel voor featurelayers
     var popupXYZ = new PopupTemplate({
         "title": "XYZ Information",
         "content": "SAMPLE CONTENT"
@@ -76,9 +101,7 @@
 
     //add graphics layer 
     var XYZGraphicsLayer = new GraphicsLayer({
-        title: "XYZ",
-        //outFields: ["PointcloudXYZId", "X", "Y", "Z"],
-        popupTemplate: popupXYZ
+        title: "XYZ"
     });
     map.add(XYZGraphicsLayer);
 
@@ -93,7 +116,11 @@
             y: ajaxresult.Y,
             z: ajaxresult.Z,
             //!!! spatial reference instellen 
-            spatialReference: sr
+            spatialReference: sr,
+            PopupTemplate: {
+                title: "sample title",
+                content: "sample content"
+            }
         };
 
         var simpleMarkerSymbol = {
@@ -144,7 +171,11 @@
             y: ajaxresult.Y,
             z: ajaxresult.Z,
             //!!! spatial reference instellen 
-            spatialReference: sr
+            spatialReference: sr,
+            PopupTemplate: {
+                title: "sample title",
+                content: "sample content"
+            }
         };
 
         var simpleMarkerSymbol = {
@@ -184,13 +215,13 @@
     //#endregion
 
     //#region GCP VISUALISATION
-        var urlGCP = "/WebAPI/api/GCP/" + id;
+    var urlGCP = "/WebAPI/api/GCP/" + id;
 
-        //add graphics layer 
-        var GCPGraphicsLayer = new GraphicsLayer({
-            title: "GCP",
-        });
-        map.add(GCPGraphicsLayer);
+    //add graphics layer 
+    var GCPGraphicsLayer = new GraphicsLayer({
+        title: "GCP",
+    });
+    map.add(GCPGraphicsLayer);
 
     function displayGCP(gcp) {
         var point = {
@@ -198,7 +229,11 @@
             x: gcp.X,
             y: gcp.Y,
             z: gcp.Z,
-            spatialReference: sr
+            spatialReference: sr,
+            PopupTemplate: {
+                title: "sample title",
+                content: "sample content"
+            }
         };
 
         var simpleMarkerSymbol = {
