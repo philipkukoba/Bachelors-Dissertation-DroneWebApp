@@ -172,7 +172,6 @@
     <Compile Include="Controllers\WebAPI\CTRLPointsController.cs" />
     <Compile Include="Controllers\WebAPI\DroneFlightsAPIController.cs" />
     <Compile Include="Controllers\DroneFlightsController.cs" />
-    <Compile Include="Controllers\WebAPI\DroneGPsController.cs" />
     <Compile Include="Controllers\DronesController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\WebAPI\GCPController.cs" />
