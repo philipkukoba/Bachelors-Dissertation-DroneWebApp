@@ -373,7 +373,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\visualisation\droneflight_map.js" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -411,7 +410,6 @@
     <Content Include="Views\DroneFlights\TFW.cshtml" />
     <Content Include="Views\Shared\_MapLayout.cshtml" />
     <Content Include="Views\Map\ViewMap.cshtml" />
-    <Content Include="Views\DroneFlights\Map.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
