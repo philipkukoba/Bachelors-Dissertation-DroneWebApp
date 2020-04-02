@@ -23,6 +23,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DestinationInfo destinationInfo;
             int startTime = 0;
             int finalTime = 0;
+            double startLat = 0;
+            double startLong = 0;
+            double endLat = 0;
+            double endLong = 0;
             bool firstRead = false; // bool to read in the starting time and starting latitude & longitude
 
             Dictionary<string, int> dict = null;
@@ -403,15 +407,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
 
                         // Keep track of start time and final time to calculate total flight time
+                        // Keep track of start longitude and latitude
                         if (!firstRead) {
                             startTime = (int) droneGPS.Time;
-                            // todo: add starting long & lat
+                            startLong = (double) droneGPS.Long;
+                            startLat = (double) droneGPS.Lat;
                             firstRead = true;
                         }
-                        if(droneGPS.Time > finalTime)
+                        // These two fields will contain the final ending longitude and latitude once the while-loop ends
+                        endLong = (double) droneGPS.Long;
+                        endLat = (double) droneGPS.Lat;
+
+                        // Keep track of final time of the flight
+                        if (droneGPS.Time > finalTime)
                         {
                             finalTime = (int) droneGPS.Time;
-                            // todo: add ending long & lat
                         }
 
                         // **DroneOA**
@@ -455,10 +465,16 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 departureInfo.DepartureInfoId = droneFlight.FlightId;
                 destinationInfo.DestinationInfoId = droneFlight.FlightId;
 
-                // Assign fields for DepartureInfo and DestinationInfo of flight
+                // Assign Time fields for DepartureInfo and DestinationInfo of flight
                 departureInfo.UTCTime = TimeSpan.ParseExact(startTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
                 destinationInfo.UTCTime = TimeSpan.ParseExact(finalTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
-                
+
+                // Assign starting and ending longitude and latitude for DepartureInfo and DestinationInfo of flight
+                departureInfo.Longitude = startLong;
+                departureInfo.Latitude = startLat;
+                destinationInfo.Longitude = endLong;
+                destinationInfo.Latitude = endLat;
+
                 // Add all ORM-objects to lists to be added to the database
                 db.DepartureInfoes.Add(departureInfo);
                 db.DestinationInfoes.Add(destinationInfo);

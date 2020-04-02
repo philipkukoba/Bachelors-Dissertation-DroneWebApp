@@ -39,6 +39,8 @@ namespace DroneWebApp.Models
         public bool hasXYZ { get; set; }
         public bool hasDroneLog { get; set; }
         public string TypeOfActivity { get; set; }
+        public string StartTime { get; set; }
+        public string StopTime { get; set; }
         public string Other { get; set; }
         public string Simulator { get; set; }
         public string Instructor { get; set; }
