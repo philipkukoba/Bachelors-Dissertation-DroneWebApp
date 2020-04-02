@@ -1,0 +1,65 @@
+﻿@model DroneWebApp.Models.Project
+
+@{
+    ViewBag.Title = "Project Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 style="text-align:center">Project Details</h2>
+
+<div>
+    <h4>Project @Model.ProjectCode</h4>
+    <hr />
+    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
+        <tr>
+            <th>
+                @Html.DisplayName("Project Code")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.ProjectCode)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Drone Flights")
+            </th>
+            <td>
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.ProjectId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Site Reference Code")
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.SiteRefCode)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Vertical Reference")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.VerticalRef)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Coordinate System")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.CoordSystem)
+            </td>
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }) |
+    @Html.ActionLink("Back to Project List", "Index")
+</p>

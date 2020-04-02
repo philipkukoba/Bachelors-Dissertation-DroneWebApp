@@ -1,5 +1,6 @@
 ﻿// These scripts change the regular tables selected by id into DataTables that have searchability, sortability and paging
 
+// DroneFlights table
 $(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
 
@@ -13,10 +14,37 @@ $(document).ready(function () {
       }); 
 });
 
+// Projects table
+$(document).ready(function () {
+    $('#prtable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [2, 3],
+                "searchable": false, "targets": [2, 3]
+            }
+        ]
+    });
+});
+
+// Pilot's Drone Flights table
 $(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
 
     $('#pdftable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [5, 6],
+                "searchable": false, "targets": [5, 6]
+            }
+        ]
+    });
+});
+
+// Project's DroneFlights table
+$(document).ready(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#prdftable').dataTable({
         "columnDefs": [
             {
                 "orderable": false, "targets": [4, 5],
@@ -26,6 +54,7 @@ $(document).ready(function () {
     });
 });
 
+// Drones table
 $(document).ready(function () {
     $('#dtable').dataTable({
         "columnDefs": [
@@ -37,6 +66,7 @@ $(document).ready(function () {
     });
 });
 
+// Pilots table
 $(document).ready(function () {
     $('#ptable').dataTable({
         "columnDefs": [
@@ -48,10 +78,12 @@ $(document).ready(function () {
     });
 });
 
+// CTRL points table
 $(document).ready(function () {
     $('#ctrlptable').dataTable();
 });
 
+// GCP table
 $(document).ready(function () {
     $('#gcpptable').dataTable();
 });

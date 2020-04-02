@@ -15,6 +15,15 @@
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
+                @Html.DisplayName("Project Code")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Project.ProjectCode)
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
                 @Html.DisplayNameFor(model => model.Location)
             </th>
             <td>
@@ -54,9 +63,11 @@
             <th>
                 @Html.DisplayName("Starting time (UTC)")
             </th>
-
             <td>
-                @Model.DepartureInfo.UTCTime.ToString()
+                @if (@Model.hasDepInfo)
+                {
+                    @Model.DepartureInfo.UTCTime.ToString()
+                }
             </td>
         </tr>
 
@@ -64,9 +75,11 @@
             <th>
                 @Html.DisplayName("Ending time (UTC)")
             </th>
-
             <td>
-                @Model.DestinationInfo.UTCTime.ToString()
+                @if (@Model.hasDestInfo)
+                {
+                    @Model.DestinationInfo.UTCTime.ToString()
+                }
             </td>
         </tr>
 

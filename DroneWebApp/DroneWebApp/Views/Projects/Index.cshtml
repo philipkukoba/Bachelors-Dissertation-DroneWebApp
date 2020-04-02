@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DroneWebApp.Models.Project>
+
+@{
+    ViewBag.Title = "Projects Index";
+}
+
+<br />
+<h2 style="text-align:center">Projects</h2>
+
+<h4>@Html.ActionLink("Create new Project", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+<hr />
+
+<table id="prtable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Project Code")
+            </th>
+            <th>
+                @Html.DisplayName("Site Reference Code")
+            </th>
+            <th>@Html.DisplayName("Flights")</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SiteRefCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count) | @Html.ActionLink("View Flights", "DroneFlights", new { id = item.ProjectId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProjectId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

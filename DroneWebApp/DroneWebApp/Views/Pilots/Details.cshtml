@@ -26,7 +26,7 @@
             </th>
 
             <td>
-                @Model.DroneFlights.Count @Html.ActionLink("[View]", "DroneFlights", new { id = @Model.PilotId })
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.PilotId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
             </td>
         </tr>
 

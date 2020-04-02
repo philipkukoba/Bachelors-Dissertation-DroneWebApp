@@ -78,7 +78,7 @@
           </Key>
           <Property Name="FlightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DroneId" Type="int" Nullable="false" />
-          <Property Name="ProjectId" Type="int" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="PilotId" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="Date" Type="date" Nullable="false" />
@@ -91,8 +91,6 @@
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
           <Property Name="TypeOfActivity" Type="varchar" MaxLength="500" />
-          <Property Name="StartTime" Type="varchar" MaxLength="50" />
-          <Property Name="StopTime" Type="varchar" MaxLength="50" />
           <Property Name="Other" Type="varchar" MaxLength="255" />
           <Property Name="Simulator" Type="varchar" MaxLength="255" />
           <Property Name="Instructor" Type="varchar" MaxLength="100" />
@@ -433,7 +431,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -837,7 +837,7 @@
           </Key>
           <Property Name="FlightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DroneId" Type="Int32" Nullable="false" />
-          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <Property Name="PilotId" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
@@ -850,8 +850,6 @@
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
           <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
           <Property Name="TypeOfActivity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="StartTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StopTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Simulator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Instructor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -1230,7 +1228,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -1647,8 +1647,6 @@
                 <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
                 <ScalarProperty Name="hasDroneLog" ColumnName="hasDroneLog" />
                 <ScalarProperty Name="TypeOfActivity" ColumnName="TypeOfActivity" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="StopTime" ColumnName="StopTime" />
                 <ScalarProperty Name="Other" ColumnName="Other" />
                 <ScalarProperty Name="Simulator" ColumnName="Simulator" />
                 <ScalarProperty Name="Instructor" ColumnName="Instructor" />

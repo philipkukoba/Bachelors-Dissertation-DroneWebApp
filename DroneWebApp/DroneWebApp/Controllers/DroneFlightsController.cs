@@ -25,7 +25,7 @@ namespace DroneWebApp.Controllers
         // GET: DroneFlights
         public ActionResult Index()
         {
-            var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot);
+            var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot).Include(d => d.Project);
             return View(droneFlights.ToList());
         }
 
@@ -49,10 +49,25 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Create
-        public ActionResult Create()
+        public ActionResult Create(int? pilotId, int? projectId)
         {
+            if(pilotId != null)
+            {
+                ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", pilotId);
+            }
+            else
+            {
+                ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName");
+            }
+            if(projectId != null)
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", projectId);
+            }
+            else
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode");
+            }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
-            ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName");
             return View();
         }
 
@@ -61,7 +76,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
+        public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +84,7 @@ namespace DroneWebApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
@@ -90,6 +106,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
+            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
@@ -100,7 +117,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +125,7 @@ namespace DroneWebApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);

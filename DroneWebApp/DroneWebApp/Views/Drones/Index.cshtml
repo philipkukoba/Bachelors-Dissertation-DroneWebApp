@@ -5,9 +5,10 @@
 }
 
 <br />
-<h2 style="text-align:center">Drone Index</h2>
+<h2 style="text-align:center">Drones</h2>
 
 <h4>@Html.ActionLink("Create new Drone", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+<hr />
 
 <table id="dtable" class="ui celled table table-hover" cellspacing="0" width="100%" style="text-align: center">
     <thead>
@@ -25,34 +26,34 @@
                 @Html.DisplayName("Total Flights")
             </th>
             <th>Total Time Flown</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DroneName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DroneType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Registration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DroneFlights.Count)
-            </td>
-            <td>
-                @item.TotalFlightTime.ToString()
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.DroneId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.DroneId })
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count)
+                </td>
+                <td>
+                    @item.TotalFlightTime.ToString()
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.DroneId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.DroneId })
+                </td>
+            </tr>
         }
     </tbody>
 </table>
