@@ -124,7 +124,7 @@
                     @Html.ActionLink("Upload File", "Index", "Files", new { id = item.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })
                 </td>
                 <td>
-                    @Html.ActionLink("View Flight", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
