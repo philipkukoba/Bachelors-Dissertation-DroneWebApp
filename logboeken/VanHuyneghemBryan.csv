@@ -48,3 +48,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 29/03/20,15:30,20:00,Extern,Update database + GUI + cascading delete + flight hours drone,82/103/107/108/113/120/121,
 31/03/20,08:00,12:30,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,120/124,
 31/03/20,12:30,13:45,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,81/120/124, 
+02/04/20,13:30,18:10, Contacturen, Additional fields for DroneFlight + Automatic Field Fill for Project Code & Pilot Name + Cascading delete Project + Project CRUD + Project Views + Project's Drone Flights overview,122/128/130/131/132/133/135/137,Changes to data table JS file
