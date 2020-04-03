@@ -33,8 +33,8 @@ $(document).ready(function () {
     $('#pdftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [5, 6],
-                "searchable": false, "targets": [5, 6]
+                "orderable": false, "targets": [4, 5],
+                "searchable": false, "targets": [4, 5]
             }
         ]
     });
