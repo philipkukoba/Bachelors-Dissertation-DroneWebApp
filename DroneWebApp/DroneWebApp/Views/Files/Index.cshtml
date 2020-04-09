@@ -1,4 +1,13 @@
-﻿@{
+﻿@section scripts{
+    <!-- scripts needed for upload progress bar -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/custom/fileUpload.js"></script>
+}
+
+@{
     ViewBag.Title = "File Upload";
 }
 
@@ -12,7 +21,7 @@
         @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
     </div>
 }
-else if(!@ViewBag.Status)
+else if (!@ViewBag.Status)
 {
     <div class="alert alert-danger" role="alert">
         File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
@@ -38,11 +47,18 @@ else if(!@ViewBag.Status)
             <label for="InputFile">File:</label>
             <input type="file" class="form-control mx-sm-3" id="file" name="files">
         </div>
-        <div class="form-group">
+        <div id="uploadbtn" class="form-group">
             <input type="submit" value="Upload" class="btn btn-primary mx-sm-3">
         </div>
     </form>
 </div>
+
+<!--html5 progress bar-->
+@*<label for="fileProgressBar"> Downloading progress: </label>
+<progress id="fileProgressBar" value="32" max="100"> progressbar </progress>*@
+
+<div id="uploadstatus">UPLOAD STATUS: </div>
+<div id="progressbar"></div>
 
 <p>
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")

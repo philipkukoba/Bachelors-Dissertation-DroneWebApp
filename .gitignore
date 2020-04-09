@@ -364,3 +364,5 @@ DroneWebApp/DroneWebApp/Models/DroneDBModel.Designer.cs
 DroneWebApp/DroneWebApp/Models/DroneDBModel.Context.cs
 DroneWebApp/DroneWebApp/DroneWebApp.csproj
 DroneWebApp/DroneWebApp/Web.config
+DroneWebApp/DroneWebApp/Models/DroneDBModel.Designer.cs
+DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx.diagram

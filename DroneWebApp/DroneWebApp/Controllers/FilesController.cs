@@ -15,6 +15,8 @@ namespace DroneWebApp.Controllers
     {
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
+        
+        private int uploadStatus = 0; 
 
         public FilesController(DbContext db)
         {
@@ -39,6 +41,11 @@ namespace DroneWebApp.Controllers
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
             return View();
         }
+
+
+        [HttpGet]
+        public int getUploadStatus() { return uploadStatus; }
+
 
         //Single File Upload
         [HttpPost]
