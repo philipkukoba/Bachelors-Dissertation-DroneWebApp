@@ -15,11 +15,11 @@ namespace DroneWebApp.Controllers
     // WIP
     public class FilesController : Controller
     {
+        public DroneDBEntities Db { get; set; }
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
-        
-        private int amountOfLines; 
-
+    
+        // Constructor
         public FilesController(DbContext db)
         {
             this.Db = (DroneDBEntities)db;
@@ -27,9 +27,6 @@ namespace DroneWebApp.Controllers
             ViewBag.Status = true;
             ViewBag.showInitialMessage = true;
         }
-        public DroneDBEntities Db { get; set; }
-
-        
 
         [HttpGet]
         public ActionResult Index(int? id)
@@ -45,7 +42,6 @@ namespace DroneWebApp.Controllers
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
             return View();
         }
-
 
         [HttpGet]
         public double getUploadStatus() {
@@ -82,21 +78,6 @@ namespace DroneWebApp.Controllers
                 files.SaveAs(path);              
             }
 
-            //the bytes way
-            //long file_length = new System.IO.FileInfo(path).Length;
-
-            //System.Diagnostics.Debug.WriteLine(file_length);
-            //System.Diagnostics.Debug.WriteLine(file_length);
-            //System.Diagnostics.Debug.WriteLine(file_length);
-
-            int j = 0;
-            using (StreamReader r = new StreamReader(path))
-            {
-                while (r.ReadLine() != null) { j++; }
-            }
-            amountOfLines = j; 
-            System.Diagnostics.Debug.WriteLine("File size: " + j);
-        
             string file_name = files.FileName;
             string fileExtension = file_name.Substring(file_name.Length - 4);
 
@@ -119,6 +100,5 @@ namespace DroneWebApp.Controllers
             ViewBag.showInitialMessage = false;
             return View();
         }
-
     }
 }
