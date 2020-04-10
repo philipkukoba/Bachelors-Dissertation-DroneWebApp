@@ -50,3 +50,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 31/03/20,12:30,13:45,Contacturen,Pilots can now see their Flights + GUI clean-up + debugging + checking for duplicate files + return type change Parser classes,81/120/124, 
 02/04/20,13:30,18:10, Contacturen, Additional fields for DroneFlight + Automatic Field Fill for Project Code & Pilot Name + Cascading delete Project + Project CRUD + Project Views + Project's Drone Flights overview,122/128/130/131/132/133/135/137,Changes to data table JS file & SQL Server script
 07/04/20,09:30,12:30,Extern,Tussentijdse presentatie voorbereiden,,
+08/04/20,09:00,11:30,Extern,Tussentijdse presentatie inleiding en context inspreken,,
+08/04/20,18:25,19:55,Extern,Tussentijdse presentatie slot inspreken,,
