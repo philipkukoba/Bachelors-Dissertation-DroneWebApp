@@ -1,4 +1,14 @@
-﻿@{
+﻿@section scripts{
+    <!-- scripts needed for upload progress bar -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.2.2/dist/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="~/Scripts/custom/fileUpload.js"></script>
+}
+
+@{
     ViewBag.Title = "File Upload";
 }
 
@@ -12,7 +22,7 @@
         @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
     </div>
 }
-else if(!@ViewBag.Status)
+else if (!@ViewBag.Status)
 {
     <div class="alert alert-danger" role="alert">
         File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
@@ -33,16 +43,19 @@ else if(!@ViewBag.Status)
 }
 
 <div class="card" style="padding: 20px; width:auto">
-    <form class="form-inline" method="post" enctype="multipart/form-data">
+    <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">
         <div class="form-group">
             <label for="InputFile">File:</label>
             <input type="file" class="form-control mx-sm-3" id="file" name="files">
         </div>
-        <div class="form-group">
+        <div id="uploadbtn" class="form-group">
             <input type="submit" value="Upload" class="btn btn-primary mx-sm-3">
         </div>
     </form>
 </div>
+
+<div id="uploadstatus"></div>
+<div id="progressbar"></div>
 
 <p>
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
