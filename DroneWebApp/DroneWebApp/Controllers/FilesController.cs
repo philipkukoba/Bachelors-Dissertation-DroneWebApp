@@ -29,8 +29,7 @@ namespace DroneWebApp.Controllers
         }
         public DroneDBEntities Db { get; set; }
 
-        [HttpGet]
-        public float getUploadStatus() { return Helper.progress; }
+        
 
         [HttpGet]
         public ActionResult Index(int? id)
@@ -49,7 +48,7 @@ namespace DroneWebApp.Controllers
 
 
         [HttpGet]
-        public int getUploadStatus() { return amountOfLines; }
+        public float getUploadStatus() { return Helper.progress; }
 
 
         //Single File Upload
