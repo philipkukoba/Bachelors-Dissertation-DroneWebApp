@@ -49,7 +49,7 @@ function updateProgress() {
         success: function (progressValue) {       
             //update the progress bar
             $("#uploadstatus").text("Parsing the file...");
-            $("#progressbar").progressbar("value", progressValue*100);
+            $("#progressbar").progressbar("value", progressValue);
         }
     });
 }
