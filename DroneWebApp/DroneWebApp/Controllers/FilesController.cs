@@ -98,6 +98,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.FileName = file_name;
             }
             ViewBag.showInitialMessage = false;
+            System.Diagnostics.Debug.WriteLine("*****************************");
             return View();
         }
     }

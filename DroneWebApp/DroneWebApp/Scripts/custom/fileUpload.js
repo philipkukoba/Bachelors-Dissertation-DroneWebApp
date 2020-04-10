@@ -1,10 +1,11 @@
 ﻿
 
-console.log("new script 4");
+console.log("new script 6");
 
 //$.noConflict();  //idk lol
 
 let doneParsing = false; 
+var intervalID;
 
 jQuery(document).ready(function ($) {
 $('#Myform').ajaxForm({
@@ -18,26 +19,27 @@ $('#Myform').ajaxForm({
         $("#uploadstatus").text("beforesend");
     },
     uploadProgress: function (event, position, total, percentComplete) {
-        console.log("uploadprogress");
+        console.log("uploadprogress: " + percentComplete);
         $("#uploadstatus").text("Uploading the file.. (" + percentComplete + "%)");
         $("#progressbar").progressbar("value", percentComplete);
-        //if (percentComplete == 100) {   
-        //    doneParsing = true; 
-        //}
+        if (percentComplete == 100) { 
+            startParsing();
+        }
     },
     complete: function () {   //complete wordt pas opgeroepen als parsing ook gedaan is
-        doneParsing = true; 
+        //doneParsing = true; 
         console.log("complete");
+        clearInterval(intervalID);
         $("#uploadstatus").text("Upload complete.");
     }
 });
 });
 
 //every 0,25sec updates progressbar
-//if (doneParsing) {
-    var intervalID = setInterval(updateProgress, 250);
+function startParsing() {
+    intervalID = setInterval(updateProgress, 250);
     $("#progressbar").progressbar({ value: 0 });
-//}
+}
 
 function updateProgress() {
     $.ajax({
