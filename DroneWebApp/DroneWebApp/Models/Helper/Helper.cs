@@ -8,7 +8,7 @@ namespace DroneWebApp.Models.Helper
 {
     public class Helper
     {
-        public static float progress = 0;
+        public static double progress = 0;
         // Calculate and update the total flight time drone
         // Must run through all of them every time to verify integrity (in case of reassignment of drone to droneflight)
         public static void UpdateTotalDroneFlightTime(DroneDBEntities db)
@@ -29,7 +29,7 @@ namespace DroneWebApp.Models.Helper
             }
         }
 
-        public static void SetProgress(float newProgress)
+        public static void SetProgress(double newProgress)
         {
             progress = newProgress;
         }

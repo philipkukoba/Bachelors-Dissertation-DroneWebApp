@@ -48,7 +48,10 @@ namespace DroneWebApp.Controllers
 
 
         [HttpGet]
-        public float getUploadStatus() { return Helper.progress; }
+        public double getUploadStatus() {
+            System.Diagnostics.Debug.WriteLine(Helper.progress + "\n");
+            return Helper.progress; 
+        }
 
 
         //Single File Upload

@@ -23,7 +23,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
             // Read the amount of lines
             int totalLines = 0;
-            int linesRead = 0;
             using (StreamReader r = new StreamReader(path))
             {
                 while (r.ReadLine() != null) {
@@ -31,7 +30,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 }
             }
             System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n");
-            float progress = 0;
+            double progress = 0;
 
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
@@ -40,7 +39,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.SetDelimiters(" ");
 
                 int i = 0;
-                int limit = 1000;
+                //int limit = 1000;
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -56,7 +55,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     {
                         attributes_strings = parser.ReadFields();
                         // Keep track of lines read
-                        linesRead++;
                         attributes_doubles = new List<double>();
 
                         //Process a row and parse string fields to floats
@@ -95,16 +93,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
 
-                        if((i % 10) == 0)
+                        i++;
+                        if ((i % 10) == 0)
                         {
-                            progress = (linesRead / totalLines) * 100;
+                            progress = (i / (double)totalLines) * 100;
                             Helper.Helper.SetProgress(progress);
+                            System.Diagnostics.Debug.WriteLine("Parsing (in XYZ Model): " + progress + "%");
                             System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
                         }
-                        i++;
-                        //System.Diagnostics.Debug.WriteLine("Parsing: " + progress + "%");
-                        if (i == limit) break;
-
+                        //if (i == limit) break;
                     }
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
