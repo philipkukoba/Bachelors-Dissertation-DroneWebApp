@@ -21,11 +21,11 @@ $('#Myform').ajaxForm({
         console.log("uploadprogress");
         $("#uploadstatus").text("Uploading the file.. (" + percentComplete + "%)");
         $("#progressbar").progressbar("value", percentComplete);
-        //if (percentComplete == 100) {   //omdat complete nooit opgeroepen wordt
+        //if (percentComplete == 100) {   
         //    doneParsing = true; 
         //}
     },
-    complete: function () {   //complete wordt nooit opgeroepen?????
+    complete: function () {   //complete wordt pas opgeroepen als parsing ook gedaan is
         doneParsing = true; 
         console.log("complete");
         $("#uploadstatus").text("Upload complete.");
@@ -48,8 +48,9 @@ function updateProgress() {
         //dataType: "json",
         success: function (progressValue) {       
             //update the progress bar
+            console.log("parsing progress: " + progressValue );
             $("#uploadstatus").text("Parsing the file...");
-            $("#progressbar").progressbar("value", progressValue*100);
+            $("#progressbar").progressbar("value", Math.round(progressValue));
         }
     });
 }
