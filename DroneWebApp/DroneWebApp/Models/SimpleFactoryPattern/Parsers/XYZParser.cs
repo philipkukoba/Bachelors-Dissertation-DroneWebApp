@@ -21,7 +21,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 return false;
             }
 
-            // Read the amount of lines
+            // calculate the total amount of lines by going through the whole file once
             int totalLines = 0;
             using (StreamReader r = new StreamReader(path))
             {
@@ -29,8 +29,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     totalLines++;
                 }
             }
-            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n");
-            double progress = 0;
+
+            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
@@ -39,7 +39,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.SetDelimiters(" ");
 
                 int i = 0;
-                //int limit = 1000;
+                //int limit = 1000; // test
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -96,19 +96,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         i++;
                         if ((i % 10) == 0)
                         {
-                            progress = (i / (double)totalLines) * 100;
-                            Helper.Helper.SetProgress(progress);
-                            System.Diagnostics.Debug.WriteLine("Parsing (in XYZ Model): " + progress + "%");
-                            System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
+                            Helper.Helper.SetProgress((i / (double)totalLines) * 100);
+                            System.Diagnostics.Debug.WriteLine("Parsing (in XYZ Model): " + (i / (double)totalLines) * 100 + "%"); // test
+                            System.Diagnostics.Debug.WriteLine("Processed Line: " + i); // test
                         }
                         //if (i == limit) break;
                     }
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
-                System.Diagnostics.Debug.WriteLine("Finishing... Please wait...");
+                System.Diagnostics.Debug.WriteLine("Finishing... Please wait..."); // test
                 // Commit changes to the DB
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("Finished.");
+                System.Diagnostics.Debug.WriteLine("Finished."); // test
+                // reset progress to 0
+                Helper.Helper.SetProgress(0);
+
             }
             return true;
         }
