@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace DroneWebApp.Controllers
 {
     // WIP
@@ -16,7 +17,7 @@ namespace DroneWebApp.Controllers
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
         
-        private int uploadStatus = 0; 
+        private int amountOfLines; 
 
         public FilesController(DbContext db)
         {
@@ -44,7 +45,7 @@ namespace DroneWebApp.Controllers
 
 
         [HttpGet]
-        public int getUploadStatus() { return uploadStatus; }
+        public int getUploadStatus() { return amountOfLines; }
 
 
         //Single File Upload
@@ -75,6 +76,21 @@ namespace DroneWebApp.Controllers
                 files.SaveAs(path);              
             }
 
+            //the bytes way
+            //long file_length = new System.IO.FileInfo(path).Length;
+
+            //System.Diagnostics.Debug.WriteLine(file_length);
+            //System.Diagnostics.Debug.WriteLine(file_length);
+            //System.Diagnostics.Debug.WriteLine(file_length);
+
+            int j = 0;
+            using (StreamReader r = new StreamReader(path))
+            {
+                while (r.ReadLine() != null) { j++; }
+            }
+            amountOfLines = j; 
+            System.Diagnostics.Debug.WriteLine("File size: " + j);
+        
             string file_name = files.FileName;
             string fileExtension = file_name.Substring(file_name.Length - 4);
 

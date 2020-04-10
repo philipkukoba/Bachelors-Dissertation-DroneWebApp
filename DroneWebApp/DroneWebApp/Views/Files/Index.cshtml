@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.2.2/dist/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="~/Scripts/custom/fileUpload.js"></script>
 }
@@ -42,7 +43,7 @@ else if (!@ViewBag.Status)
 }
 
 <div class="card" style="padding: 20px; width:auto">
-    <form class="form-inline" method="post" enctype="multipart/form-data">
+    <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">
         <div class="form-group">
             <label for="InputFile">File:</label>
             <input type="file" class="form-control mx-sm-3" id="file" name="files">
@@ -53,11 +54,7 @@ else if (!@ViewBag.Status)
     </form>
 </div>
 
-<!--html5 progress bar-->
-@*<label for="fileProgressBar"> Downloading progress: </label>
-<progress id="fileProgressBar" value="32" max="100"> progressbar </progress>*@
-
-<div id="uploadstatus">UPLOAD STATUS: </div>
+<div id="uploadstatus"></div>
 <div id="progressbar"></div>
 
 <p>
