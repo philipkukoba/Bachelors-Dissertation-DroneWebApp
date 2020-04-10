@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -27,6 +28,20 @@ namespace DroneWebApp.Models.Helper
                 d.TotalFlightTime = totalTime;
                 db.SaveChanges();
             }
+        }
+
+        // Runs through a file once to count its total amount of lines
+        public static int CountFileLines(string path)
+        {
+            int totalLines = 0;
+            using (StreamReader r = new StreamReader(path))
+            {
+                while (r.ReadLine() != null)
+                {
+                    totalLines++;
+                }
+            }
+            return totalLines;
         }
 
         public static void SetProgress(double newProgress)

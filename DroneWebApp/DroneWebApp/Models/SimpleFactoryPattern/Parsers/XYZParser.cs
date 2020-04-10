@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
@@ -22,14 +20,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             }
 
             // calculate the total amount of lines by going through the whole file once
-            int totalLines = 0;
-            using (StreamReader r = new StreamReader(path))
-            {
-                while (r.ReadLine() != null) {
-                    totalLines++;
-                }
-            }
-
+            int totalLines = Helper.Helper.CountFileLines(path);
             System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
             // Parse
