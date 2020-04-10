@@ -4,6 +4,8 @@ console.log("new script 4");
 
 //$.noConflict();  //idk lol
 
+let doneParsing = false; 
+
 jQuery(document).ready(function ($) {
 $('#Myform').ajaxForm({
     beforeSend: function () {
@@ -14,67 +16,41 @@ $('#Myform').ajaxForm({
         $("#progressbar").progressbar("enable");
         console.log("progress bar initialised");
         $("#uploadstatus").text("beforesend");
-        //status.empty();
-        //var percentVal = '0%';
-        //bar.width(percentVal);
-        //percent.html(percentVal);
     },
     uploadProgress: function (event, position, total, percentComplete) {
         console.log("uploadprogress");
         $("#uploadstatus").text("Uploading the file.. (" + percentComplete + "%)");
         $("#progressbar").progressbar("value", percentComplete);
-       // var percentVal = percentComplete + '%';
-       // bar.width(percentVal);
-        //percent.html(percentVal);
+        //if (percentComplete == 100) {   //omdat complete nooit opgeroepen wordt
+        //    doneParsing = true; 
+        //}
     },
-    complete: function () {   //complete wordt nooit opgeroepen??
+    complete: function () {   //complete wordt nooit opgeroepen?????
+        doneParsing = true; 
         console.log("complete");
         $("#uploadstatus").text("Upload complete.");
-        //status.html(xhr.responseText);
     }
 });
 });
-
-let amountOfLines;
-
-$.ajax({
-    type: "GET",
-    url: "/Files/getUploadStatus/",
-    async: true,
-    success: function (uploadValue) {
-        amountOfLines = uploadValue;
-    }
-});
-
-console.log("amount of lines in js: " + amountOfLines);
-
 
 //every 0,25sec updates progressbar
-var intervalID = setInterval(updateProgress, 250);
+//if (doneParsing) {
+    var intervalID = setInterval(updateProgress, 250);
+    $("#progressbar").progressbar({ value: 0 });
+//}
 
 function updateProgress() {
     $.ajax({
         type: "GET",
-        url: "/Files/getUploadStatus/",
+        url: "/Files/getUploadStatus/",  //eigenlijk progressStatus
         //data: "{}",
         //contentType: "application/json; charset=utf-8",
         //dataType: "json",
-        async: true,
-        success: function (uploadValue) {
-
-            console.log("successful ajax get!!");
-            console.log("upload status val " + uploadValue);
-
+        success: function (progressValue) {       
             //update the progress bar
-            $("#progressbar").progressbar("value", uploadValue);
-
-            //testing
-            //$("#progressbar").progressbar("value", Math.floor((Math.random() * 100) + 1));
+            $("#uploadstatus").text("Parsing the file...");
+            $("#progressbar").progressbar("value", progressValue*100);
         }
     });
 }
-
-//probably solve with viewbag
-$("#uploadstatus").text = "UPLOADING!!!";
-
 
