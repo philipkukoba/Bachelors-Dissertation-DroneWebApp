@@ -1,4 +1,5 @@
 ﻿using DroneWebApp.Models;
+using DroneWebApp.Models.Helper;
 using DroneWebApp.Models.SimpleFactoryPattern;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,9 @@ namespace DroneWebApp.Controllers
             ViewBag.showInitialMessage = true;
         }
         public DroneDBEntities Db { get; set; }
+
+        [HttpGet]
+        public float getUploadStatus() { return Helper.progress; }
 
         [HttpGet]
         public ActionResult Index(int? id)

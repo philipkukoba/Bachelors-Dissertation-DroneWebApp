@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
@@ -20,6 +21,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 return false;
             }
 
+            // Read the amount of lines
+            int totalLines = 0;
+            int linesRead = 0;
+            using (StreamReader r = new StreamReader(path))
+            {
+                while (r.ReadLine() != null) {
+                    totalLines++;
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n");
+            float progress = 0;
+
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
             {
@@ -27,14 +40,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 parser.SetDelimiters(" ");
 
                 int i = 0;
-                //int limit = 2000;
+                int limit = 1000;
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
                 customCulture.NumberFormat.NumberDecimalSeparator = ".";
                 System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-                IList<string> attributes_strings;
+                string[] attributes_strings;
                 List<double> attributes_doubles;
                 // Read data
                 while (!parser.EndOfData)
@@ -42,6 +55,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     try
                     {
                         attributes_strings = parser.ReadFields();
+                        // Keep track of lines read
+                        linesRead++;
                         attributes_doubles = new List<double>();
 
                         //Process a row and parse string fields to floats
@@ -49,6 +64,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         {
                             attributes_doubles.Add(double.Parse(xyzAttribute, customCulture));
                         }
+
                         // Create ORM-object for database mapping
                         pointCloudXYZ = new PointCloudXYZ
                         {
@@ -79,19 +95,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
 
-                        if((i % 1000) == 0)
+                        if((i % 10) == 0)
                         {
+                            progress = (linesRead / totalLines) * 100;
+                            Helper.Helper.SetProgress(progress);
                             System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
                         }
                         i++;
-                        //if (i == limit) break;
+                        //System.Diagnostics.Debug.WriteLine("Parsing: " + progress + "%");
+                        if (i == limit) break;
 
                     }
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
-
+                System.Diagnostics.Debug.WriteLine("Finishing... Please wait...");
                 // Commit changes to the DB
                 db.SaveChanges();
+                System.Diagnostics.Debug.WriteLine("Finished.");
             }
             return true;
         }
