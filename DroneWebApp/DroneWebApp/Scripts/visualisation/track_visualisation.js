@@ -1,13 +1,12 @@
 ﻿require([
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/FeatureLayer",
     "esri/Graphic",
     "esri/layers/GraphicsLayer",
     "esri/geometry/SpatialReference",
     "esri/widgets/LayerList",
     "esri/PopupTemplate"
-], function (Map, MapView, FeatureLayer, Graphic, GraphicsLayer, SpatialReference, LayerList, PopupTemplate) {
+], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, PopupTemplate) {
 
     // Create the map
     var map = new Map({
@@ -19,7 +18,7 @@
         container: "viewDiv",
         map: map,
         center: [3.30120924, 50.85590007],
-        zoom: 20
+        zoom: 16
     });
 
     var graphicsLayer = new GraphicsLayer();
@@ -51,15 +50,15 @@
             //spatialReference: sr
         };
 
-        var polylineSymbol = {
+        var simpleMarkerSymbol = {
             type: "simple-line",
-            color: [0, 255, 0],
+            color: "yellow",
             width: 4
         };
 
         var trackGraphic = new Graphic({
             geometry: track,
-            symbol: polylineSymbol
+            symbol: simpleMarkerSymbol
         });
 
         graphicsLayer.add(trackGraphic);
@@ -74,6 +73,9 @@
             result.forEach(makePath);
             console.log(path);
             displayTrack(path);
+            view.goTo({
+                center: [path[0][0], path[0][1]]
+            });
         },
         error: function (req, status, error) {
             console.log("AJAX: FAIL");
@@ -84,7 +86,7 @@
     });
 
     //#endregion
-
+        
 });
 
 

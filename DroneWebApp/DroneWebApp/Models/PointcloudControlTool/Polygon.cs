@@ -7,9 +7,9 @@ namespace DroneWebApp.Models.PointcloudControlTool
 {
     public class Polygon
     {
-        public List<PointCloudXYZ> V { get; set; }
-        public List<int> Index { get; set; }
-        public int N { get { return V.Count; } }
+        public List<PointCloudXYZ> V { get; set; } // vertices of the 3D polygon
+        public List<int> Index { get; set; } // vertices index
+        public int N { get { return V.Count; } } // number of vertices
 
         public Polygon(List<PointCloudXYZ> p)
         {

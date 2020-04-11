@@ -7,12 +7,12 @@ namespace DroneWebApp.Models.PointcloudControlTool
 {
     public class Vector
     {
-        PointCloudXYZ p1;
-        PointCloudXYZ p2;
+        PointCloudXYZ p1; // vector begin point
+        PointCloudXYZ p2; // vector end point
 
-        public double X { get { return (double)p2.X - (double)p1.X; } }
-        public double Y { get { return (double)p2.Y - (double)p1.Y; } }
-        public double Z { get { return (double)p2.Z - (double)p1.Z; } }
+        public double X { get { return (double)p2.X - (double)p1.X; } } // vector x axis projection value
+        public double Y { get { return (double)p2.Y - (double)p1.Y; } } // vector y axis projection value
+        public double Z { get { return (double)p2.Z - (double)p1.Z; } } // vector z axis projection value
 
         public Vector(PointCloudXYZ p1, PointCloudXYZ p2)
         {
@@ -20,6 +20,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
             this.p2 = p2;
         }
 
+        // vector cross product
         public static Vector operator *(Vector u, Vector v)
         {
             double x = u.Y * v.Z - u.Z * v.Y;

@@ -5,8 +5,22 @@ using System.Web;
 
 namespace DroneWebApp.Models.PointcloudControlTool
 {
-    public class PolygonProcedure
+    public class PointcloudControlTool
     {
+        /*
+         * This implements an algorithm to utilize the plane normal vector and direction of a point to plane distance vector 
+         * to determine if a point is inside a 3D polygon for a given polygon vertices.
+         * 
+         * A 3D convex polygon has many faces, a face has a face plane where the face lies in.
+         * 
+         * A face plane has an outward normal vector, which directs to outside of the polygon.
+         * 
+         * A point to face plane distance defines a vector, if the distance vector has an opposite direction with the outward 
+         * normal vector, then the point is in "inside half space" of the face plane, otherwise, it is in "outside half space" of the face plane.
+         * 
+         * A point is determined to be inside of the 3D polygon if the point is in "inside half space" for all faces of the 3D convex polygon.
+        */
+
         double maxUnitMeasureError = 0.001;
 
         // Polygon Boundary
@@ -27,7 +41,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
 
         #region public methods
 
-        public PolygonProcedure(Polygon polygon)
+        public PointcloudControlTool(Polygon polygon)
         {
 
             List<Face> faces = new List<Face>();
@@ -39,14 +53,14 @@ namespace DroneWebApp.Models.PointcloudControlTool
             double x1 = 0, x2 = 0, y1 = 0, y2 = 0, z1 = 0, z2 = 0;
 
             // Get boundary
-            this.Get3DPolygonBoundary(polygon, ref x1, ref x2, ref y1, ref y2, ref z1, ref z2);
+            Get3DPolygonBoundary(polygon, ref x1, ref x2, ref y1, ref y2, ref z1, ref z2);
 
             // Get maximum point to face plane distance error, 
             // point is considered in the face plane if its distance is less than this error
-            double maxDisError = this.Get3DPolygonUnitError(polygon);
+            maxDisError = Get3DPolygonUnitError(polygon);
 
             // Get face planes        
-            this.GetConvex3DFaces(polygon, maxDisError, faces, facePlanes, ref numberOfFaces);
+            GetConvex3DFaces(polygon, maxDisError, faces, facePlanes, ref numberOfFaces);
 
             // Set data members
             this.x1 = x1;
@@ -56,9 +70,8 @@ namespace DroneWebApp.Models.PointcloudControlTool
             this.z1 = z1;
             this.z2 = z2;
             this.faces = faces;
-            this.planes = facePlanes;
+            planes = facePlanes;
             this.numberOfFaces = numberOfFaces;
-            this.maxDisError = maxDisError;
         }
 
         public void GetBoundary(ref double xmin, ref double xmax,
@@ -82,7 +95,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
                 Z = z
             };
 
-            return this.PointInside3DPolygon(p, planes, numberOfFaces);
+            return PointInside3DPolygon(p, planes, numberOfFaces);
         }
 
         #endregion
@@ -98,7 +111,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
 
             double xmin = 0, xmax = 0, ymin = 0, ymax = 0, zmin = 0, zmax = 0;
 
-            this.Get3DPolygonBoundary(polygon,
+            Get3DPolygonBoundary(polygon,
                          ref xmin, ref xmax, ref ymin, ref ymax, ref zmin, ref zmax);
 
             measureError = ((Math.Abs(xmax) + Math.Abs(xmin) + Math.Abs(ymax) + Math.Abs(ymin) +
@@ -233,8 +246,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
                             }
                         }
 
-                        // This is a face for a CONVEX 3D polygon.
-                        // For a CONCAVE 3D polygon, this maybe not a face
+                        // This is a face for a 3D polygon.
                         if (onLeftCount == 0 || onRightCount == 0)
                         {
                             List<int> verticeIndexInOneFace = new List<int>();
@@ -246,7 +258,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
 
                             int m = pointInSamePlaneIndex.Count;
 
-                            if (m > 0) // there are other vetirces in this triangle plane
+                            if (m > 0) // there are other vertices in this triangle plane
                             {
                                 for (int p = 0; p < m; p++)
                                 {
@@ -272,14 +284,6 @@ namespace DroneWebApp.Models.PointcloudControlTool
                             }
 
                         }
-                        else
-                        {
-                            // possible reasons:
-                            // 1. the plane is not a face of a convex 3d polygon, 
-                            //    it is a plane crossing the convex 3d polygon.
-                            // 2. the plane is a face of a concave 3d polygon
-                        }
-
                     } // k loop
                 } // j loop        
             } // i loop                        

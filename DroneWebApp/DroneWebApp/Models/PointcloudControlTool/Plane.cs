@@ -7,6 +7,8 @@ namespace DroneWebApp.Models.PointcloudControlTool
 {
     public class Plane
     {
+        // plane equation: a*x + b*y + c*z + d = 0
+
         public double A { get; set; }
         public double B { get; set; }
         public double C { get; set; }
@@ -24,7 +26,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
         {
             Vector v = new Vector(p1, p2);
             Vector u = new Vector(p1, p3);
-            Vector n = u * v;
+            Vector n = u * v; // normal vector
 
             A = n.X;
             B = n.Y;

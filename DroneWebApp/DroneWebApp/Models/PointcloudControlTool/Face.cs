@@ -7,9 +7,11 @@ namespace DroneWebApp.Models.PointcloudControlTool
 {
     public class Face
     {
-        public List<PointCloudXYZ> V { get; set; }
-        public List<int> Index { get; set; }
-        public int N { get { return V.Count; } }
+        // a face is a flat surface that forms part of the boundary of an object
+
+        public List<PointCloudXYZ> V { get; set; } // vertices in one face of the 3D polygon
+        public List<int> Index { get; set; } // vertices index
+        public int N { get { return V.Count; } } // number of vertices
 
         public Face(List<PointCloudXYZ> p, List<int> i)
         {
