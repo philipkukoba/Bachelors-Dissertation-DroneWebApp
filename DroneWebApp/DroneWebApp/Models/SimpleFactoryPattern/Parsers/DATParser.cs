@@ -504,6 +504,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 // Commit changes to the DB
                 db.SaveChanges();
+
+                Helper.Helper.SetProgress(100);
+
                 // Update the Drone's total flight time
                 Helper.Helper.UpdateTotalDroneFlightTime(db);
             }
