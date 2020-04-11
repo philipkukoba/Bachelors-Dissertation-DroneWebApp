@@ -121,8 +121,11 @@ namespace DroneWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                System.Diagnostics.Debug.WriteLine("In modelstate is valid, before modified");
                 db.Entry(droneFlight).State = EntityState.Modified;
                 db.SaveChanges();
+                // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+                Helper.UpdateTotalDroneFlightTime(this.db);
                 return RedirectToAction("Index");
             }
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);

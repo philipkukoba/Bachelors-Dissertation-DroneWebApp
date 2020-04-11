@@ -36,7 +36,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Date<span class="redBoldText">*</span></label>
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Date, new { @type = "date", @class = "btn btn-info" })
+                @Html.TextBoxFor(model => model.Date, new { @type = "date", @class = "btn btn-info", @Value = Model.Date.ToString("yyyy-MM-dd"),  })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>

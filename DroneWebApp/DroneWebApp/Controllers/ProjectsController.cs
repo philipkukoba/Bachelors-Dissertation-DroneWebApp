@@ -112,7 +112,10 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            // Find the project
             Project project = db.Projects.Find(id);
+            // Count its flights
+            ViewBag.TotalFlights = project.DroneFlights.Count;
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
@@ -127,7 +130,10 @@ namespace DroneWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Find the project
             Project project = db.Projects.Find(id);
+            // Count its flights
+            ViewBag.TotalFlights = project.DroneFlights.Count;
             try
             {
                 db.Projects.Remove(project);

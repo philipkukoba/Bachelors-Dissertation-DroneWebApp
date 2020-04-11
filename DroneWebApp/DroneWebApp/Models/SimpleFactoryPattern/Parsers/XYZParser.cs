@@ -28,8 +28,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(" ");
-
-                int i = 0;
+                int lineNo = 0;
                 //int limit = 1000; // test
 
                 // Set culture to ensure decimal point
@@ -84,25 +83,20 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
 
-                        i++;
-                        if ((i % 10) == 0)
+                        lineNo++;
+                        if ((lineNo % 10) == 0)
                         {
-                            Helper.Helper.SetProgress((i / (double)totalLines) * 100);
-                            System.Diagnostics.Debug.WriteLine("Parsing (in XYZ Model): " + (i / (double)totalLines) * 100 + "%"); // test
-                            System.Diagnostics.Debug.WriteLine("Processed Line: " + i); // test
+                            Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
                         }
-                        //if (i == limit) break;
+                        //if (lineNo == limit) break;
                     }
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
-                System.Diagnostics.Debug.WriteLine("Finishing... Please wait..."); // test
                 // Commit changes to the DB
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("Finished."); // test
-                // reset progress to 0
-                Helper.Helper.SetProgress(0);
-
             }
+            // Reset progress to 0
+            Helper.Helper.SetProgress(0);
             return true;
         }
     }

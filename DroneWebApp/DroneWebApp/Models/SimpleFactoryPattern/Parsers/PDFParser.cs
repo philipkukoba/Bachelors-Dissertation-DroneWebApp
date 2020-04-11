@@ -18,7 +18,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             QualityReport qrp;
             Uncertainty uncertainty;
             GCPError gcpError;
-            AbsoluteGeolocationVariance absoluteGeolocationVariance;  
+            AbsoluteGeolocationVariance absoluteGeolocationVariance;
+
+            // Do not parse a new file, if this flight already has a QR file
+            if (droneFlight.hasQR)
+            {
+                return false;
+            }
 
             // Set culture
             CultureInfo customCulture = (CultureInfo) System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -62,7 +68,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.AreaCovered = Convert.ToDouble(AreaCovered, customCulture);
                 qrp.InitialProcessingTime = TimeSpan.ParseExact(TimeForInitialProcessing, "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
                 #endregion
-
+                Helper.Helper.SetProgress(10);
                 #region Quality Check 
                 //quality check
                 string Dataset = pdfParser.Find("Dataset").Right().Text;
@@ -89,7 +95,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.CameraOptimization = CameraOptimization;
                 qrp.Georeferencing = Georeferencing;
                 #endregion
-
+                Helper.Helper.SetProgress(20);
                 #region Absolute Camera Position and Orientation Uncertainties
                 //absolute camera position and orientation uncertainties 
                 uncertainty = new Uncertainty();
@@ -109,7 +115,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 uncertainty.ASU_y = Convert.ToDouble(AbsoluteSigmaY, customCulture);
                 uncertainty.ASU_z = Convert.ToDouble(AbsoluteSigmaZ, customCulture);
                 #endregion
-
+                Helper.Helper.SetProgress(30);
                 #region Relative Camera Position and Orientation uncertainties
                 //relative camera position and orientation uncertainties 
                 pdfParser.Find("Relative camera position and orientation uncertainties");
@@ -128,7 +134,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 uncertainty.RSU_y = Convert.ToDouble(RelativeSigmaY, customCulture);
                 uncertainty.RSU_z = Convert.ToDouble(RelativeSigmaZ, customCulture);
                 #endregion
-
+                Helper.Helper.SetProgress(40);
                 #region Ground Control Points 
                 //Ground control points 
                 pdfParser.Find("Ground Control Points");
@@ -160,7 +166,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     GCPRMS_z = Convert.ToDouble(RMSErrorZ, customCulture)
                 };
                 #endregion
-
+                Helper.Helper.SetProgress(50);
                 #region Absolute Geolocation Variance           
                 //absolute geolocation variance 
                 pdfParser.Find("Absolute Geolocation Variance");
@@ -192,7 +198,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     AGVRMS_z = Convert.ToDouble(RMSGeolocationErrorZ, customCulture)
                 };
                 #endregion
-
+                Helper.Helper.SetProgress(60);
                 #region System Information
                 //system information
                 pdfParser.Find("System Information");
@@ -221,7 +227,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.GPU = GPU; 
                 qrp.OS = OperatingSystem;
                 #endregion
-
+                Helper.Helper.SetProgress(70);
                 #region Coordinate Systems
                 //coordinate systems 
                 pdfParser.Find("Coordinate Systems");
@@ -233,7 +239,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.GCPCoordinateSystem = GroundControlPointCoordinateSystem;
                 qrp.OutputCoordinateSystem = OutputCoordinateSystem;
                 #endregion
-
+                Helper.Helper.SetProgress(80);
                 #region Results
                 //results
                 pdfParser.Find("Results");
@@ -245,7 +251,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 qrp.DensifiedPoints3D = Convert.ToInt32(NumberOf3DDensifiedPoints);
                 qrp.AverageDensity = float.Parse(AverageDensity);
                 #endregion
-
+                Helper.Helper.SetProgress(90);
                 #region Mapping and Saving Changes to DB 
 
                 // DroneFlight now has a Quality Report
@@ -273,7 +279,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 db.SaveChanges();
                 System.Diagnostics.Debug.WriteLine("Saved Quality Report data to the database.");
                 #endregion
-
+                Helper.Helper.SetProgress(100);
                 #region Debugging with Console 
                 /*      
                  *      momenteel ingesteld op crematorium pdf 
@@ -356,12 +362,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
-                //throw;
             }
             catch (Exception ex) {
                 //for all other exceptions
                 System.Diagnostics.Debug.WriteLine("Exception caught in PDFParser: " + ex);
             }
+            // Reset progress to 0
+            Helper.Helper.SetProgress(0);
             return true;
         }
     }

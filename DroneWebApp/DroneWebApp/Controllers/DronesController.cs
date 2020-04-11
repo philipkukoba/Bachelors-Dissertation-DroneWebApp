@@ -19,7 +19,7 @@ namespace DroneWebApp.Controllers
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
-            Helper.UpdateTotalDroneFlightTime(this.db);
+            System.Diagnostics.Debug.WriteLine("In DronesController");
         }
 
         // GET: Drones
@@ -44,7 +44,6 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            // Calculate total flight time drone
             return View(drone);
         }
 
@@ -120,12 +119,15 @@ namespace DroneWebApp.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Drone drone = db.Drones.Find(id);
+            
             if (drone == null)
             {
                 ViewBag.ErrorMessage = "Drone could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
+            // Count its total flights
+            ViewBag.TotalFlights = drone.DroneFlights.Count;
             return View(drone);
         }
 
@@ -145,6 +147,8 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorDroneDelete = "Cannot delete this Drone. " + drone.DroneName + " is assigned to one or more Flight.";
                 return View(drone);
             }
+            // Count its total flights
+            ViewBag.TotalFlights = drone.DroneFlights.Count;
             return RedirectToAction("Index");
         }
 

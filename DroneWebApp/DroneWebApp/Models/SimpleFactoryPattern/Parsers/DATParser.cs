@@ -30,13 +30,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             bool firstRead = false; // bool to read in the starting time and starting latitude & longitude
 
             Dictionary<string, int> dict = null;
-            
+
+            // Do not parse a new file, if this flight already has a DAT file
+            if (droneFlight.hasDroneLog)
+            {
+                return false;
+            }
+
+            // calculate the total amount of lines by going through the whole file once
+            int totalLines = Helper.Helper.CountFileLines(path);
+            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
+
             // Prepare map useful fields
             using (TextFieldParser parser = new TextFieldParser(path))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
-
+                int lineNo = 0;
                 dict = new Dictionary<string, int>();
 
                 CultureInfo customCulture = (CultureInfo) System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -334,9 +344,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         // Assign data the appropriate FlightId
                         droneLogEntry.FlightId = droneFlight.FlightId;
                         
-                        //Set hasDroneLog to true for the Drone Flight
-                        droneFlight.hasDroneLog = true;
-
                         // Add the DroneLogEntry to the list to be added to the database
                         db.DroneLogEntries.Add(droneLogEntry);
 
@@ -354,6 +361,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         
                         // **DroneRTK**
+                        /*
                         droneRTK.Date = Int32.TryParse(fields[dict["RTKdata:Date"]], out iValue) ? iValue : 0;
                         droneRTK.HDOP = Double.TryParse(fields[dict["RTKdata:hdop"]], out dValue) ? dValue : 0.0;
                         droneRTK.HmslP = Double.TryParse(fields[dict["RTKdata:Hmsl_P"]], out dValue) ? dValue : 0.0;
@@ -366,6 +374,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneRTK.VelD = Double.TryParse(fields[dict["RTKdata:Vel_D"]], out dValue) ? dValue : 0.0;
                         droneRTK.VelE = Double.TryParse(fields[dict["RTKdata:Vel_E"]], out dValue) ? dValue : 0.0;
                         droneRTK.VelN = Double.TryParse(fields[dict["RTKdata:Vel_N"]], out dValue) ? dValue : 0.0;
+                        */
 
                         // **DroneIMU**
                         droneIMU.DistanceTravelled = Double.TryParse(fields[dict["IMU_ATTI(0):distanceTravelled"]], out dValue) ? dValue : 0.0;
@@ -424,12 +433,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             finalTime = (int) droneGPS.Time;
                         }
 
+                        /*
                         // **DroneOA**
                         droneOA.AirportLimit = fields[dict["OA:airportLimit"]];
                         droneOA.AvoidObst = fields[dict["OA:avoidObst"]];
                         droneOA.GroundForceLanding = fields[dict["OA:groundForceLanding"]];
                         droneOA.VertAirportLimit = fields[dict["OA:vertAirportLimit"]];
-
+                        */
                         
                         // Map all ids 1-to-1
                         droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
@@ -447,12 +457,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         db.DroneGPS.Add(droneGPS);
                         db.DroneOAs.Add(droneOA);
 
+                        //Set hasDroneLog to true for the Drone Flight
+                        droneFlight.hasDroneLog = true;
+
                         // Commit changes to the DB
                         db.SaveChanges();
+
+                        lineNo++;
+                        if ((lineNo % 10) == 0)
+                        {
+                            Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
+                        }
                     }
                     catch (Exception ex) {
-                        System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
-                        System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
+                        System.Diagnostics.Debug.WriteLine("Caught first exception in try/Catch: " + ex.Message);
+                        //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
                     }
                 }
             }
@@ -479,6 +498,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 db.DepartureInfoes.Add(departureInfo);
                 db.DestinationInfoes.Add(destinationInfo);
 
+                // Set hasDepInfo and hasDestInfo to true for the Drone Flight
+                droneFlight.hasDepInfo = true;
+                droneFlight.hasDestInfo = true;
+
                 // Commit changes to the DB
                 db.SaveChanges();
                 // Update the Drone's total flight time
@@ -487,8 +510,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
+                //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
             }
+            // Reset progress to 0
+            Helper.Helper.SetProgress(0);
             return true;
         }
     }

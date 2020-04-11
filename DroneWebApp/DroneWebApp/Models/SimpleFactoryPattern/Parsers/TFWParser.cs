@@ -15,6 +15,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             TFW tfw;
 
+            // Do not parse a new file, if this flight already has a TFW file
+            if (droneFlight.hasTFW)
+            {
+                return false;
+            }
+
             //Parse
             using (TextFieldParser parser = new TextFieldParser(path))
             {
@@ -44,7 +50,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                     //Set hasTFW to true
                     droneFlight.hasTFW = true;
-
+                    Helper.Helper.SetProgress(100);
                     //Save changes to the database
                     db.SaveChanges();
                 }

@@ -120,6 +120,7 @@ namespace DroneWebApp.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
+            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
             if (pilot == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
@@ -135,13 +136,14 @@ namespace DroneWebApp.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             Pilot pilot = db.Pilots.Find(id);
+            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
             try
             {
                 db.Pilots.Remove(pilot);
                 db.SaveChanges();
             }
             catch(Exception) {
-                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
+                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flights.";
                 return View(pilot);
             }
             return RedirectToAction("Index");

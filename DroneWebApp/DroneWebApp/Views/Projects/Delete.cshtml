@@ -26,6 +26,15 @@ else
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
+                @Html.Display("Flights assigned to this Project")
+            </th>
+            <td>
+                @ViewBag.TotalFlights
+            </td>
+        </tr>
+        
+        <tr>
+            <th>
                 @Html.DisplayName("Project Code")
             </th>
             <td>

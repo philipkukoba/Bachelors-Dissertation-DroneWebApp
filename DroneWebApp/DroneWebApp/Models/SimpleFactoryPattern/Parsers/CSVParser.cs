@@ -17,12 +17,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             bool hasCTRLPoints = droneFlight.hasCTRLs; 
             bool hasGCPPoints = droneFlight.hasGCPs;
             bool readAPoint = false;
-            
+
+            // calculate the total amount of lines by going through the whole file once
+            int totalLines = Helper.Helper.CountFileLines(path);
+            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
+
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
+                int lineNo = 0;
 
                 // Set culture
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -80,15 +85,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             // Set hasCTRLs to true
                             droneFlight.hasCTRLs = true;
                         }
-
+                        lineNo++;
+                        Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
                         // Save changes to the database
                         db.SaveChanges();
+                        
                     }
                     catch (Exception ex) {
                         System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message);
                     }
                 }
             }
+            // Reset progress to 0
+            Helper.Helper.SetProgress(0);
             return readAPoint; // returns true (success) if it read points; returns false if it didn't read anything, because it already had all the points initially
         }
     }

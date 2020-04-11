@@ -98,7 +98,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.FileName = file_name;
             }
             ViewBag.showInitialMessage = false;
-            System.Diagnostics.Debug.WriteLine("*****************************");
+            System.Diagnostics.Debug.WriteLine("end of FilesController Index & thus upload; but not parsing, because that seems to continue in the background");
             return View();
         }
     }
