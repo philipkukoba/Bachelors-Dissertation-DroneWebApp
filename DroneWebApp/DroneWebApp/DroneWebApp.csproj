@@ -254,7 +254,7 @@
     <Compile Include="Models\PointcloudControlTool\Face.cs" />
     <Compile Include="Models\PointcloudControlTool\Plane.cs" />
     <Compile Include="Models\PointcloudControlTool\Polygon.cs" />
-    <Compile Include="Models\PointcloudControlTool\PolygonProcedure.cs" />
+    <Compile Include="Models\PointcloudControlTool\PointcloudControlTool.cs" />
     <Compile Include="Models\PointcloudControlTool\Utility.cs" />
     <Compile Include="Models\PointcloudControlTool\Vector.cs" />
     <Compile Include="Models\PointCloudXYZ.cs">
