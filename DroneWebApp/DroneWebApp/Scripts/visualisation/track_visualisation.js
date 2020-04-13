@@ -18,7 +18,7 @@
         container: "viewDiv",
         map: map,
         center: [3.30120924, 50.85590007],
-        zoom: 16
+        zoom: 20
     });
 
     var graphicsLayer = new GraphicsLayer();
@@ -56,12 +56,21 @@
             width: 4
         };
 
+        var popupTemplate = {
+            title: "Flight " + id
+        };
+
         var trackGraphic = new Graphic({
             geometry: track,
+            popupTemplate: popupTemplate,
             symbol: simpleMarkerSymbol
         });
 
         graphicsLayer.add(trackGraphic);
+
+        view.goTo({
+            target: trackGraphic
+        });
     }
 
     $.ajax({
@@ -73,9 +82,6 @@
             result.forEach(makePath);
             console.log(path);
             displayTrack(path);
-            view.goTo({
-                center: [path[0][0], path[0][1]]
-            });
         },
         error: function (req, status, error) {
             console.log("AJAX: FAIL");
