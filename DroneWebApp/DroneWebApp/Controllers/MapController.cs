@@ -25,11 +25,16 @@ namespace DroneWebApp.Controllers
 
         public ActionResult ViewMap(int? id)
         {
+            System.Diagnostics.Debug.WriteLine(id);
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else if (id == 0)
+            {
+                return View();
             }
             else
             {
