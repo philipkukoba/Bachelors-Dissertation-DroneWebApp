@@ -63,3 +63,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 11/04/20,19:30,23:30,Extern,Nieuwe screenshots database model maken + verderwerken aan reverse geocoding,112,
 13/04/20,23:45,23:59,Extern,Reverse geocoding beginnen proberen implementeren in applicatie,112,
 14/04/20,00:00,01:30,Extern,Reverse geocoding beginnen proberen implementeren in applicatie,112,
+14/04/20,19:45,20:55,Extern,Debugging ajax calls,149,Met Bryan
