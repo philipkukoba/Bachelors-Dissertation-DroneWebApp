@@ -20,30 +20,34 @@ $('#Myform').ajaxForm({
     complete: function () {   //complete is called once parsing is also done
         clearInterval(intervalID);
         $("#uploadstatus").text("Parsing complete.");
-        // update old ViewBag fields
+        // update View
         $.ajax({
             type: "GET",
             url: "/Files/GetParseResult/", 
             success: function (parseResult) {
                 $("#progressbar").progressbar("value", 100); // ensures that the value at the end is definitely 100% in case a file is uploaded very quickly
                 $("#initialMessage").hide();
-                $("#successfullyAdded").show();
-                if (parseResult) {
-                    $("#continuationMessage").show();
+                $("#continuationMessage").show();
+                if (parseResult == 1) {
+                    $("#successfullyAdded").show();
                 }
                 else {
+                    $("#successfullyAdded").hide();
                     $("#alreadyExists").show();
                 }
+                // Get the file name
+                $.ajax({
+                    type: "GET",
+                    url: "/Files/GetFileName/",
+                    success: function (fileName) {
+                        //update the progress bar
+                        console.log(fileName);
+                        $("#fileName").text(fileName);
+                    }
+                });
             }
         });
-        $.ajax({
-            type: "GET",
-            url: "/Files/GetFileName/",
-            success: function (fileName) {
-                //update the progress bar
-                $("#fileName").text(fileName);
-            }
-        });
+       
     }
 });
 });

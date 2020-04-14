@@ -18,12 +18,13 @@ namespace DroneWebApp.Controllers
         public DroneDBEntities Db { get; set; }
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
-        string fileName;
-        bool parseResult = false;
+        static string fileName;
+        static bool parseResult = false;
 
         // Constructor
         public FilesController(DbContext db)
         {
+            System.Diagnostics.Debug.WriteLine("Constructor! :D");
             this.Db = (DroneDBEntities)db;
             creator = new Creator(Db);
         }
@@ -48,7 +49,7 @@ namespace DroneWebApp.Controllers
         [HttpPost]
         public ActionResult Index(int? id, HttpPostedFileBase files)
         {
-            // Check if an id was submitted & whether a drone flight with this id exists
+            // Check if an id was submitted & whether a drone flight with this id exists            // ********************************
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
             {
@@ -67,6 +68,7 @@ namespace DroneWebApp.Controllers
             {
                 // extract only the filename
                 fileName = Path.GetFileName(files.FileName);
+                System.Diagnostics.Debug.WriteLine("****** File name: " + fileName);
                 // store the file inside ~/App_Data/uploads folder
                 path = Path.Combine(Server.MapPath("~/files"), fileName);
                 files.SaveAs(path);              
@@ -74,19 +76,22 @@ namespace DroneWebApp.Controllers
 
             //fileName = files.FileName;
             string fileExtension = fileName.Substring(fileName.Length - 4);
-            // Verify that the user's file is an appropriate filetype
+            // Verify that the user's file is an appropriate filetype                           // *****************************
             if (!validExtensions.Contains(fileExtension))
             {
                 ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
+                return View("~/Views/ErrorPage/Error.cshtml");
             }
             else
             {
                 // Parsing
-                parseResult = creator.GetParser(fileExtension, path, (int)id);
-
                 if (fileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
                 {
                     parseResult = creator.GetParser(".dat", path, (int)id);
+                }
+                else
+                {
+                    parseResult = creator.GetParser(fileExtension, path, (int)id);
                 }
             }
             return View();
@@ -103,9 +108,13 @@ namespace DroneWebApp.Controllers
         // returns true if a file was successfully read; 
         // returns false if a file was not read because it already existed
         [HttpGet]
-        public bool GetParseResult()
+        public int GetParseResult()
         {
-            return parseResult;
+            if(parseResult)
+            {
+                return 1;
+            }
+            return 0;
         }
 
         [HttpGet]
@@ -113,6 +122,5 @@ namespace DroneWebApp.Controllers
         {
             return fileName;
         }
-
     }
 }
