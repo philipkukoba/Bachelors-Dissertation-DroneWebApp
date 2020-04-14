@@ -367,8 +367,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //for all other exceptions
                 System.Diagnostics.Debug.WriteLine("Exception caught in PDFParser: " + ex);
             }
-            // Reset progress to 0
-            Helper.Helper.SetProgress(0);
             return true;
         }
     }

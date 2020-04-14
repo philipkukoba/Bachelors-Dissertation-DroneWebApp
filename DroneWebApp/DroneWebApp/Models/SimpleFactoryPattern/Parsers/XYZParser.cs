@@ -93,6 +93,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
                 // Commit changes to the DB
+                Helper.Helper.SetProgress(100);
                 db.SaveChanges();
             }
             return true;

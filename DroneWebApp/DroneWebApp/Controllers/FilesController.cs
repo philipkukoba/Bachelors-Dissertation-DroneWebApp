@@ -18,14 +18,14 @@ namespace DroneWebApp.Controllers
         public DroneDBEntities Db { get; set; }
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
-    
+        string fileName;
+        bool parseResult = false;
+
         // Constructor
         public FilesController(DbContext db)
         {
             this.Db = (DroneDBEntities)db;
             creator = new Creator(Db);
-            ViewBag.Status = true;
-            ViewBag.showInitialMessage = true;
         }
 
         [HttpGet]
@@ -40,13 +40,23 @@ namespace DroneWebApp.Controllers
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
+            System.Diagnostics.Debug.WriteLine("Index regular called");
             return View();
         }
 
+        // gets the progress value of the file parsing
         [HttpGet]
         public double getUploadStatus() {
-            System.Diagnostics.Debug.WriteLine(Helper.progress + "\n");
             return Helper.progress; 
+        }
+
+        // gets the result value of the parsing
+        // returns true if a file was successfully read; 
+        // returns false if a file was not read because it already existed
+        [HttpGet]
+        public bool getParseResult()
+        {
+            return parseResult;
         }
 
 
@@ -72,15 +82,14 @@ namespace DroneWebApp.Controllers
             if (files != null && files.ContentLength > 0)
             {
                 // extract only the filename
-                var fileName = Path.GetFileName(files.FileName);
+                fileName = Path.GetFileName(files.FileName);
                 // store the file inside ~/App_Data/uploads folder
                 path = Path.Combine(Server.MapPath("~/files"), fileName);
                 files.SaveAs(path);              
             }
 
-            string file_name = files.FileName;
-            string fileExtension = file_name.Substring(file_name.Length - 4);
-
+            //fileName = files.FileName;
+            string fileExtension = fileName.Substring(fileName.Length - 4);
             // Verify that the user's file is an appropriate filetype
             if (!validExtensions.Contains(fileExtension))
             {
@@ -89,18 +98,16 @@ namespace DroneWebApp.Controllers
             else
             {
                 // Parsing
-                ViewBag.Status = creator.GetParser(fileExtension, path, (int)id);
+                parseResult = creator.GetParser(fileExtension, path, (int)id);
 
-                if (file_name.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                if (fileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
                 {
-                    ViewBag.Status = creator.GetParser(".dat", path, (int)id);
+                    parseResult = creator.GetParser(".dat", path, (int)id);
                 }
-                ViewBag.FileName = file_name;
             }
-            ViewBag.showInitialMessage = false;
-            System.Diagnostics.Debug.WriteLine("end of FilesController Index & thus upload; but not parsing, because that seems to continue in the background");
+            
             // Reset progress for progress bar to 0
-            Helper.SetProgress(0);
+            // Helper.SetProgress(0);
             return View();
         }
     }

@@ -5,20 +5,18 @@
 <p></p>
 <h2>File Upload</h2>
 
-@if (@ViewBag.FileName != null && @ViewBag.Status)
-{
-    <div class="alert alert-success" role="alert">
-        File <strong>@ViewBag.FileName</strong> has been successfully added to your Flight.<br />
-        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
-    </div>
-}
-else if (!@ViewBag.Status)
-{
-    <div class="alert alert-danger" role="alert">
-        File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
-        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
-    </div>
-}
+@* Update *@
+
+<div id="successfullyAdded" class="alert alert-success" role="alert" hidden>
+    File <strong>@ViewBag.FileName</strong> has been successfully added to your Flight.<br />
+    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+</div>
+
+<div id="alreadyExists" class="alert alert-danger" role="alert" hidden>
+    File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
+    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+</div>
+
 
 @if (ViewBag.ErrorMessage != null)
 {
@@ -27,10 +25,15 @@ else if (!@ViewBag.Status)
     </div>
 }
 
-@if (@ViewBag.showInitialMessage)
-{
+<div id="initialMessage">
     <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
-}
+</div>
+<div id="continuationMessage" hidden>
+    <h4>You can add more files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
+</div>
+    
+
+@* Update *@
 
 <div class="card" style="padding: 20px; width:auto">
     <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">
@@ -50,9 +53,3 @@ else if (!@ViewBag.Status)
 <p>
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
 </p>
-
-@section Scripts{
-    <script src="~/Scripts/custom/fileUpload.js"></script>
-
-
-}

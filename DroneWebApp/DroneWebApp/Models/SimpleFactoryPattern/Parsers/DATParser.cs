@@ -333,13 +333,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         // **DroneLogEntry**
                         droneLogEntry.BatteryLowVoltage = fields[dict["Battery:lowVoltage"]];
                         droneLogEntry.BatteryStatus = fields[dict["Battery:status"]];
-                        droneLogEntry.BatteryPercentage = Double.TryParse(fields[dict["BattInfo:Remaining%"]], out double dValue) ? dValue : 0.0;
+                        //droneLogEntry.BatteryPercentage = Double.TryParse(fields[dict["BattInfo:Remaining%"]], out double dValue) ? dValue : 0.0;
                         droneLogEntry.CompassError = fields[dict["compassError"]];
                         droneLogEntry.ConnectedToRC = fields[dict["connectedToRC"]];
                         droneLogEntry.ControllerCTRLMode = fields[dict["Controller:ctrlMode"]];
                         droneLogEntry.FlightTime = Int32.TryParse(fields[dict["flightTime"]], out int iValue) ? iValue : 0;
                         droneLogEntry.FlyCState = fields[dict["flyCState"]];
-                        droneLogEntry.GeneralRelHeight = Double.TryParse(fields[dict["General:relativeHeight"]], out dValue) ? dValue : 0.0;
+                        droneLogEntry.GeneralRelHeight = Double.TryParse(fields[dict["General:relativeHeight"]], out double dValue) ? dValue : 0.0; // delete 'double' when uncommenting BatteryPercentage
                         droneLogEntry.GPSUsed = fields[dict["gpsUsed"]];
                         droneLogEntry.NavHealth = Int32.TryParse(fields[dict["navHealth"]], out iValue) ? iValue : 0;
                         droneLogEntry.NonGPSCause = fields[dict["nonGPSCause"]];
