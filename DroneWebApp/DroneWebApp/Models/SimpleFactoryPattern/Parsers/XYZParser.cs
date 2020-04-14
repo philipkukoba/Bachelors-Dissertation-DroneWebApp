@@ -95,8 +95,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 // Commit changes to the DB
                 db.SaveChanges();
             }
-            // Reset progress to 0
-            Helper.Helper.SetProgress(0);
             return true;
         }
     }

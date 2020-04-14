@@ -479,13 +479,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                     catch (Exception ex) {
                         System.Diagnostics.Debug.WriteLine("Caught first exception in try/Catch: " + ex.Message);
-                        //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
                     }
                 }
                 #endregion
             }
             try
             {
+                #region Departure and Destination Information
                 departureInfo = new DepartureInfo();
                 destinationInfo = new DestinationInfo();
 
@@ -510,6 +510,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 // Set hasDepInfo and hasDestInfo to true for the Drone Flight
                 droneFlight.hasDepInfo = true;
                 droneFlight.hasDestInfo = true;
+                #endregion
 
                 // Commit changes to the DB
                 db.SaveChanges();
@@ -524,8 +525,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 System.Diagnostics.Debug.WriteLine("Caught exception in second try/Catch: " + ex.Message);
                 //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
             }
-            // Reset progress to 0
-            Helper.Helper.SetProgress(0);
             return true;
         }
     }

@@ -96,8 +96,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     }
                 }
             }
-            // Reset progress to 0
-            Helper.Helper.SetProgress(0);
             return readAPoint; // returns true (success) if it read points; returns false if it didn't read anything, because it already had all the points initially
         }
     }
