@@ -31,6 +31,7 @@ namespace DroneWebApp.Models
         public string BatteryLowVoltage { get; set; }
         public string GPSUsed { get; set; }
         public int FlightId { get; set; }
+        public Nullable<double> BatteryPercentage { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
         public virtual DroneGP DroneGP { get; set; }

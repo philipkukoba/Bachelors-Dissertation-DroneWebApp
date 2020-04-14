@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AbsoluteGeolocationVariance">
           <Key>
             <PropertyRef Name="AbsoluteGeolocationVarianceId" />
@@ -144,6 +144,7 @@
           <Property Name="FlyCState" Type="varchar" MaxLength="50" />
           <Property Name="ControllerCTRLMode" Type="varchar" MaxLength="50" />
           <Property Name="BatteryStatus" Type="varchar" MaxLength="50" />
+          <Property Name="BatteryPercentage" Type="float" />
           <Property Name="SmartBattGoHome" Type="int" />
           <Property Name="SmartBattLand" Type="int" />
           <Property Name="NonGPSCause" Type="varchar" MaxLength="50" />
@@ -753,8 +754,7 @@
             <End Role="Uncertainty" EntitySet="Uncertainty" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -933,6 +933,7 @@
           <NavigationProperty Name="DroneOA" Relationship="Self.FK_DroneOA_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneOA" />
           <NavigationProperty Name="DroneRC" Relationship="Self.FK_DroneRC_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneRC" />
           <NavigationProperty Name="DroneRTKData" Relationship="Self.FK_DroneRTKData_DroneLogEntry" FromRole="DroneLogEntry" ToRole="DroneRTKData" />
+          <Property Name="BatteryPercentage" Type="Double" />
         </EntityType>
         <EntityType Name="DroneMotor">
           <Key>
@@ -1694,6 +1695,7 @@
           <EntitySetMapping Name="DroneLogEntries">
             <EntityTypeMapping TypeName="DroneDBModel.DroneLogEntry">
               <MappingFragment StoreEntitySet="DroneLogEntry">
+                <ScalarProperty Name="BatteryPercentage" ColumnName="BatteryPercentage" />
                 <ScalarProperty Name="DroneLogEntryId" ColumnName="DroneLogEntryId" />
                 <ScalarProperty Name="Tick_no" ColumnName="Tick_no" />
                 <ScalarProperty Name="OffsetTime" ColumnName="OffsetTime" />

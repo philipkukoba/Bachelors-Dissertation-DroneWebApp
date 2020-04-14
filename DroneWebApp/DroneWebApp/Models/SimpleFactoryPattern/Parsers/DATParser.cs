@@ -55,6 +55,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 string[] fields = parser.ReadFields();
 
+                #region Read headers of csv file
                 for (int i = 0; i < fields.Length; i++)
                 {
                     if (fields[i].Equals("Tick#"))
@@ -189,6 +190,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     {
                         dict.Add("Battery:status", i);
                     }
+                    else if (fields[i].Equals("BattInfo:Remaining%"))
+                    {
+                        dict.Add("BattInfo:Remaining%", i);
+                    }
                     else if (fields[i].Equals("SMART_BATT:goHome%"))
                     {
                         dict.Add("SMART_BATT:goHome%", i);
@@ -310,7 +315,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         dict.Add("Attribute|Value", i);
                     }
                 }
+                #endregion
 
+                #region Parse the file
                 // Parse the file
                 parser.ReadFields();
                 while (!parser.EndOfData)
@@ -326,12 +333,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         // **DroneLogEntry**
                         droneLogEntry.BatteryLowVoltage = fields[dict["Battery:lowVoltage"]];
                         droneLogEntry.BatteryStatus = fields[dict["Battery:status"]];
+                        droneLogEntry.BatteryPercentage = Double.TryParse(fields[dict["BattInfo:Remaining%"]], out double dValue) ? dValue : 0.0;
                         droneLogEntry.CompassError = fields[dict["compassError"]];
                         droneLogEntry.ConnectedToRC = fields[dict["connectedToRC"]];
                         droneLogEntry.ControllerCTRLMode = fields[dict["Controller:ctrlMode"]];
                         droneLogEntry.FlightTime = Int32.TryParse(fields[dict["flightTime"]], out int iValue) ? iValue : 0;
                         droneLogEntry.FlyCState = fields[dict["flyCState"]];
-                        droneLogEntry.GeneralRelHeight = Double.TryParse(fields[dict["General:relativeHeight"]], out double dValue) ? dValue : 0.0;
+                        droneLogEntry.GeneralRelHeight = Double.TryParse(fields[dict["General:relativeHeight"]], out dValue) ? dValue : 0.0;
                         droneLogEntry.GPSUsed = fields[dict["gpsUsed"]];
                         droneLogEntry.NavHealth = Int32.TryParse(fields[dict["navHealth"]], out iValue) ? iValue : 0;
                         droneLogEntry.NonGPSCause = fields[dict["nonGPSCause"]];
@@ -474,6 +482,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
                     }
                 }
+                #endregion
             }
             try
             {
