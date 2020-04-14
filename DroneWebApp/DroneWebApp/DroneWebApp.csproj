@@ -375,6 +375,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\visualisation\track_visualisation2.js" />
     <Content Include="Scripts\visualisation\track_visualisation.js" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
@@ -413,7 +414,6 @@
     <Content Include="Views\DroneFlights\TFW.cshtml" />
     <Content Include="Views\Shared\_MapLayout.cshtml" />
     <Content Include="Views\Map\ViewMap.cshtml" />
-    <Content Include="Views\DroneFlights\Map.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
