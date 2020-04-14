@@ -8,12 +8,12 @@
 @* Update *@
 
 <div id="successfullyAdded" class="alert alert-success" role="alert" hidden>
-    File <strong>@ViewBag.FileName</strong> has been successfully added to your Flight.<br />
+    File <span id="fileName"></span> has been successfully added to your Flight.<br />
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
 </div>
 
 <div id="alreadyExists" class="alert alert-danger" role="alert" hidden>
-    File <strong>@ViewBag.FileName</strong> already exists and has not been read.<br />
+    File <span id="fileName"></span> already exists and has not been read.<br />
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
 </div>
 

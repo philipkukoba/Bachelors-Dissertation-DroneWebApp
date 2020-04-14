@@ -44,22 +44,6 @@ namespace DroneWebApp.Controllers
             return View();
         }
 
-        // gets the progress value of the file parsing
-        [HttpGet]
-        public double getUploadStatus() {
-            return Helper.progress; 
-        }
-
-        // gets the result value of the parsing
-        // returns true if a file was successfully read; 
-        // returns false if a file was not read because it already existed
-        [HttpGet]
-        public bool getParseResult()
-        {
-            return parseResult;
-        }
-
-
         //Single File Upload
         [HttpPost]
         public ActionResult Index(int? id, HttpPostedFileBase files)
@@ -105,10 +89,30 @@ namespace DroneWebApp.Controllers
                     parseResult = creator.GetParser(".dat", path, (int)id);
                 }
             }
-            
-            // Reset progress for progress bar to 0
-            // Helper.SetProgress(0);
             return View();
         }
+
+        // gets the progress value of the file parsing
+        [HttpGet]
+        public double GetProgressStatus()
+        {
+            return Helper.progress;
+        }
+
+        // gets the result value of the parsing
+        // returns true if a file was successfully read; 
+        // returns false if a file was not read because it already existed
+        [HttpGet]
+        public bool GetParseResult()
+        {
+            return parseResult;
+        }
+
+        [HttpGet]
+        public string GetFileName()
+        {
+            return fileName;
+        }
+
     }
 }
