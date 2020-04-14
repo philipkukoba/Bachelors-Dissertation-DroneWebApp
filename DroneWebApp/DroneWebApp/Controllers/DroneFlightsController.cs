@@ -117,12 +117,14 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
+        public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
             {
+                DroneFlight df = db.DroneFlights.Find(droneFlight.FlightId);
+                UpdateFlightFields(droneFlight, df);
                 System.Diagnostics.Debug.WriteLine("In modelstate is valid, before modified");
-                db.Entry(droneFlight).State = EntityState.Modified;
+                db.Entry(df).State = EntityState.Modified;
                 db.SaveChanges();
                 // Update the total time drones have flown in case the drone flight's drone has been changed by the user
                 Helper.UpdateTotalDroneFlightTime(this.db);
@@ -132,6 +134,22 @@ namespace DroneWebApp.Controllers
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
             return View(droneFlight);
+        }
+
+        // Update the fields of the DroneFlight that has been found by FlightId with the fields of the posted DroneFlight, a.k.a. the drone flight 
+        // the user has submitted
+        private static void UpdateFlightFields(DroneFlight postedDroneFlight, DroneFlight df)
+        {
+            df.DroneId = postedDroneFlight.DroneId;
+            df.PilotId = postedDroneFlight.PilotId;
+            df.ProjectId = postedDroneFlight.ProjectId;
+            df.Location = postedDroneFlight.Location;
+            df.Date = postedDroneFlight.Date;
+            df.TypeOfActivity = postedDroneFlight.TypeOfActivity;
+            df.Other = postedDroneFlight.Other;
+            df.Simulator = postedDroneFlight.Simulator;
+            df.Instructor = postedDroneFlight.Instructor;
+            df.Remarks = postedDroneFlight.Remarks;
         }
 
         // GET: DroneFlights/Delete/5
@@ -169,7 +187,8 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorDroneFlightDelete = "Cannot delete this Drone Flight.";
                 return View(droneFlight);
             }
-            
+            // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+            Helper.UpdateTotalDroneFlightTime(this.db);
             return RedirectToAction("Index");
         }
 

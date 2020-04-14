@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DroneWebApp.Models;
+using DroneWebApp.Models.Helper;
 
 namespace DroneWebApp.Controllers
 {
@@ -144,7 +145,8 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorProjectstDelete = "Cannot delete this Project.";
                 return View(project);
             }
-
+            // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+            Helper.UpdateTotalDroneFlightTime(this.db);
             return RedirectToAction("Index");
         }
 
