@@ -10,8 +10,10 @@
 <div>
     <h4>Drone Flight @Model.FlightId</h4>
     <hr />
-    <p>@Html.ActionLink("Upload File", "Index", "Files", new { id = @Model.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" }) 
-    @Html.ActionLink("View Flight", "Map", new { id = @Model.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })</p>
+    <p>
+        @Html.ActionLink("Upload File", "Index", "Files", new { id = @Model.FlightId }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+        @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = @Model.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+    </p>
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
