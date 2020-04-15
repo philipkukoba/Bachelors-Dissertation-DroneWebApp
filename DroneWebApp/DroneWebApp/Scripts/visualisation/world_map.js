@@ -101,12 +101,44 @@
     //#region XYZ VISUALISATION
 
 
-    //popup for XYZ
-    //werkt niet want dit is enkel voor featurelayers
-    //var popupXYZ = new PopupTemplate({
-    //    "title": "XYZ Information",
-    //    "content": "SAMPLE CONTENT"
-    //});
+    const XYZPopup = {
+        "title": "XYZ Point with ID: {XYZId}",
+        "content": [{
+            "type": "fields",
+            "fieldInfos": [
+                {
+                    "fieldName": "x",
+                    "label": "X",
+
+                },
+                {
+                    "fieldName": "y",
+                    "label": "Y",
+
+                },
+                {
+                    "fieldName": "z",
+                    "label": "Z",
+
+                },
+                {
+                    "fieldName": "RedValue",
+                    "label": "Red",
+
+                },
+                {
+                    "fieldName": "GreenValue",
+                    "label": "Green",
+
+                },
+                {
+                    "fieldName": "BlueValue",
+                    "label": "Blue",
+
+                }
+            ]
+        }]
+    };
 
     let readXYZ = (XYZPoint) => {
         let pointGraphic = {             //type graphic (autocasts)
@@ -119,6 +151,9 @@
             },
             attributes: {               //additional attributes (battery etc) will go here !!!
                 XYZId: XYZPoint.PointCloudXYZId,
+                x: XYZPoint.X,
+                y: XYZPoint.Y,
+                z: XYZPoint.Z,
                 RedValue: XYZPoint.Red,
                 GreenValue: XYZPoint.Green,
                 BlueValue: XYZPoint.Blue,
@@ -141,20 +176,36 @@
 
             let XYZFeatureLayer = new FeatureLayer({
                 title: "XYZ Points",
-                source: XYZPoints, 
+                source: XYZPoints,
 
-                fields: [{                                        
+                fields: [{                //repeat the fields for visual variables here
+                    name: "x",
+                    type: "double"
+                },
+                {
+                    name: "y",
+                    type: "double"
+                },
+                {
+                    name: "z",
+                    type: "double"
+                },
+                {
                     name: "RedValue",
                     type: "double"
                 },
-                {                                   
+                {
                     name: "GreenValue",
                     type: "double"
                 },
-                {                                        
+                {
                     name: "BlueValue",
                     type: "double"
-                    }],
+                },
+                {
+                    name: "Intensity",
+                    type: "double"
+                }],
 
                 objectIdField: "XYZId",                             //needed to uniquely identify each object
 
@@ -163,13 +214,14 @@
                     type: "simple",  // autocasts as new SimpleRenderer()
                     symbol: {
                         type: "simple-marker",
-                        color: ["RedValue", "GreenValue", "BlueValue"], 
-                        outline: {
-                            color: [255, 255, 255], // white
-                            width: 1
-                        }
+                        color: ["RedValue", "GreenValue", "BlueValue"]
+                        //outline: {
+                        //    color: [255, 255, 255], // white
+                        //    width: 1
+                        //}
                     }
-                }
+                },
+                popupTemplate: XYZPopup
             });
 
             map.add(XYZFeatureLayer);
@@ -183,6 +235,30 @@
 
     //#region CTRLPoints VISUALISATION 
 
+    const CTRLTemplate = {
+        "title": "Control Point with ID: {CTRLId}",
+        "content": [{
+            "type": "fields",
+            "fieldInfos": [
+                {
+                    "fieldName": "x",
+                    "label": "X",
+
+                },
+                {
+                    "fieldName": "y",
+                    "label": "Y",
+
+                },
+                {
+                    "fieldName": "z",
+                    "label": "Z",
+
+                }
+            ]
+        }]
+    };
+
     let readCTRL = (CTRLPoint) => {
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
@@ -193,7 +269,10 @@
                 spatialReference: LambertSR   //needs to be defined here
             },
             attributes: {               //additional attributes (battery etc) will go here !!!
-                CTRLId: CTRLPoint.CTRLId
+                CTRLId: CTRLPoint.CTRLId,
+                x: CTRLPoint.X,
+                y: CTRLPoint.Y,
+                z: CTRLPoint.Z
             }
         };
         return pointGraphic;
@@ -214,11 +293,18 @@
                 title: "CTRL Points",
                 source: CTRLPoints,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
                 geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
-                //spatialReference: LambertSR,           // autocasts to wgs84 if not set 
-                /*fields: [{                                          //repeat the fields for visual variables here!!! 
-                    name: "HeightMSL",
+                fields: [{                //repeat the fields for visual variables here
+                    name: "x",
                     type: "double"
-                }], */
+                },
+                {
+                    name: "y",
+                    type: "double"
+                },
+                {
+                    name: "z",
+                    type: "double"
+                }],
                 objectIdField: "CTRLId",                             //needed to uniquely identify each object
 
                 renderer: {
@@ -231,7 +317,8 @@
                             width: 1
                         }
                     }
-                }
+                },
+                popupTemplate: CTRLTemplate
             });
 
             map.add(CTRLfeatureLayer);
@@ -244,6 +331,31 @@
     //#endregion
 
     //#region GCP VISUALISATION 
+
+    const GCPTemplate = {
+        "title": "Ground Control Point with ID: {GCPId}",
+        "content": [{
+            "type": "fields",
+            "fieldInfos": [
+                {
+                    "fieldName": "x",
+                    "label": "X",
+
+                },
+                {
+                    "fieldName": "y",
+                    "label": "Y",
+
+                },
+                {
+                    "fieldName": "z",
+                    "label": "Z",
+
+                }
+            ]
+        }]
+    };
+
     let readGCP = (gcp) => {
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
@@ -253,8 +365,11 @@
                 z: gcp.Z,
                 spatialReference: LambertSR   //needs to be defined here??
             },
-            attributes: {               //additional attributes (battery etc) will go here !!!
-                GCPId: gcp.GCPId
+            attributes: {               //additional attributes (battery etc) will go here 
+                GCPId: gcp.GCPId,
+                x: gcp.X,
+                y: gcp.Y,
+                z: gcp.Z
             }
         };
         return pointGraphic;
@@ -273,12 +388,19 @@
             let GCPFeatureLayer = new FeatureLayer({
                 title: "Ground Control Points",
                 source: GCPs,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
-                geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
-                //spatialReference: LambertSR,           // autocasts to wgs84 if not set 
-                /*fields: [{                                          //repeat the fields for visual variables here!!! 
-                    name: "HeightMSL",
+                geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features) 
+                fields: [{                //repeat the fields for visual variables here
+                    name: "x",
                     type: "double"
-                }], */
+                },
+                {
+                    name: "y",
+                    type: "double"
+                },
+                {
+                    name: "z",
+                    type: "double"
+                }],
                 objectIdField: "GCPId",                             //needed to uniquely identify each object
 
                 renderer: {
@@ -291,7 +413,10 @@
                             width: 1
                         }
                     }
-                }
+                },
+
+                popupTemplate: GCPTemplate
+
             });
 
             map.add(GCPFeatureLayer);
@@ -306,10 +431,10 @@
     //#endregion
 
     //#region TRACK VISUALISATION 
-    //#region Visual Variable and custom Renderer
+    //#region Visual Variable, custom Renderer and popup
 
     //visual variable
-    var colorVisVar = {
+    let colorVisVar = {
         type: "color",          //specify that its based on color (not size or rotation etc)
         field: "HeightMSL",     //specify which field to use
         stops: [{ value: 0.0, color: "#FF0000" }, { value: 55.0, color: "#0000FF" }]
@@ -320,6 +445,27 @@
         type: "simple",                 // autocasts as new SimpleRenderer()
         symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
         visualVariables: [colorVisVar]
+    };
+
+    const GPTemplate = {
+        "title": "Track Point with ID: {GPSId}",
+        "content": [{
+            "type": "fields",
+            "fieldInfos": [
+                {
+                    "fieldName": "x",
+                    "label": "X (WGS84)",
+                },
+                {
+                    "fieldName": "y",
+                    "label": "Y (WGS84)",
+                },
+                {
+                    "fieldName": "HeightMSL",
+                    "label": "Height (Mean Sea Level)",
+                }
+            ]
+        }]
     };
 
     //#endregion
@@ -333,7 +479,9 @@
             },
             attributes: {               //additional attributes (battery etc) will go here !!!
                 GPSId: gp.GPSId,
-                HeightMSL: gp.HeightMSL
+                HeightMSL: gp.HeightMSL,
+                x: gp.Long,
+                y: gp.Lat
             }
         };
         return pointGraphic;
@@ -358,9 +506,18 @@
                 fields: [{                                          //repeat the fields for visual variables here!!! 
                     name: "HeightMSL",
                     type: "double"
+                },
+                {                                          //repeat the fields for visual variables here!!! 
+                    name: "x",
+                    type: "double"
+                },
+                {                                          //repeat the fields for visual variables here!!! 
+                    name: "y",
+                    type: "double"
                 }],
                 objectIdField: "GPSId",                             //needed to uniquely identify each object
-                renderer: customRenderer
+                renderer: customRenderer,
+                popupTemplate: GPTemplate
             });
 
             map.add(trackFeatureLayer);
