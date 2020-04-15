@@ -45,3 +45,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 11/04/20,15:15,18:00,Extern, Progress bar: debugging/code cleanup - track visualisation - issues bespreken in groepschat,84-96-101,
 12/04/20,20:30,22:45,Extern, ArcGIS Documentatie doorzoeken voor track visualisation / legende,84,
 13/04/20,13:00,18:45,Extern, Track visualisation afgewerkt voor hoogte,84,
+14/04/20,17:30-19:45,Extern, Merging visualisation code,,
+15/04/20,13:30,20:00,Extern, Visualisation code debugging - implemented popups - implemented measurement widget - reading API for possible solutions ,151,
