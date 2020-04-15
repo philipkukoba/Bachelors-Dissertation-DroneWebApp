@@ -331,24 +331,24 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         fields = parser.ReadFields();
 
                         // **DroneLogEntry**
-                        droneLogEntry.BatteryLowVoltage = fields[dict["Battery:lowVoltage"]];
-                        droneLogEntry.BatteryStatus = fields[dict["Battery:status"]];
-                        //droneLogEntry.BatteryPercentage = Double.TryParse(fields[dict["BattInfo:Remaining%"]], out double dValue) ? dValue : 0.0;
-                        droneLogEntry.CompassError = fields[dict["compassError"]];
-                        droneLogEntry.ConnectedToRC = fields[dict["connectedToRC"]];
-                        droneLogEntry.ControllerCTRLMode = fields[dict["Controller:ctrlMode"]];
-                        droneLogEntry.FlightTime = Int32.TryParse(fields[dict["flightTime"]], out int iValue) ? iValue : 0;
-                        droneLogEntry.FlyCState = fields[dict["flyCState"]];
-                        droneLogEntry.GeneralRelHeight = Double.TryParse(fields[dict["General:relativeHeight"]], out double dValue) ? dValue : 0.0; // delete 'double' when uncommenting BatteryPercentage
-                        droneLogEntry.GPSUsed = fields[dict["gpsUsed"]];
-                        droneLogEntry.NavHealth = Int32.TryParse(fields[dict["navHealth"]], out iValue) ? iValue : 0;
-                        droneLogEntry.NonGPSCause = fields[dict["nonGPSCause"]];
-                        droneLogEntry.OffsetTime = Double.TryParse(fields[dict["offsetTime"]], out dValue) ? dValue : 0.0;
-                        droneLogEntry.SmartBattGoHome = Int32.TryParse(fields[dict["SMART_BATT:goHome%"]], out iValue) ? iValue : 0;
-                        droneLogEntry.SmartBattLand = Int32.TryParse(fields[dict["SMART_BATT:land%"]], out iValue) ? iValue : 0;
-                        droneLogEntry.Tick_no = long.TryParse(fields[dict["Tick#"]], out long lValue) ? lValue : 0;
-                        
-                        
+                        droneLogEntry.BatteryLowVoltage = dict.ContainsKey("Battery:lowVoltage") ? fields[dict["Battery:lowVoltage"]] : "";
+                        droneLogEntry.BatteryStatus = dict.ContainsKey("Battery:status") ? fields[dict["Battery:status"]] : "";
+                        droneLogEntry.BatteryPercentage = dict.ContainsKey("BattInfo:Remaining%") ? (Double.TryParse(fields[dict["BattInfo:Remaining%"]], out double dValue) ? dValue : 0.0) : 0.0;
+                        droneLogEntry.CompassError = dict.ContainsKey("compassError") ? fields[dict["compassError"]] : "";
+                        droneLogEntry.ConnectedToRC = dict.ContainsKey("connectedToRC") ? fields[dict["connectedToRC"]] : "";
+                        droneLogEntry.ControllerCTRLMode = dict.ContainsKey("Controller:ctrlMode") ? fields[dict["Controller:ctrlMode"]] : "";
+                        droneLogEntry.FlightTime = dict.ContainsKey("flightTime") ? (Int32.TryParse(fields[dict["flightTime"]], out int iValue) ? iValue : 0) : 0;
+                        droneLogEntry.FlyCState = dict.ContainsKey("flyCState") ? fields[dict["flyCState"]] : "";
+                        droneLogEntry.GeneralRelHeight = dict.ContainsKey("General:relativeHeight") ? (Double.TryParse(fields[dict["General:relativeHeight"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneLogEntry.GPSUsed = dict.ContainsKey("gpsUsed") ? fields[dict["gpsUsed"]] : "";
+                        droneLogEntry.NavHealth = dict.ContainsKey("navHealth") ? (Int32.TryParse(fields[dict["navHealth"]], out iValue) ? iValue : 0) : 0;
+                        droneLogEntry.NonGPSCause = dict.ContainsKey("nonGPSCause") ? fields[dict["nonGPSCause"]] : "";
+                        droneLogEntry.OffsetTime = dict.ContainsKey("offsetTime") ? (Double.TryParse(fields[dict["offsetTime"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneLogEntry.SmartBattGoHome = dict.ContainsKey("SMART_BATT:goHome%") ? (Int32.TryParse(fields[dict["SMART_BATT:goHome%"]], out iValue) ? iValue : 0) : 0;
+                        droneLogEntry.SmartBattLand = dict.ContainsKey("SMART_BATT:land%") ? (Int32.TryParse(fields[dict["SMART_BATT:land%"]], out iValue) ? iValue : 0) : 0;
+                        droneLogEntry.Tick_no = dict.ContainsKey("Tick#") ? (long.TryParse(fields[dict["Tick#"]], out long lValue) ? lValue : 0) : 0;
+
+
                         // Assign data the appropriate FlightId
                         droneLogEntry.FlightId = droneFlight.FlightId;
                         
@@ -367,61 +367,59 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS = new DroneGP();
                         droneOA = new DroneOA();
 
-                        
+
                         // **DroneRTK**
-                        /*
-                        droneRTK.Date = Int32.TryParse(fields[dict["RTKdata:Date"]], out iValue) ? iValue : 0;
-                        droneRTK.HDOP = Double.TryParse(fields[dict["RTKdata:hdop"]], out dValue) ? dValue : 0.0;
-                        droneRTK.HmslP = Double.TryParse(fields[dict["RTKdata:Hmsl_P"]], out dValue) ? dValue : 0.0;
-                        droneRTK.HmslS = Double.TryParse(fields[dict["RTKdata:Hmsl_S"]], out dValue) ? dValue : 0.0;
-                        droneRTK.LatP = Double.TryParse(fields[dict["RTKdata:Lat_P"]], out dValue) ? dValue : 0.0;
-                        droneRTK.LatS = Double.TryParse(fields[dict["RTKdata:Lat_S"]], out dValue) ? dValue : 0.0;
-                        droneRTK.LonP = Double.TryParse(fields[dict["RTKdata:Lon_P"]], out dValue) ? dValue : 0.0;
-                        droneRTK.LonS = Double.TryParse(fields[dict["RTKdata:Lon_S"]], out dValue) ? dValue : 0.0;
-                        droneRTK.Time = Int32.TryParse(fields[dict["RTKdata:Time"]], out iValue) ? iValue : 0;
-                        droneRTK.VelD = Double.TryParse(fields[dict["RTKdata:Vel_D"]], out dValue) ? dValue : 0.0;
-                        droneRTK.VelE = Double.TryParse(fields[dict["RTKdata:Vel_E"]], out dValue) ? dValue : 0.0;
-                        droneRTK.VelN = Double.TryParse(fields[dict["RTKdata:Vel_N"]], out dValue) ? dValue : 0.0;
-                        */
+                        droneRTK.Date = dict.ContainsKey("RTKdata:Date") ? (Int32.TryParse(fields[dict["RTKdata:Date"]], out iValue) ? iValue : 0) : 0;
+                        droneRTK.HDOP = dict.ContainsKey("RTKdata:hdop") ? (Double.TryParse(fields[dict["RTKdata:hdop"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.HmslP = dict.ContainsKey("RTKdata:Hmsl_P") ? (Double.TryParse(fields[dict["RTKdata:Hmsl_P"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.HmslS = dict.ContainsKey("RTKdata:Hmsl_S") ? (Double.TryParse(fields[dict["RTKdata:Hmsl_S"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.LatP = dict.ContainsKey("RTKdata:Lat_P") ? (Double.TryParse(fields[dict["RTKdata:Lat_P"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.LatS = dict.ContainsKey("RTKdata:Lat_S") ? (Double.TryParse(fields[dict["RTKdata:Lat_S"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.LonP = dict.ContainsKey("RTKdata:Lon_P") ? (Double.TryParse(fields[dict["RTKdata:Lon_P"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.LonS = dict.ContainsKey("RTKdata:Lon_S") ? (Double.TryParse(fields[dict["RTKdata:Lon_S"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.Time = dict.ContainsKey("RTKdata:Time") ? (Int32.TryParse(fields[dict["RTKdata:Time"]], out iValue) ? iValue : 0) : 0;
+                        droneRTK.VelD = dict.ContainsKey("RTKdata:Vel_D") ? (Double.TryParse(fields[dict["RTKdata:Vel_D"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.VelE = dict.ContainsKey("RTKdata:Vel_E") ? (Double.TryParse(fields[dict["RTKdata:Vel_E"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneRTK.VelN = dict.ContainsKey("RTKdata:Vel_N") ? (Double.TryParse(fields[dict["RTKdata:Vel_N"]], out dValue) ? dValue : 0.0) : 0.0;
 
                         // **DroneIMU**
-                        droneIMU.DistanceTravelled = Double.TryParse(fields[dict["IMU_ATTI(0):distanceTravelled"]], out dValue) ? dValue : 0.0;
-                        droneIMU.GPS_H = Double.TryParse(fields[dict["IMU_ATTI(0):GPS-H"]], out dValue) ? dValue : 0.0;
-                        droneIMU.MagDirectionOfTravel = Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[mag]"]], out dValue) ? dValue : 0.0;
-                        droneIMU.Pitch = Double.TryParse(fields[dict["IMU_ATTI(0):pitch"]], out dValue) ? dValue : 0.0;
-                        droneIMU.Roll = Double.TryParse(fields[dict["IMU_ATTI(0):roll"]], out dValue) ? dValue : 0.0;
-                        droneIMU.Temperature = Double.TryParse(fields[dict["IMU_ATTI(0):temperature"]], out dValue) ? dValue : 0.0;
-                        droneIMU.TrueDirectionOfTravel = Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[true]"]], out dValue) ? dValue : 0.0;
-                        droneIMU.Yaw = Double.TryParse(fields[dict["IMU_ATTI(0):yaw"]], out dValue) ? dValue : 0.0;
+                        droneIMU.DistanceTravelled = dict.ContainsKey("IMU_ATTI(0):distanceTravelled") ? (Double.TryParse(fields[dict["IMU_ATTI(0):distanceTravelled"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.GPS_H = dict.ContainsKey("IMU_ATTI(0):GPS-H") ? (Double.TryParse(fields[dict["IMU_ATTI(0):GPS-H"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.MagDirectionOfTravel = dict.ContainsKey("IMU_ATTI(0):directionOfTravel[mag]") ? (Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[mag]"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.Pitch = dict.ContainsKey("IMU_ATTI(0):pitch") ? (Double.TryParse(fields[dict["IMU_ATTI(0):pitch"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.Roll = dict.ContainsKey("IMU_ATTI(0):roll") ? (Double.TryParse(fields[dict["IMU_ATTI(0):roll"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.Temperature = dict.ContainsKey("IMU_ATTI(0):temperature") ? (Double.TryParse(fields[dict["IMU_ATTI(0):temperature"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.TrueDirectionOfTravel = dict.ContainsKey("IMU_ATTI(0):directionOfTravel[true]") ? (Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[true]"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.Yaw = dict.ContainsKey("IMU_ATTI(0):yaw") ? (Double.TryParse(fields[dict["IMU_ATTI(0):yaw"]], out dValue) ? dValue : 0.0) : 0.0;
 
                         // **DroneMotor**
-                        droneMotor.CurrentLBack = Double.TryParse(fields[dict["Motor:Current:LBack"]], out dValue) ? dValue : 0.0;
-                        droneMotor.CurrentLFront = Double.TryParse(fields[dict["Motor:Current:LFront"]], out dValue) ? dValue : 0.0;
-                        droneMotor.CurrentRBack = Double.TryParse(fields[dict["Motor:Current:RBack"]], out dValue) ? dValue : 0.0;
-                        droneMotor.CurrentRFront = Double.TryParse(fields[dict["Motor:Current:RFront"]], out dValue) ? dValue : 0.0;
-                        
+                        droneMotor.CurrentLBack = dict.ContainsKey("Motor:Current:LBack") ? (Double.TryParse(fields[dict["Motor:Current:LBack"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneMotor.CurrentLFront = dict.ContainsKey("Motor:Current:LFront") ? (Double.TryParse(fields[dict["Motor:Current:LFront"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneMotor.CurrentRBack = dict.ContainsKey("Motor:Current:RBack") ? (Double.TryParse(fields[dict["Motor:Current:RBack"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneMotor.CurrentRFront = dict.ContainsKey("Motor:Current:RFront") ? (Double.TryParse(fields[dict["Motor:Current:RFront"]], out dValue) ? dValue : 0.0) : 0.0;
+
                         // **DroneRC**
-                        droneRC.AppLost = fields[dict["RC:appLost"]];
-                        droneRC.DataLost = fields[dict["RC:dataLost"]];
-                        droneRC.FailSafe = fields[dict["RC:failSafe"]];
-                        droneRC.ModeSwitch = fields[dict["RC:ModeSwitch"]];
+                        droneRC.AppLost = dict.ContainsKey("RC:appLost") ? fields[dict["RC:appLost"]] : "";
+                        droneRC.DataLost = dict.ContainsKey("RC:dataLost") ? fields[dict["RC:dataLost"]] : "";
+                        droneRC.FailSafe = dict.ContainsKey("RC:failSafe") ? fields[dict["RC:failSafe"]] : "";
+                        droneRC.ModeSwitch = dict.ContainsKey("RC:ModeSwitch") ? fields[dict["RC:ModeSwitch"]] : "";
 
                         // **DroneGPS**
-                        droneGPS.Date = Int32.TryParse(fields[dict["GPS(0):Date"]], out iValue) ? iValue : 0;
-                        droneGPS.DateTimeStamp = DateTime.Parse(fields[dict["GPS:dateTimeStamp"]]);
-                        droneGPS.HDOP = Double.TryParse(fields[dict["GPS(0):hDOP"]], out dValue) ? dValue : 0.0;
-                        droneGPS.HeightMSL = Double.TryParse(fields[dict["GPS(0):heightMSL"]], out dValue) ? dValue : 0.0;
-                        droneGPS.Lat = Double.TryParse(fields[dict["GPS(0):Lat"]], out dValue) ? dValue : 0.0;
-                        droneGPS.Long = Double.TryParse(fields[dict["GPS(0):Long"]], out dValue) ? dValue : 0.0;
-                        droneGPS.NumGLNAS = Int32.TryParse(fields[dict["GPS(0):numGLNAS"]], out iValue) ? iValue : 0;
-                        droneGPS.NumGPS = Int32.TryParse(fields[dict["GPS(0):numGPS"]], out iValue) ? iValue : 0;
-                        droneGPS.NumSV = Int32.TryParse(fields[dict["GPS(0):numSV"]], out iValue) ? iValue : 0;
-                        droneGPS.PDOP = Double.TryParse(fields[dict["GPS(0):pDOP"]], out dValue) ? dValue : 0.0;
-                        droneGPS.SAcc = Double.TryParse(fields[dict["GPS(0):sAcc"]], out dValue) ? dValue : 0.0;
-                        droneGPS.Time = Int32.TryParse(fields[dict["GPS(0):Time"]], out iValue) ? iValue : 0;
-                        droneGPS.VelD = Double.TryParse(fields[dict["GPS(0):velD"]], out dValue) ? dValue : 0.0;
-                        droneGPS.VelE = Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : 0.0;
-                        droneGPS.VelN = Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0;
+                        droneGPS.Date = dict.ContainsKey("GPS(0):Date") ? (Int32.TryParse(fields[dict["GPS(0):Date"]], out iValue) ? iValue : 0) : 0;
+                        droneGPS.DateTimeStamp = dict.ContainsKey("GPS:dateTimeStamp") ? DateTime.Parse(fields[dict["GPS:dateTimeStamp"]]) : DateTime.MinValue;
+                        droneGPS.HDOP = dict.ContainsKey("GPS(0):hDOP") ? (Double.TryParse(fields[dict["GPS(0):hDOP"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.HeightMSL = dict.ContainsKey("GPS(0):heightMSL") ? (Double.TryParse(fields[dict["GPS(0):heightMSL"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.Lat = dict.ContainsKey("GPS(0):Lat") ? (Double.TryParse(fields[dict["GPS(0):Lat"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.Long = dict.ContainsKey("GPS(0):Long") ? (Double.TryParse(fields[dict["GPS(0):Long"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.NumGLNAS = dict.ContainsKey("GPS(0):numGLNAS") ? (Int32.TryParse(fields[dict["GPS(0):numGLNAS"]], out iValue) ? iValue : 0) : 0;
+                        droneGPS.NumGPS = dict.ContainsKey("GPS(0):numGPS") ? (Int32.TryParse(fields[dict["GPS(0):numGPS"]], out iValue) ? iValue : 0) : 0;
+                        droneGPS.NumSV = dict.ContainsKey("GPS(0):numSV") ? (Int32.TryParse(fields[dict["GPS(0):numSV"]], out iValue) ? iValue : 0) : 0;
+                        droneGPS.PDOP = dict.ContainsKey("GPS(0):pDOP") ? (Double.TryParse(fields[dict["GPS(0):pDOP"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.SAcc = dict.ContainsKey("GPS(0):sAcc") ? (Double.TryParse(fields[dict["GPS(0):sAcc"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.Time = dict.ContainsKey("GPS(0):Time") ? (Int32.TryParse(fields[dict["GPS(0):Time"]], out iValue) ? iValue : 0) : 0;
+                        droneGPS.VelD = dict.ContainsKey("GPS(0):velD") ? (Double.TryParse(fields[dict["GPS(0):velD"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.VelE = dict.ContainsKey("GPS(0):velE") ? (Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneGPS.VelN = dict.ContainsKey("GPS(0):velN") ? (Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : 0.0) : 0.0;
 
                         // Keep track of start time and final time to calculate total flight time
                         // Keep track of start longitude and latitude
@@ -441,13 +439,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             finalTime = (int) droneGPS.Time;
                         }
 
-                        /*
                         // **DroneOA**
-                        droneOA.AirportLimit = fields[dict["OA:airportLimit"]];
-                        droneOA.AvoidObst = fields[dict["OA:avoidObst"]];
-                        droneOA.GroundForceLanding = fields[dict["OA:groundForceLanding"]];
-                        droneOA.VertAirportLimit = fields[dict["OA:vertAirportLimit"]];
-                        */
+                        droneOA.AirportLimit = dict.ContainsKey("OA:airportLimit") ? fields[dict["OA:airportLimit"]] : "";
+                        droneOA.AvoidObst = dict.ContainsKey("OA:avoidObst") ? fields[dict["OA:avoidObst"]] : "";
+                        droneOA.GroundForceLanding = dict.ContainsKey("OA:groundForceLanding") ? fields[dict["OA:groundForceLanding"]] : "";
+                        droneOA.VertAirportLimit = dict.ContainsKey("OA:vertAirportLimit") ? fields[dict["OA:vertAirportLimit"]] : "";
                         
                         // Map all ids 1-to-1
                         droneRTK.RTKDataId = droneLogEntry.DroneLogEntryId;
@@ -529,3 +525,4 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         }
     }
 }
+ 
