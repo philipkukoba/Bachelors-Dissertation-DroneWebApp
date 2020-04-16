@@ -1,8 +1,11 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
@@ -428,6 +431,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             startLong = (double) droneGPS.Long;
                             startLat = (double) droneGPS.Lat;
                             firstRead = true;
+                            //droneFlight.Location = reverseGeocode(startLong, startLat);
                         }
                         // These two fields will contain the final ending longitude and latitude once the while-loop ends
                         endLong = (double) droneGPS.Long;
@@ -522,6 +526,33 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 //System.Diagnostics.Debug.WriteLine("Inner: " + ex.InnerException.ToString());
             }
             return true;
+        }
+
+        //Reverse geocode location from coordinates
+        private string reverseGeocode(double lon, double lat)
+        {
+            string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&location=" + lon + "," + lat;
+
+            //GET rest call
+            WebRequest requestObjGet = WebRequest.Create(URL);
+            requestObjGet.Method = "GET";
+            HttpWebResponse responseObjGet = null;
+            responseObjGet = (HttpWebResponse)requestObjGet.GetResponse();
+
+            //Generate string containing json from rest call
+            string jsonString = null;
+            using (Stream stream = responseObjGet.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                jsonString = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            //Convert jsonString to JObject and get city from JObject
+            JObject json = JObject.Parse(jsonString);
+            string location = (string)json["address"]["City"];
+
+            return location;
         }
     }
 }
