@@ -47,3 +47,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 13/04/20,13:00,18:45,Extern, Track visualisation afgewerkt voor hoogte,84,
 14/04/20,17:30,19:45,Extern, Merging visualisation code,,
 15/04/20,13:30,20:00,Extern, Visualisation code debugging - implemented popups - implemented measurement widget - reading API for possible solutions ,151,
+16/04/20,12:30,15:30,Extern, Legende implementeren in ViewMap met info over de vlucht, 151,
+16/04/20,16:30,19:15,Extern, Legende afgewerkt,151,
