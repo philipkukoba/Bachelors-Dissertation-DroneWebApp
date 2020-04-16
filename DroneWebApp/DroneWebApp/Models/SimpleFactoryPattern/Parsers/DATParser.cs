@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.WebPages;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
@@ -431,7 +432,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             startLong = (double) droneGPS.Long;
                             startLat = (double) droneGPS.Lat;
                             firstRead = true;
-                            //droneFlight.Location = reverseGeocode(startLong, startLat);
+                            if (droneFlight.Location.IsEmpty())
+                            {
+                                try
+                                {
+                                    droneFlight.Location = reverseGeocode(startLong, startLat);
+                                }
+                                catch(NullReferenceException e)
+                                {
+                                    droneFlight.Location = "Location not found";
+                                }
+                            }
                         }
                         // These two fields will contain the final ending longitude and latitude once the while-loop ends
                         endLong = (double) droneGPS.Long;
