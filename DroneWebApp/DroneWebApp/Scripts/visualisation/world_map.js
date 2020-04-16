@@ -8,8 +8,9 @@
     "esri/widgets/Search",
     "esri/widgets/Legend",
     "esri/PopupTemplate",
-    "esri/layers/FeatureLayer"
-], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer) {
+    "esri/layers/FeatureLayer",
+    "esri/widgets/AreaMeasurement2D"
+], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, AreaMeasurement2D) {
 
     //#region Basic setup: Map and View
 
@@ -34,8 +35,7 @@
     });
 
     // Adds widget below other elements in the top right corner of the view
-    view.ui.add(layerList, "bottom-left");
-
+    view.ui.add(layerList, "top-right");
     //#endregion 
 
     //#region LEGEND Widget
@@ -89,6 +89,14 @@
 
     // #endregion
 
+    //#region Area Measurement Widget
+    // To add the AreaMeasurement2D widget to your map
+    let measurementWidget = new AreaMeasurement2D({
+        view: view
+    });
+    view.ui.add(measurementWidget, "bottom-left");
+    //#endregion
+
     //#region Visualisation Const Values 
     //ID van de droneflight 
     const id = $("#viewDiv").data("id");
@@ -101,12 +109,44 @@
     //#region XYZ VISUALISATION
 
 
-    //popup for XYZ
-    //werkt niet want dit is enkel voor featurelayers
-    //var popupXYZ = new PopupTemplate({
-    //    "title": "XYZ Information",
-    //    "content": "SAMPLE CONTENT"
-    //});
+    const XYZPopup = {
+        "title": "XYZ Point with ID: {XYZId}",
+        "content": [{
+            "type": "fields",
+            "fieldInfos": [
+                {
+                    "fieldName": "x",
+                    "label": "X",
+
+                },
+                {
+                    "fieldName": "y",
+                    "label": "Y",
+
+                },
+                {
+                    "fieldName": "z",
+                    "label": "Z",
+
+                },
+                {
+                    "fieldName": "RedValue",
+                    "label": "Red",
+
+                },
+                {
+                    "fieldName": "GreenValue",
+                    "label": "Green",
+
+                },
+                {
+                    "fieldName": "BlueValue",
+                    "label": "Blue",
+
+                }
+            ]
+        }]
+    };
 
     let readXYZ = (XYZPoint) => {
         let pointGraphic = {             //type graphic (autocasts)
@@ -119,262 +159,387 @@
             },
             attributes: {               //additional attributes (battery etc) will go here !!!
                 XYZId: XYZPoint.PointCloudXYZId,
+                x: XYZPoint.X,
+                y: XYZPoint.Y,
+                z: XYZPoint.Z,
                 RedValue: XYZPoint.Red,
                 GreenValue: XYZPoint.Green,
                 BlueValue: XYZPoint.Blue,
                 Intensity: XYZPoint.Intensity
             }
         };
-        return pointGraphic;
-    }
+            return pointGraphic;
+        }
 
-    $.ajax({
-        type: "GET",
-        url: "/WebAPI/api/PointCloudXYZs/" + id, // the URL of the controller action method
-        //data: null, // optional data
-        success: (result) => {
+        $.ajax({
+            type: "GET",
+            url: "/WebAPI/api/PointCloudXYZs/" + id, // the URL of the controller action method
+            //data: null, // optional data
+            success: (result) => {
 
-            let XYZPoints = [];
-            for (let i = 0; i < result.length; i++) {
-                XYZPoints.push(readXYZ(result[i]));
-            }
+                let XYZPoints = [];
+                for (let i = 0; i < result.length; i++) {
+                    XYZPoints.push(readXYZ(result[i]));
+                }
 
-            let XYZFeatureLayer = new FeatureLayer({
-                title: "XYZ Points",
-                source: XYZPoints, 
+                let XYZFeatureLayer = new FeatureLayer({
+                    title: "XYZ Points",
+                    source: XYZPoints,
 
-                fields: [{                                        
-                    name: "RedValue",
-                    type: "double"
-                },
-                {                                   
-                    name: "GreenValue",
-                    type: "double"
-                },
-                {                                        
-                    name: "BlueValue",
-                    type: "double"
+                    fields: [{                //repeat the fields for visual variables here
+                        name: "x",
+                        type: "double"
+                    },
+                    {
+                        name: "y",
+                        type: "double"
+                    },
+                    {
+                        name: "z",
+                        type: "double"
+                    },
+                    {
+                        name: "RedValue",
+                        type: "double"
+                    },
+                    {
+                        name: "GreenValue",
+                        type: "double"
+                    },
+                    {
+                        name: "BlueValue",
+                        type: "double"
+                    },
+                    {
+                        name: "Intensity",
+                        type: "double"
                     }],
 
-                objectIdField: "XYZId",                             //needed to uniquely identify each object
+                    objectIdField: "XYZId",                             //needed to uniquely identify each object
 
-                //renderer defines how everything will be visualised inside this layer
-                renderer: {
-                    type: "simple",  // autocasts as new SimpleRenderer()
-                    symbol: {
-                        type: "simple-marker",
-                        color: ["RedValue", "GreenValue", "BlueValue"], 
-                        outline: {
-                            color: [255, 255, 255], // white
-                            width: 1
+                    //renderer defines how everything will be visualised inside this layer
+                    renderer: {
+                        type: "simple",  // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-marker",
+                            color: ["RedValue", "GreenValue", "BlueValue"]
+                            //outline: {
+                            //    color: [255, 255, 255], // white
+                            //    width: 1
+                            //}
                         }
-                    }
-                }
-            });
+                    },
+                    popupTemplate: XYZPopup
+                });
 
-            map.add(XYZFeatureLayer);
-        },
-        error: (req, status, error) => {
-            console.log("AJAX FAIL: XYZ");
-            console.log(req + status + error);
-        }
-    });
-    //#endregion 
-
-    //#region CTRLPoints VISUALISATION 
-
-    let readCTRL = (CTRLPoint) => {
-        let pointGraphic = {             //type graphic (autocasts)
-            geometry: {
-                type: "point",
-                x: CTRLPoint.X,
-                y: CTRLPoint.Y,
-                z: CTRLPoint.Z,
-                spatialReference: LambertSR   //needs to be defined here
+                map.add(XYZFeatureLayer);
             },
-            attributes: {               //additional attributes (battery etc) will go here !!!
-                CTRLId: CTRLPoint.CTRLId
+            error: (req, status, error) => {
+                console.log("AJAX FAIL: XYZ");
+                console.log(req + status + error);
             }
+        });
+        //#endregion 
+
+        //#region CTRLPoints VISUALISATION 
+
+        const CTRLTemplate = {
+            "title": "Control Point with ID: {CTRLId}",
+            "content": [{
+                "type": "fields",
+                "fieldInfos": [
+                    {
+                        "fieldName": "x",
+                        "label": "X",
+
+                    },
+                    {
+                        "fieldName": "y",
+                        "label": "Y",
+
+                    },
+                    {
+                        "fieldName": "z",
+                        "label": "Z",
+
+                    }
+                ]
+            }]
         };
-        return pointGraphic;
-    }
 
-    $.ajax({
-        type: "GET",
-        url: "/WebAPI/api/CTRLPoints/" + id, // the URL of the controller action method
-        //data: null, // optional data
-        success: (result) => {
+        let readCTRL = (CTRLPoint) => {
+            let pointGraphic = {             //type graphic (autocasts)
+                geometry: {
+                    type: "point",
+                    x: CTRLPoint.X,
+                    y: CTRLPoint.Y,
+                    z: CTRLPoint.Z,
+                    spatialReference: LambertSR   //needs to be defined here
+                },
+                attributes: {               //additional attributes (battery etc) will go here !!!
+                    CTRLId: CTRLPoint.CTRLId,
+                    x: CTRLPoint.X,
+                    y: CTRLPoint.Y,
+                    z: CTRLPoint.Z
+                }
+            };
+            return pointGraphic;
+        }
 
-            let CTRLPoints = [];
-            for (let i = 0; i < result.length; i++) {
-                CTRLPoints.push(readGCP(result[i]));
-            }
+        $.ajax({
+            type: "GET",
+            url: "/WebAPI/api/CTRLPoints/" + id, // the URL of the controller action method
+            //data: null, // optional data
+            success: (result) => {
 
-            let CTRLfeatureLayer = new FeatureLayer({
-                title: "CTRL Points",
-                source: CTRLPoints,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
-                geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
-                //spatialReference: LambertSR,           // autocasts to wgs84 if not set 
-                /*fields: [{                                          //repeat the fields for visual variables here!!! 
-                    name: "HeightMSL",
-                    type: "double"
-                }], */
-                objectIdField: "CTRLId",                             //needed to uniquely identify each object
+                let CTRLPoints = [];
+                for (let i = 0; i < result.length; i++) {
+                    CTRLPoints.push(readGCP(result[i]));
+                }
 
-                renderer: {
-                    type: "simple",  // autocasts as new SimpleRenderer()
-                    symbol: {
-                        type: "simple-marker",
-                        color: [26, 102, 255], // light blue
-                        outline: {
-                            color: [255, 255, 255], // white
-                            width: 1
+                let CTRLfeatureLayer = new FeatureLayer({
+                    title: "CTRL Points",
+                    source: CTRLPoints,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
+                    geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
+                    fields: [{                //repeat the fields for visual variables here
+                        name: "x",
+                        type: "double"
+                    },
+                    {
+                        name: "y",
+                        type: "double"
+                    },
+                    {
+                        name: "z",
+                        type: "double"
+                    }],
+                    objectIdField: "CTRLId",                             //needed to uniquely identify each object
+
+                    renderer: {
+                        type: "simple",  // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-marker",
+                            color: [26, 102, 255], // light blue
+                            outline: {
+                                color: [255, 255, 255], // white
+                                width: 1
+                            }
                         }
-                    }
-                }
-            });
+                    },
+                    popupTemplate: CTRLTemplate
+                });
 
-            map.add(CTRLfeatureLayer);
-        },
-        error: (req, status, error) => {
-            console.log("AJAX FAIL: CTRL POINTS");
-            console.log(req + status + error);
-        }
-    });
-    //#endregion
-
-    //#region GCP VISUALISATION 
-    let readGCP = (gcp) => {
-        let pointGraphic = {             //type graphic (autocasts)
-            geometry: {
-                type: "point",
-                x: gcp.X,
-                y: gcp.Y,
-                z: gcp.Z,
-                spatialReference: LambertSR   //needs to be defined here??
+                map.add(CTRLfeatureLayer);
             },
-            attributes: {               //additional attributes (battery etc) will go here !!!
-                GCPId: gcp.GCPId
+            error: (req, status, error) => {
+                console.log("AJAX FAIL: CTRL POINTS");
+                console.log(req + status + error);
             }
+        });
+        //#endregion
+
+        //#region GCP VISUALISATION 
+
+        const GCPTemplate = {
+            "title": "Ground Control Point with ID: {GCPId}",
+            "content": [{
+                "type": "fields",
+                "fieldInfos": [
+                    {
+                        "fieldName": "x",
+                        "label": "X",
+
+                    },
+                    {
+                        "fieldName": "y",
+                        "label": "Y",
+
+                    },
+                    {
+                        "fieldName": "z",
+                        "label": "Z",
+
+                    }
+                ]
+            }]
         };
-        return pointGraphic;
-    }
 
-    $.ajax({
-        type: "GET",
-        url: "/WebAPI/api/GCP/" + id, // the URL of the controller action method
-        data: null, // optional data
-        success: (result) => {
-            let GCPs = [];
-            for (let i = 0; i < result.length; i++) {
-                GCPs.push(readGCP(result[i]));
-            }
+        let readGCP = (gcp) => {
+            let pointGraphic = {             //type graphic (autocasts)
+                geometry: {
+                    type: "point",
+                    x: gcp.X,
+                    y: gcp.Y,
+                    z: gcp.Z,
+                    spatialReference: LambertSR   //needs to be defined here??
+                },
+                attributes: {               //additional attributes (battery etc) will go here 
+                    GCPId: gcp.GCPId,
+                    x: gcp.X,
+                    y: gcp.Y,
+                    z: gcp.Z
+                }
+            };
+            return pointGraphic;
+        }
 
-            let GCPFeatureLayer = new FeatureLayer({
-                title: "Ground Control Points",
-                source: GCPs,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
-                geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
-                //spatialReference: LambertSR,           // autocasts to wgs84 if not set 
-                /*fields: [{                                          //repeat the fields for visual variables here!!! 
-                    name: "HeightMSL",
-                    type: "double"
-                }], */
-                objectIdField: "GCPId",                             //needed to uniquely identify each object
+        $.ajax({
+            type: "GET",
+            url: "/WebAPI/api/GCP/" + id, // the URL of the controller action method
+            data: null, // optional data
+            success: (result) => {
+                let GCPs = [];
+                for (let i = 0; i < result.length; i++) {
+                    GCPs.push(readGCP(result[i]));
+                }
 
-                renderer: {
-                    type: "simple",  // autocasts as new SimpleRenderer()
-                    symbol: {
-                        type: "simple-marker",
-                        color: [0, 102, 0], // dark green
-                        outline: {
-                            color: [255, 255, 255], // white
-                            width: 1
+                let GCPFeatureLayer = new FeatureLayer({
+                    title: "Ground Control Points",
+                    source: GCPs,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
+                    geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features) 
+                    fields: [{                //repeat the fields for visual variables here
+                        name: "x",
+                        type: "double"
+                    },
+                    {
+                        name: "y",
+                        type: "double"
+                    },
+                    {
+                        name: "z",
+                        type: "double"
+                    }],
+                    objectIdField: "GCPId",                             //needed to uniquely identify each object
+
+                    renderer: {
+                        type: "simple",  // autocasts as new SimpleRenderer()
+                        symbol: {
+                            type: "simple-marker",
+                            color: [0, 102, 0], // dark green
+                            outline: {
+                                color: [255, 255, 255], // white
+                                width: 1
+                            }
                         }
-                    }
-                }
-            });
+                    },
 
-            map.add(GCPFeatureLayer);
-        },
-        error: (req, status, error) => {
-            console.log("AJAX GCP FAIL");
-            console.log(req);
-            console.log(status);
-            console.log(error);
-        }
-    });
-    //#endregion
+                    popupTemplate: GCPTemplate
 
-    //#region TRACK VISUALISATION 
-    //#region Visual Variable and custom Renderer
+                });
 
-    //visual variable
-    var colorVisVar = {
-        type: "color",          //specify that its based on color (not size or rotation etc)
-        field: "HeightMSL",     //specify which field to use
-        stops: [{ value: 0.0, color: "#FF0000" }, { value: 55.0, color: "#0000FF" }]
-    };
-
-    //specify visualisation here 
-    let customRenderer = {
-        type: "simple",                 // autocasts as new SimpleRenderer()
-        symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
-        visualVariables: [colorVisVar]
-    };
-
-    //#endregion
-
-    let readTrackPoint = (gp) => {
-        let pointGraphic = {             //type graphic (autocasts)
-            geometry: {
-                type: "point",
-                x: gp.Long,
-                y: gp.Lat
+                map.add(GCPFeatureLayer);
             },
-            attributes: {               //additional attributes (battery etc) will go here !!!
-                GPSId: gp.GPSId,
-                HeightMSL: gp.HeightMSL
+            error: (req, status, error) => {
+                console.log("AJAX GCP FAIL");
+                console.log(req);
+                console.log(status);
+                console.log(error);
             }
+        });
+        //#endregion
+
+        //#region TRACK VISUALISATION 
+        //#region Visual Variable, custom Renderer and popup
+
+        //visual variable
+        let colorVisVar = {
+            type: "color",          //specify that its based on color (not size or rotation etc)
+            field: "HeightMSL",     //specify which field to use
+            stops: [{ value: 2, color: "#FF0000" }, { value: 8, color: "#0000FF" }]
         };
-        return pointGraphic;
-    }
 
-    //MAIN TRACK VISUALISATION AJAX
-    $.ajax({
-        type: "GET",
-        url: "/WebAPI/api/DroneGPs/" + id, // the URL of the controller action method
-        success: (result) => {
+        //specify visualisation here 
+        let customRenderer = {
+            type: "simple",                 // autocasts as new SimpleRenderer()
+            symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
+            visualVariables: [colorVisVar]
+        };
 
-            let features = [];
-            for (let i = 0; i < result.length; i++) {
-                features.push(readTrackPoint(result[i]));
-            }
+        const GPTemplate = {
+            "title": "Track Point with ID: {GPSId}",
+            "content": [{
+                "type": "fields",
+                "fieldInfos": [
+                    {
+                        "fieldName": "x",
+                        "label": "X (WGS84)",
+                    },
+                    {
+                        "fieldName": "y",
+                        "label": "Y (WGS84)",
+                    },
+                    {
+                        "fieldName": "HeightMSL",
+                        "label": "Height (Mean Sea Level)",
+                    }
+                ]
+            }]
+        };
 
-            let trackFeatureLayer = new FeatureLayer({
-                title: "Track",
-                source: features,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
-                geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
-                spatialReference: SpatialReference.WGS84,           // autocasts to wgs84 if not set 
-                fields: [{                                          //repeat the fields for visual variables here!!! 
-                    name: "HeightMSL",
-                    type: "double"
-                }],
-                objectIdField: "GPSId",                             //needed to uniquely identify each object
-                renderer: customRenderer
-            });
+        //#endregion
 
-            map.add(trackFeatureLayer);
-
-        },
-        error: (req, status, error) => {
-            console.log("AJAX FAIL: TRACK VISUALISATION");
-            console.log(req);
-            console.log(status);
-            console.log(error);
+        let readTrackPoint = (gp) => {
+            let pointGraphic = {             //type graphic (autocasts)
+                geometry: {
+                    type: "point",
+                    x: gp.Long,
+                    y: gp.Lat
+                },
+                attributes: {               //additional attributes (battery etc) will go here !!!
+                    GPSId: gp.GPSId,
+                    HeightMSL: gp.HeightMSL,
+                    x: gp.Long,
+                    y: gp.Lat
+                }
+            };
+            return pointGraphic;
         }
-    });
 
-    //#endregion 
-});
+        //MAIN TRACK VISUALISATION AJAX
+        $.ajax({
+            type: "GET",
+            url: "/WebAPI/api/DroneGPs/" + id, // the URL of the controller action method
+            success: (result) => {
+
+                let features = [];
+                for (let i = 0; i < result.length; i++) {
+                    features.push(readTrackPoint(result[i]));
+                }
+
+                let trackFeatureLayer = new FeatureLayer({
+                    title: "Track",
+                    source: features,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
+                    geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
+                    spatialReference: SpatialReference.WGS84,           // autocasts to wgs84 if not set 
+                    fields: [{                                          //repeat the fields for visual variables here!!! 
+                        name: "HeightMSL",
+                        type: "double"
+                    },
+                    {                                          //repeat the fields for visual variables here!!! 
+                        name: "x",
+                        type: "double"
+                    },
+                    {                                          //repeat the fields for visual variables here!!! 
+                        name: "y",
+                        type: "double"
+                    }],
+                    objectIdField: "GPSId",                             //needed to uniquely identify each object
+                    renderer: customRenderer,
+                    popupTemplate: GPTemplate
+                });
+
+                map.add(trackFeatureLayer);
+
+            },
+            error: (req, status, error) => {
+                console.log("AJAX FAIL: TRACK VISUALISATION");
+                console.log(req);
+                console.log(status);
+                console.log(error);
+            }
+        });
+
+        //#endregion 
+    });
 
 
