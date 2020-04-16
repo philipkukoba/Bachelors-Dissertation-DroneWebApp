@@ -9,7 +9,6 @@ namespace DroneWebApp.Models.PointcloudControlTool
     {
         public static bool ContainsList(List<List<int>> list, List<int> item)
         {
-            bool same = true;
             item.Sort();
 
             for (int i=0; i<list.Count; i++)
@@ -18,16 +17,27 @@ namespace DroneWebApp.Models.PointcloudControlTool
                 if (temp.Count == item.Count)
                 {
                     temp.Sort();
-                    for (int j=0; j<temp.Count; j++)
+                    if (Equals(temp, item))
                     {
-                        if (temp[j] != item[j])
-                        {
-                            same = false;
-                        }
+                        return true;
                     }
                 }
             }
-            return same;
+            return false;
+        }
+
+        private static bool Equals(List<int> list1, List<int> list2)
+        {
+            bool equals = true;
+
+            for (int i=0; i<list1.Count; i++)
+            {
+                if (list1[i] != list2[i])
+                {
+                    equals = false;
+                }
+            }
+            return equals;
         }
     }
 }

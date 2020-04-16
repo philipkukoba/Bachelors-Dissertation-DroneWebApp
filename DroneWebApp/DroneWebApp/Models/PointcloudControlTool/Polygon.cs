@@ -13,11 +13,12 @@ namespace DroneWebApp.Models.PointcloudControlTool
 
         public Polygon(List<PointCloudXYZ> p)
         {
-            V = p;
+            V = new List<PointCloudXYZ>();
             Index = new List<int>();
 
             for (int i=0; i<p.Count; i++)
             {
+                V.Add(p[i]);
                 Index.Add(i);
             }
         }

@@ -13,10 +13,16 @@ namespace DroneWebApp.Models.PointcloudControlTool
         public List<int> Index { get; set; } // vertices index
         public int N { get { return V.Count; } } // number of vertices
 
-        public Face(List<PointCloudXYZ> p, List<int> i)
+        public Face(List<PointCloudXYZ> p, List<int> index)
         {
-            V = p;
-            Index = i;
+            V = new List<PointCloudXYZ>();
+            Index = new List<int>();
+
+            for (int i=0; i<p.Count; i++)
+            {
+                V.Add(p[i]);
+                Index.Add(index[i]);
+            }
         }
     }
 }

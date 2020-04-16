@@ -19,6 +19,18 @@ namespace DroneWebApp.Models.PointcloudControlTool
          * normal vector, then the point is in "inside half space" of the face plane, otherwise, it is in "outside half space" of the face plane.
          * 
          * A point is determined to be inside of the 3D polygon if the point is in "inside half space" for all faces of the 3D convex polygon.
+         * 
+         * 
+         * 
+         * To check if a point is inside the pointcloud:
+         * 
+         * Polygon polygon = new Polygon(pointCloud); // with pointCloud a list of all the points
+         * 
+         * PointcloudControlTool tool = new PointcloudControlTool(polygon);
+         * 
+         * bool inside = tool.PointInside3DPolygon(p); // with p the ctrl point
+         * or
+         * bool inside = tool.PointInside3DPolygon(p.X, p.Y, p.Z);
         */
 
         double maxUnitMeasureError = 0.001;
@@ -95,6 +107,11 @@ namespace DroneWebApp.Models.PointcloudControlTool
                 Z = z
             };
 
+            return PointInside3DPolygon(p, planes, numberOfFaces);
+        }
+
+        public bool PointInside3DPolygon(PointCloudXYZ p)
+        {
             return PointInside3DPolygon(p, planes, numberOfFaces);
         }
 
@@ -181,7 +198,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
         // Return: faces, facePlanes, numberOfFaces
         private void GetConvex3DFaces(Polygon polygon, double maxError,
                         List<Face> faces, List<Plane> planes, ref int numberOfFaces)
-        {
+        {            
             // vertices of 3D polygon
             List<PointCloudXYZ> vertices = polygon.V;
 
@@ -282,7 +299,6 @@ namespace DroneWebApp.Models.PointcloudControlTool
                                     fpOutward.Add(-trianglePlane);
                                 }
                             }
-
                         }
                     } // k loop
                 } // j loop        
