@@ -26,14 +26,28 @@ namespace DroneWebApp.Controllers
 
 
         // GET: api/DroneFlightsAPI/5
-        [ResponseType(typeof(DroneFlight))]
+       // [ResponseType(typeof(DroneFlight))]
         public HttpResponseMessage GetDroneFlight(int id)
         {
             var Flight = db.DroneFlights.Find(id);
-            if (Flight == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             //data projection
-            var flightProjected = (new { Flight.FlightId, Flight.DroneId, Flight.Location, Flight.Date, Flight.hasTFW, Flight.hasGCPs, Flight.hasCTRLs, Flight.hasDepInfo, Flight.hasDestInfo, Flight.hasQR, Flight.hasXYZ, Flight.hasDroneLog, Flight.PilotId, Flight.TypeOfActivity, Flight.Other, Flight.Simulator, Flight.Instructor, Flight.Remarks });
+            var flightProjected = (new { 
+
+                Flight.Pilot.PilotName, 
+                Flight.Drone.DroneName,
+
+                DepartureUTC = Flight.DepartureInfo.UTCTime,
+                DepartureLatitude = Flight.DepartureInfo.Latitude,
+                DepartureLongitude = Flight.DepartureInfo.Longitude,
+
+                DestinationUTC = Flight.DestinationInfo.UTCTime, 
+                DestinationLatitude = Flight.DestinationInfo.Latitude, 
+                DestinationLongitude = Flight.DestinationInfo.Longitude
+
+            });
 
             //config to set to json 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
