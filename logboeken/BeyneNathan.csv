@@ -66,4 +66,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 14/04/20,19:45,20:55,Extern,Debugging ajax calls,149,Met Bryan
 15/04/20,01:00,03:00,Extern,Reverse geocoding verder proberen implementeren,112,Problemen met nugetpackages proberen oplossen
 15/04/20,22:00,23:59,Extern,Reverse geocoding met arcgis rest api implementeren na problemen met andere methodes om dit te doen,112,
-16/04,20,00:00,03:00,Extern,Reverse geocoding met arcgis rest api implementeren,112,
+16/04/20,00:00,03:00,Extern,Reverse geocoding met arcgis rest api implementeren,112,
