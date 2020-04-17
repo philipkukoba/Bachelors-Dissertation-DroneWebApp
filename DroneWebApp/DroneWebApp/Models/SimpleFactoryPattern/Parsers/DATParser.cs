@@ -542,7 +542,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         //Reverse geocode location from coordinates
         private string reverseGeocode(double lon, double lat)
         {
-            string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&location=" + lon + "," + lat;
+            string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&token=" + generateToken() + "&location=" + lon + "," + lat;
 
             //GET rest call
             WebRequest requestObjGet = WebRequest.Create(URL);
@@ -562,6 +562,35 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             //Convert jsonString to JObject and get city from JObject
             JObject json = JObject.Parse(jsonString);
             string location = (string)json["address"]["City"];
+
+            return location;
+        }
+
+        //Generate token to allow saving location to database
+        private string generateToken()
+        {
+            string clientId = "lnhfzAV3Fx5oCtIy";
+            string clientSecret = "97a8213a907742429b84246f379c5178";
+            string URL = "https://www.arcgis.com/sharing/oauth2/token?client_id=" + clientId + "&grant_type=client_credentials&client_secret=" + clientSecret + "&f=pjson";
+
+            //GET rest call
+            WebRequest requestObjGet = WebRequest.Create(URL);
+            requestObjGet.Method = "GET";
+            HttpWebResponse responseObjGet = null;
+            responseObjGet = (HttpWebResponse)requestObjGet.GetResponse();
+
+            //Generate string containing json from rest call
+            string jsonString = null;
+            using (Stream stream = responseObjGet.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                jsonString = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            //Convert jsonString to JObject and get access_token from JObject
+            JObject json = JObject.Parse(jsonString);
+            string location = (string)json["access_token"];
 
             return location;
         }
