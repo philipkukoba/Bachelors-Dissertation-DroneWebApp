@@ -566,7 +566,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             return location;
         }
 
-        //Generate token to allow saving location to database
+        //Generate token to allow saving reverse geocoded location to database
         private string generateToken()
         {
             string clientId = "lnhfzAV3Fx5oCtIy";
