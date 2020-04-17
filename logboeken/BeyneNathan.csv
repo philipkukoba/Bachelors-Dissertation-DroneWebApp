@@ -69,3 +69,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 16/04/20,00:00,03:00,Extern,Reverse geocoding met arcgis rest api implementeren,112,
 16/04/20,18:00,20:30,Extern,Adres informatie uit json reverse geocoding halen + beginnen implementeren keuze gebruiker om locatie te laten autogeneraten of niet,112,
 16/04/20,21:00,23:00,Extern,Keuze om locatie leeg te laten en autogeneraten verduidelijkt met tekst + probleem met exception handling wanneer locatie niet gevonden wordt opgelost,112,
+17/04/20,14:30,15:30,Extern,Research en voorlopige implementatie token om reverse geocoding informatie te mogen opslaan in database,112,
