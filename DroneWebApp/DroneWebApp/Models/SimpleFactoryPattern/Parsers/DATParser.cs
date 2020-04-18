@@ -318,6 +318,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     {
                         dict.Add("Attribute|Value", i);
                     }
+                    else if (fields[i].Equals("IMU_ATTI(0):velComposite"))
+                    {
+                        dict.Add("IMU_ATTI(0):velComposite", i);
+                    }
                 }
                 #endregion
 
@@ -395,6 +399,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneIMU.Temperature = dict.ContainsKey("IMU_ATTI(0):temperature") ? (Double.TryParse(fields[dict["IMU_ATTI(0):temperature"]], out dValue) ? dValue : 0.0) : 0.0;
                         droneIMU.TrueDirectionOfTravel = dict.ContainsKey("IMU_ATTI(0):directionOfTravel[true]") ? (Double.TryParse(fields[dict["IMU_ATTI(0):directionOfTravel[true]"]], out dValue) ? dValue : 0.0) : 0.0;
                         droneIMU.Yaw = dict.ContainsKey("IMU_ATTI(0):yaw") ? (Double.TryParse(fields[dict["IMU_ATTI(0):yaw"]], out dValue) ? dValue : 0.0) : 0.0;
+                        droneIMU.VelComposite = dict.ContainsKey("IMU_ATTI(0):velComposite") ? (Double.TryParse(fields[dict["IMU_ATTI(0):velComposite"]], out dValue) ? dValue : 0.0) : 0.0;
 
                         // **DroneMotor**
                         droneMotor.CurrentLBack = dict.ContainsKey("Motor:Current:LBack") ? (Double.TryParse(fields[dict["Motor:Current:LBack"]], out dValue) ? dValue : 0.0) : 0.0;
