@@ -13,6 +13,9 @@
     "esri/widgets/Feature"
 ], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, AreaMeasurement2D, Feature) {
 
+    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key 
+
+
     //#region Basic setup: Map and View
 
     // Create the map
@@ -442,18 +445,32 @@
     //#region TRACK VISUALISATION 
     //#region Visual Variable, custom Renderer and popup
 
-    //visual variable
-    let colorVisVar = {
+    //visual variable HeightMSL
+    let colorVar_HeightMSL = {
         type: "color",          //specify that its based on color (not size or rotation etc)
         field: "HeightMSL",     //specify which field to use
         stops: [{ value: 2, color: "#FF0000" }, { value: 8, color: "#0000FF" }]
+    };
+
+    //visual variable VelComposite
+    let colorVar_VelComposite = {
+        type: "color",          //specify that its based on color (not size or rotation etc)
+        field: "VelComposite",     //specify which field to use
+        stops: [{ value: 0, color: "#436480" }, { value: 7, color: "#afbac4" }, { value: 14, color: "#ebe6df" }]
+    };
+
+    //visual variable BatteryPercentage
+    let colorVar_BatteryPercentage = {
+        type: "color",          //specify that its based on color (not size or rotation etc)
+        field: "BatteryPercentage",     //specify which field to use
+        stops: [{ value: 0, color: "red" }, { value: 50, color: "yellow" }, { value: 100, color: "green" }]
     };
 
     //specify visualisation here 
     let customRenderer = {
         type: "simple",                 // autocasts as new SimpleRenderer()
         symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
-        visualVariables: [colorVisVar]
+        visualVariables: [colorVar_HeightMSL]
     };
 
     const GPTemplate = {
@@ -472,6 +489,14 @@
                 {
                     "fieldName": "HeightMSL",
                     "label": "Height (Mean Sea Level)",
+                },
+                {
+                    "fieldName": "VelComposite",
+                    "label": "Velocity (Composite)",
+                },
+                {
+                    "fieldName": "BatteryPercentage",
+                    "label": "Battery Percentage",
                 }
             ]
         }]
@@ -488,7 +513,11 @@
             },
             attributes: {               //additional attributes (battery etc) will go here !!!
                 GPSId: gp.GPSId,
+
                 HeightMSL: gp.HeightMSL,
+                BatteryPercentage: gp.BatteryPercentage,
+                VelComposite: gp.VelComposite,
+
                 x: gp.Long,
                 y: gp.Lat
             }
@@ -507,13 +536,21 @@
                 trackpoints.push(readTrackPoint(result[i]));
             }
 
-            let trackFeatureLayer = new FeatureLayer({
+            trackFeatureLayer = new FeatureLayer({
                 title: "Track",
                 source: trackpoints,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
                 geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
                 spatialReference: SpatialReference.WGS84,           // autocasts to wgs84 if not set 
                 fields: [{                                          //repeat the fields for visual variables here!!! 
                     name: "HeightMSL",
+                    type: "double"
+                },
+                {                                          //repeat the fields for visual variables here!!! 
+                    name: "BatteryPercentage",
+                    type: "double"
+                },
+                {                                          //repeat the fields for visual variables here!!! 
+                    name: "VelComposite",
                     type: "double"
                 },
                 {                                          //repeat the fields for visual variables here!!! 
@@ -648,6 +685,25 @@
     //});
 
     //#endregion 
+
+
+    view.on("key-down", (event) => {
+        if (event.key == "b") {  //battery
+            console.log("b");
+            customRenderer.visualVariables = [colorVar_BatteryPercentage];
+            trackFeatureLayer.renderer = customRenderer;
+        }
+        else if (event.key == "h") {  //heightmsl
+            console.log("h");
+            customRenderer.visualVariables = [colorVar_HeightMSL];
+            trackFeatureLayer.renderer = customRenderer;
+        }
+        else if (event.key == "v") {  //velocity
+            console.log("v");
+            customRenderer.visualVariables = [colorVar_VelComposite];
+            trackFeatureLayer.renderer = customRenderer;
+        }
+    });
 
 });
 

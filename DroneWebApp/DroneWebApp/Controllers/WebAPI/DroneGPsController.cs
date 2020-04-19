@@ -42,7 +42,28 @@ namespace DroneWebApp.Controllers
             }
 
             //data projection
-            var GPs = droneGPs.Select(gp => new { gp.GPSId, gp.Long, gp.Lat, gp.Date, gp.Time, gp.DateTimeStamp, gp.HeightMSL, gp.HDOP, gp.PDOP, gp.SAcc, gp.NumGPS, gp.NumGLNAS, gp.NumSV, gp.VelN, gp.VelE, gp.VelD}).ToList();
+            var GPs = droneGPs.Select(gp => new { 
+                gp.GPSId, 
+                gp.Long, 
+                gp.Lat, 
+                gp.Date, 
+                gp.Time, 
+                gp.DateTimeStamp, 
+                gp.HeightMSL, 
+                gp.HDOP, 
+                gp.PDOP, 
+                gp.SAcc, 
+                gp.NumGPS, 
+                gp.NumGLNAS, 
+                gp.NumSV, 
+                gp.VelN, 
+                gp.VelE, 
+                gp.VelD,
+
+                gp.DroneLogEntry.BatteryPercentage, 
+                gp.DroneLogEntry.DroneIMU_ATTI.VelComposite
+
+            }).ToList();
 
             //config to set to json 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
