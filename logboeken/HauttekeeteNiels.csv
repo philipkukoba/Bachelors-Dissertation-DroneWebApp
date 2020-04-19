@@ -48,3 +48,7 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 14/04/20,15:00,18:00,Extern,Pointcloud controle tool debug + dat parser debug,115+145,
 15/04/20,10:00,12:00,Extern,Debug dat parser afgewerkt,145,
 15/04/20,15:00,18:20,Extern,Debug pointcloud controle tool,115,
+16/04/20,10:00,12:00,Extern,Pointcloud controle tool in front end implementeren,115,
+16/04/20,15:00,16:30,Extern,Opzoeken om rasterformaat te maken in arcGIS,99,
+18/04/20,13:00,16:00,Extern,Pointcloud controle tool in front end implementeren + Opzoeken om rasterformaat te maken in arcGIS,115+99,
+19/04/20,15:00,17:30,Extern,Pointcloud controle tool in front end implementeren afwerken + kijken voor unit tests,115,
