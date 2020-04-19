@@ -40,12 +40,12 @@ namespace DroneWebApp.Controllers.WebAPI
             Polygon polygon = new Polygon(pointCloudXYZs);
             PointcloudControlTool tool = new PointcloudControlTool(polygon);
 
-            var list = new List<Tuple<string, bool>>().Select(t => new { CTRLName = t.Item1, Inside = t.Item2 }).ToList();
+            var list = new List<Tuple<int, string, bool>>().Select(t => new { CTRLId = t.Item1, CTRLName = t.Item2, Inside = t.Item3 }).ToList();
 
             foreach (CTRLPoint ctrl in CTRLPoints)
             {
                 bool inside = tool.PointInside3DPolygonSimplified((double)ctrl.X, (double)ctrl.Y, (double)ctrl.Z);
-                list.Add(new { ctrl.CTRLName, Inside = inside });
+                list.Add(new { ctrl.CTRLId, ctrl.CTRLName, Inside = inside });
             }
 
             //config to set to json 

@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DroneWebApp.Models;
+using DroneWebApp.Models.PointcloudControlTool;
 using Newtonsoft.Json;
 
 
@@ -48,11 +49,30 @@ namespace DroneWebApp.Controllers
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
-            var ctrlPoint = Flight.CTRLPoints.Select(c => new { c.CTRLId, c.CTRLName, c.X, c.Y, c.Z, c.FlightId }).ToList();
+            //var ctrlPoint = Flight.CTRLPoints.Select(c => new { c.CTRLId, c.CTRLName, c.X, c.Y, c.Z, c.FlightId }).ToList();
+
+            List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
+            List<CTRLPoint> CTRLPoints = Flight.CTRLPoints.ToList();
+
+            Polygon polygon = new Polygon(pointCloudXYZs);
+            PointcloudControlTool tool = new PointcloudControlTool(polygon);
+
+            var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
+
+            foreach (CTRLPoint ctrl in CTRLPoints)
+            {
+                bool inside = tool.PointInside3DPolygonSimplified((double)ctrl.X, (double)ctrl.Y, (double)ctrl.Z);
+                string insideString = "false";
+                if (inside)
+                {
+                    insideString = "true";
+                }
+                list.Add(new { ctrl.CTRLId, ctrl.CTRLName, X = (double)ctrl.X, Y = (double)ctrl.Y, Z = (double)ctrl.Z, FlightId = (int)ctrl.FlightId, Inside = insideString });
+            }
 
             //config to set to json 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(ctrlPoint));
+            response.Content = new StringContent(JsonConvert.SerializeObject(list));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             return response;
