@@ -180,6 +180,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
+    <Compile Include="Controllers\WebAPI\PointCloudControlToolController.cs" />
     <Compile Include="Controllers\WebAPI\PointCloudXYZsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -278,9 +279,6 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -378,8 +376,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\visualisation\track_visualisation2.js" />
-    <Content Include="Scripts\visualisation\track_visualisation.js" />
+    <Content Include="Scripts\visualisation\pointcloud_control_tool.js" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
