@@ -23,7 +23,7 @@ namespace DroneWebApp.Controllers
         // GET: Pilots
         public ActionResult Index()
         {
-            return View(db.Pilots.ToList());
+            return View("Index", db.Pilots.ToList());
         }
 
         // GET: Pilots/Details/5
@@ -42,7 +42,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(pilot);
+            return View("Details", pilot);
         }
 
         // GET: Pilots/Create
