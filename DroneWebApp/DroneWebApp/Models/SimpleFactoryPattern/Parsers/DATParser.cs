@@ -443,7 +443,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                                 {
                                     droneFlight.Location = reverseGeocode(startLong, startLat);
                                 }
-                                catch(NullReferenceException e)
+                                catch(NullReferenceException)
                                 {
                                     droneFlight.Location = "NA.";
                                 }

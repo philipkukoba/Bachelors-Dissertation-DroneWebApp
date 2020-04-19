@@ -266,6 +266,10 @@
                     "fieldName": "z",
                     "label": "Z",
 
+                },
+                {
+                    "fieldName": "Inside",
+                    "label": "Inside pointcloud"
                 }
             ]
         }]
@@ -284,7 +288,8 @@
                 CTRLId: CTRLPoint.CTRLId,
                 x: CTRLPoint.X,
                 y: CTRLPoint.Y,
-                z: CTRLPoint.Z
+                z: CTRLPoint.Z,
+                inside: CTRLPoint.Inside
             }
         };
         return pointGraphic;
@@ -316,6 +321,10 @@
                 {
                     name: "z",
                     type: "double"
+                },
+                {
+                    name: "inside",
+                    type: "string"
                 }],
                 objectIdField: "CTRLId",                             //needed to uniquely identify each object
 
@@ -449,7 +458,7 @@
     let colorVar_HeightMSL = {
         type: "color",          //specify that its based on color (not size or rotation etc)
         field: "HeightMSL",     //specify which field to use
-        stops: [{ value: 2, color: "#FF0000" }, { value: 8, color: "#0000FF" }]
+        stops: [{ value: 2, color: "#FF0000" }, { value: 52, color: "#0000FF" }]
     };
 
     //visual variable VelComposite
@@ -687,10 +696,6 @@
 
         }
     });
-    //#endregion 
-
-    //#region POINT CLOUD CONTROL TOOL 
-        // .. 
     //#endregion 
 
 });
