@@ -651,7 +651,6 @@
                 }),
                 map: map
             });
-            console.log(feature);
 
             view.ui.add(feature, "top-left");
         },
@@ -659,51 +658,40 @@
             console.log("AJAX FAIL: FEATURE (LEGENDE)");
         }
     });
-
-
-
-    //implementing on click/on move etc
-
-    //view.when(() => { document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none'; });
-
-    //// Listen for the pointer-move event on the View
-    //view.on("pointer-move", function (event) {
-    //    // Perform a hitTest on the View
-    //    view.hitTest(event).then(function (hitTestResult) {
-    //        const result = hitTestResult.results[0];
-    //        // Update the graphic of the Feature widget
-    //        // on pointer-move with the result
-    //        if (result) {  //check here if its a track point 
-    //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
-    //            feature.graphic = result.graphic;
-    //            highlight = layerView.highlight(result.graphic);
-    //        } else {  //else hide the feature
-    //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
-    //            //feature.graphic = graphic;
-    //        }
-    //    });
-    //});
-
     //#endregion 
 
-
+    //#region KEY LISTENER 
+    let featureHidden = false;
     view.on("key-down", (event) => {
         if (event.key == "b") {  //battery
-            console.log("b");
             customRenderer.visualVariables = [colorVar_BatteryPercentage];
             trackFeatureLayer.renderer = customRenderer;
         }
         else if (event.key == "h") {  //heightmsl
-            console.log("h");
             customRenderer.visualVariables = [colorVar_HeightMSL];
             trackFeatureLayer.renderer = customRenderer;
         }
         else if (event.key == "v") {  //velocity
-            console.log("v");
             customRenderer.visualVariables = [colorVar_VelComposite];
             trackFeatureLayer.renderer = customRenderer;
         }
+        else if (event.key == "l") {  //toggle visibility of feature component
+            if (!featureHidden) {
+                document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
+                featureHidden = true;
+            }
+            else {
+                document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
+                featureHidden = false;
+            }
+
+        }
     });
+    //#endregion 
+
+    //#region POINT CLOUD CONTROL TOOL 
+        // .. 
+    //#endregion 
 
 });
 
