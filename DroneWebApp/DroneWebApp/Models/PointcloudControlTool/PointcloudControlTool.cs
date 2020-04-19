@@ -51,10 +51,13 @@ namespace DroneWebApp.Models.PointcloudControlTool
         // point is considered in the face plane if its distance is less than this error
         double maxDisError;
 
+        Polygon polygon;
+
         #region public methods
 
         public PointcloudControlTool(Polygon polygon)
         {
+            this.polygon = polygon;
 
             List<Face> faces = new List<Face>();
 
@@ -72,7 +75,7 @@ namespace DroneWebApp.Models.PointcloudControlTool
             maxDisError = Get3DPolygonUnitError(polygon);
 
             // Get face planes        
-            GetConvex3DFaces(polygon, maxDisError, faces, facePlanes, ref numberOfFaces);
+            //GetConvex3DFaces(polygon, maxDisError, faces, facePlanes, ref numberOfFaces);
 
             // Set data members
             this.x1 = x1;
@@ -96,6 +99,15 @@ namespace DroneWebApp.Models.PointcloudControlTool
             ymax = y2;
             zmin = z1;
             zmax = z2;
+        }
+
+        public bool PointInside3DPolygonSimplified(double x, double y, double z)
+        {
+            if ( (x >= x1 && x <= x2) && (y >= y1 && y <= y2) && (z >= z1 && z <= z2))
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool PointInside3DPolygon(double x, double y, double z)
@@ -176,6 +188,8 @@ namespace DroneWebApp.Models.PointcloudControlTool
 
         private bool PointInside3DPolygon(PointCloudXYZ p, List<Plane> planes, int numberOfFaces)
         {
+            GetConvex3DFaces(polygon, maxDisError, faces, planes, ref numberOfFaces);
+
             for (int i = 0; i < numberOfFaces; i++)
             {
 
