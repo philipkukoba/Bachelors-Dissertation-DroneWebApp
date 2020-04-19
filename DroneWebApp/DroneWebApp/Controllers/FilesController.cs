@@ -24,7 +24,6 @@ namespace DroneWebApp.Controllers
         // Constructor
         public FilesController(DbContext db)
         {
-            System.Diagnostics.Debug.WriteLine("Constructor! :D");
             this.Db = (DroneDBEntities)db;
             creator = new Creator(Db);
         }
@@ -41,7 +40,7 @@ namespace DroneWebApp.Controllers
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
-            System.Diagnostics.Debug.WriteLine("Index regular called");
+            //System.Diagnostics.Debug.WriteLine("Index regular called");
             return View();
         }
 

@@ -445,7 +445,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                                 }
                                 catch(NullReferenceException e)
                                 {
-                                    droneFlight.Location = "Location not found";
+                                    droneFlight.Location = "NA.";
                                 }
                             }
                         }
