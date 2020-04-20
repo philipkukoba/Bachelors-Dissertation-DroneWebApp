@@ -12,6 +12,8 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
 </head>
 <body>
     <!--Navbar-->
@@ -27,13 +29,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Map", "ViewMap", "Map")</li>
+                    <li>@Html.ActionLink("Map", "ViewMap", "Map", new { id = 0 }, null)</li>
+                    <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                     <li>@Html.ActionLink("Drone Flights", "Index", "DroneFlights")</li>
                     <li>@Html.ActionLink("Drones", "Index", "Drones")</li>
                     <li>@Html.ActionLink("Pilots", "Index", "Pilots")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    @*<li>@Html.ActionLink("Files[test env]", "Index", "Files\\Index")</li>*@
                 </ul>
             </div>
         </div>
@@ -50,6 +52,7 @@
 
     @* jQuery *@
     @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.2.2/dist/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
     @* Datatables *@

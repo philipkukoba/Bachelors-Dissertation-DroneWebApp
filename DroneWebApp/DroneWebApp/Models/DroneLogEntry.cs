@@ -23,6 +23,7 @@ namespace DroneWebApp.Models
         public string FlyCState { get; set; }
         public string ControllerCTRLMode { get; set; }
         public string BatteryStatus { get; set; }
+        public Nullable<double> BatteryPercentage { get; set; }
         public Nullable<int> SmartBattGoHome { get; set; }
         public Nullable<int> SmartBattLand { get; set; }
         public string NonGPSCause { get; set; }

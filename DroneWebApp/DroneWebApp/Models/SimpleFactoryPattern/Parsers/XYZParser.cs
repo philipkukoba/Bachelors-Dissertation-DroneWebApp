@@ -2,33 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
     public class XYZParser : IParser
     {
-        public void Parse(string path, int flightId, DroneDBEntities db)
+        public bool Parse(string path, int flightId, DroneDBEntities db)
         {
             // Get the approriate DroneFlight that goes with this data
             DroneFlight droneFlight = db.DroneFlights.Find(flightId);
             PointCloudXYZ pointCloudXYZ;
+
+            // Do not parse a new file, if this flight already has an XYZ file
+            if (droneFlight.hasXYZ)
+            {
+                return false;
+            }
+
+            // calculate the total amount of lines by going through the whole file once
+            int totalLines = Helper.Helper.CountFileLines(path);
+            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(" ");
-
-                int i = 0;
-                int limit = 1000;
+                int lineNo = 0;
+                //int limit = 1000; // test
 
                 // Set culture to ensure decimal point
                 CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
                 customCulture.NumberFormat.NumberDecimalSeparator = ".";
                 System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-                IList<string> attributes_strings;
+                string[] attributes_strings;
                 List<double> attributes_doubles;
                 // Read data
                 while (!parser.EndOfData)
@@ -36,6 +44,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     try
                     {
                         attributes_strings = parser.ReadFields();
+                        // Keep track of lines read
                         attributes_doubles = new List<double>();
 
                         //Process a row and parse string fields to floats
@@ -43,6 +52,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         {
                             attributes_doubles.Add(double.Parse(xyzAttribute, customCulture));
                         }
+
                         // Create ORM-object for database mapping
                         pointCloudXYZ = new PointCloudXYZ
                         {
@@ -72,18 +82,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                         //Set hasXYZ to true
                         droneFlight.hasXYZ = true;
-     
-                        System.Diagnostics.Debug.WriteLine("Processed Line: " + i);
-                        i++;
-                        if (i == limit) break; 
 
+                        lineNo++;
+                        if ((lineNo % 10) == 0)
+                        {
+                            Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
+                        }
+                        //if (lineNo == limit) break;
                     }
-                    catch(Exception ex) { }
+                    catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
                 }
-
                 // Commit changes to the DB
+                Helper.Helper.SetProgress(100);
                 db.SaveChanges();
             }
+            return true;
         }
     }
 }

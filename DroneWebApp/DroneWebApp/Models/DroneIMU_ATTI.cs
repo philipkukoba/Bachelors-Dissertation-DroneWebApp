@@ -23,6 +23,7 @@ namespace DroneWebApp.Models
         public Nullable<double> MagDirectionOfTravel { get; set; }
         public Nullable<double> TrueDirectionOfTravel { get; set; }
         public Nullable<double> Temperature { get; set; }
+        public Nullable<double> VelComposite { get; set; }
     
         public virtual DroneLogEntry DroneLogEntry { get; set; }
     }

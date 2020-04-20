@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
+
 @{
     Layout = "~/Views/Shared/_MapLayout.cshtml";
     ViewBag.Title = "Map";
@@ -6,8 +7,14 @@
 
 
 <!-- World map -->
-<div id="viewDiv"></div>
-
+@if (@ViewBag.id != null)
+{
+    <div id="viewDiv" data-id="@ViewBag.id"></div>
+}
+else
+{
+    <div id="viewDiv"></div>
+}
 
 
 

@@ -5,12 +5,12 @@
 }
 
 <br />
-<h2>Pilot Details</h2>
+<h2 style="text-align:center">Pilot Details</h2>
 
 <div>
     <h4><strong>@Model.PilotName</strong></h4>
     <hr />
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
                 @Html.DisplayName("Name")
@@ -26,7 +26,7 @@
             </th>
 
             <td>
-                @Model.DroneFlights.Count
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.PilotId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
             </td>
         </tr>
 
@@ -112,6 +112,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PilotId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit Pilot", "Edit", new { id = Model.PilotId }) |
+    @Html.ActionLink("Back to Pilots List", "Index")
 </p>

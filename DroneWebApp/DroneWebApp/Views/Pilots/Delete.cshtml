@@ -5,84 +5,123 @@
 }
 
 <br />
-<h2>Delete Pilot: @Model.PilotName</h2>
+<h2>Delete Pilot: <font color='red'>@Model.PilotName</font></h2>
 
-<h3>Are you sure you want to delete this <strong>Pilot</strong>?</h3>
 @if (@ViewBag.ErrorPilotDelete != null)
 {
     <div class="alert alert-danger" role="alert">
         @ViewBag.ErrorPilotDelete
     </div>
 }
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Are you sure you want to delete this <strong>pilot</strong>?
+    </div>
+}
 
 <div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
+    <table class="table table-bordered table-hover table-striped">
+        <tr>
+            <th>
+                @Html.DisplayName("Name")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.PilotName)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Street)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayName("Total Flights")
+            </th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ZIP)
-        </dt>
+            <td>
+                @ViewBag.NumberOfFlights
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.ZIP)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Street)
+            </th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.Street)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ZIP)
+            </th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.ZIP)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.City)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
 
-        <dt>
-            @Html.DisplayName("License No")
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.Country)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.LicenseNo)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.Phone)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayName("License No")
+            </th>
 
-        <dt>
-            @Html.DisplayName("Emergency Phone")
-        </dt>
+            <td>
+                @Html.DisplayFor(model => model.LicenseNo)
+            </td>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.EmergencyPhone)
-        </dd>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
 
-    </dl>
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Emergency Phone")
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.EmergencyPhone)
+            </td>
+        </tr>
+    </table>
 
     @using (Html.BeginForm())
     {
@@ -90,7 +129,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to Pilots List", "Index")
         </div>
     }
 </div>

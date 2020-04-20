@@ -54,9 +54,10 @@
             <PropertyRef Name="DroneId" />
           </Key>
           <Property Name="DroneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Registration" Type="varchar" MaxLength="50" />
-          <Property Name="DroneType" Type="varchar" MaxLength="50" />
+          <Property Name="Registration" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DroneType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
+          <Property Name="TotalFlightTime" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -76,7 +77,9 @@
             <PropertyRef Name="FlightId" />
           </Key>
           <Property Name="FlightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DroneId" Type="int" />
+          <Property Name="DroneId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="PilotId" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="hasTFW" Type="bit" Nullable="false" />
@@ -87,7 +90,11 @@
           <Property Name="hasQR" Type="bit" Nullable="false" />
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
-          <Property Name="PilotId" Type="int" />
+          <Property Name="TypeOfActivity" Type="varchar" MaxLength="500" />
+          <Property Name="Other" Type="varchar" MaxLength="255" />
+          <Property Name="Simulator" Type="varchar" MaxLength="255" />
+          <Property Name="Instructor" Type="varchar" MaxLength="100" />
+          <Property Name="Remarks" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DroneGPS">
           <Key>
@@ -123,6 +130,7 @@
           <Property Name="MagDirectionOfTravel" Type="float" />
           <Property Name="TrueDirectionOfTravel" Type="float" />
           <Property Name="Temperature" Type="float" />
+          <Property Name="VelComposite" Type="float" />
         </EntityType>
         <EntityType Name="DroneLogEntry">
           <Key>
@@ -137,6 +145,7 @@
           <Property Name="FlyCState" Type="varchar" MaxLength="50" />
           <Property Name="ControllerCTRLMode" Type="varchar" MaxLength="50" />
           <Property Name="BatteryStatus" Type="varchar" MaxLength="50" />
+          <Property Name="BatteryPercentage" Type="float" />
           <Property Name="SmartBattGoHome" Type="int" />
           <Property Name="SmartBattLand" Type="int" />
           <Property Name="NonGPSCause" Type="varchar" MaxLength="50" />
@@ -249,6 +258,16 @@
           <Property Name="Intensity" Type="float" />
           <Property Name="FlightId" Type="int" />
         </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SiteRefCode" Type="varchar" MaxLength="100" />
+          <Property Name="VerticalRef" Type="int" />
+          <Property Name="CoordSystem" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="QualityReport">
           <Key>
             <PropertyRef Name="QualityReportId" />
@@ -289,16 +308,6 @@
           <Property Name="Image" Type="image" />
           <Property Name="FlightId" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TFW">
           <Key>
             <PropertyRef Name="TFWId" />
@@ -330,7 +339,9 @@
           <Property Name="RSU_z" Type="float" />
         </EntityType>
         <Association Name="FK_AbsoluteGeolocationVariance_QualityReport">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -342,7 +353,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTRLPoints_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CTRLPoints" Type="Self.CTRLPoints" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -354,7 +367,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DepartureInfo_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DepartureInfo" Type="Self.DepartureInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -366,7 +381,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DestinationInfo_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DestinationInfo" Type="Self.DestinationInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -378,7 +395,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneAttributeValues_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneAttributeValues" Type="Self.DroneAttributeValues" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -390,7 +409,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -402,7 +421,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Pilot">
-          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pilot">
@@ -413,8 +432,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DroneFlight_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DroneGPS_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneGPS" Type="Self.DroneGPS" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -426,7 +461,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneIMU_ATTI_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneIMU_ATTI" Type="Self.DroneIMU_ATTI" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -438,7 +475,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneLog_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -450,7 +489,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneMotor_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -462,7 +503,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneOA_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -474,7 +517,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneRC_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -486,7 +531,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneRTKData_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -498,7 +545,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GCPError_QualityReport1">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GCPError" Type="Self.GCPError" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -510,7 +559,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GroundControlPoints_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GroundControlPoints" Type="Self.GroundControlPoints" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -522,7 +573,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PointCloudXYZ_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PointCloudXYZ" Type="Self.PointCloudXYZ" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -534,7 +587,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_QualityReport_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -546,7 +601,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RawImages_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RawImages" Type="Self.RawImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -558,7 +615,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TFW_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TFW" Type="Self.TFW" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -570,7 +629,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Uncertainty_QualityReport">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -600,9 +661,9 @@
           <EntitySet Name="GroundControlPoints" EntityType="Self.GroundControlPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PointCloudXYZ" EntityType="Self.PointCloudXYZ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QualityReport" EntityType="Self.QualityReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RawImages" EntityType="Self.RawImages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TFW" EntityType="Self.TFW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uncertainty" EntityType="Self.Uncertainty" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
@@ -631,6 +692,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DroneFlight_Pilot" Association="Self.FK_DroneFlight_Pilot">
             <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="DroneFlight" EntitySet="DroneFlight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Project" Association="Self.FK_DroneFlight_Project">
+            <End Role="Project" EntitySet="Project" />
             <End Role="DroneFlight" EntitySet="DroneFlight" />
           </AssociationSet>
           <AssociationSet Name="FK_DroneGPS_DroneLogEntry" Association="Self.FK_DroneGPS_DroneLogEntry">
@@ -748,9 +813,10 @@
             <PropertyRef Name="DroneId" />
           </Key>
           <Property Name="DroneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalFlightTime" Type="Time" Precision="7" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
@@ -772,7 +838,9 @@
             <PropertyRef Name="FlightId" />
           </Key>
           <Property Name="FlightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DroneId" Type="Int32" />
+          <Property Name="DroneId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="PilotId" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="hasTFW" Type="Boolean" Nullable="false" />
@@ -783,13 +851,18 @@
           <Property Name="hasQR" Type="Boolean" Nullable="false" />
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
           <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
-          <Property Name="PilotId" Type="Int32" />
+          <Property Name="TypeOfActivity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Simulator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Instructor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CTRLPoints" Relationship="Self.FK_CTRLPoints_DroneFlight" FromRole="DroneFlight" ToRole="CTRLPoints" />
           <NavigationProperty Name="DepartureInfo" Relationship="Self.FK_DepartureInfo_DroneFlight" FromRole="DroneFlight" ToRole="DepartureInfo" />
           <NavigationProperty Name="DestinationInfo" Relationship="Self.FK_DestinationInfo_DroneFlight" FromRole="DroneFlight" ToRole="DestinationInfo" />
           <NavigationProperty Name="Drone" Relationship="Self.FK_DroneFlight_Drone" FromRole="DroneFlight" ToRole="Drone" />
           <NavigationProperty Name="DroneAttributeValue" Relationship="Self.FK_DroneAttributeValues_DroneFlight" FromRole="DroneFlight" ToRole="DroneAttributeValues" />
           <NavigationProperty Name="Pilot" Relationship="Self.FK_DroneFlight_Pilot" FromRole="DroneFlight" ToRole="Pilot" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_DroneFlight_Project" FromRole="DroneFlight" ToRole="Project" />
           <NavigationProperty Name="DroneLogEntries" Relationship="Self.FK_DroneLog_DroneFlight" FromRole="DroneFlight" ToRole="DroneLogEntry" />
           <NavigationProperty Name="GroundControlPoints" Relationship="Self.FK_GroundControlPoints_DroneFlight" FromRole="DroneFlight" ToRole="GroundControlPoints" />
           <NavigationProperty Name="PointCloudXYZs" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="DroneFlight" ToRole="PointCloudXYZ" />
@@ -832,6 +905,7 @@
           <Property Name="MagDirectionOfTravel" Type="Double" />
           <Property Name="TrueDirectionOfTravel" Type="Double" />
           <Property Name="Temperature" Type="Double" />
+          <Property Name="VelComposite" Type="Double" />
           <NavigationProperty Name="DroneLogEntry" Relationship="Self.FK_DroneIMU_ATTI_DroneLogEntry" FromRole="DroneIMU_ATTI" ToRole="DroneLogEntry" />
         </EntityType>
         <EntityType Name="DroneLogEntry">
@@ -847,6 +921,7 @@
           <Property Name="FlyCState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ControllerCTRLMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BatteryStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BatteryPercentage" Type="Double" />
           <Property Name="SmartBattGoHome" Type="Int32" />
           <Property Name="SmartBattLand" Type="Int32" />
           <Property Name="NonGPSCause" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -974,6 +1049,17 @@
           <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_PointCloudXYZ_DroneFlight" FromRole="PointCloudXYZ" ToRole="DroneFlight" />
         </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SiteRefCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VerticalRef" Type="Int32" />
+          <Property Name="CoordSystem" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Project" FromRole="Project" ToRole="DroneFlight" />
+        </EntityType>
         <EntityType Name="QualityReport">
           <Key>
             <PropertyRef Name="QualityReportId" />
@@ -1019,16 +1105,6 @@
           <Property Name="FlightId" Type="Int32" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TFW">
           <Key>
             <PropertyRef Name="TFWId" />
@@ -1062,7 +1138,9 @@
           <NavigationProperty Name="QualityReport" Relationship="Self.FK_Uncertainty_QualityReport" FromRole="Uncertainty" ToRole="QualityReport" />
         </EntityType>
         <Association Name="FK_AbsoluteGeolocationVariance_QualityReport">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AbsoluteGeolocationVariance" Type="Self.AbsoluteGeolocationVariance" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -1074,7 +1152,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTRLPoints_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CTRLPoints" Type="Self.CTRLPoint" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1086,7 +1166,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DepartureInfo_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DepartureInfo" Type="Self.DepartureInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1098,7 +1180,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DestinationInfo_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DestinationInfo" Type="Self.DestinationInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1110,7 +1194,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Drone">
-          <End Role="Drone" Type="Self.Drone" Multiplicity="0..1" />
+          <End Role="Drone" Type="Self.Drone" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Drone">
@@ -1122,7 +1206,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneAttributeValues_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneAttributeValues" Type="Self.DroneAttributeValue" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1134,7 +1220,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneFlight_Pilot">
-          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="1" />
           <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pilot">
@@ -1145,8 +1231,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DroneFlight_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="DroneFlight">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DroneLog_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1158,7 +1260,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GroundControlPoints_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GroundControlPoints" Type="Self.GroundControlPoint" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1170,7 +1274,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PointCloudXYZ_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PointCloudXYZ" Type="Self.PointCloudXYZ" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1182,7 +1288,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_QualityReport_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1194,7 +1302,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RawImages_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RawImages" Type="Self.RawImage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1206,7 +1316,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TFW_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1" />
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TFW" Type="Self.TFW" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneFlight">
@@ -1218,7 +1330,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneGPS_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneGPS" Type="Self.DroneGP" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1230,7 +1344,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneIMU_ATTI_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneIMU_ATTI" Type="Self.DroneIMU_ATTI" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1242,7 +1358,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneMotor_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneMotor" Type="Self.DroneMotor" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1254,7 +1372,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneOA_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneOA" Type="Self.DroneOA" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1266,7 +1386,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneRC_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneRC" Type="Self.DroneRC" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1278,7 +1400,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DroneRTKData_DroneLogEntry">
-          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1" />
+          <End Role="DroneLogEntry" Type="Self.DroneLogEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DroneRTKData" Type="Self.DroneRTKData" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DroneLogEntry">
@@ -1290,7 +1414,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GCPError_QualityReport1">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GCPError" Type="Self.GCPError" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -1302,7 +1428,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Uncertainty_QualityReport">
-          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1" />
+          <End Role="QualityReport" Type="Self.QualityReport" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Uncertainty" Type="Self.Uncertainty" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="QualityReport">
@@ -1332,9 +1460,9 @@
           <EntitySet Name="GroundControlPoints" EntityType="Self.GroundControlPoint" />
           <EntitySet Name="Pilots" EntityType="Self.Pilot" />
           <EntitySet Name="PointCloudXYZs" EntityType="Self.PointCloudXYZ" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="QualityReports" EntityType="Self.QualityReport" />
           <EntitySet Name="RawImages" EntityType="Self.RawImage" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TFWs" EntityType="Self.TFW" />
           <EntitySet Name="Uncertainties" EntityType="Self.Uncertainty" />
           <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
@@ -1363,6 +1491,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DroneFlight_Pilot" Association="Self.FK_DroneFlight_Pilot">
             <End Role="Pilot" EntitySet="Pilots" />
+            <End Role="DroneFlight" EntitySet="DroneFlights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DroneFlight_Project" Association="Self.FK_DroneFlight_Project">
+            <End Role="Project" EntitySet="Projects" />
             <End Role="DroneFlight" EntitySet="DroneFlights" />
           </AssociationSet>
           <AssociationSet Name="FK_DroneLog_DroneFlight" Association="Self.FK_DroneLog_DroneFlight">
@@ -1483,6 +1615,7 @@
                 <ScalarProperty Name="Registration" ColumnName="Registration" />
                 <ScalarProperty Name="DroneType" ColumnName="DroneType" />
                 <ScalarProperty Name="DroneName" ColumnName="DroneName" />
+                <ScalarProperty Name="TotalFlightTime" ColumnName="TotalFlightTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1505,6 +1638,8 @@
               <MappingFragment StoreEntitySet="DroneFlight">
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="DroneId" ColumnName="DroneId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="PilotId" ColumnName="PilotId" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="hasTFW" ColumnName="hasTFW" />
@@ -1515,7 +1650,11 @@
                 <ScalarProperty Name="hasQR" ColumnName="hasQR" />
                 <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
                 <ScalarProperty Name="hasDroneLog" ColumnName="hasDroneLog" />
-                <ScalarProperty Name="PilotId" ColumnName="PilotId" />
+                <ScalarProperty Name="TypeOfActivity" ColumnName="TypeOfActivity" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Simulator" ColumnName="Simulator" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1553,6 +1692,7 @@
                 <ScalarProperty Name="MagDirectionOfTravel" ColumnName="MagDirectionOfTravel" />
                 <ScalarProperty Name="TrueDirectionOfTravel" ColumnName="TrueDirectionOfTravel" />
                 <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="VelComposite" ColumnName="VelComposite" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1568,6 +1708,7 @@
                 <ScalarProperty Name="FlyCState" ColumnName="FlyCState" />
                 <ScalarProperty Name="ControllerCTRLMode" ColumnName="ControllerCTRLMode" />
                 <ScalarProperty Name="BatteryStatus" ColumnName="BatteryStatus" />
+                <ScalarProperty Name="BatteryPercentage" ColumnName="BatteryPercentage" />
                 <ScalarProperty Name="SmartBattGoHome" ColumnName="SmartBattGoHome" />
                 <ScalarProperty Name="SmartBattLand" ColumnName="SmartBattLand" />
                 <ScalarProperty Name="NonGPSCause" ColumnName="NonGPSCause" />
@@ -1690,6 +1831,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="DroneDBModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="SiteRefCode" ColumnName="SiteRefCode" />
+                <ScalarProperty Name="VerticalRef" ColumnName="VerticalRef" />
+                <ScalarProperty Name="CoordSystem" ColumnName="CoordSystem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="QualityReports">
             <EntityTypeMapping TypeName="DroneDBModel.QualityReport">
               <MappingFragment StoreEntitySet="QualityReport">
@@ -1729,17 +1881,6 @@
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DroneDBModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,6 +24,7 @@ namespace DroneWebApp.Models
         public string Registration { get; set; }
         public string DroneType { get; set; }
         public string DroneName { get; set; }
+        public Nullable<System.TimeSpan> TotalFlightTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DroneFlight> DroneFlights { get; set; }

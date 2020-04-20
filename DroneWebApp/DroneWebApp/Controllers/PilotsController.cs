@@ -23,7 +23,7 @@ namespace DroneWebApp.Controllers
         // GET: Pilots
         public ActionResult Index()
         {
-            return View(db.Pilots.ToList());
+            return View("Index", db.Pilots.ToList());
         }
 
         // GET: Pilots/Details/5
@@ -42,13 +42,13 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(pilot);
+            return View("Details", pilot);
         }
 
         // GET: Pilots/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Pilots/Create
@@ -120,6 +120,7 @@ namespace DroneWebApp.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
+            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
             if (pilot == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
@@ -135,16 +136,38 @@ namespace DroneWebApp.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             Pilot pilot = db.Pilots.Find(id);
+            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
             try
             {
                 db.Pilots.Remove(pilot);
                 db.SaveChanges();
             }
-            catch(Exception ex) {
-                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flight.";
+            catch(Exception) {
+                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flights.";
                 return View(pilot);
             }
             return RedirectToAction("Index");
+        }
+
+        // GET: Pilots/DroneFlights/5
+        public ActionResult DroneFlights(int? id)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pilot pilot = db.Pilots.Find(id);
+            if (pilot == null)
+            {
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            ViewBag.Pilot = pilot.PilotName;
+            ViewBag.PilotId = id;
+            return View(pilot.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)
