@@ -57,3 +57,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 14/04/20,11:15,18:55,Extern,Debugging + progress bar bug + updates aan Controllers en Views,95/142/144,Update databank voor battery%
 14/04/20,19:15,20:55,Extern,Debugging van Ajax calls,149,Samen met Nathan
 19/04/20,11:15,15:00,Extern,Installatiehandleiding,,
+19/04/20,15:30,19:00,Extern,Unit tests,,

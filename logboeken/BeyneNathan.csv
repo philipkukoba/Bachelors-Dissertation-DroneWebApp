@@ -70,3 +70,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 16/04/20,18:00,20:30,Extern,Adres informatie uit json reverse geocoding halen + beginnen implementeren keuze gebruiker om locatie te laten autogeneraten of niet,112,
 16/04/20,21:00,23:00,Extern,Keuze om locatie leeg te laten en autogeneraten verduidelijkt met tekst + probleem met exception handling wanneer locatie niet gevonden wordt opgelost,112,
 17/04/20,14:30,15:30,Extern,Research en voorlopige implementatie token om reverse geocoding informatie te mogen opslaan in database,112,
+18/04/20,14:00,15:00,Extern,VelComposite waarde toevoegen aan database + laatste controles reverse geocoding door vermoedelijke fout,112,
+19/04/20,12:00,13:30,Extern,Screenshots database updaten + links testing doornemen,148,
+19/04/20,15:30,19:30,Extern,Begin implementatie testen,148,
