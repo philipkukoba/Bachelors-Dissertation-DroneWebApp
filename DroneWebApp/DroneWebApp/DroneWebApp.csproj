@@ -180,7 +180,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
-    <Compile Include="Controllers\WebAPI\PointCloudControlToolController.cs" />
     <Compile Include="Controllers\WebAPI\PointCloudXYZsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -100,9 +100,30 @@ namespace DroneWebApp.Controllers.Tests
         }
 
         [TestMethod()]
-        public void CreateTest()
+        public void CreateTest_ActionExecutes_ReturnsViewForCreate()
         {
-            Assert.Fail();
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            PilotsController controller = new PilotsController(mockContext.Object);
+
+            // Create mock context
+            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+
+            // Create a mock DbSet
+            var mockSet = new Mock<DbSet<Pilot>>();
+            // Set up the Pilots property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+
+            var queryable = GetPilots().AsQueryable();
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+            // Set up the Pilots property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+
+            var result = controller.Create() as ViewResult;
+            Assert.AreEqual("Create", result.ViewName);
         }
 
         [TestMethod()]
@@ -144,7 +165,7 @@ namespace DroneWebApp.Controllers.Tests
         private List<Pilot> GetPilots()
         {
             var pilots = new List<Pilot>();
-            for (int i=0; i<10; i++)
+            for (int i=1; i<=10; i++)
             {
                 Pilot pilot = new Pilot
                 {
