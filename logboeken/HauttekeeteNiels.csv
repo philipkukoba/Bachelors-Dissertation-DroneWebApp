@@ -53,3 +53,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 18/04/20,13:00,16:00,Extern,Pointcloud controle tool in front end implementeren + Opzoeken om rasterformaat te maken in arcGIS,115+99,
 19/04/20,15:00,17:30,Extern,Pointcloud controle tool in front end implementeren afwerken + kijken voor unit tests,115,
 19/04/20,19:45,22:45,Extern,Bug in DATParser fixen + PilotsController tests schrijven,155+148,
+20/04/20,09:00,12:00,Extern,Aanpassing CTRLPointsController + kijken voor unit tests,148,
+20/04/20,15:00,17:00,Extern,Peerevaluatie + voorbereiden demo klant,,
+20/04/20,19:30,23:00,Extern,Demo klant voorbereiden en maken,,
