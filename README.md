@@ -14,6 +14,19 @@ Deze repository bevat volgende mappen:
 De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **verslag**, pdf-bestand **verslag-sprint2-drone1**
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Prerequisites:
 * Installeer SQL Server 2019 (Developer editie) op uw machine. 
   
