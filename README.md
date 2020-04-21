@@ -15,50 +15,6 @@ De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-## Prerequisites:
-* Installeer SQL Server 2019 (Developer editie) op uw machine. 
-  
-  [Klik hier om SQL Server te downloaden en scroll naar beneden tot u de Developer versie download ziet.](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-* Installeer SQL Server Management Studio (18.4) (SSMS) op uw machine. 
-  
-  [Klik hier om SSMS te downloaden.](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?redirectedfrom=MSDN&view=sql-server-ver15)
- 
-* Installeer Visual Studio 2019 op uw machine. Bij installatie kiest u om de volgende Workloads te installeren: _ASP.NET and web development_ en _Data storage and processing_. [Klik hier om Visual Studio te downloaden.](https://visualstudio.microsoft.com/downloads/)
-
-* Installeer Ivytools op uw machine. Op de download pagina is er een download link. Installeer Ivytools. Na de installatie moet u een proeflicentie activeren. Op de download pagina ziet u onderaan **"Click here to get your free personal license key"**. Klik daarop en kopieer de key. Open **"IvyTemplateEditor.exe"** op de plaats van installatie op uw machine. Navigeer via de bovenstaande balk naar **Help>About>Apply License Code**. Plak de gekopieerde key en druk op OK. Controleer of de licentie geactiveerd is en sluit IvyTemplateEditor af. 
-
-  [Klik hier om om naar de download pagina te gaan van Ivytools](http://www.ivytools.net/downloads.html)
-
-## Maak de databank aan:
-1. Start SQL Server Management Studio op en verbind met uw machine. Het veld _Server name_ wordt automatisch ingevuld. Hou deze naam bij, want u heeft deze zometeen nodig. Klik op **Connect**.
-2. Klik op het **File** menu bovenaan links. Kies **Open>File**. Navigeer naar het script _DroneDB.sql_ en open dit.
-3. Klik op **Execute** om het script uit te voeren. In het **Messages** venster verschijnt _Commands completed successfully_. 
-4. Klik in het **Object Explorer** venster op refresh en vouw de **Machinenaam-map** en **Databases-map** open. Hierin bevindt zich nu de nieuwe database **DroneDB**. Merk op dat de Machinenaam-map dezelfde naam heeft als uw eerder genoteerde _Server name_.
-5. Sluit SQL Server Management Studio.
-
-## Start de applicatie op:
-1. Start Visual Studio op en open de **DroneWebApp solution**.
-2. Navigeer in **Solution Explorer** naar **Web.config**, helemaal onderaan de mappenstructuur. Dubbelklik om dit te openen.
-3. In de `<connectionStrings>` tag verandert u in de tag `<add>` het attribuut _data source_ naar:  
-`data source=UW_SERVER_NAME`.
-4. Sla dit bestand op (**Save**).
-5. Verander van **Debug** naar **Release** en voer de webapplicatie uit met **F5**.
-6. De allereerste keer kan een venster verschijnen dat u vraagt om het **IIS Express SSL certificate** te vertrouwen. Klik _yes_.
-7. Er verschijnt een **Security warning**. Klik _yes_.
-8. U kunt nu aan de slag met de dronewebapplicatie.
-
 ## Werking
 
 De webapplicatie heeft verscheidene functionaliteiten:
