@@ -1,5 +1,9 @@
 # Repository van drone1
 
+## Installatie
+
+De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **verslag**, pdf-bestand **verslag-sprint2-drone1** onder hoofdstuk 5: handleidingen
+
 ## Opbouw van deze repository:
 
 Deze repository bevat volgende mappen:
@@ -10,8 +14,6 @@ Deze repository bevat volgende mappen:
 * De map **meetings** met de Scrum Stand Up meetings;
 * De map **verslag** met het verslag van sprint 1;
 * Het **SQL-script** `DroneDB.sql` dat gebruikt wordt om de databank aan te maken.
-
-De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **verslag**, pdf-bestand **verslag-sprint2-drone1** onder hoofdstuk 5: handleidingen
 
 
 
