@@ -18,7 +18,7 @@ De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **
 ## Werking
 
 De webapplicatie heeft verscheidene functionaliteiten:
-* U kunt dronevluchten, drones en piloten aanmaken, bekijken, aanpassen en verwijderen.
+* U kunt projecten, dronevluchten, drones en piloten aanmaken, bekijken, aanpassen en verwijderen.
 * U kunt documenten toevoegen aan dronevluchten met de uploadknop.
 * Een documentenknop is rood wanneer dit document nog niet geüpload is voor deze vlucht en wordt groen indien dit wel het geval is.
 * De documentknoppen zijn aanklikbaar en laten u toe om de bijhorende informatie in detail te bekijken.
