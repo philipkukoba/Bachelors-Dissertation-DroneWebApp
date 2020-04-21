@@ -19,7 +19,6 @@ namespace DroneWebApp.Controllers
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
-            System.Diagnostics.Debug.WriteLine("In DronesController");
         }
 
         // GET: Drones

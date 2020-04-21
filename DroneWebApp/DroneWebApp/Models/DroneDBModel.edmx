@@ -302,11 +302,46 @@
         </EntityType>
         <EntityType Name="RawImages">
           <Key>
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="FileName" />
           </Key>
-          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Image" Type="image" />
           <Property Name="FlightId" Type="int" />
+          <Property Name="FileSize" Type="float" />
+          <Property Name="FileTypeExtension" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Orientation" Type="varchar" MaxLength="50" />
+          <Property Name="XResolution" Type="int" />
+          <Property Name="YResolution" Type="int" />
+          <Property Name="ResolutionUnit" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="Make" Type="varchar" MaxLength="50" />
+          <Property Name="SpeedX" Type="float" />
+          <Property Name="SpeedY" Type="float" />
+          <Property Name="SpeedZ" Type="float" />
+          <Property Name="Pitch" Type="float" />
+          <Property Name="Yaw" Type="float" />
+          <Property Name="Roll" Type="float" />
+          <Property Name="CameraPitch" Type="float" />
+          <Property Name="CameraYaw" Type="float" />
+          <Property Name="CameraRoll" Type="float" />
+          <Property Name="ImageWidth" Type="int" />
+          <Property Name="ImageHeight" Type="int" />
+          <Property Name="GpsVersionId" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLatitudeRef" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLongitudeRef" Type="varchar" MaxLength="50" />
+          <Property Name="GpsAltitudeRef" Type="varchar" MaxLength="50" />
+          <Property Name="XpComment" Type="varchar" MaxLength="50" />
+          <Property Name="AbsoluteAltitude" Type="float" />
+          <Property Name="RelativeAltitude" Type="float" />
+          <Property Name="GpsAltitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLatitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLongitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsPosition" Type="varchar" MaxLength="50" />
+          <Property Name="PreviewImage" Type="bigint" />
+          <Property Name="MegaPixels" Type="int" />
+          <Property Name="ThumbnailImage" Type="bigint" />
+          <Property Name="Fov" Type="float" />
+          <Property Name="RawHeader" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="TFW">
           <Key>
@@ -1098,11 +1133,46 @@
         </EntityType>
         <EntityType Name="RawImage">
           <Key>
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="FileName" />
           </Key>
-          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="FlightId" Type="Int32" />
+          <Property Name="FileSize" Type="Double" />
+          <Property Name="FileTypeExtension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Orientation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="XResolution" Type="Int32" />
+          <Property Name="YResolution" Type="Int32" />
+          <Property Name="ResolutionUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="Make" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SpeedX" Type="Double" />
+          <Property Name="SpeedY" Type="Double" />
+          <Property Name="SpeedZ" Type="Double" />
+          <Property Name="Pitch" Type="Double" />
+          <Property Name="Yaw" Type="Double" />
+          <Property Name="Roll" Type="Double" />
+          <Property Name="CameraPitch" Type="Double" />
+          <Property Name="CameraYaw" Type="Double" />
+          <Property Name="CameraRoll" Type="Double" />
+          <Property Name="ImageWidth" Type="Int32" />
+          <Property Name="ImageHeight" Type="Int32" />
+          <Property Name="GpsVersionId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLatitudeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLongitudeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsAltitudeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="XpComment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AbsoluteAltitude" Type="Double" />
+          <Property Name="RelativeAltitude" Type="Double" />
+          <Property Name="GpsAltitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLatitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLongitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PreviewImage" Type="Int64" />
+          <Property Name="MegaPixels" Type="Int32" />
+          <Property Name="ThumbnailImage" Type="Int64" />
+          <Property Name="Fov" Type="Double" />
+          <Property Name="RawHeader" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="TFW">
@@ -1878,9 +1948,44 @@
           <EntitySetMapping Name="RawImages">
             <EntityTypeMapping TypeName="DroneDBModel.RawImage">
               <MappingFragment StoreEntitySet="RawImages">
-                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="FileTypeExtension" ColumnName="FileTypeExtension" />
+                <ScalarProperty Name="Orientation" ColumnName="Orientation" />
+                <ScalarProperty Name="XResolution" ColumnName="XResolution" />
+                <ScalarProperty Name="YResolution" ColumnName="YResolution" />
+                <ScalarProperty Name="ResolutionUnit" ColumnName="ResolutionUnit" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="SpeedX" ColumnName="SpeedX" />
+                <ScalarProperty Name="SpeedY" ColumnName="SpeedY" />
+                <ScalarProperty Name="SpeedZ" ColumnName="SpeedZ" />
+                <ScalarProperty Name="Pitch" ColumnName="Pitch" />
+                <ScalarProperty Name="Yaw" ColumnName="Yaw" />
+                <ScalarProperty Name="Roll" ColumnName="Roll" />
+                <ScalarProperty Name="CameraPitch" ColumnName="CameraPitch" />
+                <ScalarProperty Name="CameraYaw" ColumnName="CameraYaw" />
+                <ScalarProperty Name="CameraRoll" ColumnName="CameraRoll" />
+                <ScalarProperty Name="ImageWidth" ColumnName="ImageWidth" />
+                <ScalarProperty Name="ImageHeight" ColumnName="ImageHeight" />
+                <ScalarProperty Name="GpsVersionId" ColumnName="GpsVersionId" />
+                <ScalarProperty Name="GpsLatitudeRef" ColumnName="GpsLatitudeRef" />
+                <ScalarProperty Name="GpsLongitudeRef" ColumnName="GpsLongitudeRef" />
+                <ScalarProperty Name="GpsAltitudeRef" ColumnName="GpsAltitudeRef" />
+                <ScalarProperty Name="XpComment" ColumnName="XpComment" />
+                <ScalarProperty Name="AbsoluteAltitude" ColumnName="AbsoluteAltitude" />
+                <ScalarProperty Name="RelativeAltitude" ColumnName="RelativeAltitude" />
+                <ScalarProperty Name="GpsAltitude" ColumnName="GpsAltitude" />
+                <ScalarProperty Name="GpsLatitude" ColumnName="GpsLatitude" />
+                <ScalarProperty Name="GpsLongitude" ColumnName="GpsLongitude" />
+                <ScalarProperty Name="GpsPosition" ColumnName="GpsPosition" />
+                <ScalarProperty Name="PreviewImage" ColumnName="PreviewImage" />
+                <ScalarProperty Name="MegaPixels" ColumnName="MegaPixels" />
+                <ScalarProperty Name="ThumbnailImage" ColumnName="ThumbnailImage" />
+                <ScalarProperty Name="Fov" ColumnName="Fov" />
+                <ScalarProperty Name="RawHeader" ColumnName="RawHeader" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
