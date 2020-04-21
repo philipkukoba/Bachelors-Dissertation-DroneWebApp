@@ -11,7 +11,7 @@ Deze repository bevat volgende mappen:
 * De map **verslag** met het verslag van sprint 1;
 * Het **SQL-script** `DroneDB.sql` dat gebruikt wordt om de databank aan te maken.
 
-De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **verslag**, pdf-bestand **verslag-sprint2-drone1**
+De **installatiemanual** kan u vinden in het verslag voor sprint 2, in de map **verslag**, pdf-bestand **verslag-sprint2-drone1** onder hoofdstuk 5: handleidingen
 
 
 
