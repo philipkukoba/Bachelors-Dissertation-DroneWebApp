@@ -31,7 +31,7 @@ namespace DroneWebApp.Controllers.WebAPI
 				rawImage => new
 				{
 					rawImage.FileName,
-					rawImage.Image,   //raw image data (bytes)
+					rawImage.RawData,   //raw image data (bytes)
 					rawImage.FlightId,
 					
 					rawImage.XResolution,

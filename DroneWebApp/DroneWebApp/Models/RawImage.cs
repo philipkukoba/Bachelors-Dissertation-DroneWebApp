@@ -15,7 +15,7 @@ namespace DroneWebApp.Models
     public partial class RawImage
     {
         public string FileName { get; set; }
-        public byte[] Image { get; set; }
+        public byte[] RawData { get; set; }
         public Nullable<int> FlightId { get; set; }
         public Nullable<double> FileSize { get; set; }
         public string FileTypeExtension { get; set; }

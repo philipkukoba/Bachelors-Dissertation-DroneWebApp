@@ -41,7 +41,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			RawImage rawImage = new RawImage
 			{
 				FileName = directories[10].Tags[0].Description,
-				Image = rawData,  
+				RawData = rawData,  
 				FlightId = flightId,
 
 				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),    
