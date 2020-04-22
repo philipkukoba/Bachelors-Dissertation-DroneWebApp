@@ -1,6 +1,7 @@
 ﻿using DroneWebApp.Models.SimpleFactoryPattern.Parsers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -35,6 +36,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             else if (parseType.Equals(".dat", StringComparison.OrdinalIgnoreCase))
             {
                 parser = new DATParser();
+            }
+            else if (parseType.Equals(".jpg", StringComparison.OrdinalIgnoreCase))
+            {
+                parser = new RawImageParser();
             }
             // For any other filetype, parser remains null
 

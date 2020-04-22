@@ -18,7 +18,7 @@ namespace DroneWebApp.Controllers
     {
         public DroneDBEntities Db { get; set; }
         private Creator creator;
-        private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
+        private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
         static string fileName;
         static bool parseResult = false;
 
@@ -41,7 +41,6 @@ namespace DroneWebApp.Controllers
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
-            //System.Diagnostics.Debug.WriteLine("Index regular called");
             return View();
         }
 
@@ -68,16 +67,14 @@ namespace DroneWebApp.Controllers
             {
                 // extract only the filename
                 fileName = Path.GetFileName(files.FileName);
-                System.Diagnostics.Debug.WriteLine("****** File name: " + fileName);
                 // store the file inside ~/App_Data/uploads folder
                 path = Path.Combine(Server.MapPath("~/files"), fileName);
                 files.SaveAs(path);              
             }
 
-            //fileName = files.FileName;
             string fileExtension = fileName.Substring(fileName.Length - 4);
-            // Verify that the user's file is an appropriate filetype                           // *****************************
-            if (!validExtensions.Contains(fileExtension))
+            // Verify that the user's file is an appropriate filetype                        
+            if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
             {
                 ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
                 return View("~/Views/ErrorPage/Error.cshtml");
