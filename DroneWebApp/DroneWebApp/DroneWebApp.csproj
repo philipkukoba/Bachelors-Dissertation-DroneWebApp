@@ -190,6 +190,9 @@
     <Compile Include="Models\CTRLPoint.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataExport\FactoryCSV.cs" />
+    <Compile Include="Models\DataExport\FactoryPDF.cs" />
+    <Compile Include="Models\DataExport\IFactory.cs" />
     <Compile Include="Models\DepartureInfo.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -419,6 +422,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Pilots\DroneFlights.cshtml" />
     <Content Include="Views\Projects\DroneFlights.cshtml" />
+    <Content Include="Views\Files\Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

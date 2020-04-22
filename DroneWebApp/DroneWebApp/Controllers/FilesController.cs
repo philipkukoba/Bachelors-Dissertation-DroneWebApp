@@ -1,4 +1,5 @@
 ﻿using DroneWebApp.Models;
+using DroneWebApp.Models.DataExport;
 using DroneWebApp.Models.Helper;
 using DroneWebApp.Models.SimpleFactoryPattern;
 using System;
@@ -93,6 +94,49 @@ namespace DroneWebApp.Controllers
                     parseResult = creator.GetParser(fileExtension, path, (int)id);
                 }
             }
+            return View();
+        }
+
+        public ActionResult Export(int? id, string extension, string type)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify an id in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            if (extension == null || type == null)
+            {
+                ViewBag.ErrorMessage = "Please specify an extension and/or type in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            
+            IFactory factory = null;
+
+            if (extension.Equals("csv"))
+            {
+                factory = new FactoryCSV();
+                if (type.Equals("drone"))
+                {
+                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                }
+                else if (type.Equals("pilot"))
+                {
+                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                }
+            }
+            else if (extension.Equals("pdf"))
+            {
+                factory = new FactoryPDF();
+                if (type.Equals("drone"))
+                {
+                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                }
+                else if (type.Equals("pilot"))
+                {
+                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                }
+            }
+
             return View();
         }
 

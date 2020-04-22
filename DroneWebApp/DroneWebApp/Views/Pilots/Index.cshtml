@@ -31,6 +31,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
+            <th>Export Logbook</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -55,6 +56,10 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.ActionLink("CSV", "Export", "Files", new { id = item.PilotId, extension = "csv", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+                    @Html.ActionLink("PDF", "Export", "Files", new { id = item.PilotId, extension = "pdf", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.PilotId }) |
