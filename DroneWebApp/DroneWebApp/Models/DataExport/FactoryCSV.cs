@@ -44,6 +44,8 @@ namespace DroneWebApp.Models.DataExport
             {
                 foreach (DroneFlight flight in flights)
                 {
+                    System.Diagnostics.Debug.WriteLine("foreach");
+                    
                     if (flight.DepartureInfo == null)
                     {
                         flight.DepartureInfo = new DepartureInfo
@@ -88,9 +90,14 @@ namespace DroneWebApp.Models.DataExport
                 }
             }
 
+            System.Diagnostics.Debug.WriteLine(db.Drones.Find(droneId).DroneName);
+
             string filename = db.Drones.Find(droneId).DroneName;
+            System.Diagnostics.Debug.WriteLine(filename);
             filename += droneId;
+            System.Diagnostics.Debug.WriteLine(filename);
             filename = ReplaceInvalidChars(filename);
+            System.Diagnostics.Debug.WriteLine(filename);
 
             context.Response.Clear();
             context.Response.ContentType = "text/csv";
@@ -211,7 +218,10 @@ namespace DroneWebApp.Models.DataExport
 
         private string ReplaceInvalidChars(string filename)
         {
-            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+            string result = string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+            result = string.Join("", result.Split(' '));
+
+            return result;
         }
     }
 }
