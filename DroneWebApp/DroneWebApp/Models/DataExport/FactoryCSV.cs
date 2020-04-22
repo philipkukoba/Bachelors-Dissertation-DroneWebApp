@@ -90,14 +90,9 @@ namespace DroneWebApp.Models.DataExport
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine(db.Drones.Find(droneId).DroneName);
-
             string filename = db.Drones.Find(droneId).DroneName;
-            System.Diagnostics.Debug.WriteLine(filename);
             filename += droneId;
-            System.Diagnostics.Debug.WriteLine(filename);
             filename = ReplaceInvalidChars(filename);
-            System.Diagnostics.Debug.WriteLine(filename);
 
             context.Response.Clear();
             context.Response.ContentType = "text/csv";
