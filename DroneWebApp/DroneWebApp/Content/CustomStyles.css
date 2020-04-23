@@ -11,6 +11,11 @@
     text-align: center!important;
 }
 
+.paddingErrorIndex{
+    padding: 20px;
+    width: auto;
+}
+
 .fixedTableLayout{
     table-layout: fixed;
 }

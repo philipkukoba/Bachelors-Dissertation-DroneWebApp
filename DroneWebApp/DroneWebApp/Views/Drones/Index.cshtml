@@ -5,12 +5,12 @@
 }
 
 <br />
-<h2 style="text-align:center">Drones</h2>
+<h2 class="textAlignCenter">Drones</h2>
 
-<h4>@Html.ActionLink("Create new Drone", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+<h4>@Html.ActionLink("Create new Drone", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
 <hr />
 
-<table id="dtable" class="ui celled table table-hover" cellspacing="0" width="100%" style="text-align: center">
+<table id="dtable" class="ui celled table table-hover textAlignCenter" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
@@ -50,8 +50,8 @@
                     @item.TotalFlightTime.ToString()
                 </td>
                 <td>
-                    @Html.ActionLink("CSV", "Export", "Files", new { id = item.DroneId, extension = "csv", type = "drone" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
-                    @Html.ActionLink("PDF", "Export", "Files", new { id = item.DroneId, extension = "pdf", type = "drone" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+                    @Html.ActionLink("CSV", "Export", "Files", new { id = item.DroneId, extension = "csv", type = "drone" }, new { @class = "btn btn-info btn-sm whiteText" })
+                    @Html.ActionLink("PDF", "Export", "Files", new { id = item.DroneId, extension = "pdf", type = "drone" }, new { @class = "btn btn-info btn-sm whiteText" })
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }) |

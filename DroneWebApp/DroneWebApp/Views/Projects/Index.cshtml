@@ -5,12 +5,12 @@
 }
 
 <br />
-<h2 style="text-align:center">Projects</h2>
+<h2 class="textAlignCenter">Projects</h2>
 
-<h4>@Html.ActionLink("Create new Project", "Create", "", new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+<h4>@Html.ActionLink("Create new Project", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
 <hr />
 
-<table id="prtable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
+<table id="prtable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
@@ -35,7 +35,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.DroneFlights.Count) | @Html.ActionLink("View Flights", "DroneFlights", new { id = item.ProjectId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count) | @Html.ActionLink("View Flights", "DroneFlights", new { id = item.ProjectId }, new { @class = "btn btn-primary btn-sm whiteText" })
                 </td>
 
                 <td>
