@@ -59,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>files\pdf_parser_dll\IvyPdf.dll</HintPath>
     </Reference>
+    <Reference Include="MetadataExtractor, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetadataExtractor.2.3.1\lib\net45\MetadataExtractor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -157,6 +160,9 @@
     <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.2.7\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
+    <Reference Include="XmpCore, Version=6.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XmpCore.6.1.10\lib\net35\XmpCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -180,8 +186,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PilotsController.cs" />
-    <Compile Include="Controllers\WebAPI\PointCloudControlToolController.cs" />
     <Compile Include="Controllers\WebAPI\PointCloudXYZsController.cs" />
+    <Compile Include="Controllers\WebAPI\RawImagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,6 +197,9 @@
     <Compile Include="Models\CTRLPoint.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataExport\FactoryCSV.cs" />
+    <Compile Include="Models\DataExport\FactoryPDF.cs" />
+    <Compile Include="Models\DataExport\IFactory.cs" />
     <Compile Include="Models\DepartureInfo.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -274,6 +283,7 @@
     <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\RawImageParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\PDFParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
@@ -376,7 +386,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\visualisation\pointcloud_control_tool.js" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -421,6 +430,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Pilots\DroneFlights.cshtml" />
     <Content Include="Views\Projects\DroneFlights.cshtml" />
+    <Content Include="Views\Files\Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

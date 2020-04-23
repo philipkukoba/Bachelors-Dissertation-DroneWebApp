@@ -25,7 +25,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Pilot<span class="redBoldText">*</span></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PilotName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PilotName, new { htmlAttributes = new { @class = "form-control", required = "true" } })
                 @Html.ValidationMessageFor(model => model.PilotName, "", new { @class = "text-danger" })
             </div>
         </div>

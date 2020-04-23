@@ -54,20 +54,30 @@ namespace DroneWebApp.Controllers
             List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
             List<CTRLPoint> CTRLPoints = Flight.CTRLPoints.ToList();
 
-            Polygon polygon = new Polygon(pointCloudXYZs);
-            PointcloudControlTool tool = new PointcloudControlTool(polygon);
-
             var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
 
-            foreach (CTRLPoint ctrl in CTRLPoints)
+            if (pointCloudXYZs.Count != 0)
             {
-                bool inside = tool.PointInside3DPolygonSimplified((double)ctrl.X, (double)ctrl.Y, (double)ctrl.Z);
-                string insideString = "false";
-                if (inside)
+                Polygon polygon = new Polygon(pointCloudXYZs);
+                PointcloudControlTool tool = new PointcloudControlTool(polygon);
+
+                foreach (CTRLPoint ctrl in CTRLPoints)
                 {
-                    insideString = "true";
+                    bool inside = tool.PointInside3DPolygonSimplified((double)ctrl.X, (double)ctrl.Y, (double)ctrl.Z);
+                    string insideString = "false";
+                    if (inside)
+                    {
+                        insideString = "true";
+                    }
+                    list.Add(new { ctrl.CTRLId, ctrl.CTRLName, X = (double)ctrl.X, Y = (double)ctrl.Y, Z = (double)ctrl.Z, FlightId = (int)ctrl.FlightId, Inside = insideString });
                 }
-                list.Add(new { ctrl.CTRLId, ctrl.CTRLName, X = (double)ctrl.X, Y = (double)ctrl.Y, Z = (double)ctrl.Z, FlightId = (int)ctrl.FlightId, Inside = insideString });
+            }
+            else
+            {
+                foreach (CTRLPoint ctrl in CTRLPoints)
+                {
+                    list.Add(new { ctrl.CTRLId, ctrl.CTRLName, X = (double)ctrl.X, Y = (double)ctrl.Y, Z = (double)ctrl.Z, FlightId = (int)ctrl.FlightId, Inside = "No pointcloud available" });
+                }
             }
 
             //config to set to json 

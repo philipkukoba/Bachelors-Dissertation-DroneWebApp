@@ -1,4 +1,5 @@
 ﻿using DroneWebApp.Models;
+using DroneWebApp.Models.DataExport;
 using DroneWebApp.Models.Helper;
 using DroneWebApp.Models.SimpleFactoryPattern;
 using System;
@@ -17,7 +18,7 @@ namespace DroneWebApp.Controllers
     {
         public DroneDBEntities Db { get; set; }
         private Creator creator;
-        private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw"};
+        private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
         static string fileName;
         static bool parseResult = false;
 
@@ -40,7 +41,6 @@ namespace DroneWebApp.Controllers
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
-            //System.Diagnostics.Debug.WriteLine("Index regular called");
             return View();
         }
 
@@ -67,16 +67,14 @@ namespace DroneWebApp.Controllers
             {
                 // extract only the filename
                 fileName = Path.GetFileName(files.FileName);
-                System.Diagnostics.Debug.WriteLine("****** File name: " + fileName);
                 // store the file inside ~/App_Data/uploads folder
                 path = Path.Combine(Server.MapPath("~/files"), fileName);
                 files.SaveAs(path);              
             }
 
-            //fileName = files.FileName;
             string fileExtension = fileName.Substring(fileName.Length - 4);
-            // Verify that the user's file is an appropriate filetype                           // *****************************
-            if (!validExtensions.Contains(fileExtension))
+            // Verify that the user's file is an appropriate filetype                        
+            if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
             {
                 ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
                 return View("~/Views/ErrorPage/Error.cshtml");
@@ -93,6 +91,49 @@ namespace DroneWebApp.Controllers
                     parseResult = creator.GetParser(fileExtension, path, (int)id);
                 }
             }
+            return View();
+        }
+
+        public ActionResult Export(int? id, string extension, string type)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify an id in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            if (extension == null || type == null)
+            {
+                ViewBag.ErrorMessage = "Please specify an extension and/or type in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            
+            IFactory factory = null;
+
+            if (extension.Equals("csv"))
+            {
+                factory = new FactoryCSV();
+                if (type.Equals("drone"))
+                {
+                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                }
+                else if (type.Equals("pilot"))
+                {
+                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                }
+            }
+            else if (extension.Equals("pdf"))
+            {
+                factory = new FactoryPDF();
+                if (type.Equals("drone"))
+                {
+                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                }
+                else if (type.Equals("pilot"))
+                {
+                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                }
+            }
+
             return View();
         }
 

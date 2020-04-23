@@ -299,7 +299,6 @@
     <Compile Include="Controllers\WebAPI\DroneFlightsAPIControllerTests.cs" />
     <Compile Include="Controllers\WebAPI\DroneGPsControllerTests.cs" />
     <Compile Include="Controllers\WebAPI\GCPControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\PointCloudControlToolControllerTests.cs" />
     <Compile Include="Controllers\WebAPI\PointCloudXYZsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
