@@ -25,7 +25,8 @@ namespace DroneWebApp.Controllers
         // GET: DroneFlights
         public ActionResult Index()
         {
-            var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot).Include(d => d.Project);
+            var droneFlights = db.DroneFlights;
+            //var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot).Include(d => d.Project);
             return View(droneFlights.ToList());
         }
 

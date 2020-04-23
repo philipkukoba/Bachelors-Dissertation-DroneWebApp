@@ -14,9 +14,44 @@ namespace DroneWebApp.Models
     
     public partial class RawImage
     {
-        public string ImageName { get; set; }
-        public byte[] Image { get; set; }
+        public string FileName { get; set; }
+        public byte[] RawData { get; set; }
         public Nullable<int> FlightId { get; set; }
+        public Nullable<double> FileSize { get; set; }
+        public string FileTypeExtension { get; set; }
+        public string Orientation { get; set; }
+        public Nullable<int> XResolution { get; set; }
+        public Nullable<int> YResolution { get; set; }
+        public string ResolutionUnit { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string Make { get; set; }
+        public Nullable<double> SpeedX { get; set; }
+        public Nullable<double> SpeedY { get; set; }
+        public Nullable<double> SpeedZ { get; set; }
+        public Nullable<double> Pitch { get; set; }
+        public Nullable<double> Yaw { get; set; }
+        public Nullable<double> Roll { get; set; }
+        public Nullable<double> CameraPitch { get; set; }
+        public Nullable<double> CameraYaw { get; set; }
+        public Nullable<double> CameraRoll { get; set; }
+        public Nullable<int> ImageWidth { get; set; }
+        public Nullable<int> ImageHeight { get; set; }
+        public string GpsVersionId { get; set; }
+        public string GpsLatitudeRef { get; set; }
+        public string GpsLongitudeRef { get; set; }
+        public string GpsAltitudeRef { get; set; }
+        public string XpComment { get; set; }
+        public Nullable<double> AbsoluteAltitude { get; set; }
+        public Nullable<double> RelativeAltitude { get; set; }
+        public string GpsAltitude { get; set; }
+        public string GpsLatitude { get; set; }
+        public string GpsLongitude { get; set; }
+        public string GpsPosition { get; set; }
+        public Nullable<long> PreviewImage { get; set; }
+        public Nullable<int> MegaPixels { get; set; }
+        public Nullable<long> ThumbnailImage { get; set; }
+        public Nullable<double> Fov { get; set; }
+        public string RawHeader { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

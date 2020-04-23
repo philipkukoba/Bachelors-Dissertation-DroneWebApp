@@ -38,6 +38,7 @@ namespace DroneWebApp.Models
         public bool hasQR { get; set; }
         public bool hasXYZ { get; set; }
         public bool hasDroneLog { get; set; }
+        public bool hasRawImages { get; set; }
         public string TypeOfActivity { get; set; }
         public string Other { get; set; }
         public string Simulator { get; set; }

@@ -21,11 +21,10 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void Index_ActionExecutes_ReturnsViewForIndex()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             DroneFlightsController controller = new DroneFlightsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
 
             // Create a mock DbSet
             var mockSet = new Mock<DbSet<DroneFlight>>();
@@ -38,10 +37,6 @@ namespace DroneWebApp.Controllers.Tests
             mockSet.As<IQueryable<DroneFlight>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             mockSet.As<IQueryable<DroneFlight>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
 
-            // Set up the DroneFlights property so it returns the mocked DbSet
-            mockContext.Setup(o => o.DroneFlights).Returns(() => mockSet.Object);
-
-            //DroneFlightsController controller = new DroneFlightsController(mockContext.Object);
             var result = controller.Index();
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
@@ -160,7 +155,7 @@ namespace DroneWebApp.Controllers.Tests
             for (int i = 0; i < 10; i++)
             {
                 DroneFlight df = new DroneFlight();
-                /*
+                
                 Project project = new Project();
                 project.ProjectCode = "PRJ-001";
                 Pilot pilot = new Pilot();
@@ -174,7 +169,10 @@ namespace DroneWebApp.Controllers.Tests
                 df.Pilot = pilot;
                 df.Drone = drone;
                 df.Date = date;
-                */
+
+
+
+
                 droneFlights.Add(df);
             }
             return droneFlights;
