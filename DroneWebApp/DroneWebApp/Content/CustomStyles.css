@@ -1,4 +1,21 @@
 ﻿.redBoldText{
-    color: red;
+    color: #a94442;
     font-weight: bold;
+}
+
+.whiteText{
+    color: white;
+}
+
+.textAlignCenter {
+    text-align: center!important;
+}
+
+.paddingErrorIndex{
+    padding: 20px;
+    width: auto;
+}
+
+.fixedTableLayout{
+    table-layout: fixed;
 }
