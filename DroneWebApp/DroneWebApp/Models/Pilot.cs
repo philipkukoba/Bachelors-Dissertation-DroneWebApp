@@ -11,8 +11,7 @@ namespace DroneWebApp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Pilot
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +21,6 @@ namespace DroneWebApp.Models
         }
     
         public int PilotId { get; set; }
-        [Required(ErrorMessage = "Pilot is required")]
         public string PilotName { get; set; }
         public string Street { get; set; }
         public Nullable<int> ZIP { get; set; }
