@@ -588,6 +588,90 @@
 
     //#endregion 
 
+    //#region IMAGES
+
+    //TODO fix this method, in the return it should handle the params as ints and not strings
+    //het plakt momenteel ze aan elkaar ipv optellen
+    let convertDegreesToDouble = (coordsDMS) => {
+        console.log("coordsDMS: " + coordsDMS);
+        let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
+        let degreesconverted = parseInt(coords[0]);
+        let minutesconverted = parseInt(coords[1]) / 60;
+        let secondsconverted = parseFloat(coords[2]) / 3600;
+        console.log("coords converted: " + (degreesconverted + minutesconverted + secondsconverted));
+        return degreesconverted + minutesconverted + secondsconverted;
+    }
+
+    let readImage = (img) => {
+        let pointGraphic = {             //type graphic (autocasts)
+            geometry: {
+                type: "point",
+                x: convertDegreesToDouble(img.GpsLongitude),
+                y: convertDegreesToDouble(img.GpsLatitude)
+            },
+            attributes: {
+                FileName: img.FileName,
+                CreateDate: img.CreateDate,
+                url: "data:image/jpg;base64," + btoa(img.RawData) //conversion to display img 
+            }
+        };
+        return pointGraphic;
+    }
+
+    //images ajax
+    $.ajax({
+        type: "GET",
+        url: "/WebAPI/api/RawImages/" + id, // the URL of the controller action method
+        success: (result) => {
+
+            let images = [];
+            for (let i = 0; i < result.length; i++) {
+                images.push(readImage(result[i]));
+            }
+
+            const ImageLayer = new FeatureLayer({
+                title: "Raw Images",
+                source: images,  // array of graphics objects
+                objectIdField: "FileName",
+                fields: [{
+                    name: "FileName",
+                    type: "string"
+                }, {
+                    name: "url",
+                    type: "string"
+                }],
+                popupTemplate: {
+
+                    content: "<img src='{url}' width='100' height='100'>"
+                    //title: "placeholder",
+                    //content: "<img src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.momtrends.com%2F.image%2Fc_limit%252Ccs_srgb%252Cq_80%252Cw_620%2FMTUxMzAzODE2MzA2ODI4NDgw%2Fimage-placeholder-title.jpg&f=1&nofb=1'>"
+                },
+                renderer: {  // overrides the layer's default renderer
+                    type: "simple",
+                    symbol: {
+                        type: "text",
+                        color: "#7A003C",
+                        text: "\ue661",
+                        font: {
+                            size: 20,
+                            family: "CalciteWebCoreIcons"
+                        }
+                    }
+                }
+            });
+
+            map.add(ImageLayer);
+
+        },
+        error: (req, status, error) => {
+            console.log("AJAX FAIL: RAW IMAGES");
+            console.log(req);
+            console.log(status);
+            console.log(error);
+        }
+    });
+
+    //#endregion 
 
     //#region FEATURE (LEGENDE) 
 

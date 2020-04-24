@@ -13,8 +13,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 	{
 		public bool Parse(string path, int flightId, DroneDBEntities db)
 		{
-			//DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-			//todo: moet er hier nog iets gebeuren met de droneFlight?? 
+			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
+
 
 			// Set culture for double conversion 
 			CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -25,9 +25,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			CultureInfo provider = CultureInfo.InvariantCulture;
 			string format = "yyyy:dd:MM HH:mm:ss"; //2019:09:12 15:49:47
 
-			//reading metadata
-			var directories = ImageMetadataReader.ReadMetadata(path);
-
 			byte[] rawData; //ingelezen image in raw bytes
 			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
 			{
@@ -36,15 +33,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			}
 			//todo: try catch??
 
+			//reading metadata
+			var directories = ImageMetadataReader.ReadMetadata(path);
+
+			//if the image is already in the DB 
+			if (db.RawImages.Contains(db.RawImages.Find(directories[10].Tags[0].Description)))
+			{
+				return false;
+			}
 
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
 			{
 				FileName = directories[10].Tags[0].Description,
-				RawData = rawData,  
+				RawData = rawData,
 				FlightId = flightId,
 
-				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),    
+				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),
 				FileTypeExtension = directories[9].Tags[3].Description,
 				Orientation = directories[1].Tags[3].Description,
 
@@ -85,10 +90,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				GpsLongitude = directories[5].Tags[4].Description,
 				GpsPosition = null,
 
-				PreviewImage = null, 
+				PreviewImage = null,
 				MegaPixels = null,
 
-				ThumbnailImage = null, 
+				ThumbnailImage = null,
 
 				Fov = null,
 				RawHeader = null
@@ -96,8 +101,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			//Add rawImage Object to DB and save changes
 			db.RawImages.Add(rawImage);
-			db.SaveChanges();
+			droneFlight.hasRawImages = true;
 
+			db.SaveChanges();
 
 			#region console prints 
 			//Debug.WriteLine(directories[0]); //JPEG Directory (8 tags)

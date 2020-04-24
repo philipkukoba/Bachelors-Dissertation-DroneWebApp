@@ -11,7 +11,7 @@
 <div>
     <h4>Project @Model.ProjectCode</h4>
     <hr />
-    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
+    <table class="table table-bordered table-hover table-striped fixedTableLayout">
         <tr>
             <th>
                 @Html.DisplayName("Project Code")
@@ -26,7 +26,7 @@
                 @Html.DisplayName("Drone Flights")
             </th>
             <td>
-                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.ProjectId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.ProjectId }, new { @class = "btn btn-primary btn-sm whiteText" })
             </td>
         </tr>
 
