@@ -2,7 +2,7 @@
 
 ## Installatie
 
-De **installatihandleiding** kan u vinden in de map **verslag**, pdf-bestand **verslag-sprint2-drone1** onder **hoofdstuk 5: handleidingen**.
+De **installatiehandleiding** kan u vinden in de map **verslag**, pdf-bestand **verslag-sprint2-drone1** onder **hoofdstuk 5: handleidingen**.
 
 ## Opbouw van deze repository:
 
