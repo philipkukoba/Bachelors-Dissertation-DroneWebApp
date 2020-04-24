@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DroneWebApp.Models.DataExport
 {
-    interface IFactory
+    interface IExport
     {
         void CreatePilotLog(int PilotId, DroneDBEntities db, HttpContextBase context);
         void CreateDroneLog(int DroneId, DroneDBEntities db, HttpContextBase context);

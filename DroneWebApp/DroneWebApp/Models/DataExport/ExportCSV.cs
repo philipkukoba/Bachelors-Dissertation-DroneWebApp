@@ -9,12 +9,14 @@ using System.Web;
 
 namespace DroneWebApp.Models.DataExport
 {
-    public class FactoryCSV : IFactory
+    public class ExportCSV : AExport
     {
-        public void CreateDroneLog(int droneId, DroneDBEntities db, HttpContextBase context)
+        public override void CreateDroneLog(int droneId, DroneDBEntities db, HttpContextBase context)
         {
+            // create stringbuilder to contain csv data
             StringBuilder csvBuilder = new StringBuilder();
 
+            // list with csv headers
             List<string> columns = new List<string>
             {
                 "Registration",
@@ -38,14 +40,13 @@ namespace DroneWebApp.Models.DataExport
 
             csvBuilder.Append(string.Join(",", columns.ToArray())).Append("\n");
 
+            // list of drone flights
             List<DroneFlight> flights = db.DroneFlights.Where(df => df.DroneId == droneId).ToList();
             
             if (flights.Count != 0)
             {
                 foreach (DroneFlight flight in flights)
-                {
-                    System.Diagnostics.Debug.WriteLine("foreach");
-                    
+                {                    
                     if (flight.DepartureInfo == null)
                     {
                         flight.DepartureInfo = new DepartureInfo
@@ -65,6 +66,7 @@ namespace DroneWebApp.Models.DataExport
                         };
                     }
 
+                    // list with the fields of a csv row
                     List<string> fields = new List<string>
                     {
                         flight.Drone.Registration ?? "",
@@ -73,7 +75,7 @@ namespace DroneWebApp.Models.DataExport
                         flight.Date.ToString() ?? "",
                         flight.Pilot.PilotName ?? "",
                         flight.DepartureInfo.Longitude.ToString() ?? "",
-                        flight.DepartureInfo.Longitude.ToString() ?? "",
+                        flight.DepartureInfo.Latitude.ToString() ?? "",
                         flight.DepartureInfo.UTCTime.ToString() ?? "",
                         flight.DestinationInfo.Longitude.ToString() ?? "",
                         flight.DestinationInfo.Latitude.ToString() ?? "",
@@ -94,6 +96,7 @@ namespace DroneWebApp.Models.DataExport
             filename += droneId;
             filename = ReplaceInvalidChars(filename);
 
+            // create downloadable file
             context.Response.Clear();
             context.Response.ContentType = "text/csv";
             context.Response.AddHeader("Content-Disposition", "attachment;filename=" + filename + ".csv");
@@ -101,10 +104,12 @@ namespace DroneWebApp.Models.DataExport
             context.Response.End();
         }
         
-        public void CreatePilotLog(int pilotId, DroneDBEntities db, HttpContextBase context)
+        public override void CreatePilotLog(int pilotId, DroneDBEntities db, HttpContextBase context)
         {
+            // create stringbuilder to contain csv data
             StringBuilder csvBuilder = new StringBuilder();
 
+            // list with csv headers
             List<string> columns = new List<string>
             {
                 "PilotName",
@@ -134,6 +139,7 @@ namespace DroneWebApp.Models.DataExport
 
             csvBuilder.Append(string.Join(",", columns.ToArray())).Append("\n");
 
+            // list of drone flights
             List<DroneFlight> flights = db.DroneFlights.Where(df => df.PilotId == pilotId).ToList();
 
             if (flights.Count != 0)
@@ -159,6 +165,7 @@ namespace DroneWebApp.Models.DataExport
                         };
                     }
 
+                    // list with fields of csv row
                     List<string> fields = new List<string>
                     {
                         flight.Pilot.PilotName ?? "",
@@ -172,7 +179,7 @@ namespace DroneWebApp.Models.DataExport
                         flight.Pilot.EmergencyPhone ?? "",
                         flight.Date.ToString() ?? "",
                         flight.DepartureInfo.Longitude.ToString() ?? "",
-                        flight.DepartureInfo.Longitude.ToString() ?? "",
+                        flight.DepartureInfo.Latitude.ToString() ?? "",
                         flight.DepartureInfo.UTCTime.ToString() ?? "",
                         flight.DestinationInfo.Longitude.ToString() ?? "",
                         flight.DestinationInfo.Latitude.ToString() ?? "",
@@ -194,29 +201,12 @@ namespace DroneWebApp.Models.DataExport
             filename += pilotId;
             filename = ReplaceInvalidChars(filename);
 
+            // create downloadable file
             context.Response.Clear();
             context.Response.ContentType = "text/csv";
             context.Response.AddHeader("Content-Disposition", "attachment;filename=" + filename + ".csv");
             context.Response.Write(csvBuilder.ToString());
             context.Response.End();
-        }
-
-        private TimeSpan? GetFlightTime(DroneFlight flight)
-        {
-            TimeSpan totalTime = new TimeSpan(0, 0, 0);
-            if (flight != null && flight.hasDroneLog)
-            {
-                totalTime = totalTime.Add(((TimeSpan)flight.DestinationInfo.UTCTime).Subtract((TimeSpan)flight.DepartureInfo.UTCTime));
-            }
-            return totalTime;
-        }
-
-        private string ReplaceInvalidChars(string filename)
-        {
-            string result = string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
-            result = string.Join("", result.Split(' '));
-
-            return result;
         }
     }
 }
