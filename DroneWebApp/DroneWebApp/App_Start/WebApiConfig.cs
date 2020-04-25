@@ -10,8 +10,12 @@ namespace DroneWebApp.App_Start
     {
         public static void Register(HttpConfiguration configuration)
         {
-            configuration.Routes.MapHttpRoute("API Default", "WebAPI/api/{controller}/{id}",
-                new { id = RouteParameter.Optional });
+            //// Attribute routing.
+            //configuration.MapHttpAttributeRoutes();
+
+            // Convention-based routing.
+            configuration.Routes.MapHttpRoute("API Default", "WebAPI/api/{controller}/{id}/{filename}",
+                new { id = RouteParameter.Optional, filename = RouteParameter.Optional });
         }
     }
 }

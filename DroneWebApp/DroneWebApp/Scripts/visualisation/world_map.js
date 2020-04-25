@@ -590,6 +590,10 @@
 
     //#region IMAGES
 
+
+
+
+
     //TODO fix this method, in the return it should handle the params as ints and not strings
     //het plakt momenteel ze aan elkaar ipv optellen
     let convertDegreesToDouble = (coordsDMS) => {
@@ -603,6 +607,7 @@
     }
 
     let readImage = (img) => {
+        console.log(img.url);
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
                 type: "point",
@@ -612,9 +617,10 @@
             attributes: {
                 FileName: img.FileName,
                 CreateDate: img.CreateDate,
-                url: "data:image/jpg;base64," + btoa(img.RawData) //conversion to display img 
+                url: img.url
             }
         };
+        console.log(pointGraphic);
         return pointGraphic;
     }
 
@@ -641,10 +647,8 @@
                     type: "string"
                 }],
                 popupTemplate: {
-
-                    content: "<img src='{url}' width='100' height='100'>"
-                    //title: "placeholder",
-                    //content: "<img src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.momtrends.com%2F.image%2Fc_limit%252Ccs_srgb%252Cq_80%252Cw_620%2FMTUxMzAzODE2MzA2ODI4NDgw%2Fimage-placeholder-title.jpg&f=1&nofb=1'>"
+                    title: "{url}",
+                    content: "<img src='{url}' width='51' height='50'>"
                 },
                 renderer: {  // overrides the layer's default renderer
                     type: "simple",

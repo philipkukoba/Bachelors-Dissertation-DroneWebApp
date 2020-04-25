@@ -31,37 +31,37 @@
 				<tr>
 					<td>
 						<table id="metadatatable">
-							<tr>
+							@*<tr>
 								<th>Field</th>
 								<th>Value</th>
-							</tr>
+							</tr>*@
 
 							<tr>
-								<td>Filename</td>
+								<th>Filename</th>
 								<td>@item.FileName</td>
 							</tr>
 							<tr>
-								<td>Image Width</td>
+								<th>Image Width</th>
 								<td>@item.ImageWidth</td>
 							</tr>
 							<tr>
-								<td>Image Height</td>
+								<th>Image Height</th>
 								<td>@item.ImageHeight</td>
 							</tr>
 							<tr>
-								<td>Create date</td>
+								<th>Create date</th>
 								<td>@item.CreateDate</td>
 							</tr>
 							<tr>
-								<td>Filename</td>
+								<th>Filename</th>
 								<td>@item.GpsAltitude</td>
 							</tr>
 							<tr>
-								<td>Filename</td>
+								<th>GPS Latitude</th>
 								<td>@item.GpsLatitude</td>
 							</tr>
 							<tr>
-								<td>Filename</td>
+								<th>GPS Longitude</th>
 								<td>@item.GpsLongitude</td>
 							</tr>
 						</table>
@@ -69,12 +69,9 @@
 					<td>
 						@*<img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Image_PlaceHolder.png" />*@
 						@{string imageConverted = "data:image/jpg;base64," + Convert.ToBase64String(item.RawData, 0, item.RawData.Length);
-							//double reductionFactor = 0.25;
-							//int reducedWidth =  Convert.ToInt32(item.ImageWidth * reductionFactor);
-							//int reducedHeight = Convert.ToInt32(item.ImageHeight * reductionFactor);
 							}
 
-						<img src="@imageConverted" width="684" height="456" />
+						<img src="/WebAPI/api/RawImages/" width="684" height="456" />
 					</td>
 				</tr>
 			}

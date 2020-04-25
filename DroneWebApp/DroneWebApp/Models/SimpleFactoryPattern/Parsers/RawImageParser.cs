@@ -31,16 +31,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				rawData = new byte[fs.Length];
 				fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
 			}
-			//todo: try catch??
 
 			//reading metadata
 			var directories = ImageMetadataReader.ReadMetadata(path);
 
-			//if the image is already in the DB 
-			if (db.RawImages.Contains(db.RawImages.Find(directories[10].Tags[0].Description)))
+
+			//check if image is already in db 
+			string filename = directories[10].Tags[0].Description;
+			foreach (RawImage img in droneFlight.RawImages)
 			{
-				return false;
+				if (img.FileName == filename) return false; 
 			}
+
 
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
