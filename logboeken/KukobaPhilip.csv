@@ -60,3 +60,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 24/04/20,11:00,13:15,Extern, Gesprek met klant sprint 2 - bespreken in groep en issues opstellen - testen blok1,,
 24/04/20,14:45,15:30,Extern, Presentaties masterstudenten,,
 25/04/20,14:00,19:00,Extern, css van Images overzicht - RawImageParser bugfix - work on RawImagesController methodes and routing,152 - 165,
+26/04/20,12:30,18:00,Extern, raw image popup debugging - thumbnailsController ,152,
