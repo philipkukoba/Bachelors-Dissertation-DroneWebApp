@@ -14,8 +14,8 @@ namespace DroneWebApp.App_Start
             //configuration.MapHttpAttributeRoutes();
 
             // Convention-based routing.
-            configuration.Routes.MapHttpRoute("API Default", "WebAPI/api/{controller}/{id}/{filename}",
-                new { id = RouteParameter.Optional, filename = RouteParameter.Optional });
+            configuration.Routes.MapHttpRoute("API Default", "WebAPI/api/{controller}/{id}/{imageid}",
+                new { id = RouteParameter.Optional, imageid = RouteParameter.Optional });
         }
     }
 }

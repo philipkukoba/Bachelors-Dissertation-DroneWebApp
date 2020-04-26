@@ -20,61 +20,66 @@ namespace DroneWebApp.Controllers.WebAPI
 	{
 		private DroneDBEntities db = new DroneDBEntities();
 
-		//// GET: api/RawImages
-		//public HttpResponseMessage GetRawImagesByFlightID(int id)
-		//{	
-		//	var Flight = db.DroneFlights.Find(id);
+		// GET: api/RawImages
+		public HttpResponseMessage GetRawImagesByFlightID(int id)
+		{
+			var Flight = db.DroneFlights.Find(id);
 
-		//	if (Flight == null || Flight.RawImages.Count == 0) 
-		//		return new HttpResponseMessage(HttpStatusCode.NotFound);
+			if (Flight == null || Flight.RawImages.Count == 0)
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-		//	//data projection
-		//	var rawImages = Flight.RawImages.Select(
-		//		rawImage => new
-		//		{
-		//			rawImage.FileName,
+			//data projection
+			var rawImages = Flight.RawImages.Select(
+				rawImage => new
+				{
+					FileName = rawImage.FileName,
 
-		//			//rawImage.RawData,   //raw image data (bytes)
-		//			//conversion already happens here
-		//			url = "data:image/jpg;base64," + Convert.ToBase64String(rawImage.RawData, 0, rawImage.RawData.Length),
+					ImageID = rawImage.RawImageKey,
 
-		//			rawImage.FlightId,
 
-		//			rawImage.XResolution,
-		//			rawImage.YResolution,
+					//rawImage.RawData,   //raw image data (bytes)
+					//conversion already happens here
+					//url = "data:image/jpg;base64," + Convert.ToBase64String(rawImage.RawData, 0, rawImage.RawData.Length),
 
-		//			rawImage.CreateDate,
+					FlightID = rawImage.FlightId,
 
-		//			rawImage.Make,
+					rawImage.XResolution,
+					rawImage.YResolution,
 
-		//			rawImage.SpeedX,
-		//			rawImage.SpeedY,
-		//			rawImage.SpeedZ,
-		//			rawImage.Pitch,
-		//			rawImage.Yaw,
-		//			rawImage.Roll,
+					rawImage.CreateDate,
 
-		//			rawImage.ImageWidth,
-		//			rawImage.ImageHeight,
+					rawImage.Make,
 
-		//			rawImage.GpsAltitude,
-		//			rawImage.GpsLatitude,
-		//			rawImage.GpsLongitude,
-		//			rawImage.GpsPosition
+					rawImage.SpeedX,
+					rawImage.SpeedY,
+					rawImage.SpeedZ,
+					rawImage.Pitch,
+					rawImage.Yaw,
+					rawImage.Roll,
 
-		//		}).ToList();
+					rawImage.ImageWidth,
+					rawImage.ImageHeight,
 
-		//	//config to set to json 
-		//	var response = new HttpResponseMessage(HttpStatusCode.OK);
-		//	response.Content = new StringContent(JsonConvert.SerializeObject(rawImages));
-		//	response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+					rawImage.GpsAltitude,
+					rawImage.GpsLatitude,
+					rawImage.GpsLongitude,
+					rawImage.GpsPosition
 
-		//	return response;
-		//}
+				}).ToList();
+
+			//config to set to json 
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(JsonConvert.SerializeObject(rawImages));
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return response;
+		}
 
 		//[Route("/{flightid}/{filename}")]
-		//
-		public HttpResponseMessage GetImage(int id, string filename)
+
+
+		//get the full image by flightid and by imageid
+		public HttpResponseMessage GetImage(int id, int imageid)
 		{
 			System.Diagnostics.Debug.WriteLine(id);
 			System.Diagnostics.Debug.WriteLine("aaaaaaa");
@@ -87,7 +92,7 @@ namespace DroneWebApp.Controllers.WebAPI
 			bool found = false;
 			foreach (RawImage img in droneFlight.RawImages)
 			{
-				if (img.FileName == filename)
+				if (img.RawImageKey == imageid)
 				{
 					rawImage = img;
 					found = true;

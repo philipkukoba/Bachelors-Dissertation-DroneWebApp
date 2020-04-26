@@ -594,8 +594,7 @@
 
 
 
-    //TODO fix this method, in the return it should handle the params as ints and not strings
-    //het plakt momenteel ze aan elkaar ipv optellen
+
     let convertDegreesToDouble = (coordsDMS) => {
         console.log("coordsDMS: " + coordsDMS);
         let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
@@ -607,7 +606,9 @@
     }
 
     let readImage = (img) => {
-        console.log(img.url);
+        console.log(img.ImageID);
+        let URL = "/WebAPI/api/RawImages/" + img.FlightID + "/" + img.ImageID;
+        //let ThumbnailURL = "/WebAPI/api/Thumbnails/" + img.FlightID + "/" + img.ImageID;
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
                 type: "point",
@@ -617,7 +618,11 @@
             attributes: {
                 FileName: img.FileName,
                 CreateDate: img.CreateDate,
-                url: img.url
+                ImageID: img.ImageID,
+                FlightID: img.FlightID,
+                url: URL
+                //,
+                //thumbnailURL: ThumbnailURL
             }
         };
         console.log(pointGraphic);
@@ -634,21 +639,38 @@
             for (let i = 0; i < result.length; i++) {
                 images.push(readImage(result[i]));
             }
-
             const ImageLayer = new FeatureLayer({
                 title: "Raw Images",
                 source: images,  // array of graphics objects
-                objectIdField: "FileName",
+                objectIdField: "ImageID",
                 fields: [{
-                    name: "FileName",
-                    type: "string"
-                }, {
+                    name: "ImageID",
+                    type: "integer"
+                },
+                {
+                    name: "FlightID",
+                    type: "integer"
+                },
+                {
                     name: "url",
                     type: "string"
-                }],
+                }
+                ],
                 popupTemplate: {
-                    title: "{url}",
-                    content: "<img src='{url}' width='51' height='50'>"
+                    title: "Raw Image Taken",
+                    outFields: ["*"],
+                    content: (feature) => {
+                        //console.log(feature);
+                        //console.log(feature.graphic.attributes.url);
+                        //console.log('-________________');
+                        var node = document.createElement("div");
+                        node.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
+                            + "<img src='" + feature.graphic.attributes.url + "' >";
+                        return node;
+                    }
+                    //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"
+                    //content: "/WebAPI/api/RawImages/{FlightID}/{ImageID}"
+                    //content: "<a target='_blank' rel='noopener noreferrer' href='{url}'>View Full Image</a>"
                 },
                 renderer: {  // overrides the layer's default renderer
                     type: "simple",

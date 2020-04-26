@@ -224,6 +224,7 @@
     <Compile Include="Controllers\PilotsController.cs" />
     <Compile Include="Controllers\WebAPI\PointCloudXYZsController.cs" />
     <Compile Include="Controllers\WebAPI\RawImagesController.cs" />
+    <Compile Include="Controllers\WebAPI\ThumbnailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

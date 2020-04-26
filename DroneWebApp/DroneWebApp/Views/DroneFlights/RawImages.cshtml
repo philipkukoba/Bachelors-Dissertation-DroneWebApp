@@ -68,10 +68,9 @@
 					</td>
 					<td>
 						@*<img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Image_PlaceHolder.png" />*@
-						@{string imageConverted = "data:image/jpg;base64," + Convert.ToBase64String(item.RawData, 0, item.RawData.Length);
-							}
-
-						<img src="/WebAPI/api/RawImages/" width="684" height="456" />
+						@{//string imageConverted = "data:image/jpg;base64," + Convert.ToBase64String(item.RawData, 0, item.RawData.Length);
+							string src = "/WebAPI/api/RawImages/" + item.FlightId + "/" + item.RawImageKey + "/";}
+						<img src="@src" width="684" height="456" />
 					</td>
 				</tr>
 			}
