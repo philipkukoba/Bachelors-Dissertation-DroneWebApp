@@ -86,3 +86,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 24/04/20,18:00,18:15,Extern,Nogmaals kort proberen runnen applicatie andere team,,
 26/04/20,20:00,23:59,Extern,Onderzoeken las dataset en lidar data in las dataset,169,
 27/04/20,00:00,01:00,Extern,Onderzoeken hoe las in applicatie verwerken,169,
+27/04/20,12:30,13:00,Extern,Toevoegen RawImageParser aan uml parsers,,
