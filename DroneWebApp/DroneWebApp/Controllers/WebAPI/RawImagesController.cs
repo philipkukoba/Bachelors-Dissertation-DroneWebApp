@@ -78,8 +78,10 @@ namespace DroneWebApp.Controllers.WebAPI
 			System.Diagnostics.Debug.WriteLine(id);
 			System.Diagnostics.Debug.WriteLine("aaaaaaa");
 
-			//RawImage rawImage = db.RawImages.Find(1);
-			
+			//TODO 
+			//db.RawImages.SqlQuery("");
+			//db.RawImages.Find(); 
+
 			//find the right image in db 
 			DroneFlight droneFlight = db.DroneFlights.Find(id);
 			RawImage rawImage = null;
