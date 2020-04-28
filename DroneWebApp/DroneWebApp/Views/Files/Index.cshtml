@@ -5,18 +5,22 @@
 <p></p>
 <h2>File Upload</h2>
 
-@* Update *@
+<div id="initialMessage">
+    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
+</div>
+
+<div id="progressField" class="alert alert-info" hidden>
+    Adding files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br/>
+    <strong><span class="amtRead"></span></strong> out of <strong><span class="totalRead"></span></strong> files. Please wait...
+</div>
 
 <div id="successfullyAdded" class="alert alert-success" role="alert" hidden>
-    File <span id="fileName"></span> has been successfully added to your Flight.<br />
-    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+    <strong><span class="amtRead"></span></strong> out of <strong><span class="totalRead"></span></strong> files were read.
+    Files <span id="fileNames"></span> have been successfully added to your Flight.<br />
+    <div id="showNavigation">
+        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+    </div>
 </div>
-
-<div id="alreadyExists" class="alert alert-danger" role="alert" hidden>
-    File <span id="fileName"></span> already exists and has not been read.<br />
-    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
-</div>
-
 
 @if (ViewBag.ErrorMessage != null)
 {
@@ -25,21 +29,12 @@
     </div>
 }
 
-<div id="initialMessage">
-    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
-</div>
-<div id="continuationMessage" hidden>
-    <h4>You can add more files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
-</div>
-    
-
-@* Update *@
 
 <div class="card" style="padding: 20px; width:auto">
     <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">
         <div class="form-group">
             <label for="InputFile">File:</label>
-            <input type="file" class="form-control mx-sm-3" id="file" name="files">
+            <input type="file" class="form-control mx-sm-3" id="file" name="files" multiple>
         </div>
         <div id="uploadbtn" class="form-group">
             <input type="submit" value="Upload" class="btn btn-primary mx-sm-3">

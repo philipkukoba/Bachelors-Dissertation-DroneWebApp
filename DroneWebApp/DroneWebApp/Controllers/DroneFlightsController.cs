@@ -50,7 +50,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Create
-        public ActionResult Create(int? pilotId, int? projectId)
+        public ActionResult Create(int? pilotId, int? projectId, int? droneId)
         {
             if(pilotId != null)
             {
@@ -60,7 +60,15 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName");
             }
-            if(projectId != null)
+            if (droneId != null)
+            {
+                ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneId);
+            }
+            else
+            {
+                ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
+            }
+            if (projectId != null)
             {
                 ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", projectId);
             }

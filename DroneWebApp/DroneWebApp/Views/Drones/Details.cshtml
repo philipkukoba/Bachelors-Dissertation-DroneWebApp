@@ -9,6 +9,11 @@
 
 <div>
     <h4><strong>@Model.DroneName</strong></h4>
+    <div>
+        Export options:
+        @Html.ActionLink("CSV", "Export", "Files", new { id = @Model.DroneId, extension = "csv", type = "drone" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+        @Html.ActionLink("PDF", "Export", "Files", new { id = @Model.DroneId, extension = "pdf", type = "drone" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+    </div>
     <hr />
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
@@ -25,7 +30,7 @@
                 @Html.DisplayName("Total Flights")
             </th>
             <td>
-                @Model.DroneFlights.Count 
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.DroneId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
             </td>
         </tr>
 

@@ -44,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.Registration)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DroneFlights.Count)
+                    @Html.DisplayFor(modelItem => item.DroneFlights.Count) @Html.ActionLink("[View]", "DroneFlights", new { id = item.DroneId })
                 </td>
                 <td>
                     @item.TotalFlightTime.ToString()

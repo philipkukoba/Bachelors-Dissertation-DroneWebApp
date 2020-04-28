@@ -29,6 +29,14 @@ namespace DroneWebApp.Models.Helper
                     }
                 }
                 d.TotalFlightTime = totalTime;
+                if(totalTime >= new TimeSpan(24, 0, 0))
+                {
+                    //d.needsCheckUp = true;
+                }
+                else
+                {
+                    //d.needsCheckUp = false;
+                }
                 db.SaveChanges();
             }
             System.Diagnostics.Debug.WriteLine("end of UpdateTotalDroneFlightTime");

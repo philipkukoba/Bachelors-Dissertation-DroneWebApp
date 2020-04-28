@@ -151,6 +151,27 @@ namespace DroneWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Drones/DroneFlights/5
+        public ActionResult DroneFlights(int? id)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Drone drone = db.Drones.Find(id);
+            if (drone == null)
+            {
+                ViewBag.ErrorMessage = "Drone could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            ViewBag.DroneName = drone.DroneName;
+            ViewBag.DroneId = id;
+            return View(drone.DroneFlights.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

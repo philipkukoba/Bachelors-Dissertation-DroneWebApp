@@ -25,8 +25,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			CultureInfo provider = CultureInfo.InvariantCulture;
 			string format = "yyyy:dd:MM HH:mm:ss"; //2019:09:12 15:49:47
 
-			//reading metadata
-			var directories = ImageMetadataReader.ReadMetadata(path);
+			Helper.Helper.SetProgress(10);
 
 			byte[] rawData; //ingelezen image in raw bytes
 			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
@@ -36,6 +35,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			}
 			//todo: try catch??
 
+			Helper.Helper.SetProgress(30);
+
+			//reading metadata
+			var directories = ImageMetadataReader.ReadMetadata(path);
+
+			if (db.RawImages.Contains(db.RawImages.Find(directories[10].Tags[0].Description)))
+			{
+				return false;
+			}
+
+			Helper.Helper.SetProgress(60);
 
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
@@ -94,10 +104,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				RawHeader = null
 			};
 
+			Helper.Helper.SetProgress(90);
+
 			//Add rawImage Object to DB and save changes
 			db.RawImages.Add(rawImage);
 			db.SaveChanges();
 
+			Helper.Helper.SetProgress(100);
 
 			#region console prints 
 			//Debug.WriteLine(directories[0]); //JPEG Directory (8 tags)

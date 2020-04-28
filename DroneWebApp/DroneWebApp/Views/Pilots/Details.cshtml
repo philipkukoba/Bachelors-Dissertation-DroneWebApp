@@ -9,7 +9,14 @@
 
 <div>
     <h4><strong>@Model.PilotName</strong></h4>
+    <div>
+        Export options:
+        @Html.ActionLink("CSV", "Export", "Files", new { id = @Model.PilotId, extension = "csv", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+        @Html.ActionLink("PDF", "Export", "Files", new { id = @Model.PilotId, extension = "pdf", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
+    </div>
     <hr />
+
+
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
         <tr>
             <th>
