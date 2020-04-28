@@ -99,15 +99,31 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType, DroneName, needsCheckUp")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,TotalFlightTime,needsCheckUp,hadCheckUp")] Drone drone)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(drone).State = EntityState.Modified;
+                Drone dr = db.Drones.Find(drone.DroneId);
+                UpdateDroneFields(drone, dr);
+                db.Entry(dr).State = EntityState.Modified;
+                // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+                Helper.UpdateTotalDroneFlightTime(this.db);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(drone);
+        }
+
+        // Update the fields of the Drone that has been found by DroneId with the fields of the posted Drone, a.k.a. the drone 
+        // the user has submitted
+        private static void UpdateDroneFields(Drone postedDrone, Drone dr)
+        {
+            dr.Registration = postedDrone.Registration;
+            dr.DroneType = postedDrone.DroneType;
+            dr.DroneName = postedDrone.DroneName;
+            dr.TotalFlightTime = postedDrone.TotalFlightTime;
+            dr.needsCheckUp = postedDrone.needsCheckUp;
+            dr.hadCheckUp = postedDrone.hadCheckUp;
         }
 
         // GET: Drones/Delete/5

@@ -23,7 +23,7 @@
                 @Html.DisplayFor(model => model.Project.ProjectCode)
             </td>
         </tr>
-        
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Location)
@@ -163,6 +163,22 @@
                 else
                 {
                     @Html.ActionLink("TFW", "TFW", new { id = @Model.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Images
+            </th>
+            <td>
+                @if (!@Model.hasRawImages)
+                {
+                    @Html.ActionLink("Images", "RawImages", new { id = @Model.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                }
+                else
+                {
+                    @Html.ActionLink("Images", "RawImages", new { id = @Model.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                 }
             </td>
         </tr>

@@ -58,7 +58,8 @@
           <Property Name="DroneType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
           <Property Name="TotalFlightTime" Type="time" Precision="7" />
-          <Property Name="needsCheckUp" Type="bit" />
+          <Property Name="needsCheckUp" Type="bit" Nullable="false" />
+          <Property Name="hadCheckUp" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -314,9 +315,9 @@
           <Property Name="Iso" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="ShutterSpeedValue" Type="varchar" MaxLength="50" />
-          <Property Name="ApertureValue" Type="int" />
+          <Property Name="ApertureValue" Type="varchar" MaxLength="50" />
           <Property Name="ExposureCompensation" Type="int" />
-          <Property Name="MaxApertureValue" Type="float" />
+          <Property Name="MaxApertureValue" Type="varchar" MaxLength="50" />
           <Property Name="SpeedX" Type="float" />
           <Property Name="SpeedY" Type="float" />
           <Property Name="SpeedZ" Type="float" />
@@ -844,7 +845,8 @@
           <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TotalFlightTime" Type="Time" Precision="7" />
-          <Property Name="needsCheckUp" Type="Boolean" />
+          <Property Name="needsCheckUp" Type="Boolean" Nullable="false" />
+          <Property Name="hadCheckUp" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
@@ -1137,9 +1139,9 @@
           <Property Name="Iso" Type="Int32" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="ShutterSpeedValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ApertureValue" Type="Int32" />
+          <Property Name="ApertureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ExposureCompensation" Type="Int32" />
-          <Property Name="MaxApertureValue" Type="Double" />
+          <Property Name="MaxApertureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SpeedX" Type="Double" />
           <Property Name="SpeedY" Type="Double" />
           <Property Name="SpeedZ" Type="Double" />
@@ -1671,6 +1673,7 @@
                 <ScalarProperty Name="DroneName" ColumnName="DroneName" />
                 <ScalarProperty Name="TotalFlightTime" ColumnName="TotalFlightTime" />
                 <ScalarProperty Name="needsCheckUp" ColumnName="needsCheckUp" />
+                <ScalarProperty Name="hadCheckUp" ColumnName="hadCheckUp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
