@@ -30,13 +30,14 @@ namespace DroneWebApp.Models.Helper
                 }
                 d.TotalFlightTime = totalTime;
                 // Check if the total flight time of a drone is larger than a given threshold
-                if(totalTime >= new TimeSpan(24, 0, 0))
+                if (!d.hadCheckUp)
+                {
+
+                }
+                
+                if(!d.hadCheckUp && totalTime >= new TimeSpan(24, 0, 0))
                 {
                     d.needsCheckUp = true; // drone needs a check up
-                }
-                else
-                {
-                    d.needsCheckUp = false; // drone can still fly
                 }
                 db.SaveChanges();
             }

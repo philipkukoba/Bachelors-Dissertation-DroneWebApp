@@ -108,7 +108,7 @@ $(document).ready(function () {
         "columnDefs": [
             {
                 "orderable": false, 
-                "searchable": false, "targets": 1
+                "searchable": false, "targets": 0
             }
         ]
     });

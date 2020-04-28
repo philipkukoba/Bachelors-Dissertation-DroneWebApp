@@ -132,11 +132,10 @@ namespace DroneWebApp.Controllers
             {
                 DroneFlight df = db.DroneFlights.Find(droneFlight.FlightId);
                 UpdateFlightFields(droneFlight, df);
-                System.Diagnostics.Debug.WriteLine("In modelstate is valid, before modified");
                 db.Entry(df).State = EntityState.Modified;
-                db.SaveChanges();
                 // Update the total time drones have flown in case the drone flight's drone has been changed by the user
                 Helper.UpdateTotalDroneFlightTime(this.db);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);
