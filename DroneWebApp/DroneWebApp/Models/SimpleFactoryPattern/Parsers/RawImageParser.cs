@@ -49,24 +49,28 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			Helper.Helper.SetProgress(60);
 
+			//int directory_i = 0; 
+			//foreach (var directory in directories)
+			//{
+			//	int tag_i = 0; 
+			//	foreach (var tag in directory.Tags)
+			//	{
+
+			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
+			//		tag_i++; 
+			//	}
+			//	directory_i++;
+			//}
+
+
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
 			{
-				/*
-				FileName = directories[10].Tags[0].Description,
+				FileName = directories[10].Tags[0].Description, //??
 				RawData = rawData,
 				FlightId = flightId,
 
-				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),
-				FileTypeExtension = directories[9].Tags[3].Description,
-				Orientation = directories[1].Tags[3].Description,
-				
-				XResolution = Int32.Parse(directories[1].Tags[4].Description.Split(' ')[0]),
-				YResolution = Int32.Parse(directories[1].Tags[5].Description.Split(' ')[0]),
-				ResolutionUnit = directories[1].Tags[6].Description,
 				CreateDate = DateTime.ParseExact(directories[1].Tags[8].Description, format, provider),
-
-				Make = directories[1].Tags[1].Description,
 
 				//drone (aircraft) 
 				SpeedX = Convert.ToDouble(directories[3].Tags[2].Description, customCulture),
@@ -80,32 +84,49 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				CameraYaw = Convert.ToDouble(directories[3].Tags[9].Description, customCulture),
 				CameraRoll = Convert.ToDouble(directories[3].Tags[10].Description, customCulture),
 
-				ImageWidth = Int32.Parse(directories[0].Tags[3].Description.Split(' ')[0]),
-				ImageHeight = Int32.Parse(directories[0].Tags[2].Description.Split(' ')[0]),
-
-				GpsVersionId = directories[5].Tags[0].Description,
-				GpsLatitudeRef = directories[5].Tags[1].Description,
-				GpsLongitudeRef = directories[5].Tags[3].Description,
-				GpsAltitudeRef = directories[5].Tags[5].Description,
-
-				XpComment = directories[1].Tags[10].Description,
-
-				AbsoluteAltitude = null,
-				RelativeAltitude = null,
-
 				GpsAltitude = directories[5].Tags[6].Description,
 				GpsLatitude = directories[5].Tags[2].Description,
 				GpsLongitude = directories[5].Tags[4].Description,
+
+
+				//new fields 
+				ExposureTime = directories[2].Tags[0].Description,
+				ShutterSpeedValue = directories[2].Tags[9].Description,
+				ApertureValue = directories[2].Tags[10].Description, 
+				MaxApertureValue = directories[2].Tags[12].Description,
+
+
+				//cannot read these fields 
+				ExposureCompensation = null,
+				FNumber = null,
+				Iso = null,
+				AbsoluteAltitude = null,
+				RelativeAltitude = null,
 				GpsPosition = null,
+				RtkFlag = null
 
-				PreviewImage = null,
-				MegaPixels = null,
+				//old fields 
 
-				ThumbnailImage = null,
+				//FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),
+				//FileTypeExtension = directories[9].Tags[3].Description,
+				//Orientation = directories[1].Tags[3].Description,
+				//XResolution = Int32.Parse(directories[1].Tags[4].Description.Split(' ')[0]),
+				//YResolution = Int32.Parse(directories[1].Tags[5].Description.Split(' ')[0]),
+				//ResolutionUnit = directories[1].Tags[6].Description,
+				//Make = directories[1].Tags[1].Description,
+				//ImageWidth = Int32.Parse(directories[0].Tags[3].Description.Split(' ')[0]),
+				//ImageHeight = Int32.Parse(directories[0].Tags[2].Description.Split(' ')[0]),
+				//GpsVersionId = directories[5].Tags[0].Description,
+				//GpsLatitudeRef = directories[5].Tags[1].Description,
+				//GpsLongitudeRef = directories[5].Tags[3].Description,
+				//GpsAltitudeRef = directories[5].Tags[5].Description,
+				//XpComment = directories[1].Tags[10].Description,
+				//PreviewImage = null,
+				//MegaPixels = null,
+				//ThumbnailImage = null,
+				//Fov = null,
+				//RawHeader = null
 
-				Fov = null,
-				RawHeader = null
-				*/
 			};
 
 			Helper.Helper.SetProgress(90);
@@ -163,13 +184,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			//Debug.WriteLine("Camera Roll: " + directories[3].Tags[10].Description);
 
 
-			//foreach (var directory in directories)
-			//{
-			//	foreach (var tag in directory.Tags)
-			//	{
-			//		//System.Diagnostics.Debug.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
-			//	}
-			//}
+
 
 			#endregion
 
