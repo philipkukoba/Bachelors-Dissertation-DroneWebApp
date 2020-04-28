@@ -52,6 +52,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
 			{
+				/*
 				FileName = directories[10].Tags[0].Description,
 				RawData = rawData,
 				FlightId = flightId,
@@ -104,6 +105,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 				Fov = null,
 				RawHeader = null
+				*/
 			};
 
 			Helper.Helper.SetProgress(90);
