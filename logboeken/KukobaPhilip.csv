@@ -61,3 +61,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 24/04/20,14:45,15:30,Extern, Presentaties masterstudenten,,
 25/04/20,14:00,19:00,Extern, css van Images overzicht - RawImageParser bugfix - work on RawImagesController methodes and routing,152 - 165,
 26/04/20,12:30,18:00,Extern, raw image popup debugging - thumbnailsController ,152,
+28/04/20,8:15,12:30,Extern, image velden aanpassen (parser en controller) - XYZParser herschreven met ADONET,129-174,
