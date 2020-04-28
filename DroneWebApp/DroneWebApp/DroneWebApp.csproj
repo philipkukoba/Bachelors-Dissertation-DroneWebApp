@@ -470,6 +470,7 @@
     <Content Include="Views\Projects\DroneFlights.cshtml" />
     <Content Include="Views\Files\Export.cshtml" />
     <Content Include="Views\DroneFlights\RawImages.cshtml" />
+    <Content Include="Views\Drones\DroneFlights.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

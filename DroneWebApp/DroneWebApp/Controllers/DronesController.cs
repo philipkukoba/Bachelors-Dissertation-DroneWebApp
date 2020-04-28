@@ -65,6 +65,8 @@ namespace DroneWebApp.Controllers
                 {
                     drone.DroneName = drone.DroneType + ":" + drone.Registration;
                 }
+                drone.needsCheckUp = false;
+
                 db.Drones.Add(drone);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -97,7 +99,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType, DroneName")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType, DroneName, needsCheckUp")] Drone drone)
         {
             if (ModelState.IsValid)
             {

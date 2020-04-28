@@ -31,22 +31,9 @@
 				<tr>
 					<td>
 						<table id="metadatatable">
-							@*<tr>
-								<th>Field</th>
-								<th>Value</th>
-							</tr>*@
-
 							<tr>
 								<th>Filename</th>
 								<td>@item.FileName</td>
-							</tr>
-							<tr>
-								<th>Image Width</th>
-								<td>@item.ImageWidth</td>
-							</tr>
-							<tr>
-								<th>Image Height</th>
-								<td>@item.ImageHeight</td>
 							</tr>
 							<tr>
 								<th>Create date</th>
@@ -64,12 +51,41 @@
 								<th>GPS Longitude</th>
 								<td>@item.GpsLongitude</td>
 							</tr>
+							<tr>
+								<th>Exposure Time</th>
+								<td>@item.ExposureTime</td>
+							</tr>
+							<tr>
+								<th>Shutter Speed Value</th>
+								<td>@item.ShutterSpeedValue</td>
+							</tr>
+
+							<tr>
+								<th>Aperture Value</th>
+								<td>@item.ApertureValue</td>
+							</tr>
+							<tr>
+								<th>Max Aperture Value</th>
+								<td>@item.MaxApertureValue</td>
+							</tr>
+
+							<tr>
+								<th>Pitch </th>
+								<td>@item.Pitch</td>
+							</tr>
+							<tr>
+								<th>Yaw</th>
+								<td>@item.Yaw</td>
+							</tr>
+							<tr>
+								<th>Roll</th>
+								<td>@item.Roll</td>
+							</tr>
+
 						</table>
 					</td>
 					<td>
-						@*<img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Image_PlaceHolder.png" />*@
-						@{//string imageConverted = "data:image/jpg;base64," + Convert.ToBase64String(item.RawData, 0, item.RawData.Length);
-							string src = "/WebAPI/api/RawImages/" + item.FlightId + "/" + item.RawImageKey + "/";}
+							@{string src = "/WebAPI/api/RawImages/" + item.FlightId + "/" + item.RawImageKey + "/";}
 						<img src="@src" width="684" height="456" />
 					</td>
 				</tr>

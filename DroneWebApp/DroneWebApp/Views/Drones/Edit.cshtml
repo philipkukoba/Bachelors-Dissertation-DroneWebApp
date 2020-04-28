@@ -20,9 +20,9 @@
 
     
     <div class="form-group">
-        <label class="control-label col-md-2">DroneType<span class="redBoldText">*</span></label>
+        <label class="control-label col-md-2">Drone needs a check-up?<span class="redBoldText">*</span></label>
         <div class="col-md-10">
-            @Html.CheckBox("Drone needs a check-up in Aalst.", @Model.needsCheckUp)
+            @Html.CheckBoxFor(model => (bool)model.needsCheckUp)
         </div>
     </div>
 

@@ -49,18 +49,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			Helper.Helper.SetProgress(60);
 
-			int directory_i = 0; 
-			foreach (var directory in directories)
-			{
-				int tag_i = 0; 
-				foreach (var tag in directory.Tags)
-				{
+			//int directory_i = 0; 
+			//foreach (var directory in directories)
+			//{
+			//	int tag_i = 0; 
+			//	foreach (var tag in directory.Tags)
+			//	{
 
-					System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
-					tag_i++; 
-				}
-				directory_i++;
-			}
+			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
+			//		tag_i++; 
+			//	}
+			//	directory_i++;
+			//}
 
 
 			//make RawImage object and set its attributes
@@ -97,7 +97,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 
 				//cannot read these fields 
-
 				ExposureCompensation = null,
 				FNumber = null,
 				Iso = null,
@@ -127,6 +126,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				//ThumbnailImage = null,
 				//Fov = null,
 				//RawHeader = null
+
 			};
 
 			Helper.Helper.SetProgress(90);

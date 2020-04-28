@@ -22,9 +22,9 @@ namespace DroneWebApp.Models
         public Nullable<int> Iso { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string ShutterSpeedValue { get; set; }
-        public Nullable<int> ApertureValue { get; set; }
+        public string ApertureValue { get; set; }
         public Nullable<int> ExposureCompensation { get; set; }
-        public Nullable<double> MaxApertureValue { get; set; }
+        public string MaxApertureValue { get; set; }
         public Nullable<double> SpeedX { get; set; }
         public Nullable<double> SpeedY { get; set; }
         public Nullable<double> SpeedZ { get; set; }
