@@ -15,7 +15,8 @@ namespace DroneWebApp.Controllers
     public class DronesController : Controller
     {
         private DroneDBEntities db;
-
+        private static TimeSpan thresholdTime = new TimeSpan(0, 5, 0); // The amount of time after which a drone has to be checked to verify it is safe to fly
+                                                                       // ToDo: change 5 minutes into 50 hours and correctly do calculations above 24 hours (with days in TimeSpan perhaps)              
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
@@ -65,7 +66,9 @@ namespace DroneWebApp.Controllers
                 {
                     drone.DroneName = drone.DroneType + ":" + drone.Registration;
                 }
+                drone.TotalFlightTime = new TimeSpan(0, 0, 0);
                 drone.needsCheckUp = false;
+                drone.nextTimeCheck = thresholdTime;
 
                 db.Drones.Add(drone);
                 db.SaveChanges();
@@ -99,16 +102,16 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,TotalFlightTime,needsCheckUp,hadCheckUp")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp")] Drone drone)
         {
             if (ModelState.IsValid)
             {
                 Drone dr = db.Drones.Find(drone.DroneId);
                 UpdateDroneFields(drone, dr);
                 db.Entry(dr).State = EntityState.Modified;
+                db.SaveChanges();
                 // Update the total time drones have flown in case the drone flight's drone has been changed by the user
                 Helper.UpdateTotalDroneFlightTime(this.db);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(drone);
@@ -121,9 +124,11 @@ namespace DroneWebApp.Controllers
             dr.Registration = postedDrone.Registration;
             dr.DroneType = postedDrone.DroneType;
             dr.DroneName = postedDrone.DroneName;
-            dr.TotalFlightTime = postedDrone.TotalFlightTime;
-            dr.needsCheckUp = postedDrone.needsCheckUp;
-            dr.hadCheckUp = postedDrone.hadCheckUp;
+            if(postedDrone.needsCheckUp == false)
+            {
+                dr.needsCheckUp = postedDrone.needsCheckUp;
+                dr.nextTimeCheck = ((TimeSpan)dr.TotalFlightTime).Add(thresholdTime);
+            }
         }
 
         // GET: Drones/Delete/5

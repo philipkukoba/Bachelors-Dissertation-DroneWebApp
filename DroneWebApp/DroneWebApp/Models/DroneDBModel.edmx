@@ -59,7 +59,7 @@
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
           <Property Name="TotalFlightTime" Type="time" Precision="7" />
           <Property Name="needsCheckUp" Type="bit" Nullable="false" />
-          <Property Name="hadCheckUp" Type="bit" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="time" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -846,7 +846,7 @@
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TotalFlightTime" Type="Time" Precision="7" />
           <Property Name="needsCheckUp" Type="Boolean" Nullable="false" />
-          <Property Name="hadCheckUp" Type="Boolean" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="Time" Nullable="false" Precision="7" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
@@ -1673,7 +1673,7 @@
                 <ScalarProperty Name="DroneName" ColumnName="DroneName" />
                 <ScalarProperty Name="TotalFlightTime" ColumnName="TotalFlightTime" />
                 <ScalarProperty Name="needsCheckUp" ColumnName="needsCheckUp" />
-                <ScalarProperty Name="hadCheckUp" ColumnName="hadCheckUp" />
+                <ScalarProperty Name="nextTimeCheck" ColumnName="nextTimeCheck" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

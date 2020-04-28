@@ -71,6 +71,25 @@
                 @Html.DisplayFor(model => model.DroneType)
             </td>
         </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Needs check up?")
+            </th>
+            <td>
+                @if (@Model.needsCheckUp)
+                {
+                    @Html.Label("Yes.")
+                }
+                else
+                {
+                    @Html.Label("No. Next check-up once drone has flown more than:")
+                    <div class="btn btn-info btn-sm disabled whiteText">
+                        @Model.nextTimeCheck.ToString()
+                    </div>
+                }
+            </td>
+        </tr>
     </table>
 </div>
 <p>
