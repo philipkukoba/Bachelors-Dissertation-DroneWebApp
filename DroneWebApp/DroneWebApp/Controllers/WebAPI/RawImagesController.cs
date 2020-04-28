@@ -43,12 +43,12 @@ namespace DroneWebApp.Controllers.WebAPI
 
 					FlightID = rawImage.FlightId,
 
-					rawImage.XResolution,
-					rawImage.YResolution,
+					//rawImage.XResolution,
+					//rawImage.YResolution,
 
 					rawImage.CreateDate,
 
-					rawImage.Make,
+					//rawImage.Make,
 
 					rawImage.SpeedX,
 					rawImage.SpeedY,
@@ -57,8 +57,8 @@ namespace DroneWebApp.Controllers.WebAPI
 					rawImage.Yaw,
 					rawImage.Roll,
 
-					rawImage.ImageWidth,
-					rawImage.ImageHeight,
+					//rawImage.ImageWidth,
+					//rawImage.ImageHeight,
 
 					rawImage.GpsAltitude,
 					rawImage.GpsLatitude,

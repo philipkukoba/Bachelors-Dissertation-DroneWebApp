@@ -4,30 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6dd0a03a4d5f44819ef805b9e2176247" Name="Diagram1">
-        <EntityTypeShape EntityType="DroneDBModel.AbsoluteGeolocationVariance" Width="1.5" PointX="7.5" PointY="45.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.CTRLPoint" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DepartureInfo" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+      <Diagram DiagramId="a4cdd19bf78f4742b0e21f16844e36ee" Name="Diagram1">
+        <EntityTypeShape EntityType="DroneDBModel.AbsoluteGeolocationVariance" Width="1.5" PointX="7.5" PointY="45" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.CTRLPoint" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DepartureInfo" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DestinationInfo" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.Drone" Width="1.5" PointX="0.75" PointY="35.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneAttributeValue" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneFlight" Width="1.5" PointX="3" PointY="33" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneGP" Width="1.5" PointX="7.5" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneIMU_ATTI" Width="1.5" PointX="7.5" PointY="21.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneLogEntry" Width="1.5" PointX="5.25" PointY="24" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneMotor" Width="1.5" PointX="7.5" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneOA" Width="1.5" PointX="7.5" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.Drone" Width="1.5" PointX="0.75" PointY="34.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneAttributeValue" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneFlight" Width="1.5" PointX="3" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneGP" Width="1.5" PointX="7.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneIMU_ATTI" Width="1.5" PointX="7.5" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneLogEntry" Width="1.5" PointX="5.25" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneMotor" Width="1.5" PointX="7.5" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneOA" Width="1.5" PointX="7.5" PointY="27.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DroneRC" Width="1.5" PointX="7.5" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.DroneRTKData" Width="1.5" PointX="7.5" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.GCPError" Width="1.5" PointX="7.5" PointY="49" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.GroundControlPoint" Width="1.5" PointX="5.25" PointY="38.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.Pilot" Width="1.5" PointX="0.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.DroneRTKData" Width="1.5" PointX="7.5" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.GCPError" Width="1.5" PointX="7.5" PointY="48.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.GroundControlPoint" Width="1.5" PointX="5.25" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.Pilot" Width="1.5" PointX="0.75" PointY="29.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.PointCloudXYZ" Width="1.5" PointX="5.25" PointY="41.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.Project" Width="1.5" PointX="0.75" PointY="38.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.QualityReport" Width="1.5" PointX="5.25" PointY="47.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.RawImage" Width="1.5" PointX="5.25" PointY="60.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.TFW" Width="1.5" PointX="5.25" PointY="57.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.Uncertainty" Width="1.5" PointX="7.5" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.Project" Width="1.5" PointX="0.75" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.QualityReport" Width="1.5" PointX="5.25" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.RawImage" Width="1.5" PointX="5.25" PointY="60.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.TFW" Width="1.5" PointX="5.25" PointY="57.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.Uncertainty" Width="1.5" PointX="7.5" PointY="52.75" IsExpanded="true" />
         <AssociationConnector Association="DroneDBModel.FK_AbsoluteGeolocationVariance_QualityReport" ManuallyRouted="false" />
         <AssociationConnector Association="DroneDBModel.FK_CTRLPoints_DroneFlight" ManuallyRouted="false" />
         <AssociationConnector Association="DroneDBModel.FK_DepartureInfo_DroneFlight" ManuallyRouted="false" />

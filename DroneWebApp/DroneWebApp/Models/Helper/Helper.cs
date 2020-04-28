@@ -31,11 +31,11 @@ namespace DroneWebApp.Models.Helper
                 d.TotalFlightTime = totalTime;
                 if(totalTime >= new TimeSpan(24, 0, 0))
                 {
-                    //d.needsCheckUp = true;
+                    d.needsCheckUp = true;
                 }
                 else
                 {
-                    //d.needsCheckUp = false;
+                    d.needsCheckUp = false;
                 }
                 db.SaveChanges();
             }
