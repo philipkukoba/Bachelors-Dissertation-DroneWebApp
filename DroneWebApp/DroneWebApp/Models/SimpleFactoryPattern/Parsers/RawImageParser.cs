@@ -13,8 +13,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 	{
 		public bool Parse(string path, int flightId, DroneDBEntities db)
 		{
-			//DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-			//todo: moet er hier nog iets gebeuren met de droneFlight?? 
+			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
+
 
 			// Set culture for double conversion 
 			CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -33,17 +33,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				rawData = new byte[fs.Length];
 				fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
 			}
-			//todo: try catch??
-
-			Helper.Helper.SetProgress(30);
 
 			//reading metadata
 			var directories = ImageMetadataReader.ReadMetadata(path);
 
-			if (db.RawImages.Contains(db.RawImages.Find(directories[10].Tags[0].Description)))
+
+			//check if image is already in db 
+			string filename = directories[10].Tags[0].Description;
+			foreach (RawImage img in droneFlight.RawImages)
 			{
-				return false;
+				if (img.FileName == filename) return false; 
 			}
+
+			Helper.Helper.SetProgress(30);
 
 			Helper.Helper.SetProgress(60);
 
@@ -51,13 +53,13 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			RawImage rawImage = new RawImage
 			{
 				FileName = directories[10].Tags[0].Description,
-				RawData = rawData,  
+				RawData = rawData,
 				FlightId = flightId,
 
-				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),    
+				FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),
 				FileTypeExtension = directories[9].Tags[3].Description,
 				Orientation = directories[1].Tags[3].Description,
-
+				
 				XResolution = Int32.Parse(directories[1].Tags[4].Description.Split(' ')[0]),
 				YResolution = Int32.Parse(directories[1].Tags[5].Description.Split(' ')[0]),
 				ResolutionUnit = directories[1].Tags[6].Description,
@@ -95,10 +97,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				GpsLongitude = directories[5].Tags[4].Description,
 				GpsPosition = null,
 
-				PreviewImage = null, 
+				PreviewImage = null,
 				MegaPixels = null,
 
-				ThumbnailImage = null, 
+				ThumbnailImage = null,
 
 				Fov = null,
 				RawHeader = null
@@ -108,6 +110,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			//Add rawImage Object to DB and save changes
 			db.RawImages.Add(rawImage);
+			droneFlight.hasRawImages = true;
+
 			db.SaveChanges();
 
 			Helper.Helper.SetProgress(100);

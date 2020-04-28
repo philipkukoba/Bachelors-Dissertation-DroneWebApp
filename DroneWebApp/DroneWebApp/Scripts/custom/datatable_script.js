@@ -101,3 +101,15 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#gcpptable').dataTable();
 });
+
+// Images table
+$(document).ready(function () {
+    $('#imgtable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, 
+                "searchable": false, "targets": 1
+            }
+        ]
+    });
+});

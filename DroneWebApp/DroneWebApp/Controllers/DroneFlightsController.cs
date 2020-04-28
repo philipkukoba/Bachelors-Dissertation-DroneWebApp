@@ -291,6 +291,28 @@ namespace DroneWebApp.Controllers
             return View(droneFlight.TFW);
         }
 
+        public ActionResult RawImages(int? id)
+        {
+            if (id == null)
+            {
+                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            // Get the appropriate drone flight per id
+            DroneFlight droneFlight = db.DroneFlights.Find(id);
+            // Pass to DroneFlight object and its Id to View for use
+            ViewBag.droneFlight = droneFlight;
+            ViewBag.DroneFlightId = id;
+            if (droneFlight == null)
+            {
+                ViewBag.ErrorMessage = "Drone Flight could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            return View(droneFlight.RawImages);
+        }
+
         public ActionResult Map(int? id)
         {
             if (id == null)

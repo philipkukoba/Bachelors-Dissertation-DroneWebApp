@@ -132,30 +132,30 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
             
-            IFactory factory = null;
+            IExport export = null;
 
             if (extension.Equals("csv"))
             {
-                factory = new FactoryCSV();
+                export = new ExportCSV();
                 if (type.Equals("drone"))
                 {
-                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                    export.CreateDroneLog((int)id, Db, HttpContext);
                 }
                 else if (type.Equals("pilot"))
                 {
-                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                    export.CreatePilotLog((int)id, Db, HttpContext);
                 }
             }
             else if (extension.Equals("pdf"))
             {
-                factory = new FactoryPDF();
+                export = new ExportPDF();
                 if (type.Equals("drone"))
                 {
-                    factory.CreateDroneLog((int)id, Db, HttpContext);
+                    export.CreateDroneLog((int)id, Db, HttpContext);
                 }
                 else if (type.Equals("pilot"))
                 {
-                    factory.CreatePilotLog((int)id, Db, HttpContext);
+                    export.CreatePilotLog((int)id, Db, HttpContext);
                 }
             }
 

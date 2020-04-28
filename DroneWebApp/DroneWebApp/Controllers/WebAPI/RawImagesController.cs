@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -23,24 +25,31 @@ namespace DroneWebApp.Controllers.WebAPI
 		{
 			var Flight = db.DroneFlights.Find(id);
 
-			if (Flight == null || Flight.RawImages.Count == 0) 
+			if (Flight == null || Flight.RawImages.Count == 0)
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			//data projection
 			var rawImages = Flight.RawImages.Select(
 				rawImage => new
 				{
-					rawImage.FileName,
-					rawImage.RawData,   //raw image data (bytes)
-					rawImage.FlightId,
-					
+					FileName = rawImage.FileName,
+
+					ImageID = rawImage.RawImageKey,
+
+
+					//rawImage.RawData,   //raw image data (bytes)
+					//conversion already happens here
+					//url = "data:image/jpg;base64," + Convert.ToBase64String(rawImage.RawData, 0, rawImage.RawData.Length),
+
+					FlightID = rawImage.FlightId,
+
 					rawImage.XResolution,
 					rawImage.YResolution,
 
 					rawImage.CreateDate,
-					
+
 					rawImage.Make,
-					
+
 					rawImage.SpeedX,
 					rawImage.SpeedY,
 					rawImage.SpeedZ,
@@ -65,6 +74,41 @@ namespace DroneWebApp.Controllers.WebAPI
 
 			return response;
 		}
+
+		//[Route("/{flightid}/{filename}")]
+
+
+		//get the full image by flightid and by imageid
+		public HttpResponseMessage GetImage(int id, int imageid)
+		{
+			System.Diagnostics.Debug.WriteLine(id);
+			System.Diagnostics.Debug.WriteLine("aaaaaaa");
+
+			//RawImage rawImage = db.RawImages.Find(1);
+			
+			//find the right image in db 
+			DroneFlight droneFlight = db.DroneFlights.Find(id);
+			RawImage rawImage = null;
+			bool found = false;
+			foreach (RawImage img in droneFlight.RawImages)
+			{
+				if (img.RawImageKey == imageid)
+				{
+					rawImage = img;
+					found = true;
+				}
+			}
+			if (!found) return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+			//config to an image
+			HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+			result.Content = new ByteArrayContent(rawImage.RawData);
+			result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+			return result;
+
+		}
+
+		//return compressedimg 
 
 
 	}

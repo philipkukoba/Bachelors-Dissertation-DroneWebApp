@@ -1,4 +1,37 @@
-﻿.redBoldText{
-    color: red;
+﻿.redBoldText {
+    color: #a94442;
     font-weight: bold;
 }
+
+.whiteText {
+    color: white;
+}
+
+.textAlignCenter {
+    text-align: center !important;
+}
+
+.paddingErrorIndex {
+    padding: 20px;
+    width: auto;
+}
+
+.fixedTableLayout {
+    table-layout: fixed;
+}
+
+table#metadatatable {
+    text-align: left;
+    width: 100%;
+}
+
+table#metadatatable td, table#metadatatable th {
+    padding: 8px 5px;
+    border-bottom: 1px solid #ddd;
+    border-left-width: 0px !important;
+}
+
+table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
+    border-bottom-width: 0px;
+}
+

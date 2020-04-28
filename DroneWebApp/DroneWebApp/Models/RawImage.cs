@@ -14,9 +14,9 @@ namespace DroneWebApp.Models
     
     public partial class RawImage
     {
+        public int RawImageKey { get; set; }
         public string FileName { get; set; }
         public byte[] RawData { get; set; }
-        public Nullable<int> FlightId { get; set; }
         public Nullable<double> FileSize { get; set; }
         public string FileTypeExtension { get; set; }
         public string Orientation { get; set; }
@@ -52,6 +52,7 @@ namespace DroneWebApp.Models
         public Nullable<long> ThumbnailImage { get; set; }
         public Nullable<double> Fov { get; set; }
         public string RawHeader { get; set; }
+        public int FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

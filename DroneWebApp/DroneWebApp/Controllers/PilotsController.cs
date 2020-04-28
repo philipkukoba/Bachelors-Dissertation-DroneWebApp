@@ -91,7 +91,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(pilot);
+            return View("Edit", pilot);
         }
 
         // POST: Pilots/Edit/5
@@ -127,7 +127,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(pilot);
+            return View("Delete", pilot);
         }
 
         // POST: Pilots/Delete/5
@@ -167,7 +167,7 @@ namespace DroneWebApp.Controllers
             }
             ViewBag.Pilot = pilot.PilotName;
             ViewBag.PilotId = id;
-            return View(pilot.DroneFlights.ToList());
+            return View("DroneFlights", pilot.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)

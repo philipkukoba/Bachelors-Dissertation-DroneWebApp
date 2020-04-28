@@ -588,6 +588,116 @@
 
     //#endregion 
 
+    //#region IMAGES
+
+
+
+
+
+
+    let convertDegreesToDouble = (coordsDMS) => {
+        console.log("coordsDMS: " + coordsDMS);
+        let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
+        let degreesconverted = parseInt(coords[0]);
+        let minutesconverted = parseInt(coords[1]) / 60;
+        let secondsconverted = parseFloat(coords[2]) / 3600;
+        console.log("coords converted: " + (degreesconverted + minutesconverted + secondsconverted));
+        return degreesconverted + minutesconverted + secondsconverted;
+    }
+
+    let readImage = (img) => {
+        console.log(img.ImageID);
+        let URL = "/WebAPI/api/RawImages/" + img.FlightID + "/" + img.ImageID;
+        //let ThumbnailURL = "/WebAPI/api/Thumbnails/" + img.FlightID + "/" + img.ImageID;
+        let pointGraphic = {             //type graphic (autocasts)
+            geometry: {
+                type: "point",
+                x: convertDegreesToDouble(img.GpsLongitude),
+                y: convertDegreesToDouble(img.GpsLatitude)
+            },
+            attributes: {
+                FileName: img.FileName,
+                CreateDate: img.CreateDate,
+                ImageID: img.ImageID,
+                FlightID: img.FlightID,
+                url: URL
+                //,
+                //thumbnailURL: ThumbnailURL
+            }
+        };
+        console.log(pointGraphic);
+        return pointGraphic;
+    }
+
+    //images ajax
+    $.ajax({
+        type: "GET",
+        url: "/WebAPI/api/RawImages/" + id, // the URL of the controller action method
+        success: (result) => {
+
+            let images = [];
+            for (let i = 0; i < result.length; i++) {
+                images.push(readImage(result[i]));
+            }
+            const ImageLayer = new FeatureLayer({
+                title: "Raw Images",
+                source: images,  // array of graphics objects
+                objectIdField: "ImageID",
+                fields: [{
+                    name: "ImageID",
+                    type: "integer"
+                },
+                {
+                    name: "FlightID",
+                    type: "integer"
+                },
+                {
+                    name: "url",
+                    type: "string"
+                }
+                ],
+                popupTemplate: {
+                    title: "Raw Image Taken",
+                    outFields: ["*"],
+                    content: (feature) => {
+                        //console.log(feature);
+                        //console.log(feature.graphic.attributes.url);
+                        //console.log('-________________');
+                        var node = document.createElement("div");
+                        node.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
+                            + "<img src='" + feature.graphic.attributes.url + "' >";
+                        return node;
+                    }
+                    //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"
+                    //content: "/WebAPI/api/RawImages/{FlightID}/{ImageID}"
+                    //content: "<a target='_blank' rel='noopener noreferrer' href='{url}'>View Full Image</a>"
+                },
+                renderer: {  // overrides the layer's default renderer
+                    type: "simple",
+                    symbol: {
+                        type: "text",
+                        color: "#7A003C",
+                        text: "\ue661",
+                        font: {
+                            size: 20,
+                            family: "CalciteWebCoreIcons"
+                        }
+                    }
+                }
+            });
+
+            map.add(ImageLayer);
+
+        },
+        error: (req, status, error) => {
+            console.log("AJAX FAIL: RAW IMAGES");
+            console.log(req);
+            console.log(status);
+            console.log(error);
+        }
+    });
+
+    //#endregion 
 
     //#region FEATURE (LEGENDE) 
 

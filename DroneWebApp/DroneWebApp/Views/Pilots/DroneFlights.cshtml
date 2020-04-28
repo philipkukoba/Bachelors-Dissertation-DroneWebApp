@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
-<h2 style="text-align: center">@ViewBag.Pilot's Flights</h2>
+<h2 class="textAlignCenter">@ViewBag.Pilot's Flights</h2>
 
 <h4>@Html.ActionLink("Create new Flight for this Pilot", "Create", "DroneFlights", new { pilotId = @ViewBag.PilotId }, new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
 <hr />
 
-<table id="pdftable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
+<table id="pdftable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
@@ -48,35 +48,35 @@
                 <td>
                     @if (!item.hasQR)
                     {
-                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
                     }
                     else
                     {
-                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
                     }
                     @if (!item.hasGCPs)
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
                     }
                     else
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
                     }
                     @if (!item.hasCTRLs)
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
                     }
                     else
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
                     }
                     @if (!item.hasTFW)
                     {
-                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
                     }
                     else
                     {
-                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
                     }
                     <br />
                     <p></p>
@@ -114,7 +114,7 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm whiteText" })
                 </td>
             </tr>
         }
