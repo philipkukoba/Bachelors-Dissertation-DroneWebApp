@@ -89,3 +89,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 27/04/20,12:30,13:00,Extern,Toevoegen RawImageParser aan uml parsers,138,
 27/04/20,19:00,23:15,Extern,Update database met velden die de klant wil voor RawImages + onderzoeken conversie dat files,26/171,
 28/04/20,08:15,12:30,Contacturen,Code datcon proberen begrijpen,26,
+28/04/20,17:45,23:00,Extern,Code datcon proberen omzetten naar code eigen applicatie + Beginnen onderzoeken alternatieve oplossingen voor datparser,26,
