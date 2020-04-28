@@ -43,15 +43,15 @@ namespace DroneWebApp.Controllers.WebAPI
             System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(myMemStream);
             System.Diagnostics.Debug.WriteLine("ccccccccccccccccc");
 
-            int resizeFactor = 6; 
-            //int newWidth = (int) rawImage.ImageWidth / resizeFactor;
-            //int newHeight = (int) rawImage.ImageHeight / resizeFactor;
+            int resizeFactor = 64; 
+            int newWidth = (int) 5472 / resizeFactor;
+            int newHeight = (int) 3648 / resizeFactor;
             
             System.Diagnostics.Debug.WriteLine("ddddddddddddddddd");
             
-            //System.Drawing.Image newImage = fullsizeImage.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+            System.Drawing.Image newImage = fullsizeImage.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
             System.IO.MemoryStream myResult = new System.IO.MemoryStream();
-            //newImage.Save(myResult, System.Drawing.Imaging.ImageFormat.Jpeg);  //Or whatever format you want.
+            newImage.Save(myResult, System.Drawing.Imaging.ImageFormat.Jpeg);  //Or whatever format you want.
             //return myResult.ToArray();  //Returns a new byte array.
             
             System.Diagnostics.Debug.WriteLine("eeeeeeeeeeeeeeee");
