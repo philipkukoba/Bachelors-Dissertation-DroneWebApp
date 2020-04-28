@@ -21,6 +21,7 @@ namespace DroneWebApp.Controllers.WebAPI
         public HttpResponseMessage GetThumbNail(int id, int imageid)
         {
             System.Diagnostics.Debug.WriteLine("aaaaaaaa");
+
             //find the right image in db 
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             RawImage rawImage = null;
