@@ -24,7 +24,7 @@ namespace DroneWebApp.Controllers
         // GET: Drones
         public ActionResult Index()
         {
-            return View(db.Drones.ToList());
+            return View("Index", db.Drones.ToList());
         }
 
         // GET: Drones/Details/5
@@ -43,13 +43,13 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(drone);
+            return View("Details", drone);
         }
 
         // GET: Drones/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Drones/Create
@@ -89,7 +89,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(drone);
+            return View("Edit", drone);
         }
 
         // POST: Drones/Edit/5
@@ -127,7 +127,7 @@ namespace DroneWebApp.Controllers
             }
             // Count its total flights
             ViewBag.TotalFlights = drone.DroneFlights.Count;
-            return View(drone);
+            return View("Delete", drone);
         }
 
         // POST: Drones/Delete/5

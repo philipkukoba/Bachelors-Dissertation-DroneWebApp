@@ -24,7 +24,7 @@ namespace DroneWebApp.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            return View("Index", db.Projects.ToList());
         }
 
         // GET: Projects/Details/5
@@ -43,13 +43,13 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(project);
+            return View("Details", project);
         }
 
         // GET: Projects/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Projects/Create
@@ -85,7 +85,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(project);
+            return View("Edit", project);
         }
 
         // POST: Projects/Edit/5
@@ -123,7 +123,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(project);
+            return View("Delete", project);
         }
 
         // POST: Projects/Delete/5
@@ -168,7 +168,7 @@ namespace DroneWebApp.Controllers
             }
             ViewBag.Project = project.ProjectCode;
             ViewBag.ProjectId = id;
-            return View(project.DroneFlights.ToList());
+            return View("DroneFlights", project.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)

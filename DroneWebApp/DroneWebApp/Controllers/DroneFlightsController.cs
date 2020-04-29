@@ -27,7 +27,7 @@ namespace DroneWebApp.Controllers
         {
             var droneFlights = db.DroneFlights;
             //var droneFlights = db.DroneFlights.Include(d => d.Drone).Include(d => d.Pilot).Include(d => d.Project);
-            return View(droneFlights.ToList());
+            return View("Index", droneFlights.ToList());
         }
 
         // GET: DroneFlights/Details/5
@@ -46,7 +46,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight);
+            return View("Details", droneFlight);
         }
 
         // GET: DroneFlights/Create
@@ -69,7 +69,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode");
             }
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
-            return View();
+            return View("Create");
         }
 
         // POST: DroneFlights/Create
@@ -110,7 +110,7 @@ namespace DroneWebApp.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", droneFlight.ProjectId);
             ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneFlight.DroneId);
             ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName", droneFlight.PilotId);
-            return View(droneFlight);
+            return View("Edit", droneFlight);
         }
 
         // POST: DroneFlights/Edit/5
@@ -169,7 +169,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight);
+            return View("Delete", droneFlight);
         }
 
         // POST: DroneFlights/Delete/5
@@ -214,7 +214,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(qualityReport);
+            return View("QualityReport", qualityReport);
         }
 
         public ActionResult CTRLPoints(int? id)
@@ -236,7 +236,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight.CTRLPoints.ToList());
+            return View("CTRLPoints", droneFlight.CTRLPoints.ToList());
         }
 
         public ActionResult GCPPoints(int? id)
@@ -258,7 +258,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight.GroundControlPoints.ToList());
+            return View("GCPPoints", droneFlight.GroundControlPoints.ToList());
         }
 
         public ActionResult TFW(int? id)
@@ -280,7 +280,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight.TFW);
+            return View("TFW", droneFlight.TFW);
         }
 
         public ActionResult RawImages(int? id)
@@ -302,7 +302,7 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
                 //return HttpNotFound();
             }
-            return View(droneFlight.RawImages);
+            return View("RawImages", droneFlight.RawImages);
         }
 
         public ActionResult Map(int? id)

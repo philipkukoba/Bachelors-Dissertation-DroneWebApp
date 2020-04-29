@@ -18,23 +18,13 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void Index_ActionExecutes_ReturnsViewForIndex()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
 
@@ -45,59 +35,40 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void IndexTest_ViewData()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
 
             var result = controller.Index() as ViewResult;
             var resultModel = result.ViewData.Model;
-            List<Pilot> pilots = (List<Pilot>)resultModel;
+            List<Pilot> pilotsResult = (List<Pilot>)resultModel;
 
-            for (int i=0 ; i<pilots.Count; i++)
+            for (int i=0 ; i<pilotsResult.Count; i++)
             {
-                Assert.AreEqual(true, PilotEquals(GetPilots()[i], pilots[i]));
+                Assert.AreEqual(true, PilotEquals(pilots[i], pilotsResult[i]));
             }
         }
 
         [TestMethod()]
         public void DetailsTest_ActionExecutes_ReturnsViewForDetails()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Details(3) as ViewResult;
             Assert.AreEqual("Details", result.ViewName);
@@ -106,52 +77,33 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void DetailsTest_ViewData()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Details(3) as ViewResult;
             Pilot pilot = (Pilot)result.Model;
-            Assert.AreEqual(true, PilotEquals(GetPilots().FirstOrDefault(p => p.PilotId == 3), pilot));
+            Assert.AreEqual(true, PilotEquals(pilots.FirstOrDefault(p => p.PilotId == 3), pilot));
         }
 
         [TestMethod()]
         public void CreateTest1_ActionExecutes_ReturnsViewForCreate()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
 
@@ -162,26 +114,17 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void CreateTest2_ActionExecutes_ReturnsViewForCreate()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(x => x.Add(It.IsAny<Pilot>())).Returns<Pilot>(p => p);
+            // Set up the Add method for the mockdd DbSet
+            mockSet.Setup(x => x.Add(It.IsAny<Pilot>())).Callback<Pilot>(p => pilots.Add(p));
 
             Pilot pilot = new Pilot
             {
@@ -197,28 +140,48 @@ namespace DroneWebApp.Controllers.Tests
         }
 
         [TestMethod()]
-        public void EditTest1_ActionExecutes_ReturnsViewForEdit()
+        public void CreateTest2_EntityAddedToContext()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
+            // Create a mock DbSet
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
+            // Set up the Pilots property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+            // Set up the Add method for the mockdd DbSet
+            mockSet.Setup(x => x.Add(It.IsAny<Pilot>())).Callback<Pilot>(p => pilots.Add(p));
+
+            Pilot pilot = new Pilot
+            {
+                PilotId = 11,
+                PilotName = "Pilot11"
+            };
+
+            var result = controller.Create(pilot) as RedirectToRouteResult;
+
+            mockSet.Verify(x => x.Add(It.IsAny<Pilot>()), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.Once);
+            Assert.AreEqual(11, pilots.Count);
+            Assert.IsTrue(pilots.Any(p => p.PilotId == 11));
+        }
+
+        [TestMethod()]
+        public void EditTest1_ActionExecutes_ReturnsViewForEdit()
+        {
             // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            PilotsController controller = new PilotsController(mockContext.Object);
 
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Edit(3) as ViewResult;
             Assert.AreEqual("Edit", result.ViewName);
@@ -227,26 +190,17 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void EditTest1_ViewData()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Edit(3) as ViewResult;
             Pilot pilot = (Pilot)result.Model;
@@ -256,30 +210,18 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void EditTest2_ActionExecutes_ReturnsViewForEdit()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
 
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+            var result = controller.Edit(pilots[3]) as RedirectToRouteResult;
 
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            //mockSet.Setup(x => x.Add(It.IsAny<Pilot>())).Returns<Pilot>(p => p);
-
-            var result = controller.Edit(GetPilots()[3]) as RedirectToRouteResult;
-
-            //mockContext.Verify(x => x.Entry(GetPilots()[3]), Times.Once);
             mockContext.Verify(x => x.SaveChanges(), Times.Once);
             //Assert.AreEqual(EntityState.Modified, mockContext.Object.Entry(GetPilots()[3]).State);
             Assert.AreEqual("Index", result.RouteValues["Action"]);
@@ -288,26 +230,17 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void DeleteTest_ActionExecutes_ReturnsViewForDelete()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Delete(3) as ViewResult;
             Assert.AreEqual("Delete", result.ViewName); ;
@@ -316,26 +249,17 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void DeleteTest_ViewData()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Delete(3) as ViewResult;
             Pilot pilot = (Pilot)result.Model;
@@ -345,57 +269,67 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void DeleteConfirmedTest_ActionExecutes_ReturnsViewForDelete()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
-            mockSet.Setup(x => x.Remove(It.IsAny<Pilot>())).Returns<Pilot>(p => p);
+            // Set up the Find method for the mocked DbSet
+            mockContext.Setup(c => c.Pilots.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Remove method for the mocked context
+            mockContext.Setup(m => m.Pilots.Remove(It.IsAny<Pilot>())).Callback<Pilot>((entity) => pilots.Remove(entity));
 
             var result = controller.DeleteConfirmed(3) as RedirectToRouteResult;
 
-            mockSet.Verify(x => x.Remove(It.IsAny<Pilot>()), Times.Once);
+            mockContext.Verify(x => x.Pilots.Find(3), Times.Once);
+            mockContext.Verify(x => x.Pilots.Remove(It.IsAny<Pilot>()), Times.Once);
             mockContext.Verify(x => x.SaveChanges(), Times.Once);
             Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
 
         [TestMethod()]
-        public void DroneFlights_ActionExecutes_ReturnsViewForDroneFlights()
+        public void DeleteConfirmedTest_EntityRemovedFromContext()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
+            // Create a mock DbSet
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
+            // Set up the Pilots property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            mockContext.Setup(c => c.Pilots.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
+            // Set up the Remove method for the mocked context
+            mockContext.Setup(m => m.Pilots.Remove(It.IsAny<Pilot>())).Callback<Pilot>((entity) => pilots.Remove(entity));
+
+            var result = controller.DeleteConfirmed(3) as RedirectToRouteResult;
+
+            mockContext.Verify(x => x.Pilots.Find(3), Times.Once);
+            mockContext.Verify(x => x.Pilots.Remove(It.IsAny<Pilot>()), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.Once);
+            Assert.AreEqual(9, pilots.Count);
+            Assert.IsFalse(pilots.Any(p => p.PilotId == 3));
+        }
+
+        [TestMethod()]
+        public void DroneFlights_ActionExecutes_ReturnsViewForDroneFlights()
+        {
             // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            PilotsController controller = new PilotsController(mockContext.Object);
 
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
             mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.DroneFlights(3) as ViewResult;
@@ -405,25 +339,16 @@ namespace DroneWebApp.Controllers.Tests
         [TestMethod()]
         public void DroneFlights_ViewData()
         {
+            // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             PilotsController controller = new PilotsController(mockContext.Object);
 
-            // Create mock context
-            //Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-
             // Create a mock DbSet
-            var mockSet = new Mock<DbSet<Pilot>>();
+            List<Pilot> pilots = GetPilots();
+            var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
-
-            var queryable = GetPilots().AsQueryable();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-
-            // Set up the Pilots property so it returns the mocked DbSet
-            mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
             mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.DroneFlights(3) as ViewResult;
@@ -431,18 +356,7 @@ namespace DroneWebApp.Controllers.Tests
             List<DroneFlight> generated = GetPilots()[2].DroneFlights.ToList();
 
             for (int i=0; i<flights.Count; i++)
-            {
-                System.Diagnostics.Debug.WriteLine(generated[i].FlightId);
-                System.Diagnostics.Debug.WriteLine(flights[i].FlightId);
-                System.Diagnostics.Debug.WriteLine(generated[i].PilotId);
-                System.Diagnostics.Debug.WriteLine(flights[i].PilotId);
-                System.Diagnostics.Debug.WriteLine(generated[i].DroneId);
-                System.Diagnostics.Debug.WriteLine(flights[i].DroneId);
-                System.Diagnostics.Debug.WriteLine(generated[i].ProjectId);
-                System.Diagnostics.Debug.WriteLine(flights[i].ProjectId);
-                System.Diagnostics.Debug.WriteLine(generated[i].Date);
-                System.Diagnostics.Debug.WriteLine(flights[i].Date);
-                
+            {                
                 Assert.AreEqual(true, DroneFlightEquals(generated[i], flights[i]));
             }
         }
@@ -506,19 +420,19 @@ namespace DroneWebApp.Controllers.Tests
             {
                 return false;
             }
-            if (p1.PilotName != p2.PilotName)
+            if (!string.Equals(p1.PilotName, p2.PilotName))
             {
                 return false;
             }
-            if (p1.Country != p2.Country)
+            if (!string.Equals(p1.Country, p2.Country))
             {
                 return false;
             }
-            if (p1.City != p2.City)
+            if (!string.Equals(p1.City, p2.City))
             {
                 return false;
             }
-            if (p1.Street != p2.Street)
+            if (!string.Equals(p1.Street, p2.Street))
             {
                 return false;
             }
@@ -526,7 +440,7 @@ namespace DroneWebApp.Controllers.Tests
             {
                 return false;
             }
-            if (p1.Phone != p2.Phone)
+            if (!string.Equals(p1.Phone, p2.Phone))
             {
                 return false;
             }
@@ -534,11 +448,11 @@ namespace DroneWebApp.Controllers.Tests
             {
                 return false;
             }
-            if (p1.Email != p2.Email)
+            if (!string.Equals(p1.Email, p2.Email))
             {
                 return false;
             }
-            if (p1.EmergencyPhone != p2.EmergencyPhone)
+            if (!string.Equals(p1.EmergencyPhone, p2.EmergencyPhone))
             {
                 return false;
             }
@@ -571,6 +485,19 @@ namespace DroneWebApp.Controllers.Tests
             */
             
             return true;
+        }
+
+        private Mock<DbSet<Pilot>> CreateMockSet(List<Pilot> pilots)
+        {
+            var queryable = pilots.AsQueryable();
+            var mockSet = new Mock<DbSet<Pilot>>();
+
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+            return mockSet;
         }
     }
 }
