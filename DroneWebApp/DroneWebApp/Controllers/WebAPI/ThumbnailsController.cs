@@ -21,6 +21,7 @@ namespace DroneWebApp.Controllers.WebAPI
         public HttpResponseMessage GetThumbNail(int id, int imageid)
         {
             System.Diagnostics.Debug.WriteLine("aaaaaaaa");
+
             //find the right image in db 
             DroneFlight droneFlight = db.DroneFlights.Find(id);
             RawImage rawImage = null;
@@ -42,9 +43,9 @@ namespace DroneWebApp.Controllers.WebAPI
             System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(myMemStream);
             System.Diagnostics.Debug.WriteLine("ccccccccccccccccc");
 
-            int resizeFactor = 6; 
-            int newWidth = (int) rawImage.ImageWidth / resizeFactor;
-            int newHeight = (int) rawImage.ImageHeight / resizeFactor;
+            int resizeFactor = 64; 
+            int newWidth = (int) 5472 / resizeFactor;
+            int newHeight = (int) 3648 / resizeFactor;
             
             System.Diagnostics.Debug.WriteLine("ddddddddddddddddd");
             

@@ -17,14 +17,14 @@ namespace DroneWebApp.Models
         public int RawImageKey { get; set; }
         public string FileName { get; set; }
         public byte[] RawData { get; set; }
-        public Nullable<double> FileSize { get; set; }
-        public string FileTypeExtension { get; set; }
-        public string Orientation { get; set; }
-        public Nullable<int> XResolution { get; set; }
-        public Nullable<int> YResolution { get; set; }
-        public string ResolutionUnit { get; set; }
+        public string ExposureTime { get; set; }
+        public Nullable<int> FNumber { get; set; }
+        public Nullable<int> Iso { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
-        public string Make { get; set; }
+        public string ShutterSpeedValue { get; set; }
+        public string ApertureValue { get; set; }
+        public Nullable<int> ExposureCompensation { get; set; }
+        public string MaxApertureValue { get; set; }
         public Nullable<double> SpeedX { get; set; }
         public Nullable<double> SpeedY { get; set; }
         public Nullable<double> SpeedZ { get; set; }
@@ -34,24 +34,13 @@ namespace DroneWebApp.Models
         public Nullable<double> CameraPitch { get; set; }
         public Nullable<double> CameraYaw { get; set; }
         public Nullable<double> CameraRoll { get; set; }
-        public Nullable<int> ImageWidth { get; set; }
-        public Nullable<int> ImageHeight { get; set; }
-        public string GpsVersionId { get; set; }
-        public string GpsLatitudeRef { get; set; }
-        public string GpsLongitudeRef { get; set; }
-        public string GpsAltitudeRef { get; set; }
-        public string XpComment { get; set; }
         public Nullable<double> AbsoluteAltitude { get; set; }
         public Nullable<double> RelativeAltitude { get; set; }
+        public Nullable<int> RtkFlag { get; set; }
         public string GpsAltitude { get; set; }
         public string GpsLatitude { get; set; }
         public string GpsLongitude { get; set; }
         public string GpsPosition { get; set; }
-        public Nullable<long> PreviewImage { get; set; }
-        public Nullable<int> MegaPixels { get; set; }
-        public Nullable<long> ThumbnailImage { get; set; }
-        public Nullable<double> Fov { get; set; }
-        public string RawHeader { get; set; }
         public int FlightId { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }

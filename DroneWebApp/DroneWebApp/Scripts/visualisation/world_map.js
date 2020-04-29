@@ -592,6 +592,9 @@
 
 
 
+    $(document).ready(function () {
+        $('.thumbnail-enlarge').magnificPopup({ type: 'image' });
+    });
 
 
 
@@ -608,7 +611,7 @@
     let readImage = (img) => {
         console.log(img.ImageID);
         let URL = "/WebAPI/api/RawImages/" + img.FlightID + "/" + img.ImageID;
-        //let ThumbnailURL = "/WebAPI/api/Thumbnails/" + img.FlightID + "/" + img.ImageID;
+        let ThumbnailURL = "/WebAPI/api/Thumbnails/" + img.FlightID + "/" + img.ImageID;
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
                 type: "point",
@@ -620,7 +623,8 @@
                 CreateDate: img.CreateDate,
                 ImageID: img.ImageID,
                 FlightID: img.FlightID,
-                url: URL
+                url: URL,
+                thumbnailURL: ThumbnailURL
                 //,
                 //thumbnailURL: ThumbnailURL
             }
@@ -650,22 +654,25 @@
                 {
                     name: "FlightID",
                     type: "integer"
-                },
-                {
-                    name: "url",
-                    type: "string"
-                }
+                    },
+                    {
+                        name: "url",
+                        type: "string"
+                    },
+                    {
+                        name: "thumbnailURL",
+                        type: "string"
+                    }
                 ],
                 popupTemplate: {
                     title: "Raw Image Taken",
                     outFields: ["*"],
                     content: (feature) => {
-                        //console.log(feature);
-                        //console.log(feature.graphic.attributes.url);
+                        console.log(feature.graphic.attributes.url);
                         //console.log('-________________');
                         var node = document.createElement("div");
-                        node.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
-                            + "<img src='" + feature.graphic.attributes.url + "' >";
+                        node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
+                            + "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
                         return node;
                     }
                     //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"
@@ -809,5 +816,3 @@
     //#endregion 
 
 });
-
-

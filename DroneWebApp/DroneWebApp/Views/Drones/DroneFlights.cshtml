@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<DroneWebApp.Models.DroneFlight>
 
 @{
-    ViewBag.Title = "Drone Flights for " + @ViewBag.Pilot;
+    ViewBag.Title = "Drone Flights for " + @ViewBag.DroneName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
-<h2 class="textAlignCenter">@ViewBag.Pilot's Flights</h2>
+<h2 style="text-align: center">@ViewBag.DroneName's Flights</h2>
 
-<h4>@Html.ActionLink("Create new Flight for this Pilot", "Create", "DroneFlights", new { pilotId = @ViewBag.PilotId }, new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+<h4>@Html.ActionLink("Create new Flight for this Drone", "Create", "DroneFlights", new { droneId = @ViewBag.DroneId }, new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
 <hr />
 
-<table id="pdftable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
+<table id="ddftable" class="ui celled table table-hover table-striped" cellspacing="0" width="100%" style="text-align: center">
     <thead>
         <tr>
             <th>
@@ -23,7 +23,7 @@
                 @Html.DisplayName("Date")
             </th>
             <th>
-                @Html.DisplayName("Drone")
+                @Html.DisplayName("Pilot")
             </th>
             <th>Files</th>
             <th>ArcGIS</th>
@@ -43,40 +43,40 @@
                     @item.Date.ToString("dd/MM/yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Drone.DroneName)
+                    @Html.DisplayFor(modelItem => item.Pilot.PilotName)
                 </td>
                 <td>
                     @if (!item.hasQR)
                     {
-                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
+                        @Html.ActionLink("QR", "QualityReport", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasGCPs)
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
+                        @Html.ActionLink("GCP", "GCPPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasCTRLs)
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
+                        @Html.ActionLink("CTRL", "CTRLPoints", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     @if (!item.hasTFW)
                     {
-                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm whiteText" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm", style = "color: white" })
                     }
                     else
                     {
-                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm whiteText" })
+                        @Html.ActionLink("TFW", "TFW", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm", style = "color: white" })
                     }
                     <br />
                     <p></p>
@@ -122,12 +122,12 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm whiteText" })
+                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <p>
-    @Html.ActionLink("Back to Pilot Details", "Details", new { id = @ViewBag.PilotId })
+    @Html.ActionLink("Back to Drone Details", "Details", new { id = @ViewBag.DroneId })
 </p>

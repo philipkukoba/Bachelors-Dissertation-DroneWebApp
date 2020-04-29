@@ -50,7 +50,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Create
-        public ActionResult Create(int? pilotId, int? projectId)
+        public ActionResult Create(int? pilotId, int? projectId, int? droneId)
         {
             if(pilotId != null)
             {
@@ -60,7 +60,15 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.PilotId = new SelectList(db.Pilots, "PilotId", "PilotName");
             }
-            if(projectId != null)
+            if (droneId != null)
+            {
+                ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName", droneId);
+            }
+            else
+            {
+                ViewBag.DroneId = new SelectList(db.Drones, "DroneId", "DroneName");
+            }
+            if (projectId != null)
             {
                 ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "ProjectCode", projectId);
             }
@@ -124,7 +132,6 @@ namespace DroneWebApp.Controllers
             {
                 DroneFlight df = db.DroneFlights.Find(droneFlight.FlightId);
                 UpdateFlightFields(droneFlight, df);
-                System.Diagnostics.Debug.WriteLine("In modelstate is valid, before modified");
                 db.Entry(df).State = EntityState.Modified;
                 db.SaveChanges();
                 // Update the total time drones have flown in case the drone flight's drone has been changed by the user
@@ -178,6 +185,17 @@ namespace DroneWebApp.Controllers
         public ActionResult DeleteConfirmed(int? id)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(id);
+
+            // Calculate the flight time of this drone flight
+            TimeSpan totalTime = new TimeSpan(0, 0, 0);
+            if(droneFlight.hasDepInfo && droneFlight.hasDestInfo)
+            {
+                totalTime = totalTime.Add(((TimeSpan)droneFlight.DestinationInfo.UTCTime).Subtract((TimeSpan)droneFlight.DepartureInfo.UTCTime));
+                // Update the threshold time for the drone that was assigned to this flight to account for this deletion
+                droneFlight.Drone.nextTimeCheck = droneFlight.Drone.nextTimeCheck.Subtract(totalTime);
+                droneFlight.Drone.needsCheckUp = false; // Reset to false; Helper.UpdateTotalDroneFlightTime will re-evaluate whether or not this needs to stay false
+            }
+            // Remove this drone flight
             try
             {
                 db.DroneFlights.Remove(droneFlight);
@@ -188,6 +206,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorDroneFlightDelete = "Cannot delete this Drone Flight.";
                 return View(droneFlight);
             }
+
             // Update the total time drones have flown in case the drone flight's drone has been changed by the user
             Helper.UpdateTotalDroneFlightTime(this.db);
             return RedirectToAction("Index");

@@ -40,6 +40,20 @@ $(document).ready(function () {
     });
 });
 
+// Drone's Drone Flights table
+$(document).ready(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#ddftable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [4, 5],
+                "searchable": false, "targets": [4, 5]
+            }
+        ]
+    });
+});
+
 // Project's DroneFlights table
 $(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
@@ -59,8 +73,8 @@ $(document).ready(function () {
     $('#dtable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": 5,
-                "searchable": false, "targets": 5
+                "orderable": false, "targets": [5, 6],
+                "searchable": false, "targets": [5, 6]
             }
         ]
     });
@@ -71,8 +85,8 @@ $(document).ready(function () {
     $('#ptable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": 6,
-                "searchable": false, "targets": 6
+                "orderable": false, "targets": [6, 7],
+                "searchable": false, "targets": [6, 7]
             }
         ]
     });
@@ -94,7 +108,7 @@ $(document).ready(function () {
         "columnDefs": [
             {
                 "orderable": false, 
-                "searchable": false, "targets": 1
+                "searchable": false, "targets": 0
             }
         ]
     });

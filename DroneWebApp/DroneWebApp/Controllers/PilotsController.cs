@@ -103,11 +103,28 @@ namespace DroneWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pilot).State = EntityState.Modified;
+                Pilot p = db.Pilots.Find(pilot.PilotId);
+                UpdatePilotFields(pilot, p);
+                db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(pilot);
+        }
+
+        // Update the fields of the DroneFlight that has been found by FlightId with the fields of the posted DroneFlight, a.k.a. the drone flight 
+        // the user has submitted
+        private static void UpdatePilotFields(Pilot postedPilot, Pilot p)
+        {
+            p.PilotName = postedPilot.PilotName;
+            p.Street = postedPilot.Street;
+            p.ZIP = postedPilot.ZIP;
+            p.City = postedPilot.City;
+            p.Country = postedPilot.Country;
+            p.Phone = postedPilot.Phone;
+            p.LicenseNo = postedPilot.LicenseNo;
+            p.Email = postedPilot.Email;
+            p.EmergencyPhone = postedPilot.EmergencyPhone;
         }
 
         // GET: Pilots/Delete/5

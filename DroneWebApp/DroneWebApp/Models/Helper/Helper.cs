@@ -30,6 +30,16 @@ namespace DroneWebApp.Models.Helper
                 }
                 d.TotalFlightTime = totalTime;
                 db.SaveChanges();
+                // check if the drone needs a check up
+                if (!d.needsCheckUp)
+                {
+                    // if the total flight time is not 0 (0h0m0s) and the total travelled time is greater than or equal to the next time check
+                    if(((totalTime.Hours != 0) && (totalTime.Minutes != 0) && (totalTime.Seconds !=0)) && (totalTime.Minutes >= d.nextTimeCheck.Minutes)) // ToDo: Minutes -> Hours
+                    {
+                        d.needsCheckUp = true; // drone needs a check-up
+                    }
+                }
+                db.SaveChanges();
             }
             System.Diagnostics.Debug.WriteLine("end of UpdateTotalDroneFlightTime");
         }

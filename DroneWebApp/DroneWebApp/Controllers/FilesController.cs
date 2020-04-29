@@ -2,30 +2,38 @@
 using DroneWebApp.Models.DataExport;
 using DroneWebApp.Models.Helper;
 using DroneWebApp.Models.SimpleFactoryPattern;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
 
 namespace DroneWebApp.Controllers
 {
-    // WIP
     public class FilesController : Controller
     {
         public DroneDBEntities Db { get; set; }
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
-        static string fileName;
-        static bool parseResult = false;
+        static List<string> fileNames;
+        static List<bool> parseResults;
+        static string currentFileName;
+        static bool currentParseResult;
+        static int totalFilesToParse = 0;
+        static int filesLeft = 0;
 
         // Constructor
         public FilesController(DbContext db)
         {
-            this.Db = (DroneDBEntities)db;
+            Db = (DroneDBEntities)db;
             creator = new Creator(Db);
         }
 
@@ -44,10 +52,12 @@ namespace DroneWebApp.Controllers
             return View();
         }
 
-        //Single File Upload
         [HttpPost]
-        public ActionResult Index(int? id, HttpPostedFileBase files)
+        public ActionResult Index(int? id, List<HttpPostedFileBase> files)
         {
+            // How many files to be read?
+            totalFilesToParse = files.Count;
+            filesLeft = files.Count;
             // Check if an id was submitted & whether a drone flight with this id exists            // ********************************
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
@@ -61,35 +71,50 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
 
-            // Verify that the user selected a file
-            var path = "";
-            if (files != null && files.ContentLength > 0)
-            {
-                // extract only the filename
-                fileName = Path.GetFileName(files.FileName);
-                // store the file inside ~/App_Data/uploads folder
-                path = Path.Combine(Server.MapPath("~/files"), fileName);
-                files.SaveAs(path);              
-            }
+            System.Diagnostics.Debug.WriteLine("filestoBeRead: " + totalFilesToParse );
+            // Lists to be returned to the frontend
+            fileNames = new List<string>();
+            parseResults = new List<bool>();
 
-            string fileExtension = fileName.Substring(fileName.Length - 4);
-            // Verify that the user's file is an appropriate filetype                        
-            if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
+            foreach (HttpPostedFileBase file in files)
             {
-                ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-            }
-            else
-            {
-                // Parsing
-                if (fileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                currentFileName = "";
+                // Verify that the user selected a file
+                var path = "";
+                if (file != null && file.ContentLength > 0)
                 {
-                    parseResult = creator.GetParser(".dat", path, (int)id);
+                    // extract only the filename
+                    currentFileName = Path.GetFileName(file.FileName);
+                    // add file name to the list of files
+                    fileNames.Add(currentFileName);
+                    // store the file inside ~/files/ folder
+                    path = Path.Combine(Server.MapPath("~/files"), currentFileName);
+                    file.SaveAs(path);
+                }
+
+                string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
+                // Verify that the user's file is an appropriate filetype                        
+                if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
+                {
+                    ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
+                    return View("~/Views/ErrorPage/Error.cshtml");
                 }
                 else
                 {
-                    parseResult = creator.GetParser(fileExtension, path, (int)id);
+                    // Parsing
+                    if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                    {
+                        currentParseResult = creator.GetParser(".dat", path, (int)id);
+                        parseResults.Add(currentParseResult);
+                    }
+                    else
+                    {
+                        currentParseResult = creator.GetParser(fileExtension, path, (int)id);
+                        parseResults.Add(currentParseResult);
+                    }
                 }
+
+                filesLeft--;
             }
             return View();
         }
@@ -137,30 +162,54 @@ namespace DroneWebApp.Controllers
             return View();
         }
 
-        // gets the progress value of the file parsing
         [HttpGet]
-        public double GetProgressStatus()
+        public int GetTotalFiles()
         {
-            return Helper.progress;
+            System.Diagnostics.Debug.WriteLine("filestoBeRead in GetTotalFiles: " + totalFilesToParse);
+            return totalFilesToParse;
         }
 
-        // gets the result value of the parsing
-        // returns true if a file was successfully read; 
-        // returns false if a file was not read because it already existed
         [HttpGet]
-        public int GetParseResult()
+        public ActionResult GetStatus()
         {
-            if(parseResult)
+            int parseResultToInt;
+            if (currentParseResult)
             {
-                return 1;
+                parseResultToInt = 1;
             }
-            return 0;
+            else
+            {
+                parseResultToInt = 0;
+            }
+            //data projection
+            var result = (new
+            {
+                currProgress = Helper.progress,
+                currParseResult = parseResultToInt,
+                currFileName = currentFileName,
+                currFilesLeft = filesLeft,
+            });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        // gets the list of parsing results and list of file names
+        // todo: return a list of the files that failed + their name
         [HttpGet]
-        public string GetFileName()
+        public HttpResponseMessage GetResultsAndFileNames()
         {
-            return fileName;
+            //data projection
+            var result = (new
+            {
+                
+            });
+
+            //config to set to json 
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(result));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            return response;
         }
     }
 }

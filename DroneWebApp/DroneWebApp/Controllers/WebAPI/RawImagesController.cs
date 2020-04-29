@@ -43,12 +43,7 @@ namespace DroneWebApp.Controllers.WebAPI
 
 					FlightID = rawImage.FlightId,
 
-					rawImage.XResolution,
-					rawImage.YResolution,
-
 					rawImage.CreateDate,
-
-					rawImage.Make,
 
 					rawImage.SpeedX,
 					rawImage.SpeedY,
@@ -57,13 +52,12 @@ namespace DroneWebApp.Controllers.WebAPI
 					rawImage.Yaw,
 					rawImage.Roll,
 
-					rawImage.ImageWidth,
-					rawImage.ImageHeight,
-
 					rawImage.GpsAltitude,
 					rawImage.GpsLatitude,
 					rawImage.GpsLongitude,
 					rawImage.GpsPosition
+
+					//missing new fields
 
 				}).ToList();
 
@@ -84,8 +78,10 @@ namespace DroneWebApp.Controllers.WebAPI
 			System.Diagnostics.Debug.WriteLine(id);
 			System.Diagnostics.Debug.WriteLine("aaaaaaa");
 
-			//RawImage rawImage = db.RawImages.Find(1);
-			
+			//TODO 
+			//db.RawImages.SqlQuery("");
+			//db.RawImages.Find(); 
+
 			//find the right image in db 
 			DroneFlight droneFlight = db.DroneFlights.Find(id);
 			RawImage rawImage = null;
@@ -110,6 +106,7 @@ namespace DroneWebApp.Controllers.WebAPI
 
 		//return compressedimg 
 
+		//TODO
 
 	}
 }

@@ -19,7 +19,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             }
             else if (parseType.Equals(".xyz", StringComparison.OrdinalIgnoreCase))
             {
-                parser = new XYZParser();
+                parser = new XYZParserADONET();
+                //parser = new XYZParser(); 
             }
             else if (parseType.Equals(".tfw", StringComparison.OrdinalIgnoreCase))
             {
