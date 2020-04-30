@@ -18,6 +18,8 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db = new DroneDBEntities();
 
+
+        //TODO: unused
         //// GET: api/DroneFlightsAPI
         //public IQueryable<DroneFlight> GetDroneFlights()
         //{
@@ -56,85 +58,5 @@ namespace DroneWebApp.Controllers
 
             return response;
         }
-
-        //// PUT: api/DroneFlightsAPI/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutDroneFlight(int id, DroneFlight droneFlight)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != droneFlight.FlightId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(droneFlight).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!DroneFlightExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        //// POST: api/DroneFlightsAPI
-        //[ResponseType(typeof(DroneFlight))]
-        //public IHttpActionResult PostDroneFlight(DroneFlight droneFlight)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.DroneFlights.Add(droneFlight);
-        //    db.SaveChanges();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = droneFlight.FlightId }, droneFlight);
-        //}
-
-        //// DELETE: api/DroneFlightsAPI/5
-        //[ResponseType(typeof(DroneFlight))]
-        //public IHttpActionResult DeleteDroneFlight(int id)
-        //{
-        //    DroneFlight droneFlight = db.DroneFlights.Find(id);
-        //    if (droneFlight == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.DroneFlights.Remove(droneFlight);
-        //    db.SaveChanges();
-
-        //    return Ok(droneFlight);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool DroneFlightExists(int id)
-        //{
-        //    return db.DroneFlights.Count(e => e.FlightId == id) > 0;
-        //}
     }
 }
