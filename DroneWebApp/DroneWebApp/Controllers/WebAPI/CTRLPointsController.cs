@@ -23,8 +23,9 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db = new DroneDBEntities();
 
+
+        //TODO: UNUSED METHOD
         //GET: api/CTRLPoints
-        // Hier kan je ook via tags[HttpGet] en[Route("find")] de http type en de route instellen(niet nodig)
         public HttpResponseMessage GetCTRLPoints()
         {
             //nodige data projection 
@@ -39,18 +40,15 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: api/CTRLPoints/5
-        //[ResponseType(typeof(CTRLPoint))]   //niet nodig? 
-        //[Route("{FlightID}")]
-        public HttpResponseMessage GetCTRLPointsByFlightID(int id)    //lampje kwam op als je methode renamet (?) 
+        public HttpResponseMessage GetCTRLPointsByFlightID(int id)   
         {
             var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 
-            if (Flight == null)
+            if (Flight == null || !Flight.hasCTRLs)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-
-            //var ctrlPoint = Flight.CTRLPoints.Select(c => new { c.CTRLId, c.CTRLName, c.X, c.Y, c.Z, c.FlightId }).ToList();
-
+         
+            //TODO wat als hij geen XYZ's heeft?
             List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
             List<CTRLPoint> CTRLPoints = Flight.CTRLPoints.ToList();
 
@@ -86,87 +84,6 @@ namespace DroneWebApp.Controllers
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             return response;
-        }
-
-        //    // PUT: api/CTRLPoints/5
-        //    [ResponseType(typeof(void))]
-        //    public IHttpActionResult PutCTRLPoint(int id, CTRLPoint cTRLPoint)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        if (id != cTRLPoint.CTRLId)
-        //        {
-        //            return BadRequest();
-        //        }
-
-        //        db.Entry(cTRLPoint).State = EntityState.Modified;
-
-        //        try
-        //        {
-        //            db.SaveChanges();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CTRLPointExists(id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-
-        //        return StatusCode(HttpStatusCode.NoContent);
-        //    }
-
-        //    // POST: api/CTRLPoints
-        //    [ResponseType(typeof(CTRLPoint))]
-        //    public IHttpActionResult PostCTRLPoint(CTRLPoint cTRLPoint)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        db.CTRLPoints.Add(cTRLPoint);
-        //        db.SaveChanges();
-
-        //        return CreatedAtRoute("DefaultApi", new { id = cTRLPoint.CTRLId }, cTRLPoint);
-        //    }
-
-        //    // DELETE: api/CTRLPoints/5
-        //    [ResponseType(typeof(CTRLPoint))]
-        //    public IHttpActionResult DeleteCTRLPoint(int id)
-        //    {
-        //        CTRLPoint cTRLPoint = db.CTRLPoints.Find(id);
-        //        if (cTRLPoint == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        db.CTRLPoints.Remove(cTRLPoint);
-        //        db.SaveChanges();
-
-        //        return Ok(cTRLPoint);
-        //    }
-
-        //    protected override void Dispose(bool disposing)
-        //    {
-        //        if (disposing)
-        //        {
-        //            db.Dispose();
-        //        }
-        //        base.Dispose(disposing);
-        //    }
-
-        //    private bool CTRLPointExists(int id)
-        //    {
-        //        return db.CTRLPoints.Count(e => e.CTRLId == id) > 0;
-        //    }
-
+        }    
     }
 }
