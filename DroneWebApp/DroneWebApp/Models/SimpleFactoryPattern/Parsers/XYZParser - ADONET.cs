@@ -23,7 +23,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		{
 			// Get the approriate DroneFlight that goes with this data
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-			PointCloudXYZ pointCloudXYZ;
 
 			// Do not parse a new file, if this flight already has an XYZ file
 			if (droneFlight.hasXYZ) return false;
@@ -42,7 +41,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 					int lineNo = 0; //used for progress
 					string[] splitLine; //the line to be read
-
 
 					#region Set culture to ensure decimal point
 					CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -147,6 +145,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						{
 							//TODO rollback? (kan enkel met transaction)
 							System.Diagnostics.Debug.WriteLine(ex);
+							return false; 
 						}
 					}
 					connection.Close(); //TODO not sure if needed
