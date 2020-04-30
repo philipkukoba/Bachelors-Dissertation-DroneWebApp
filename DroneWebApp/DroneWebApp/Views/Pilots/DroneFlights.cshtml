@@ -25,14 +25,21 @@
             <th>
                 @Html.DisplayName("Drone")
             </th>
+            <th>Map</th>
             <th>Files</th>
-            <th>ArcGIS</th>
+            <th>Upload</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })'>
+                        <img class="upload" />
+                    </a>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Project.ProjectCode)
                 </td>
@@ -122,12 +129,20 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm whiteText" })
+                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })'>
+                        <img class="map_marker"/>
+                    </a>
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("Edit", "Edit", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <p>
-    @Html.ActionLink("Back to Pilot Details", "Details", new { id = @ViewBag.PilotId })
+    @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Back to Pilot Details", "Details", new { id = @ViewBag.PilotId }, new { @class = "btn btn-primary btn-sm" })
 </p>

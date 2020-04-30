@@ -57,9 +57,9 @@
           <Property Name="Registration" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
-          <Property Name="TotalFlightTime" Type="time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="bigint" />
           <Property Name="needsCheckUp" Type="bit" Nullable="false" />
-          <Property Name="nextTimeCheck" Type="time" Precision="7" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -844,9 +844,9 @@
           <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalFlightTime" Type="Time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="Int64" />
           <Property Name="needsCheckUp" Type="Boolean" Nullable="false" />
-          <Property Name="nextTimeCheck" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="nextTimeCheck" Type="Int64" Nullable="false" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">

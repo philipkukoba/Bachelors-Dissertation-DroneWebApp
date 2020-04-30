@@ -7,8 +7,8 @@ $(document).ready(function () {
     $('#dftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [5, 6, 7, 8],
-                "searchable": false, "targets": [5, 6, 7, 8]
+                "orderable": false, "targets": [-4, 6, 7, 8],
+                "searchable": false, "targets": [-4, 6, 7, 8]
             }
         ]
       }); 
@@ -33,8 +33,8 @@ $(document).ready(function () {
     $('#pdftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [4, 5],
-                "searchable": false, "targets": [4, 5]
+                "orderable": false, "targets": [-4, 5, 6, 7],
+                "searchable": false, "targets": [-4, 5, 6, 7]
             }
         ]
     });
@@ -47,8 +47,8 @@ $(document).ready(function () {
     $('#ddftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [4, 5],
-                "searchable": false, "targets": [4, 5]
+                "orderable": false, "targets": [-4, 5, 6, 7],
+                "searchable": false, "targets": [-4, 5, 6, 7]
             }
         ]
     });
@@ -61,8 +61,8 @@ $(document).ready(function () {
     $('#prdftable').dataTable({
         "columnDefs": [
             {
-                "orderable": false, "targets": [4, 5],
-                "searchable": false, "targets": [4, 5]
+                "orderable": false, "targets": [-4, 5, 6, 7],
+                "searchable": false, "targets": [-4, 5, 6, 7]
             }
         ]
     });

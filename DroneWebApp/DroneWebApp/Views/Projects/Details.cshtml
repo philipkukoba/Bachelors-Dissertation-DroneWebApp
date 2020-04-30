@@ -60,6 +60,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }) |
-    @Html.ActionLink("Back to Project List", "Index")
+    @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-info btn-sm" }) |
+    @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" })
 </p>

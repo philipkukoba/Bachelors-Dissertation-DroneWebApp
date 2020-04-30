@@ -9,6 +9,16 @@
 
 .textAlignCenter {
     text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.textAlignTD th {
+    vertical-align: middle !important;
+}
+
+.textAlignCenter td {
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 .paddingErrorIndex {
@@ -35,3 +45,61 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
     border-bottom-width: 0px;
 }
 
+img.upload {
+    background: url(/Content/images/upload_icon.png);
+    width: 40px;
+    height: 40px;
+}
+
+img.upload:hover {
+    background-image: url(/Content/images/upload_icon_hover.png);
+    width: 40px;
+    height: 40px;
+}
+
+img.map_marker {
+    background-image: url(/Content/images/map_marker.png);
+    width: 30px;
+    height: 35px;
+}
+
+img.map_marker:hover {
+    background-image: url(/Content/images/map_marker_hover.png);
+    width: 30px;
+    height: 35px;
+}
+
+/*Custom label sizes */
+
+.label-xsmall {
+    vertical-align: super;
+    font-size: x-small;
+    font-weight: normal;
+}
+
+.label-small {
+    vertical-align: middle;
+    font-size: small;
+    font-weight: normal;
+}
+
+.label-medium {
+    vertical-align: middle;
+    font-size: medium;
+    font-weight: normal;
+}
+
+.label-large {
+    vertical-align: super;
+    font-size: large;
+    font-weight: normal;
+}
+
+.label-bs {
+    vertical-align: super;
+    font-weight: normal;
+}
+
+.no-hover {
+    cursor: default;
+}

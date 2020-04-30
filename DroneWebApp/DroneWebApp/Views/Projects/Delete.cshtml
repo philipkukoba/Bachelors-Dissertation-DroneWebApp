@@ -26,7 +26,7 @@ else
     <table class="table table-bordered table-hover table-striped fixedTableLayout">
         <tr>
             <th>
-                @Html.Display("Flights assigned to this Project")
+                Flights assigned to this Project
             </th>
             <td>
                 @ViewBag.TotalFlights
@@ -76,8 +76,8 @@ else
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Projects List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to Projects List", "Index", null, new { @class = "btn btn-primary btn-sm" })
         </div>
     }
 </div>

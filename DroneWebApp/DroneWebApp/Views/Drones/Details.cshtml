@@ -15,7 +15,7 @@
         @Html.ActionLink("PDF", "Export", "Files", new { id = @Model.DroneId, extension = "pdf", type = "drone" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
     </div>
     <hr />
-    <table class="table table-bordered table-hover table-striped  fixedTableLayout">
+    <table class="table table-bordered table-hover table-striped fixedTableLayout textAlignTD">
         <tr>
             <th>
                 @Html.DisplayName("Name")
@@ -39,16 +39,35 @@
                 @Html.DisplayName("Total Time Flown")
             </th>
             <td>
+                @{
+                    // Convert the drone's total seconds to a TimeSpan object
+                    TimeSpan totalFlightTime = TimeSpan.FromSeconds((long)@Model.TotalFlightTime);
+                    string hours = (totalFlightTime.Days * 24 + totalFlightTime.Hours).ToString();
+                    if(totalFlightTime.Days * 24 + totalFlightTime.Hours < 10)
+                    {
+                        hours = "0" + hours;
+                    }
+                    string minutes = totalFlightTime.Minutes.ToString();
+                    if(totalFlightTime.Minutes < 10)
+                    {
+                        minutes = "0" + minutes;
+                    }
+                    string seconds = totalFlightTime.Seconds.ToString();
+                    if(totalFlightTime.Seconds < 10)
+                    {
+                        seconds = "0" + seconds;
+                    }
+                }
                 @if (@Model.needsCheckUp)
                 {
-                    <div class="btn btn-danger btn-sm whiteText">
-                        @Model.TotalFlightTime.ToString()
+                    <div class="btn btn-danger btn-sm whiteText no-hover">
+                        @(hours)h @(minutes)m @(seconds)s
                     </div>
                 }
                 else
                 {
-                    <div class="btn btn-success btn-sm whiteText">
-                        @Model.TotalFlightTime.ToString()
+                    <div class="btn btn-success btn-sm whiteText no-hover">
+                        @(hours)h @(minutes)m @(seconds)s
                     </div>
                 }
             </td>
@@ -83,9 +102,26 @@
                 }
                 else
                 {
-                    @Html.Label("No. Next check-up once drone has flown more than:")
-                    <div class="btn btn-info btn-sm disabled whiteText">
-                        @Model.nextTimeCheck.ToString()
+                    // Convert the drone's ticks to a TimeSpan object
+                    TimeSpan nextTimeCheck = TimeSpan.FromSeconds((long)@Model.nextTimeCheck);
+                    string hrs = (nextTimeCheck.Days * 24 + nextTimeCheck.Hours).ToString();
+                    if (nextTimeCheck.Days * 24 + nextTimeCheck.Hours < 10)
+                    {
+                        hrs = "0" + hrs;
+                    }
+                    string mins = nextTimeCheck.Minutes.ToString();
+                    if (nextTimeCheck.Minutes < 10)
+                    {
+                        mins = "0" + mins;
+                    }
+                    string secs = nextTimeCheck.Seconds.ToString();
+                    if (nextTimeCheck.Seconds < 10)
+                    {
+                        secs = "0" + secs;
+                    }
+                    @Html.Label("No; next check-up at:")
+                    <div class="btn btn-info btn-sm whiteText no-hover">
+                        @(hrs)h @(mins)m @(secs)s
                     </div>
                 }
             </td>
@@ -93,6 +129,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit Drone", "Edit", new { id = Model.DroneId }) |
-    @Html.ActionLink("Back to Drones List", "Index")
+    @Html.ActionLink("Edit Drone", "Edit", new { id = Model.DroneId }, new { @class = "btn btn-info btn-sm" }) |
+    @Html.ActionLink("Back to Drones List", "Index", null, new { @class = "btn btn-primary btn-sm" })
 </p>

@@ -51,6 +51,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Back to Flight Details", "Details", new { id = ViewBag.DroneFlightId }) |
-    @Html.ActionLink("Back to Drone Flights List", "Index")
+    @Html.ActionLink("Back to Flight Details", "Details", new { id = ViewBag.DroneFlightId }, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" })
 </p>

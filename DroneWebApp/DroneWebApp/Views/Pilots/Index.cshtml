@@ -62,9 +62,9 @@
                     @Html.ActionLink("PDF", "Export", "Files", new { id = item.PilotId, extension = "pdf", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.PilotId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.PilotId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.PilotId })
+                    @Html.ActionLink("Details", "Details", new { id = item.PilotId }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PilotId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PilotId }, new { @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
         }

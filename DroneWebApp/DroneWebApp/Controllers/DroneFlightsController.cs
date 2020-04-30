@@ -187,12 +187,12 @@ namespace DroneWebApp.Controllers
             DroneFlight droneFlight = db.DroneFlights.Find(id);
 
             // Calculate the flight time of this drone flight
-            TimeSpan totalTime = new TimeSpan(0, 0, 0);
+            TimeSpan totalTime = new TimeSpan(0, 0, 0, 0);
             if(droneFlight.hasDepInfo && droneFlight.hasDestInfo)
             {
                 totalTime = totalTime.Add(((TimeSpan)droneFlight.DestinationInfo.UTCTime).Subtract((TimeSpan)droneFlight.DepartureInfo.UTCTime));
                 // Update the threshold time for the drone that was assigned to this flight to account for this deletion
-                droneFlight.Drone.nextTimeCheck = droneFlight.Drone.nextTimeCheck.Subtract(totalTime);
+                droneFlight.Drone.nextTimeCheck = droneFlight.Drone.nextTimeCheck - (long)totalTime.TotalSeconds;
                 droneFlight.Drone.needsCheckUp = false; // Reset to false; Helper.UpdateTotalDroneFlightTime will re-evaluate whether or not this needs to stay false
             }
             // Remove this drone flight

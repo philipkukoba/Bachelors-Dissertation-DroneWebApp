@@ -236,8 +236,8 @@ else
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Drone Flights List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary" })
         </div>
     }
 </div>

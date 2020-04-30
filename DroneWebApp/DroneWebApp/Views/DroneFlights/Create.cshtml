@@ -102,14 +102,14 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="redBoldText">* required</div>
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to Drone Flights List", "Index")
+    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm whiteText" })
 </div>
 
 @section Scripts {
