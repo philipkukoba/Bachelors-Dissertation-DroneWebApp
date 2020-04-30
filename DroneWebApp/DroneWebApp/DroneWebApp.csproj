@@ -324,6 +324,7 @@
     <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
     <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
+    <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser - ADONET.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\RawImageParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />

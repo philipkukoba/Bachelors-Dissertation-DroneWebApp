@@ -5,15 +5,17 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
+using System.Linq;
+using System.Web;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
-	public class XYZParserADONET : IParser
+	public class DATParser___ADONET
 	{
 		private ConnectionStringSettings connStringSet;
-		private DbProviderFactory factory; 
+		private DbProviderFactory factory;
 
-		public XYZParserADONET()
+		public DATParser___ADONET()
 		{
 			connStringSet = ConfigurationManager.ConnectionStrings["DroneDB_ADONET"];
 			factory = DbProviderFactories.GetFactory(connStringSet.ProviderName);
@@ -31,11 +33,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// calculate the total amount of lines by going through the whole file once
 			int totalLines = Helper.Helper.CountFileLines(path);
 			System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
-			
+
 			// Parse
 			using (TextFieldParser parser = new TextFieldParser(path))
 			{
-				using (DbConnection connection = factory.CreateConnection()) 
+				using (DbConnection connection = factory.CreateConnection())
 				{
 					connection.ConnectionString = connStringSet.ConnectionString;
 					connection.Open();
@@ -48,7 +50,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					customCulture.NumberFormat.NumberDecimalSeparator = ".";
 					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-					#endregion 
+					#endregion
 
 					#region Create command
 					DbCommand command = connection.CreateCommand();
@@ -129,7 +131,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 								command.Parameters["@Green"].Value = splitLine[4];
 								command.Parameters["@Blue"].Value = splitLine[5];
 							}
-						
+
 							command.Parameters["@FlightId"].Value = droneFlight.FlightId;
 							#endregion
 
@@ -141,7 +143,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							{
 								Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
 							}
-							#endregion 
+							#endregion
 						}
 						catch (Exception ex)
 						{
@@ -152,8 +154,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					connection.Close(); //TODO not sure if needed
 				}
 			}
-			//Set hasXYZ to true
-			droneFlight.hasXYZ = true;
+			//Set hasDroneLog to true
+			droneFlight.hasDroneLog = true;
 			db.SaveChanges();
 
 			Helper.Helper.SetProgress(100);
