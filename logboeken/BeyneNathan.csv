@@ -92,3 +92,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 28/04/20,17:45,23:30,Extern,Code datcon proberen omzetten naar code eigen applicatie + Beginnen onderzoeken alternatieve oplossingen voor datparser + controle verplichte velden issue 157,26/157,
 29/04/20,12:00,13:30,Extern,IKVM.NET voor gebruik java code datcon in .NET beginnen bekijken,26,
 29/04/20,19:00,23:00,Extern,IKVM verder bekijken + alternatieve oplossing via command prompt uittesten in aparte applicatie,26,
+30/04/20,12:00,13:20,Extern,DatCon applicatie beginnen aanpassen voor gebruik via command prompt in eigen applicatie,26,
