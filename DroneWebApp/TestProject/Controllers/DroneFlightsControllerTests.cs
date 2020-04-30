@@ -123,7 +123,7 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Projects property so it returns the mocked DbSet
             mockContext.Setup(o => o.Projects).Returns(() => mockSetProjects.Object);
 
-            var result = controller.Create(1, 1) as ViewResult;
+            var result = controller.Create(1, 1, 1) as ViewResult;
             Assert.AreEqual("Create", result.ViewName);
         }
 
