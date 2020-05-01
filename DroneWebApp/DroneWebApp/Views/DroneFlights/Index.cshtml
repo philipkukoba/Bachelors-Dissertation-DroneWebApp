@@ -7,6 +7,13 @@
 <br />
 <h2 class="textAlignCenter">Drone Flights</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item active" aria-current="page"/>
+    </ol>
+</nav>
+
 <h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
 <hr />
 
@@ -54,8 +61,9 @@
                     @Html.DisplayFor(modelItem => item.Pilot.PilotName)
                 </td>
                 <td>
-                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })'>
-                        <img class="map_marker_image" />
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })' id="map_icon">
+                        <img src="~/Content/images/map_marker.png" class="img-size">
+                        <img src="~/Content/images/map_marker_hover.png" class="img-size">
                     </a>
                 </td>
                 <td>
@@ -135,8 +143,9 @@
                     }
                 </td>
                 <td>
-                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })'>
-                        <img class="map_marker_image"/>
+                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' id="upload_icon">
+                        <img src="~/Content/images/upload_icon.png" class="img-size">
+                        <img src="~/Content/images/upload_icon_hover.png" class="img-size">
                     </a>
                 </td>
                 <td>

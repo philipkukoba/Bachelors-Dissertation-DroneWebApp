@@ -8,6 +8,13 @@
 <br />
 <h2 class="textAlignCenter">Edit Drone Flight @Model.FlightId</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Drone Flight @Model.FlightId</li>
+    </ol>
+</nav>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

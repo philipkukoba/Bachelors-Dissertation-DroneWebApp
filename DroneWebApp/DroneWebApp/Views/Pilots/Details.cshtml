@@ -7,6 +7,13 @@
 <br />
 <h2 class="textAlignCenter">Pilot Details</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Pilots")">Pilots</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details @Model.PilotName</li>
+    </ol>
+</nav>
+
 <div>
     <h4><strong>@Model.PilotName</strong></h4>
     <div>
@@ -15,6 +22,9 @@
         @Html.ActionLink("PDF", "Export", "Files", new { id = @Model.PilotId, extension = "pdf", type = "pilot" }, new { @class = "btn btn-info btn-sm", style = "color: white" })
     </div>
     <hr />
+    <p class="textAlignCenter">
+        <strong>Information</strong>
+    </p>
     <table class="table table-bordered table-hover table-striped fixedTableLayout">
         <tr>
             <th>
@@ -118,5 +128,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit Pilot", "Edit", new { id = Model.PilotId }, new { @class = "btn btn-info btn-sm" }) |
-    @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.PilotId }, new { @class = "btn btn-danger btn-sm" })
 </p>

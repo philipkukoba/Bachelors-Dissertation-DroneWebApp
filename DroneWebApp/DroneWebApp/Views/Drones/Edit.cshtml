@@ -5,8 +5,14 @@
 }
 
 <br />
-<h2>Edit Drone</h2>
+<h2 class="textAlignCenter">Edit Drone</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Drones")">Drones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit @Model.DroneName</li>
+    </ol>
+</nav>
 
 @using (Html.BeginForm())
 {
