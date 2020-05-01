@@ -69,3 +69,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 30/04/20,17:45,20:05,Extern,re-design webpages + css styling,140,
 01/05/20,12:00,12:35,Extern,Debugging css & Location is now set to TBD instead of blank location is the user does not provide one during drone flight creation,140,
 01/05/20,12:55,15:35,Extern,Fixed css for images & hover upload and map + Complete overhaul of all cshtml pages,140/179,
+01/05/20,15:40,18:05,Extern, Breadcrumbing / Notes veld toegevoegd voor een Drone / Drone Flights hebben nu ook een starttijd / layout fixes / css fixes / alle styles uit html / debugging van cshtml pages / script update,140/179/180/181, 
