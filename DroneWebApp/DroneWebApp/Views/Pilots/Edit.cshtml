@@ -5,8 +5,14 @@
 }
 
 <br />
-<h2>Edit Pilot</h2>
+<h2 class="textAlignCenter">Edit Pilot</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Pilots")">Pilots</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit @Model.PilotName</li>
+    </ol>
+</nav>
 
 @using (Html.BeginForm())
 {

@@ -26,6 +26,31 @@ $(document).ready(function () {
     });
 });
 
+// Drones table
+$(document).ready(function () {
+    $('#dtable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [5, 6],
+                "searchable": false, "targets": [5, 6]
+            }
+        ]
+    });
+});
+
+// Pilots table
+$(document).ready(function () {
+    $('#ptable').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [4, 5],
+                "searchable": false, "targets": [4, 5]
+            }
+        ]
+    });
+});
+
+
 // Pilot's Drone Flights table
 $(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
@@ -63,30 +88,6 @@ $(document).ready(function () {
             {
                 "orderable": false, "targets": [-4, 5, 6, 7],
                 "searchable": false, "targets": [-4, 5, 6, 7]
-            }
-        ]
-    });
-});
-
-// Drones table
-$(document).ready(function () {
-    $('#dtable').dataTable({
-        "columnDefs": [
-            {
-                "orderable": false, "targets": [5, 6],
-                "searchable": false, "targets": [5, 6]
-            }
-        ]
-    });
-});
-
-// Pilots table
-$(document).ready(function () {
-    $('#ptable').dataTable({
-        "columnDefs": [
-            {
-                "orderable": false, "targets": [6, 7],
-                "searchable": false, "targets": [6, 7]
             }
         ]
     });

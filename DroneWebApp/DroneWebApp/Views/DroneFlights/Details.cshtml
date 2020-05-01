@@ -5,14 +5,26 @@
 }
 
 <br />
-<h2 class = "textAlignCenter">Drone Flight Details</h2>
+<h2 class="textAlignCenter">Drone Flight Details</h2>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details Drone Flight @Model.FlightId</li>
+    </ol>
+</nav>
 
 <div>
-    <h4>Drone Flight @Model.FlightId</h4>
+    <h4><strong>Drone Flight @Model.FlightId</strong></h4>
     <hr />
     <p>
-        @Html.ActionLink("Upload File", "Index", "Files", new { id = @Model.FlightId }, new { @class = "btn btn-info btn-sm whiteText" })
-        @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = @Model.FlightId }, new { @class = "btn btn-primary btn-sm whiteText" })
+    </p>
+    <p class="textAlignCenter">
+        <strong>Information</strong>
+        <a href='@Url.Action("ViewMap", "Map", new { id = @Model.FlightId })' id="map_icon">
+            <img src="~/Content/images/map_marker.png" alt="Go to map" class="img-size">
+            <img src="~/Content/images/map_marker_hover.png" alt="Go to map" class="img-size">
+        </a>
     </p>
     <table class="table table-bordered table-hover table-striped fixedTableLayout textAlignTD">
         <tr>
@@ -96,13 +108,48 @@
 
         <tr>
             <th>
+                @Html.DisplayName("Other")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Other)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Simulator")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Simulator)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Instructor")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Instructor)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
                 @Html.DisplayName("Remarks")
             </th>
             <td>
                 @Html.DisplayFor(model => model.Remarks)
             </td>
         </tr>
-
+    </table>
+    <p class="textAlignCenter">
+        <strong>Documents</strong>
+        <a href='@Url.Action("Index", "Files", new { id = @Model.FlightId })' id="upload_icon">
+            <img src="~/Content/images/upload_icon.png" class="img-size">
+            <img src="~/Content/images/upload_icon_hover.png" class="img-size">
+        </a>
+    </p>
+    <table class="table table-bordered table-hover table-striped fixedTableLayout textAlignTD">
         <tr>
             <th>
                 Quality Report
@@ -234,5 +281,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-info btn-sm" }) |
-    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.FlightId }, new { @class = "btn btn-danger btn-sm" })
 </p>

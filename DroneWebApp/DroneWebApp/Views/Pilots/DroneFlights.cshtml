@@ -36,11 +36,6 @@
         {
             <tr>
                 <td>
-                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })'>
-                        <img class="upload" />
-                    </a>
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Project.ProjectCode)
                 </td>
                 <td>
@@ -51,6 +46,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Drone.DroneName)
+                </td>
+                <td>
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })' id="map_icon">
+                        <img src="~/Content/images/map_marker.png" class="img-size">
+                        <img src="~/Content/images/map_marker_hover.png" class="img-size">
+                    </a>
                 </td>
                 <td>
                     @if (!item.hasQR)
@@ -129,8 +130,9 @@
                     }
                 </td>
                 <td>
-                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })'>
-                        <img class="map_marker"/>
+                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' id="upload_icon">
+                        <img src="~/Content/images/upload_icon.png" class="img-size">
+                        <img src="~/Content/images/upload_icon_hover.png" class="img-size">
                     </a>
                 </td>
                 <td>
@@ -143,6 +145,6 @@
     </tbody>
 </table>
 <p>
-    @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
     @Html.ActionLink("Back to Pilot Details", "Details", new { id = @ViewBag.PilotId }, new { @class = "btn btn-primary btn-sm" })
 </p>
