@@ -25,7 +25,7 @@
     @Html.HiddenFor(model => model.DroneId)
 
     <div class="form-group">
-        <label class="control-label col-md-2">DroneType<span class="redBoldText">*</span></label>
+        <label class="control-label col-md-2">DroneType<span class="redBrightText">*</span></label>
         <div class="col-md-10">
             @Html.EditorFor(model => model.DroneType, new { htmlAttributes = new { @class = "form-control", required = "true" } })
             @Html.ValidationMessageFor(model => model.DroneType, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Registration<span class="redBoldText">*</span></label>
+        <label class="control-label col-md-2">Registration<span class="redBrightText">*</span></label>
         <div class="col-md-10">
             @Html.EditorFor(model => model.Registration, new { htmlAttributes = new { @class = "form-control", required = "true" } })
             @Html.ValidationMessageFor(model => model.Registration, "", new { @class = "text-danger" })
@@ -58,8 +58,16 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Notes, new { @class = "notesSize", maxlength = 1000 } )
+            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <div class="redBoldText">* required</div>
+            <div class="redBrightText">* required</div>
             <input type="submit" value="Save" class="btn btn-success" />
         </div>
     </div>

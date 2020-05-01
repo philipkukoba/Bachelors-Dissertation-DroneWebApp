@@ -58,7 +58,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName")] Drone drone)
+        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName, Notes")] Drone drone)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp, Notes")] Drone drone)
         {
             if (ModelState.IsValid)
             {
@@ -133,6 +133,7 @@ namespace DroneWebApp.Controllers
                 dr.needsCheckUp = postedDrone.needsCheckUp;
                 dr.nextTimeCheck = (long)dr.TotalFlightTime + (long)thresholdTime.TotalSeconds; // calculate the new next time check
             }
+            dr.Notes = postedDrone.Notes;
         }
 
         // GET: Drones/Delete/5

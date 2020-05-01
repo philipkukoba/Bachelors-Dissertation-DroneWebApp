@@ -1,12 +1,13 @@
-﻿.redBoldText {
-    color: #a94442;
+﻿.redBrightText {
+    color: red;
     font-weight: bold;
+    font-size: 14px;
 }
-
-.redBrightText {
+.deletionText {
     color: red;
     font-weight: bold;
 }
+
 
 .whiteText {
     color: white;
@@ -67,9 +68,23 @@ a:hover img:first-child {
     height: 40px;
 }
 
+.img-size-2 {
+    width: 50px;
+    height: 50px;
+}
+
+.notesSize {
+    width: 450px;
+    height: 400px;
+}
+
+.notesSize-pointer {
+    width: 450px;
+    height: 400px;
+    cursor: default
+}
 
 /*Custom label sizes */
-
 .label-xsmall {
     vertical-align: super;
     font-size: x-small;

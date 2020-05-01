@@ -42,7 +42,14 @@
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    @item.Date.ToString("dd/MM/yyyy")
+                    @{
+                        string str = "NA.";
+                        if (@item.Date != null)
+                        {
+                            str = ((DateTime)@item.Date).ToString("dd/MM/yyyy");
+                        }
+                    }
+                    @str
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Drone.DroneName)

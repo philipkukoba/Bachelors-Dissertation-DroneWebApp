@@ -29,7 +29,7 @@ namespace DroneWebApp.Models
         public int ProjectId { get; set; }
         public int PilotId { get; set; }
         public string Location { get; set; }
-        public System.DateTime Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public bool hasTFW { get; set; }
         public bool hasGCPs { get; set; }
         public bool hasCTRLs { get; set; }

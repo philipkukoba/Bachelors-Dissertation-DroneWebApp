@@ -49,7 +49,12 @@ namespace DroneWebApp.Controllers
             DroneFlight droneFlight = Db.DroneFlights.Find((int) id);
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
-            ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
+            string date = "NA";
+            if (droneFlight.Date != null)
+            {
+                date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
+            }
+            ViewBag.Date = date;
             return View();
         }
 

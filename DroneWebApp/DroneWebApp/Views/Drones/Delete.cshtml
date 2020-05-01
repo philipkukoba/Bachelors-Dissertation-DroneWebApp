@@ -5,7 +5,7 @@
 }
 
 <br />
-<h2>Delete drone: <span class='redBrightText'>@Model.DroneName</span></h2>
+<h2>Delete drone: <span class='deletionText'>@Model.DroneName</span></h2>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -75,6 +75,15 @@ else
                 </th>
                 <td>
                     @Html.DisplayFor(model => model.DroneType)
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <td>
+                    @Html.TextAreaFor(model => model.Notes, new { @class = "notesSize-pointer", @readonly = "readonly" })
                 </td>
             </tr>
         </table>

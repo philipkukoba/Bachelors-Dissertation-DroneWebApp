@@ -5,7 +5,18 @@
 }
 
 <br />
-<h2>Delete Flight: <span class='redBrightText'>@Model.FlightId (@Model.Location, @Model.Date.ToString("dd/MM/yyyy"))</span></h2>
+@{
+    string str;
+    if(@Model.Date == null)
+    {
+        str = "NA";
+    }
+    else
+    {
+        str = ((DateTime)@Model.Date).ToString("dd/MM/yyyy, HH:mm:ss");
+    }
+}
+<h2>Delete Flight: <span class='deletionText'>@Model.FlightId (@Model.Location, @str)</span></h2>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -64,7 +75,7 @@ else
             </th>
 
             <td>
-                @Model.Date.ToString("dd/MM/yyyy")
+                @str
             </td>
         </tr>
 
@@ -116,6 +127,33 @@ else
             </th>
             <td>
                 @Html.DisplayFor(model => model.TypeOfActivity)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Other")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Other)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Simulator")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Simulator)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayName("Instructor")
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Instructor)
             </td>
         </tr>
 
