@@ -45,26 +45,26 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
     border-bottom-width: 0px;
 }
 
-img.upload {
-    background: url(/Content/images/upload_icon.png);
+img.upload_image {
+    background-image: url(images/upload_icon.png);
     width: 40px;
     height: 40px;
 }
 
-img.upload:hover {
-    background-image: url(/Content/images/upload_icon_hover.png);
+img.upload_image:hover {
+    background-image: url(images/upload_icon_hover.png);
     width: 40px;
     height: 40px;
 }
 
-img.map_marker {
-    background-image: url(/Content/images/map_marker.png);
+img.map_marker_image {
+    background-image: url(images/map_marker.png);
     width: 30px;
     height: 35px;
 }
 
-img.map_marker:hover {
-    background-image: url(/Content/images/map_marker_hover.png);
+img.map_marker_image:hover {
+    background-image: url(images/map_marker_hover.png); /* url(/Content/images/map_marker_hover.png);*/
     width: 30px;
     height: 35px;
 }

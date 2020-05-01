@@ -437,7 +437,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             startLong = (double) droneGPS.Long;
                             startLat = (double) droneGPS.Lat;
                             firstRead = true;
-                            if (droneFlight.Location.IsEmpty())
+                            if (droneFlight.Location == "TBD") // TBD = to be determined; indicates no location was set during creation of flight
                             {
                                 try
                                 {
@@ -445,7 +445,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                                 }
                                 catch(NullReferenceException)
                                 {
-                                    droneFlight.Location = "NA.";
+                                    droneFlight.Location = "NA"; // NA = Not Available; indicates the user will have to set it themselves
                                 }
                             }
                         }

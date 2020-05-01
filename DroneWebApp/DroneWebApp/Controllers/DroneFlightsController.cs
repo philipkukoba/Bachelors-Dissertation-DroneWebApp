@@ -89,6 +89,10 @@ namespace DroneWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrWhiteSpace(droneFlight.Location))
+                {
+                    droneFlight.Location = "TBD"; // TBD = to be determined; indicates no location was set during creation of flight
+                }
                 db.DroneFlights.Add(droneFlight);
                 db.SaveChanges();
                 return RedirectToAction("Index");
