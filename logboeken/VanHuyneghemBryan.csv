@@ -68,3 +68,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 30/04/20,13:20,17:45,Contacturen,TimeSpan bug fix + fixed crash bug on create & edit + fixed drone name bug after edit + css styling,140/157/175/178,
 30/04/20,17:45,20:05,Extern,re-design webpages + css styling,140,
 01/05/20,12:00,12:35,Extern,Debugging css & Location is now set to TBD instead of blank location is the user does not provide one during drone flight creation,140,
+01/05/20,12:55,15:35,Extern,Fixed css for images & hover upload and map + Complete overhaul of all cshtml pages,140/179,
