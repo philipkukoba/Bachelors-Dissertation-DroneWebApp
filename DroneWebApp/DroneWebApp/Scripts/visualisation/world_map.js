@@ -13,8 +13,7 @@
     "esri/widgets/Feature"
 ], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, AreaMeasurement2D, Feature) {
 
-    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key 
-
+    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key
 
     //#region Basic setup: Map and View
 
@@ -592,12 +591,6 @@
 
 
 
-    $(document).ready(function () {
-        $('.thumbnail-enlarge').magnificPopup({ type: 'image' });
-    });
-
-
-
     let convertDegreesToDouble = (coordsDMS) => {
         console.log("coordsDMS: " + coordsDMS);
         let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
@@ -654,15 +647,15 @@
                 {
                     name: "FlightID",
                     type: "integer"
-                    },
-                    {
-                        name: "url",
-                        type: "string"
-                    },
-                    {
-                        name: "thumbnailURL",
-                        type: "string"
-                    }
+                },
+                {
+                    name: "url",
+                    type: "string"
+                },
+                {
+                    name: "thumbnailURL",
+                    type: "string"
+                }
                 ],
                 popupTemplate: {
                     title: "Raw Image Taken",
@@ -813,6 +806,26 @@
 
         }
     });
+    //#endregion 
+
+
+    //#region FANCY POPUP for IMAGES
+
+    $(document).ready(function () {
+        $(document).on('click', '.thumbnail-enlarge', function (e) {
+            e.preventDefault();
+            console.log('Hello ' + $(this).attr('src'));
+            $.magnificPopup.open({ type: 'image', items: { src: $(this).attr('href') } });
+            return false;
+        });
+        $('.screenshot-button').show().click(function () {
+            html2canvas(document.body).then(function (canvas) {
+                document.body.appendChild(canvas);
+            });
+        });
+
+    });
+
     //#endregion 
 
 });
