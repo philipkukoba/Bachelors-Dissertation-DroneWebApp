@@ -391,7 +391,7 @@ namespace DroneWebApp.Controllers.Tests
                     DroneType = "type" + i,
                     Registration = "registration",
                     DroneName = "Phantom" + i,
-                    TotalFlightTime = new TimeSpan(0, 0, 0)
+                    TotalFlightTime = 0
                 };
 
                 for (int j=1; j<=10; j++)
