@@ -123,7 +123,7 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Projects property so it returns the mocked DbSet
             mockContext.Setup(o => o.Projects).Returns(() => mockSetProjects.Object);
 
-            var result = controller.Create(1, 1) as ViewResult;
+            var result = controller.Create(1, 1, 1) as ViewResult;
             Assert.AreEqual("Create", result.ViewName);
         }
 
@@ -278,7 +278,7 @@ namespace DroneWebApp.Controllers.Tests
 
             var result = controller.Edit(flights[3]) as RedirectToRouteResult;
 
-            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(11)); // SaveChanges is called in the controller method and in the Helper class
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(21)); // SaveChanges is called once in the controller method and 2 times per drone in the Helper class
             //Assert.AreEqual(EntityState.Modified, mockContext.Object.Entry(flights[3]).State);
             Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
@@ -355,7 +355,7 @@ namespace DroneWebApp.Controllers.Tests
 
             mockContext.Verify(x => x.DroneFlights.Find(3), Times.Once);
             mockContext.Verify(x => x.DroneFlights.Remove(It.IsAny<DroneFlight>()), Times.Once);
-            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(11)); // SaveChanges is called in the controller method and in the Helper class
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(21)); // SaveChanges is called once in the controller method and 2 times per drone in the Helper class
             Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
 
@@ -392,7 +392,7 @@ namespace DroneWebApp.Controllers.Tests
 
             mockContext.Verify(x => x.DroneFlights.Find(3), Times.Once);
             mockContext.Verify(x => x.DroneFlights.Remove(It.IsAny<DroneFlight>()), Times.Once);
-            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(11)); // SaveChanges is called in the controller method and in the Helper class
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(21)); // SaveChanges is called once in the controller method and 2 times per drone in the Helper class
             Assert.AreEqual(9, flights.Count);
             Assert.IsFalse(flights.Any(d => d.DroneId == 3));
         }

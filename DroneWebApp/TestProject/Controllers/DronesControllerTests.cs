@@ -223,6 +223,8 @@ namespace DroneWebApp.Controllers.Tests
             var mockSet = CreateMockSet(drones);
             // Set up the Drones property so it returns the mocked DbSet
             mockContext.Setup(o => o.Drones).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            mockContext.Setup(c => c.Drones.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
 
             var result = controller.Edit(drones[3]) as RedirectToRouteResult;
 
@@ -321,6 +323,50 @@ namespace DroneWebApp.Controllers.Tests
             Assert.IsFalse(drones.Any(d => d.DroneId == 3));
         }
 
+        [TestMethod()]
+        public void DroneFlights_ActionExecutes_ReturnsViewForDroneFlights()
+        {
+            // Create mock context
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            DronesController controller = new DronesController(mockContext.Object);
+
+            // Create a mock DbSet
+            List<Drone> drones = GetDrones();
+            var mockSet = CreateMockSet(drones);
+            // Set up the Drones property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Drones).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
+
+            var result = controller.DroneFlights(3) as ViewResult;
+            Assert.AreEqual("DroneFlights", result.ViewName);
+        }
+
+        [TestMethod()]
+        public void DroneFlights_ViewData()
+        {
+            // Create mock context
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            DronesController controller = new DronesController(mockContext.Object);
+
+            // Create a mock DbSet
+            List<Drone> drones = GetDrones();
+            var mockSet = CreateMockSet(drones);
+            // Set up the Drones property so it returns the mocked DbSet
+            mockContext.Setup(o => o.Drones).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
+
+            var result = controller.DroneFlights(3) as ViewResult;
+            List<DroneFlight> flights = (List<DroneFlight>)result.Model;
+            List<DroneFlight> generated = drones[2].DroneFlights.ToList();
+
+            for (int i = 0; i < flights.Count; i++)
+            {
+                Assert.AreEqual(true, DroneFlightEquals(generated[i], flights[i]));
+            }
+        }
+
         private List<Drone> GetDrones()
         {
             List<Drone> drones = new List<Drone>();
@@ -344,7 +390,8 @@ namespace DroneWebApp.Controllers.Tests
                     DroneId = i,
                     DroneType = "type" + i,
                     Registration = "registration",
-                    DroneName = "Phantom" + i
+                    DroneName = "Phantom" + i,
+                    TotalFlightTime = new TimeSpan(0, 0, 0)
                 };
 
                 for (int j=1; j<=10; j++)
@@ -387,6 +434,34 @@ namespace DroneWebApp.Controllers.Tests
             {
                 return false;
             }
+            return true;
+        }
+
+        private bool DroneFlightEquals(DroneFlight df1, DroneFlight df2)
+        {
+            if (df1.FlightId != df2.FlightId)
+            {
+                return false;
+            }
+            if (df1.ProjectId != df2.ProjectId)
+            {
+                return false;
+            }
+            if (df1.PilotId != df2.PilotId)
+            {
+                return false;
+            }
+            if (df1.DroneId != df2.DroneId)
+            {
+                return false;
+            }
+            /*
+            if (df1.Date != df2.Date)
+            {
+                return false;
+            }
+            */
+
             return true;
         }
 

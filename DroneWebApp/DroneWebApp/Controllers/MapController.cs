@@ -34,7 +34,7 @@ namespace DroneWebApp.Controllers
             }
             else if (id == 0)
             {
-                return View();
+                return View("ViewMap");
             }
             else
             {
@@ -47,7 +47,7 @@ namespace DroneWebApp.Controllers
                 }
                 ViewBag.id = id;
             }
-            return View(db.DroneFlights.ToList());
+            return View("ViewMap", db.DroneFlights.ToList());
         }
 
 

@@ -49,7 +49,7 @@ namespace DroneWebApp.Controllers
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -116,7 +116,7 @@ namespace DroneWebApp.Controllers
 
                 filesLeft--;
             }
-            return View();
+            return View("Index");
         }
 
         public ActionResult Export(int? id, string extension, string type)

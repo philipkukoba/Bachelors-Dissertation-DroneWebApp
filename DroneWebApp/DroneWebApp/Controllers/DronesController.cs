@@ -192,7 +192,7 @@ namespace DroneWebApp.Controllers
             }
             ViewBag.DroneName = drone.DroneName;
             ViewBag.DroneId = id;
-            return View(drone.DroneFlights.ToList());
+            return View("DroneFlights", drone.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)
