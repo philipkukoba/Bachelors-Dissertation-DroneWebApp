@@ -18,9 +18,11 @@ namespace DroneWebApp.Models.Helper
         {
             System.Diagnostics.Debug.WriteLine("In UpdateTotalDroneFlightTime");
             List<Drone> drones = db.Drones.ToList();
+            // Calculate the total flight time for each drone
             foreach(Drone d in drones)
             {
-                TimeSpan totalTime = new TimeSpan(0, 0, 0);
+                TimeSpan totalTime = new TimeSpan(2, 2, 0, 0);
+                // Sum the drone's drone flights' times
                 foreach (DroneFlight df in d.DroneFlights)
                 {
                     if (df != null && df.hasDroneLog)
@@ -28,13 +30,14 @@ namespace DroneWebApp.Models.Helper
                         totalTime = totalTime.Add(((TimeSpan)df.DestinationInfo.UTCTime).Subtract((TimeSpan)df.DepartureInfo.UTCTime));
                     }
                 }
-                d.TotalFlightTime = totalTime;
+                d.TotalFlightTime = (long)totalTime.TotalSeconds;
                 db.SaveChanges();
                 // check if the drone needs a check up
                 if (!d.needsCheckUp)
                 {
-                    // if the total flight time is not 0 (0h0m0s) and the total travelled time is greater than or equal to the next time check
-                    if(((totalTime.Hours != 0) && (totalTime.Minutes != 0) && (totalTime.Seconds !=0)) && (totalTime.Minutes >= d.nextTimeCheck.Minutes)) // ToDo: Minutes -> Hours
+                    // if the total flight time is not 0 ticks (0d0h0m0s) 
+                    // and the total travelled time (in ticks) is greater than or equal to the next time check (in ticks)
+                    if ((totalTime.TotalSeconds != 0) && (totalTime.TotalSeconds >= d.nextTimeCheck))
                     {
                         d.needsCheckUp = true; // drone needs a check-up
                     }

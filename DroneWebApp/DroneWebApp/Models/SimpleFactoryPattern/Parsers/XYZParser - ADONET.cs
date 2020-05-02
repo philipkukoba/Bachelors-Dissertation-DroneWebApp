@@ -10,152 +10,151 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 {
 	public class XYZParserADONET : IParser
 	{
+		private ConnectionStringSettings connStringSet;
+		private DbProviderFactory factory; 
+
+		public XYZParserADONET()
+		{
+			connStringSet = ConfigurationManager.ConnectionStrings["DroneDB_ADONET"];
+			factory = DbProviderFactories.GetFactory(connStringSet.ProviderName);
+		}
+
 		public bool Parse(string path, int flightId, DroneDBEntities db)
 		{
 			// Get the approriate DroneFlight that goes with this data
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-			PointCloudXYZ pointCloudXYZ;
 
 			// Do not parse a new file, if this flight already has an XYZ file
-			if (droneFlight.hasXYZ) return false; 
+			if (droneFlight.hasXYZ) return false;
 
 			// calculate the total amount of lines by going through the whole file once
 			int totalLines = Helper.Helper.CountFileLines(path);
 			System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
-
-			//get a connection
-			ConnectionStringSettings connStringSet = ConfigurationManager.ConnectionStrings["DroneDB_ADONET"]; 
-
-			//factory voor provider aanmaken 
-			DbProviderFactory factory = DbProviderFactories.GetFactory(connStringSet.ProviderName);
-
-			//create connection
-			DbConnection connection = factory.CreateConnection();
-			connection.ConnectionString = connStringSet.ConnectionString;
-
 			
-			connection.Open();
 			// Parse
-			using (TextFieldParser parser = new TextFieldParser(path)) //TODO: using updaten met connection en transaction ??? 
+			using (TextFieldParser parser = new TextFieldParser(path))
 			{
-				int lineNo = 0;
-				string[] splitLine;
-
-				// Read data
-				while (!parser.EndOfData)
+				using (DbConnection connection = factory.CreateConnection()) 
 				{
-					try
+					connection.ConnectionString = connStringSet.ConnectionString;
+					connection.Open();
+
+					int lineNo = 0; //used for progress
+					string[] splitLine; //the line to be read
+
+					#region Set culture to ensure decimal point
+					CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+					customCulture.NumberFormat.NumberDecimalSeparator = ".";
+					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+					#endregion 
+
+					#region Create command
+					DbCommand command = connection.CreateCommand();
+					command.Connection = connection;
+					command.CommandText = "insert into PointCloudXYZ " +
+						"(X, Y, Z, Red, Green, Blue, Intensity, FlightId)" +
+						"VALUES (@X, @Y, @Z, @Red, @Green, @Blue, @Intensity, @FlightId)";
+					#endregion
+
+					#region Create parameters
+					DbParameter param = factory.CreateParameter();
+					param.ParameterName = "@X";
+					param.DbType = DbType.Double;
+					command.Parameters.Add(param);
+
+					DbParameter param2 = factory.CreateParameter();
+					param2.ParameterName = "@Y";
+					param2.DbType = DbType.Double;
+					command.Parameters.Add(param2);
+
+					DbParameter param3 = factory.CreateParameter();
+					param3.ParameterName = "@Z";
+					param3.DbType = DbType.Double;
+					command.Parameters.Add(param3);
+
+					DbParameter param4 = factory.CreateParameter();
+					param4.ParameterName = "@Red";
+					param4.DbType = DbType.Int16;
+					command.Parameters.Add(param4);
+
+					DbParameter param5 = factory.CreateParameter();
+					param5.ParameterName = "@Green";
+					param5.DbType = DbType.Int16;
+					command.Parameters.Add(param5);
+
+					DbParameter param6 = factory.CreateParameter();
+					param6.ParameterName = "@Blue";
+					param6.DbType = DbType.Int16;
+					command.Parameters.Add(param6);
+
+					DbParameter param7 = factory.CreateParameter();
+					param7.ParameterName = "@Intensity";
+					param7.DbType = DbType.Double;
+					command.Parameters.Add(param7);
+
+					DbParameter param8 = factory.CreateParameter();
+					param8.ParameterName = "@FlightId";
+					param8.DbType = DbType.Int64;
+					command.Parameters.Add(param8);
+
+					#endregion
+
+					// Read data
+					while (!parser.EndOfData)
 					{
-						splitLine = parser.ReadLine().Split(' ');
-
-						////new row
-						//oneRow = dataTable.NewRow();
-
-						////fill row
-						////oneRow["PointCloudXYZId"] = null;      // ID Field, is this generated? 
-						//oneRow["X"] = splitLine[0];
-						//oneRow["Y"] = splitLine[1];
-						//oneRow["Z"] = splitLine[2];
-						//oneRow["Red"] = splitLine[3];
-						//oneRow["Green"] = splitLine[4];
-						//oneRow["Blue"] = splitLine[5];
-
-						//if (splitLine.Length == 7)     //not sure if needs to be checked
-						//	oneRow["Intensity"] = splitLine[6];
-						//else oneRow["Intensity"] = null; 
-						
-						//oneRow["FlightId"] = droneFlight.FlightId;
-
-						////add row
-						//dataTable.Rows.Add(oneRow);
-
-						DbCommand command = connection.CreateCommand();
-						command.Connection = connection;
-						command.CommandText = "insert into PointCloudXYZ " +
-							"(X, Y, Z, Red, Green, Blue, Intensity, FlightId)" +
-							//"VALUES (@PointCloudXYZId, @X, @Y, @Z, @Red, @Green, @Blue, @Intensity, @FlightId)";
-							"VALUES (@X, @Y, @Z, @Red, @Green, @Blue, @Intensity, @FlightId)";
-
-						#region Create parameters
-						DbParameter param = factory.CreateParameter();
-						param.ParameterName = "@X";
-						param.DbType = DbType.Double;
-						command.Parameters.Add(param);
-
-						DbParameter param2 = factory.CreateParameter();
-						param2.ParameterName = "@Y";
-						param2.DbType = DbType.Double;
-						command.Parameters.Add(param2);
-
-						DbParameter param3 = factory.CreateParameter();
-						param3.ParameterName = "@Z";
-						param3.DbType = DbType.Double;
-						command.Parameters.Add(param3);
-
-						DbParameter param4 = factory.CreateParameter();
-						param4.ParameterName = "@Red";
-						param4.DbType = DbType.Int64;
-						command.Parameters.Add(param4);
-
-						DbParameter param5 = factory.CreateParameter();
-						param5.ParameterName = "@Green";
-						param5.DbType = DbType.Int64;
-						command.Parameters.Add(param5);
-
-						DbParameter param6 = factory.CreateParameter();
-						param6.ParameterName = "@Blue";
-						param6.DbType = DbType.Int64;
-						command.Parameters.Add(param6);
-
-						DbParameter param7 = factory.CreateParameter();
-						param7.ParameterName = "@Intensity";
-						param7.DbType = DbType.Double;
-						command.Parameters.Add(param7);
-
-						DbParameter param8 = factory.CreateParameter();
-						param8.ParameterName = "@FlightId";
-						param8.DbType = DbType.Int64;
-						command.Parameters.Add(param8);
-
-						#endregion
-
-						//set parameters
-						//command.Parameters["@PointCloudXYZId"].Value = 1; //?? auto generated door sql server
-						command.Parameters["@X"].Value = splitLine[0];
-						command.Parameters["@Y"].Value = splitLine[1];
-						command.Parameters["@Z"].Value = splitLine[2];
-						command.Parameters["@Red"].Value = splitLine[3];
-						command.Parameters["@Green"].Value = splitLine[4];
-						command.Parameters["@Blue"].Value = splitLine[5];
-						if (splitLine.Length == 7)
-							command.Parameters["@Intensity"].Value = splitLine[6];
-						else 
-							command.Parameters["@Intensity"].Value = 0;  //TODO: fix: should be NULL
-						command.Parameters["@FlightId"].Value = droneFlight.FlightId;
-
-						command.ExecuteNonQuery();
-
-						//Set hasXYZ to true
-						droneFlight.hasXYZ = true;
-
-						//progressbar
-						lineNo++;
-						if ((lineNo % 10) == 0)
+						try
 						{
-							Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
-						}
+							splitLine = parser.ReadLine().Split(' ');
 
+							#region set parameters
+							command.Parameters["@X"].Value = double.Parse(splitLine[0], customCulture);
+							command.Parameters["@Y"].Value = double.Parse(splitLine[1], customCulture);
+							command.Parameters["@Z"].Value = double.Parse(splitLine[2], customCulture);
+
+							if (splitLine.Length == 7)
+							{
+								command.Parameters["@Intensity"].Value = double.Parse(splitLine[3], customCulture);
+
+								command.Parameters["@Red"].Value = splitLine[4];
+								command.Parameters["@Green"].Value = splitLine[5];
+								command.Parameters["@Blue"].Value = splitLine[6];
+							}
+							else //splitline length 6 
+							{
+								command.Parameters["@Intensity"].Value = DBNull.Value;
+
+								command.Parameters["@Red"].Value = splitLine[3];
+								command.Parameters["@Green"].Value = splitLine[4];
+								command.Parameters["@Blue"].Value = splitLine[5];
+							}
+						
+							command.Parameters["@FlightId"].Value = droneFlight.FlightId;
+							#endregion
+
+							command.ExecuteNonQuery(); //execute
+
+							#region progressbar
+							lineNo++;
+							if ((lineNo % 10) == 0)
+							{
+								Helper.Helper.SetProgress((lineNo / (double)totalLines) * 100);
+							}
+							#endregion 
+						}
+						catch (Exception ex)
+						{
+							//TODO rollback? (kan enkel met transaction)
+							System.Diagnostics.Debug.WriteLine(ex);
+							return false; 
+						}
 					}
-					catch (Exception ex) { 
-						//TODO rollback? (kan enkel met transaction)
-						System.Diagnostics.Debug.WriteLine(ex);
-					}
+					connection.Close(); //TODO not sure if needed
 				}
 			}
+			//Set hasXYZ to true
+			droneFlight.hasXYZ = true;
+			db.SaveChanges();
 
-			//commit datatable??
-
-			connection.Close();
 			Helper.Helper.SetProgress(100);
 			return true;
 		}

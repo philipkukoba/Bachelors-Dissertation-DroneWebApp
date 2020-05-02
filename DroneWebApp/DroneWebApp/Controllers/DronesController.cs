@@ -15,8 +15,8 @@ namespace DroneWebApp.Controllers
     public class DronesController : Controller
     {
         private DroneDBEntities db;
-        private static TimeSpan thresholdTime = new TimeSpan(0, 5, 0); // The amount of time after which a drone has to be checked to verify it is safe to fly
-                                                                       // ToDo: change 5 minutes into 50 hours and correctly do calculations above 24 hours (with days in TimeSpan perhaps)              
+        // thresholdTime is the amount of time after which a drone has to be checked to verify it is safe to fly, from its last check-up (or from 0 flight time)   
+        private static TimeSpan thresholdTime = new TimeSpan(2, 2, 0, 0); // 2*24 + 2 = 50h
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
@@ -58,7 +58,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName")] Drone drone)
+        public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName, Notes")] Drone drone)
         {
             if (ModelState.IsValid)
             {
@@ -66,10 +66,11 @@ namespace DroneWebApp.Controllers
                 {
                     drone.DroneName = drone.DroneType + ":" + drone.Registration;
                 }
-                drone.TotalFlightTime = new TimeSpan(0, 0, 0);
-                drone.needsCheckUp = false;
-                drone.nextTimeCheck = thresholdTime;
+                drone.TotalFlightTime = 0; // no time flown yet
+                drone.needsCheckUp = false; // does not yet need a check-up
 
+                drone.nextTimeCheck = (long) thresholdTime.TotalSeconds; // Save the next time check as total amount of ticks (bigint in database, long in application).
+                                                           // This is because SQL Server cannot store times > 24 hours; solution: store time as seconds
                 db.Drones.Add(drone);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -102,7 +103,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp")] Drone drone)
+        public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp, Notes")] Drone drone)
         {
             if (ModelState.IsValid)
             {
@@ -123,12 +124,16 @@ namespace DroneWebApp.Controllers
         {
             dr.Registration = postedDrone.Registration;
             dr.DroneType = postedDrone.DroneType;
-            dr.DroneName = postedDrone.DroneName;
-            if(postedDrone.needsCheckUp == false)
+            if(string.IsNullOrWhiteSpace(postedDrone.DroneName))
+            {
+                dr.DroneName = postedDrone.DroneType + ":" + postedDrone.Registration;
+            }
+            if(postedDrone.needsCheckUp == false) // This condition is true if the user has ticked the 'drone has been checked' box in the edit of a drone
             {
                 dr.needsCheckUp = postedDrone.needsCheckUp;
-                dr.nextTimeCheck = ((TimeSpan)dr.TotalFlightTime).Add(thresholdTime);
+                dr.nextTimeCheck = (long)dr.TotalFlightTime + (long)thresholdTime.TotalSeconds; // calculate the new next time check
             }
+            dr.Notes = postedDrone.Notes;
         }
 
         // GET: Drones/Delete/5

@@ -57,9 +57,10 @@
           <Property Name="Registration" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
-          <Property Name="TotalFlightTime" Type="time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="bigint" />
           <Property Name="needsCheckUp" Type="bit" Nullable="false" />
-          <Property Name="nextTimeCheck" Type="time" Precision="7" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="bigint" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -83,7 +84,7 @@
           <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="PilotId" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
-          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="hasTFW" Type="bit" Nullable="false" />
           <Property Name="hasGCPs" Type="bit" Nullable="false" />
           <Property Name="hasCTRLs" Type="bit" Nullable="false" />
@@ -844,9 +845,10 @@
           <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalFlightTime" Type="Time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="Int64" />
           <Property Name="needsCheckUp" Type="Boolean" Nullable="false" />
-          <Property Name="nextTimeCheck" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="nextTimeCheck" Type="Int64" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
@@ -872,7 +874,7 @@
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <Property Name="PilotId" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="hasTFW" Type="Boolean" Nullable="false" />
           <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
           <Property Name="hasCTRLs" Type="Boolean" Nullable="false" />
@@ -1674,6 +1676,7 @@
                 <ScalarProperty Name="TotalFlightTime" ColumnName="TotalFlightTime" />
                 <ScalarProperty Name="needsCheckUp" ColumnName="needsCheckUp" />
                 <ScalarProperty Name="nextTimeCheck" ColumnName="nextTimeCheck" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

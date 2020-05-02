@@ -430,14 +430,16 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         droneGPS.VelE = dict.ContainsKey("GPS(0):velE") ? (Double.TryParse(fields[dict["GPS(0):velE"]], out dValue) ? dValue : (double?)null) : null;
                         droneGPS.VelN = dict.ContainsKey("GPS(0):velN") ? (Double.TryParse(fields[dict["GPS(0):velN"]], out dValue) ? dValue : (double?)null) : null;
 
+                        // Keep track of date
                         // Keep track of start time and final time to calculate total flight time
                         // Keep track of start longitude and latitude
                         if (!firstRead) {
+                            droneFlight.Date = new DateTime(((DateTime)droneGPS.DateTimeStamp).Year, ((DateTime)droneGPS.DateTimeStamp).Month, ((DateTime)droneGPS.DateTimeStamp).Day);
                             startTime = (int) droneGPS.Time;
                             startLong = (double) droneGPS.Long;
                             startLat = (double) droneGPS.Lat;
                             firstRead = true;
-                            if (droneFlight.Location.IsEmpty())
+                            if (droneFlight.Location == "TBD") // TBD = to be determined; indicates no location was set during creation of flight
                             {
                                 try
                                 {
@@ -445,7 +447,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                                 }
                                 catch(NullReferenceException)
                                 {
-                                    droneFlight.Location = "NA.";
+                                    droneFlight.Location = "NA"; // NA = Not Available; indicates the user will have to set it themselves
                                 }
                             }
                         }
@@ -526,6 +528,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 // Set hasDepInfo and hasDestInfo to true for the Drone Flight
                 droneFlight.hasDepInfo = true;
                 droneFlight.hasDestInfo = true;
+                droneFlight.Date = new DateTime(((DateTime)droneFlight.Date).Year, ((DateTime)droneFlight.Date).Month, ((DateTime)droneFlight.Date).Day, ((TimeSpan)departureInfo.UTCTime).Hours, ((TimeSpan)departureInfo.UTCTime).Minutes, ((TimeSpan)departureInfo.UTCTime).Seconds);
                 #endregion
 
                 // Commit changes to the DB

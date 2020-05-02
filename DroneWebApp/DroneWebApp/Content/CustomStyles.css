@@ -1,7 +1,13 @@
-﻿.redBoldText {
-    color: #a94442;
+﻿.redBrightText {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+}
+.deletionText {
+    color: red;
     font-weight: bold;
 }
+
 
 .whiteText {
     color: white;
@@ -9,6 +15,16 @@
 
 .textAlignCenter {
     text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.textAlignTD th {
+    vertical-align: middle !important;
+}
+
+.textAlignCenter td {
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 .paddingErrorIndex {
@@ -35,3 +51,69 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
     border-bottom-width: 0px;
 }
 
+img:last-child {
+    display: none;
+}
+
+a:hover img:last-child {
+    display: inline-block;
+}
+
+a:hover img:first-child {
+    display: none;
+}
+
+.img-size {
+    width: 40px;
+    height: 40px;
+}
+
+.img-size-2 {
+    width: 50px;
+    height: 50px;
+}
+
+.notesSize {
+    width: 450px;
+    height: 400px;
+}
+
+.notesSize-pointer {
+    width: 450px;
+    height: 400px;
+    cursor: default
+}
+
+/*Custom label sizes */
+.label-xsmall {
+    vertical-align: super;
+    font-size: x-small;
+    font-weight: normal;
+}
+
+.label-small {
+    vertical-align: middle;
+    font-size: small;
+    font-weight: normal;
+}
+
+.label-medium {
+    vertical-align: middle;
+    font-size: medium;
+    font-weight: normal;
+}
+
+.label-large {
+    vertical-align: super;
+    font-size: large;
+    font-weight: normal;
+}
+
+.label-bs {
+    vertical-align: super;
+    font-weight: normal;
+}
+
+.no-hover {
+    cursor: default;
+}

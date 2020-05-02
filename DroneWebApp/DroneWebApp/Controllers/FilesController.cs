@@ -23,12 +23,13 @@ namespace DroneWebApp.Controllers
         public DroneDBEntities Db { get; set; }
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
-        static List<string> fileNames;
-        static List<bool> parseResults;
-        static string currentFileName;
-        static bool currentParseResult;
-        static int totalFilesToParse = 0;
-        static int filesLeft = 0;
+        // Parsing variables
+        private static List<string> fileNames; // list that keeps track of the files' names
+        private static List<bool> parseResults; // list that keeps track of the success or failure of those files
+        private static string currentFileName; // the current file that is being processed
+        private static bool currentParseResult; // the current parse result
+        private static int totalFilesToParse = 0; // the total amount of files that must be parsed
+        private static int filesLeft = 0; // the amount of files that still have to be parsed
 
         // Constructor
         public FilesController(DbContext db)
@@ -48,16 +49,21 @@ namespace DroneWebApp.Controllers
             DroneFlight droneFlight = Db.DroneFlights.Find((int) id);
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
-            ViewBag.Date = droneFlight.Date.ToString("dd/MM/yyyy");
-            return View("Index");
+            string date = "NA";
+            if (droneFlight.Date != null)
+            {
+                date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
+            }
+            ViewBag.Date = date;
+            return View();
         }
 
         [HttpPost]
         public ActionResult Index(int? id, List<HttpPostedFileBase> files)
         {
-            // How many files to be read?
+            // How many files must be parsed?
             totalFilesToParse = files.Count;
-            filesLeft = files.Count;
+            filesLeft = totalFilesToParse;
             // Check if an id was submitted & whether a drone flight with this id exists            // ********************************
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
@@ -71,8 +77,9 @@ namespace DroneWebApp.Controllers
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
 
-            System.Diagnostics.Debug.WriteLine("filestoBeRead: " + totalFilesToParse );
-            // Lists to be returned to the frontend
+            System.Diagnostics.Debug.WriteLine("Total Files to Parse: " + totalFilesToParse );
+
+            // Lists to be returned to the front-end
             fileNames = new List<string>();
             parseResults = new List<bool>();
 
@@ -84,8 +91,8 @@ namespace DroneWebApp.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     // extract only the filename
-                    currentFileName = Path.GetFileName(file.FileName);
-                    // add file name to the list of files
+                    currentFileName = Path.GetFileName(file.FileName); // set the current file name
+                    // add this file name to the list of files
                     fileNames.Add(currentFileName);
                     // store the file inside ~/files/ folder
                     path = Path.Combine(Server.MapPath("~/files"), currentFileName);
@@ -93,7 +100,7 @@ namespace DroneWebApp.Controllers
                 }
 
                 string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
-                // Verify that the user's file is an appropriate filetype                        
+                // Verify that the user's file is an appropriate filetype
                 if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
                 {
                     ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
@@ -131,7 +138,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorMessage = "Please specify an extension and/or type in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
-            
+
             IExport export = null;
 
             if (extension.Equals("csv"))
@@ -165,7 +172,7 @@ namespace DroneWebApp.Controllers
         [HttpGet]
         public int GetTotalFiles()
         {
-            System.Diagnostics.Debug.WriteLine("filestoBeRead in GetTotalFiles: " + totalFilesToParse);
+            System.Diagnostics.Debug.WriteLine("Total Files to Parse in GetTotalFiles: " + totalFilesToParse);
             return totalFilesToParse;
         }
 
@@ -201,10 +208,10 @@ namespace DroneWebApp.Controllers
             //data projection
             var result = (new
             {
-                
+
             });
 
-            //config to set to json 
+            //config to set to json
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonConvert.SerializeObject(result));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

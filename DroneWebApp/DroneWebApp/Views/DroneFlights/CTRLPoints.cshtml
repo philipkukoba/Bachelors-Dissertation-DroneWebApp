@@ -5,12 +5,26 @@
 }
 
 <br />
-<h2>Control Points</h2>
-<h4>Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy"))</h4>
+<h2 class="textAlignCenter">Control Points</h2>
 
-<p>@Html.ActionLink("Upload File", "Index", "Files", new { id = ViewBag.DroneFlightId }, new { @class = "btn btn-info btn-sm whiteText" })</p>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Details", "DroneFlights", new { id = ViewBag.DroneFlightId })">Details</a></li>
+        <li class="breadcrumb-item active" aria-current="page">GCPs Drone Flight @ViewBag.droneFlight.FlightId</li>
+    </ol>
+</nav>
+
+<h4><strong>Drone Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy"))</strong></h4>
+
+<a href='@Url.Action("Index", "Files", new { id = @ViewBag.droneFlight.FlightId })' id="upload_icon">
+    <img src="~/Content/images/upload_icon.png" class="img-size">
+    <img src="~/Content/images/upload_icon_hover.png" class="img-size">
+</a>
+<br />
 
 <div>
+    <hr />
     <table id="ctrlptable" class="ui celled table table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -51,6 +65,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Back to Flight Details", "Details", new { id = ViewBag.DroneFlightId }) |
-    @Html.ActionLink("Back to Drone Flights List", "Index")
+    @Html.ActionLink("Back to Flight Details", "Details", new { id = ViewBag.DroneFlightId }, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" })
 </p>

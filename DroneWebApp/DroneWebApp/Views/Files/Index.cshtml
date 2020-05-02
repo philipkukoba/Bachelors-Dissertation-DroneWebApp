@@ -2,12 +2,14 @@
     ViewBag.Title = "File Upload";
 }
 
-<p></p>
-<h2>File Upload</h2>
+<br />
+<h2 class="textAlignCenter">File Upload</h2>
+<br />
 
 <div id="initialMessage">
-    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)</h4>
+    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>).</h4>
 </div>
+<br />
 
 <div id="progressField" class="alert alert-info" hidden>
     Adding files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br/>
@@ -18,7 +20,9 @@
     <strong><span class="amtRead"></span></strong> out of <strong><span class="totalRead"></span></strong> files were read.
     Files <span id="fileNames"></span> have been successfully added to your Flight.<br />
     <div id="showNavigation">
-        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+        <br />
+        @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId}, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights", null, new { @class = "btn btn-primary btn-sm" })
     </div>
 </div>
 
@@ -37,7 +41,7 @@
             <input type="file" class="form-control mx-sm-3" id="file" name="files" multiple>
         </div>
         <div id="uploadbtn" class="form-group">
-            <input type="submit" value="Upload" class="btn btn-primary mx-sm-3">
+            <input type="submit" value="Upload" class="btn btn-success mx-sm-3">
         </div>
     </form>
 </div>
@@ -45,6 +49,9 @@
 <div id="uploadstatus"></div>
 <div id="progressbar"></div>
 
+<br />
+<br />
 <p>
-    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights")
+    @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId}, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights", null, new { @class = "btn btn-primary btn-sm" })
 </p>

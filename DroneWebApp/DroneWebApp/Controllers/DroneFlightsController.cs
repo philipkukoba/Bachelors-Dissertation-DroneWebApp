@@ -89,6 +89,10 @@ namespace DroneWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrWhiteSpace(droneFlight.Location))
+                {
+                    droneFlight.Location = "TBD"; // TBD = to be determined; indicates no location was set during creation of flight
+                }
                 db.DroneFlights.Add(droneFlight);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -152,7 +156,8 @@ namespace DroneWebApp.Controllers
             df.PilotId = postedDroneFlight.PilotId;
             df.ProjectId = postedDroneFlight.ProjectId;
             df.Location = postedDroneFlight.Location;
-            df.Date = postedDroneFlight.Date;
+            // keep the old time portion of the date; user cannot update time, only date
+            df.Date = new DateTime(((DateTime)postedDroneFlight.Date).Year, ((DateTime)postedDroneFlight.Date).Month, ((DateTime)postedDroneFlight.Date).Day,((DateTime)df.Date).Hour, ((DateTime)df.Date).Minute, ((DateTime)df.Date).Second);
             df.TypeOfActivity = postedDroneFlight.TypeOfActivity;
             df.Other = postedDroneFlight.Other;
             df.Simulator = postedDroneFlight.Simulator;
@@ -187,12 +192,12 @@ namespace DroneWebApp.Controllers
             DroneFlight droneFlight = db.DroneFlights.Find(id);
 
             // Calculate the flight time of this drone flight
-            TimeSpan totalTime = new TimeSpan(0, 0, 0);
+            TimeSpan totalTime = new TimeSpan(0, 0, 0, 0);
             if(droneFlight.hasDepInfo && droneFlight.hasDestInfo)
             {
                 totalTime = totalTime.Add(((TimeSpan)droneFlight.DestinationInfo.UTCTime).Subtract((TimeSpan)droneFlight.DepartureInfo.UTCTime));
                 // Update the threshold time for the drone that was assigned to this flight to account for this deletion
-                droneFlight.Drone.nextTimeCheck = droneFlight.Drone.nextTimeCheck.Subtract(totalTime);
+                droneFlight.Drone.nextTimeCheck = droneFlight.Drone.nextTimeCheck - (long)totalTime.TotalSeconds;
                 droneFlight.Drone.needsCheckUp = false; // Reset to false; Helper.UpdateTotalDroneFlightTime will re-evaluate whether or not this needs to stay false
             }
             // Remove this drone flight

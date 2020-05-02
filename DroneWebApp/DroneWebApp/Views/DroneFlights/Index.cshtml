@@ -7,6 +7,13 @@
 <br />
 <h2 class="textAlignCenter">Drone Flights</h2>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item active" aria-current="page"/>
+    </ol>
+</nav>
+
 <h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
 <hr />
 
@@ -28,9 +35,9 @@
             <th>
                 @Html.DisplayName("Pilot")
             </th>
+            <th>Map</th>
             <th>Files</th>
-            <th></th>
-            <th>ArcGIS</th>
+            <th>Upload</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -45,13 +52,26 @@
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    @item.Date.ToString("dd/MM/yyyy")
+                    @{ 
+                        string str = "NA.";
+                        if(@item.Date != null)
+                        {
+                            str = ((DateTime)@item.Date).ToString("dd/MM/yyyy");
+                        }
+                    }
+                    @str
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Drone.DroneName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Pilot.PilotName)
+                </td>
+                <td>
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })' id="map_icon">
+                        <img src="~/Content/images/map_marker.png" class="img-size">
+                        <img src="~/Content/images/map_marker_hover.png" class="img-size">
+                    </a>
                 </td>
                 <td>
                     @if (!item.hasQR)
@@ -98,7 +118,7 @@
                     }
                     @if (!item.hasXYZ)
                     {
-                        <div class="btn btn-danger btn-sm disabled">
+                        <div class="btn btn-danger btn-sm no-hover">
                             <span>
                                 XYZ
                             </span>
@@ -106,7 +126,7 @@
                     }
                     else
                     {
-                        <div class="btn btn-success btn-sm disabled">
+                        <div class="btn btn-success btn-sm no-hover">
                             <span>
                                 XYZ
                             </span>
@@ -114,7 +134,7 @@
                     }
                     @if (!item.hasDroneLog)
                     {
-                        <div class="btn btn-danger btn-sm disabled">
+                        <div class="btn btn-danger btn-sm no-hover">
                             <span>
                                 Drone Log
                             </span>
@@ -122,24 +142,23 @@
                     }
                     else
                     {
-                        <div class="btn btn-success btn-sm disabled">
+                        <div class="btn btn-success btn-sm no-hover">
                             <span>
                                 Drone Log
                             </span>
                         </div>
                     }
-
                 </td>
                 <td>
-                    @Html.ActionLink("Upload File", "Index", "Files", new { id = item.FlightId }, new { @class = "btn btn-info btn-sm whiteText" })
+                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' id="upload_icon">
+                        <img src="~/Content/images/upload_icon.png" class="img-size">
+                        <img src="~/Content/images/upload_icon_hover.png" class="img-size">
+                    </a>
                 </td>
                 <td>
-                    @Html.ActionLink("View Flight", "ViewMap", "Map", new { id = item.FlightId }, new { @class = "btn btn-primary btn-sm whiteText" })
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.FlightId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.FlightId })
+                    @Html.ActionLink("Details", "Details", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
                 </td>
             </tr>
         }

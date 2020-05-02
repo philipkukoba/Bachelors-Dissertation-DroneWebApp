@@ -37,6 +37,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             else if (parseType.Equals(".dat", StringComparison.OrdinalIgnoreCase))
             {
                 parser = new DATParser();
+                //parser = new DATParser___ADONET();
             }
             else if (parseType.Equals(".jpg", StringComparison.OrdinalIgnoreCase))
             {
