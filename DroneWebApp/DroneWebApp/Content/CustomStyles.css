@@ -47,7 +47,6 @@ textarea {
     font-weight: bold;
 }
 
-
 .whiteText {
     color: white;
 }
@@ -90,14 +89,8 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
     border-bottom-width: 0px;
 }
 
-/* ideally this is the other way around: .specialcase img:last-child
-   instead of defining a rule applying to ALL last images and then come up
-    with an exception for one of the many normal cases (in this case, the map, probably others would follow..)
-    ....  please change*/
-/*img:last-child*/
-img:last-child {
-    display: none;
-}
+/* Drone Flight Map image css*/
+
 #droneFlightMap img:last-child {
     display: inline !important; /* rule to override the general rule above */
 }
@@ -109,11 +102,17 @@ img:last-child {
     object-fit: contain;
 }
 
-a:hover img:last-child {
+/* css for image icons map and upload */
+
+.anchor_icon img:last-child {
+    display: none;
+}
+
+.anchor_icon:hover img:last-child {
     display: inline-block;
 }
 
-a:hover img:first-child {
+.anchor_icon:hover img:first-child {
     display: none;
 }
 
@@ -127,6 +126,7 @@ a:hover img:first-child {
     height: 50px;
 }
 
+/* css for Notes in Drone Details */
 .notesSize {
     width: 450px;
     height: 400px;
@@ -138,6 +138,7 @@ a:hover img:first-child {
     cursor: default
 }
 
+/*Show default cursor on hover over non-editable text in Drone Details */
 .no-hover {
     cursor: default;
 }
@@ -171,7 +172,6 @@ a:hover img:first-child {
     vertical-align: super;
     font-weight: normal;
 }
-
 
 
 /* Drone Flight Map View */

@@ -68,9 +68,9 @@
                     @Html.DisplayFor(modelItem => item.Pilot.PilotName)
                 </td>
                 <td>
-                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })' id="map_icon">
-                        <img src="~/Content/images/map_marker.png" class="img-size">
-                        <img src="~/Content/images/map_marker_hover.png" class="img-size">
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })'class="anchor_icon">
+                        <img src="~/Content/images/map_marker.png" class="img-size" title="Navigate to Map for this Drone Flight">
+                        <img src="~/Content/images/map_marker_hover.png" class="img-size" title="Navigate to Map for this Drone Flight">
                     </a>
                 </td>
                 <td>
@@ -150,9 +150,9 @@
                     }
                 </td>
                 <td>
-                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' id="upload_icon">
-                        <img src="~/Content/images/upload_icon.png" class="img-size">
-                        <img src="~/Content/images/upload_icon_hover.png" class="img-size">
+                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' class="anchor_icon">
+                        <img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
+                        <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
                     </a>
                 </td>
                 <td>

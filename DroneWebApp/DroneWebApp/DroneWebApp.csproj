@@ -398,7 +398,6 @@
     <Content Include="files\pdf_parser_dll\IvyPdf.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\images\map_marker.png" />
     <Content Include="Models\DroneDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

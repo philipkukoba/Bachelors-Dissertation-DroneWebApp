@@ -25,9 +25,9 @@
 }
 <h4><strong>Drone Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @str)</strong></h4>
 
-<a href='@Url.Action("Index", "Files", new { id = @ViewBag.droneFlight.FlightId })' id="upload_icon">
-	<img src="~/Content/images/upload_icon.png" class="img-size">
-	<img src="~/Content/images/upload_icon_hover.png" class="img-size">
+<a href='@Url.Action("Index", "Files", new { id = @ViewBag.droneFlight.FlightId })' class="anchor_icon">
+	<img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
+	<img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
 </a>
 <br />
 

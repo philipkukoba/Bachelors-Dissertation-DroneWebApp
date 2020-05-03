@@ -128,7 +128,11 @@ namespace DroneWebApp.Controllers
             {
                 dr.DroneName = postedDrone.DroneType + ":" + postedDrone.Registration;
             }
-            if(postedDrone.needsCheckUp == false) // This condition is true if the user has ticked the 'drone has been checked' box in the edit of a drone
+            if(postedDrone.needsCheckUp == true && dr.needsCheckUp == false) // This condition checks whether the user manually indicated that the drone NEEDS a check-up
+            {
+                dr.needsCheckUp = postedDrone.needsCheckUp; // drone needs a check-up
+            }
+            if(postedDrone.needsCheckUp == false) // This condition is true if the user has ticked the 'drone has been checked' box in the edit of a drone, indicating the drone was checked
             {
                 dr.needsCheckUp = postedDrone.needsCheckUp;
                 dr.nextTimeCheck = (long)dr.TotalFlightTime + (long)thresholdTime.TotalSeconds; // calculate the new next time check
