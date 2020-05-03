@@ -71,4 +71,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 01/05/20,12:55,15:35,Extern,Fixed css for images & hover upload and map + Complete overhaul of all cshtml pages,140/179,
 01/05/20,15:40,18:05,Extern,Breadcrumbing / Notes veld toegevoegd voor een Drone / Drone Flights hebben nu ook een starttijd / layout fixes / css fixes / alle styles uit html / debugging van cshtml pages / script update,140/179/180/181/182, 
 03/05/20,11:40,13:00,Extern,Drone Flights zonder datum crashten de Documents pagina's (qr; tfw; images etc.) voor drone flights,185, Debugging
-03/05/20,13:20,16:00,Extern,Gebruiker kan geen null files meer uploaden + webapp controleert extensies voor het uploaden + controle bij multiple upload in orde + css fix voor images die niet meer getoond werden,150/184/186, Debugging
+03/05/20,13:20,16:35,Extern,Gebruiker kan geen null files meer uploaden + webapp controleert extensies voor het uploaden + controle bij multiple upload in orde + css fix voor images die niet meer getoond werden + user can now manually tag a drone that needs a check-up (the threshold is correctly calculated on reset of this == checked),150/184/186, Debugging
