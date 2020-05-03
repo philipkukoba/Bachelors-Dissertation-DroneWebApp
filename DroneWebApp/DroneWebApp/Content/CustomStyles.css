@@ -84,6 +84,10 @@ a:hover img:first-child {
     cursor: default
 }
 
+.no-hover {
+    cursor: default;
+}
+
 /*Custom label sizes */
 .label-xsmall {
     vertical-align: super;
@@ -112,8 +116,4 @@ a:hover img:first-child {
 .label-bs {
     vertical-align: super;
     font-weight: normal;
-}
-
-.no-hover {
-    cursor: default;
 }

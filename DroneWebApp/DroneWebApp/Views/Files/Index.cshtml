@@ -4,10 +4,16 @@
 
 <br />
 <h2 class="textAlignCenter">File Upload</h2>
-<br />
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Upload files for Drone Flight @ViewBag.FlightId</li>
+    </ol>
+</nav>
 
 <div id="initialMessage">
-    <h4>Please select the file you want to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>).</h4>
+    <h4>Please select the files you would like to add to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>).</h4>
 </div>
 <br />
 
@@ -38,10 +44,10 @@
     <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">
         <div class="form-group">
             <label for="InputFile">File:</label>
-            <input type="file" class="form-control mx-sm-3" id="file" name="files" multiple>
+            <input type="file" class="form-control mx-sm-3" id="file" name="files" accept=".pdf, .dat, .txt, .csv, .xyz, .tfw, .jpg" multiple>
         </div>
         <div id="uploadbtn" class="form-group">
-            <input type="submit" value="Upload" class="btn btn-success mx-sm-3">
+            <input id="uploadbtnSubmit" type="submit" value="Upload" class="btn btn-success mx-sm-3">
         </div>
     </form>
 </div>
