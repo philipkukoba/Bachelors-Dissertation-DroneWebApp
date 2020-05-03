@@ -29,7 +29,7 @@ namespace DroneWebApp.Controllers
         public HttpResponseMessage GetGroundControlPointsByFlightID(int id)
         {
             var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 
-            if (Flight == null)
+            if (Flight == null || !Flight.hasGCPs)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }

@@ -13,8 +13,7 @@
     "esri/widgets/Feature"
 ], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, AreaMeasurement2D, Feature) {
 
-    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key 
-
+    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key
 
     //#region Basic setup: Map and View
 
@@ -25,7 +24,7 @@
 
     // Create the View (MapView)
     let view = new MapView({
-        container: "viewDiv",
+        container: "droneFlightMap",
         map: map,
         center: [3.30120924, 50.85590007],
         zoom: 20
@@ -103,7 +102,7 @@
 
     //#region Visualisation Const Values 
     //ID van de droneflight 
-    const id = $("#viewDiv").data("id");
+        const id = $("#droneFlightMap").data("id");
 
     //Lambert spacial reference (needed for all featurelayers except track visualisation)
     const LambertSR = { wkid: 31370 };
@@ -592,12 +591,6 @@
 
 
 
-    $(document).ready(function () {
-        $('.thumbnail-enlarge').magnificPopup({ type: 'image' });
-    });
-
-
-
     let convertDegreesToDouble = (coordsDMS) => {
         console.log("coordsDMS: " + coordsDMS);
         let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
@@ -654,25 +647,26 @@
                 {
                     name: "FlightID",
                     type: "integer"
-                    },
-                    {
-                        name: "url",
-                        type: "string"
-                    },
-                    {
-                        name: "thumbnailURL",
-                        type: "string"
-                    }
+                },
+                {
+                    name: "url",
+                    type: "string"
+                },
+                {
+                    name: "thumbnailURL",
+                    type: "string"
+                }
                 ],
                 popupTemplate: {
                     title: "Raw Image Taken",
                     outFields: ["*"],
                     content: (feature) => {
-                        console.log(feature.graphic.attributes.url);
-                        //console.log('-________________');
+                        console.log(feature);
+                        console.log(feature.graphic.attributes.thumbnailURL);
                         var node = document.createElement("div");
-                        node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
-                            + "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
+                        node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>"
+                            + "<img src='" + feature.graphic.attributes.thumbnailURL + "' ></a>";
+                        //node.innerHTML = "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
                         return node;
                     }
                     //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"
@@ -813,6 +807,26 @@
 
         }
     });
+    //#endregion 
+
+
+    //#region FANCY POPUP for IMAGES
+
+    $(document).ready(function () {
+        $(document).on('click', '.thumbnail-enlarge', function (e) {
+            e.preventDefault();
+            console.log('Hello ' + $(this).attr('src'));
+            $.magnificPopup.open({ type: 'image', items: { src: $(this).attr('href') } });
+            return false;
+        });
+        $('.screenshot-button').show().click(function () {
+            html2canvas(document.body).then(function (canvas) {
+                document.body.appendChild(canvas);
+            });
+        });
+
+    });
+
     //#endregion 
 
 });

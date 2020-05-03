@@ -41,12 +41,17 @@ namespace DroneWebApp.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
+            DroneFlight droneFlight = Db.DroneFlights.Find((int)id);
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
-            DroneFlight droneFlight = Db.DroneFlights.Find((int) id);
+            else if (droneFlight == null)
+            {
+                ViewBag.ErrorMessage = "This Drone Flight does not exist.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
             ViewBag.FlightId = (int) id;
             ViewBag.Location = droneFlight.Location;
             string date = "NA";
@@ -85,43 +90,47 @@ namespace DroneWebApp.Controllers
 
             foreach (HttpPostedFileBase file in files)
             {
-                currentFileName = "";
-                // Verify that the user selected a file
-                var path = "";
-                if (file != null && file.ContentLength > 0)
+                // Verify that the file provided exists
+                if (file != null)
                 {
-                    // extract only the filename
-                    currentFileName = Path.GetFileName(file.FileName); // set the current file name
-                    // add this file name to the list of files
-                    fileNames.Add(currentFileName);
-                    // store the file inside ~/files/ folder
-                    path = Path.Combine(Server.MapPath("~/files"), currentFileName);
-                    file.SaveAs(path);
-                }
-
-                string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
-                // Verify that the user's file is an appropriate filetype
-                if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
-                {
-                    ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
-                    return View("~/Views/ErrorPage/Error.cshtml");
-                }
-                else
-                {
-                    // Parsing
-                    if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                    currentFileName = "";
+                    // Verify that the user selected a file
+                    var path = "";
+                    if (file != null && file.ContentLength > 0)
                     {
-                        currentParseResult = creator.GetParser(".dat", path, (int)id);
-                        parseResults.Add(currentParseResult);
+                        // extract only the filename
+                        currentFileName = Path.GetFileName(file.FileName); // set the current file name
+                                                                           // add this file name to the list of files
+                        fileNames.Add(currentFileName);
+                        // store the file inside ~/files/ folder
+                        path = Path.Combine(Server.MapPath("~/files"), currentFileName);
+                        file.SaveAs(path);
+                    }
+
+                    string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
+                    // Verify that the user's file is an appropriate filetype
+                    if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
+                    {
+                        ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
                     }
                     else
                     {
-                        currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                        parseResults.Add(currentParseResult);
+                        // Parsing
+                        if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
+                        {
+                            currentParseResult = creator.GetParser(".dat", path, (int)id);
+                            parseResults.Add(currentParseResult);
+                        }
+                        else
+                        {
+                            currentParseResult = creator.GetParser(fileExtension, path, (int)id);
+                            parseResults.Add(currentParseResult);
+                        }
                     }
-                }
 
-                filesLeft--;
+                    filesLeft--;
+                }
             }
             return View("Index");
         }

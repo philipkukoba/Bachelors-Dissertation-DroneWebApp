@@ -31,7 +31,7 @@ namespace DroneWebApp.Controllers
         public HttpResponseMessage GetDroneGP(int id)
         {
             var Flight = db.DroneFlights.Find(id);
-            if (Flight == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
+            if (Flight == null || !Flight.hasDroneLog) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             var droneLogEntries = Flight.DroneLogEntries.ToList();
             List<DroneGP> droneGPs = new List<DroneGP>();

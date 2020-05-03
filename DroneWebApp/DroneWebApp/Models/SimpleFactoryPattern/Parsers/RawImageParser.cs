@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -34,11 +37,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
 			}
 
+			//thumbnail
+			byte[] rawDataDownsized;
+			Bitmap bmp = ResizeImage(Image.FromFile(path), 225, 150);
+			ImageConverter converter = new ImageConverter();
+			rawDataDownsized =  (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+
+
 			//reading metadata
 			var directories = ImageMetadataReader.ReadMetadata(path);
 
 
 			//check if image is already in db 
+			//TODO FIX THIS
 			string filename = directories[10].Tags[0].Description;
 			foreach (RawImage img in droneFlight.RawImages)
 			{
@@ -49,25 +60,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			Helper.Helper.SetProgress(60);
 
-			//int directory_i = 0; 
-			//foreach (var directory in directories)
-			//{
-			//	int tag_i = 0; 
-			//	foreach (var tag in directory.Tags)
-			//	{
-
-			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
-			//		tag_i++; 
-			//	}
-			//	directory_i++;
-			//}
-
-
 			//make RawImage object and set its attributes
 			RawImage rawImage = new RawImage
 			{
 				FileName = directories[10].Tags[0].Description, //??
+
 				RawData = rawData,
+				RawDataDownsized = rawDataDownsized,
+				
+				
 				FlightId = flightId,
 
 				CreateDate = DateTime.ParseExact(directories[1].Tags[8].Description, format, provider),
@@ -140,6 +141,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			Helper.Helper.SetProgress(100);
 
 			#region console prints 
+			//int directory_i = 0; 
+			//foreach (var directory in directories)
+			//{
+			//	int tag_i = 0; 
+			//	foreach (var tag in directory.Tags)
+			//	{
+
+			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
+			//		tag_i++; 
+			//	}
+			//	directory_i++;
+			//}
+
 			//Debug.WriteLine(directories[0]); //JPEG Directory (8 tags)
 			//Debug.WriteLine(directories[1]); //Exif IFD0 Directory (12 tags)
 			//Debug.WriteLine(directories[2]); //Exif SubIFD Directory (37 tags)
@@ -189,6 +203,31 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			#endregion
 
 			return true;
+		}
+
+		private static Bitmap ResizeImage(Image image, int width, int height)
+		{
+			var destRect = new Rectangle(0, 0, width, height);
+			var destImage = new Bitmap(width, height);
+
+			destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+			using (var graphics = Graphics.FromImage(destImage))
+			{
+				graphics.CompositingMode = CompositingMode.SourceCopy;
+				graphics.CompositingQuality = CompositingQuality.HighQuality;
+				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				graphics.SmoothingMode = SmoothingMode.HighQuality;
+				graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+				using (var wrapMode = new ImageAttributes())
+				{
+					wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+					graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+				}
+			}
+
+			return destImage;
 		}
 	}
 }

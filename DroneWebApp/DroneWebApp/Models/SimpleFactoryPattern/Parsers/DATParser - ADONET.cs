@@ -628,7 +628,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						{
 							fields = parser.ReadFields();
 
-							//set all parameters to DBNull 
+							#region set all parameters to DBNull 
 							for (int i = 0; i < command_DroneLogEntry.Parameters.Count; i++)
 							{
 								command_DroneLogEntry.Parameters[i].Value = DBNull.Value;
@@ -657,6 +657,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							{
 								command_DroneRTKData.Parameters[i].Value = DBNull.Value;
 							}
+							#endregion 
 
 							//Set parameters for all commands
 							//loops through the found headers 
