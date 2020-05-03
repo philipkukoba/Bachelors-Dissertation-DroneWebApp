@@ -67,3 +67,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 01/05/20,10:00,12:00,Extern, verderwerken datparser,177,
 01/05/20,13:00,18:00,Extern, verderwerken datparser,177,
 02/05/20,21:45,23:45,Extern, fancy popup voor images - css fiddling,171, 
+03/05/20,11:00,16:15,Extern, fixed for loop for getting image - implemented proper thumbnails for images - fixed popup css,171,
