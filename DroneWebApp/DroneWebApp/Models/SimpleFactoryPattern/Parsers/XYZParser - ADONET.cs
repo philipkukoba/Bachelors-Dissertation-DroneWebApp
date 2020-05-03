@@ -143,7 +143,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						}
 						catch (Exception ex)
 						{
-							//TODO rollback? (kan enkel met transaction)
 							System.Diagnostics.Debug.WriteLine(ex);
 							return false; 
 						}

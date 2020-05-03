@@ -589,27 +589,34 @@
 
     //#region IMAGES
 
-
-
     let convertDegreesToDouble = (coordsDMS) => {
-        console.log("coordsDMS: " + coordsDMS);
         let coords = coordsDMS.split(/°|'|"/); //split based on degree,minute,sec chars
         let degreesconverted = parseInt(coords[0]);
         let minutesconverted = parseInt(coords[1]) / 60;
         let secondsconverted = parseFloat(coords[2]) / 3600;
-        console.log("coords converted: " + (degreesconverted + minutesconverted + secondsconverted));
         return degreesconverted + minutesconverted + secondsconverted;
     }
 
     let readImage = (img) => {
-        console.log(img.ImageID);
         let URL = "/WebAPI/api/RawImages/" + img.FlightID + "/" + img.ImageID;
         let ThumbnailURL = "/WebAPI/api/Thumbnails/" + img.FlightID + "/" + img.ImageID;
+
+        let x = convertDegreesToDouble(img.GpsLongitude);
+        let y = convertDegreesToDouble(img.GpsLatitude);
+
+        //rekening houden met de hemisphere voor lat en long conversion 
+        if (img.GPSLatRef == "S") {
+            y = y * -1;
+        }
+        if (img.GPSLongRef == "W") {
+            x = x * -1; 
+        }
+
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
                 type: "point",
-                x: convertDegreesToDouble(img.GpsLongitude),
-                y: convertDegreesToDouble(img.GpsLatitude)
+                x: x,
+                y: y
             },
             attributes: {
                 FileName: img.FileName,
@@ -618,8 +625,6 @@
                 FlightID: img.FlightID,
                 url: URL,
                 thumbnailURL: ThumbnailURL
-                //,
-                //thumbnailURL: ThumbnailURL
             }
         };
         console.log(pointGraphic);
@@ -815,16 +820,9 @@
     $(document).ready(function () {
         $(document).on('click', '.thumbnail-enlarge', function (e) {
             e.preventDefault();
-            console.log('Hello ' + $(this).attr('src'));
             $.magnificPopup.open({ type: 'image', items: { src: $(this).attr('href') } });
             return false;
-        });
-        $('.screenshot-button').show().click(function () {
-            html2canvas(document.body).then(function (canvas) {
-                document.body.appendChild(canvas);
-            });
-        });
-
+        });   
     });
 
     //#endregion 
