@@ -102,3 +102,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 02/05/20,13:00,14:30,Extern,Probleem lege csv file na converten dat file proberen oplossen + contact opnemen met maker datcon,26,
 02/05/20,22:30,23:59,Extern,Verder probleem dat converten oplossen,26,
 03/05/20,00:00,02:00,Extern,Verder probleem dat converten oplossen,26,
+03/05/20,12:45,14:15,Extern,DatCon automatisch oproepen via cmd en ook automatisch proberen te laten sluiten na converteren dat file,26,
