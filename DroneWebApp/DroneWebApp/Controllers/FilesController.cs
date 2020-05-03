@@ -100,7 +100,7 @@ namespace DroneWebApp.Controllers
                 }
 
                 string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
-                // Verify that the user's file is an appropriate filetype                        
+                // Verify that the user's file is an appropriate filetype
                 if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
                 {
                     ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
@@ -123,7 +123,7 @@ namespace DroneWebApp.Controllers
 
                 filesLeft--;
             }
-            return View();
+            return View("Index");
         }
 
         public ActionResult Export(int? id, string extension, string type)
@@ -138,7 +138,7 @@ namespace DroneWebApp.Controllers
                 ViewBag.ErrorMessage = "Please specify an extension and/or type in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
             }
-            
+
             IExport export = null;
 
             if (extension.Equals("csv"))
@@ -208,10 +208,10 @@ namespace DroneWebApp.Controllers
             //data projection
             var result = (new
             {
-                
+
             });
 
-            //config to set to json 
+            //config to set to json
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonConvert.SerializeObject(result));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

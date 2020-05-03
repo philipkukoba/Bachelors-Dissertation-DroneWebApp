@@ -292,7 +292,7 @@ namespace DroneWebApp.Controllers.Tests
 
             mockContext.Verify(x => x.Projects.Find(3), Times.Once);
             mockContext.Verify(x => x.Projects.Remove(It.IsAny<Project>()), Times.Once);
-            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(2)); // SaveChanges is called in the controller method and in the Helper class
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(3)); // SaveChanges is called once in the controller method and 2 times in the Helper class
             Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
 
@@ -322,7 +322,7 @@ namespace DroneWebApp.Controllers.Tests
 
             mockContext.Verify(x => x.Projects.Find(3), Times.Once);
             mockContext.Verify(x => x.Projects.Remove(It.IsAny<Project>()), Times.Once);
-            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(2)); // SaveChanges is called in the controller method and in the Helper class
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(3)); // SaveChanges is called once in the controller method and 2 times in the Helper class
             Assert.AreEqual(9, projects.Count);
             Assert.IsFalse(projects.Any(p => p.ProjectId == 3));
         }

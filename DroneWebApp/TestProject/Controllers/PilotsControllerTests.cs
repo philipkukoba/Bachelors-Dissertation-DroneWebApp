@@ -219,6 +219,8 @@ namespace DroneWebApp.Controllers.Tests
             var mockSet = CreateMockSet(pilots);
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.Edit(pilots[3]) as RedirectToRouteResult;
 
@@ -330,7 +332,7 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
             // Set up the Find method for the mocked DbSet
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.DroneFlights(3) as ViewResult;
             Assert.AreEqual("DroneFlights", result.ViewName);
@@ -349,11 +351,11 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Pilots property so it returns the mocked DbSet
             mockContext.Setup(o => o.Pilots).Returns(() => mockSet.Object);
             // Set up the Find method for the mocked DbSet
-            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => GetPilots().SingleOrDefault(x => x.PilotId == (int)input.First()));
+            mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => pilots.SingleOrDefault(x => x.PilotId == (int)input.First()));
 
             var result = controller.DroneFlights(3) as ViewResult;
             List<DroneFlight> flights = (List<DroneFlight>)result.Model;
-            List<DroneFlight> generated = GetPilots()[2].DroneFlights.ToList();
+            List<DroneFlight> generated = pilots[2].DroneFlights.ToList();
 
             for (int i=0; i<flights.Count; i++)
             {                
