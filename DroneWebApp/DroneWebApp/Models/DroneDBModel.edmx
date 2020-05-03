@@ -311,6 +311,7 @@
           <Property Name="RawImageKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FileName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="RawData" Type="image" Nullable="false" />
+          <Property Name="RawDataDownsized" Type="image" Nullable="false" />
           <Property Name="ExposureTime" Type="varchar" MaxLength="50" />
           <Property Name="FNumber" Type="int" />
           <Property Name="Iso" Type="int" />
@@ -1136,6 +1137,7 @@
           <Property Name="RawImageKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RawData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="RawDataDownsized" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="ExposureTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FNumber" Type="Int32" />
           <Property Name="Iso" Type="Int32" />
@@ -1943,6 +1945,7 @@
                 <ScalarProperty Name="RawImageKey" ColumnName="RawImageKey" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="RawData" ColumnName="RawData" />
+                <ScalarProperty Name="RawDataDownsized" ColumnName="RawDataDownsized" />
                 <ScalarProperty Name="ExposureTime" ColumnName="ExposureTime" />
                 <ScalarProperty Name="FNumber" ColumnName="FNumber" />
                 <ScalarProperty Name="Iso" ColumnName="Iso" />

@@ -1,4 +1,43 @@
-﻿.redBrightText {
+﻿html.map-layout, .map-layout body, #droneFlightMap {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* formerly site.css - START */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+/* formerly site.css - END */
+
+/* we don't like extra padding at the bottom for this page, as it only contains a map. no space
+    between the end of the map and the end of the browser should be visible.
+*/
+.map-layout body { padding-bottom:0px; padding-top:50px; }
+
+.redBrightText {
     color: red;
     font-weight: bold;
     font-size: 14px;
@@ -51,8 +90,23 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
     border-bottom-width: 0px;
 }
 
+/* ideally this is the other way around: .specialcase img:last-child
+   instead of defining a rule applying to ALL last images and then come up
+    with an exception for one of the many normal cases (in this case, the map, probably others would follow..)
+    ....  please change*/
+/*img:last-child*/
 img:last-child {
     display: none;
+}
+#droneFlightMap img:last-child {
+    display: inline !important; /* rule to override the general rule above */
+}
+
+#droneFlightMap img {
+    width: 225px;
+    height: 150px;
+    display: block;
+    object-fit: contain;
 }
 
 a:hover img:last-child {
@@ -116,4 +170,16 @@ a:hover img:first-child {
 
 .no-hover {
     cursor: default;
+}
+
+
+/* Drone Flight Map View */
+
+/* Popup for Images should be just as wide as necessary */
+#droneFlightMap .esri-popup__main-container {
+    width: auto;
+}
+
+#droneFlightMap .esri-popup__footer {
+    display: none;
 }

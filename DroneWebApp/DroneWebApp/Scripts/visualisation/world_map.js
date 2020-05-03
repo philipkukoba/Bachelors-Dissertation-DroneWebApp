@@ -24,7 +24,7 @@
 
     // Create the View (MapView)
     let view = new MapView({
-        container: "viewDiv",
+        container: "droneFlightMap",
         map: map,
         center: [3.30120924, 50.85590007],
         zoom: 20
@@ -102,7 +102,7 @@
 
     //#region Visualisation Const Values 
     //ID van de droneflight 
-    const id = $("#viewDiv").data("id");
+        const id = $("#droneFlightMap").data("id");
 
     //Lambert spacial reference (needed for all featurelayers except track visualisation)
     const LambertSR = { wkid: 31370 };
@@ -661,11 +661,12 @@
                     title: "Raw Image Taken",
                     outFields: ["*"],
                     content: (feature) => {
-                        console.log(feature.graphic.attributes.url);
-                        //console.log('-________________');
+                        console.log(feature);
+                        console.log(feature.graphic.attributes.thumbnailURL);
                         var node = document.createElement("div");
-                        node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>View Full Image</a>"
-                            + "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
+                        node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>"
+                            + "<img src='" + feature.graphic.attributes.thumbnailURL + "' ></a>";
+                        //node.innerHTML = "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
                         return node;
                     }
                     //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"

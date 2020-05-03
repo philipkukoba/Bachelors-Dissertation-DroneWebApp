@@ -17,6 +17,7 @@ namespace DroneWebApp.Models
         public int RawImageKey { get; set; }
         public string FileName { get; set; }
         public byte[] RawData { get; set; }
+        public byte[] RawDataDownsized { get; set; }
         public string ExposureTime { get; set; }
         public Nullable<int> FNumber { get; set; }
         public Nullable<int> Iso { get; set; }
