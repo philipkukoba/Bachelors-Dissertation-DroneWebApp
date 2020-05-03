@@ -24,13 +24,13 @@ namespace DroneWebApp.Controllers
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
         // Parsing variables
-        private static List<string> fileNames; // list that keeps track of the files' names
-        private static List<bool> parseResults; // list that keeps track of the success or failure of those files
         private static Dictionary<string, bool> results;
         private static string currentFileName; // the current file that is being processed
         private static bool currentParseResult; // the current parse result
         private static int totalFilesToParse = 0; // the total amount of files that must be parsed
         private static int filesLeft = 0; // the amount of files that still have to be parsed
+
+        // have a static value that keeps track if someone is uploading (a busy)
 
         // Constructor
         public FilesController(DbContext db)
@@ -65,34 +65,51 @@ namespace DroneWebApp.Controllers
             return View("Index");
         }
 
+        // Return values for error-handling: 
+        // 1: success
+        // 0: no files submitted
+        // 2: no drone flight specified
+        // 3: drone flight does not exist
+        // 4: someone else is already uploading
+        // 5: invalid file type
         [HttpPost]
-        public ActionResult Index(int? id, List<HttpPostedFileBase> files)
+        public int Index(int? id, List<HttpPostedFileBase> files)
         {
+            // Prevent users from parsing files at the same time (solution may be Websockets)
+            if (filesLeft > 0)
+            {
+                return 4;
+            }
             // How many files must be parsed?
             totalFilesToParse = files.Count;
             filesLeft = totalFilesToParse;
-            // Check if an id was submitted & whether a drone flight with this id exists   
+            
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
+            // Check if an id was submitted &  
             if (id == null)
             {
-                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
+                return 2;
             }
+            // Check whether a drone flight with this id exists  
             else if (droneFlight == null)
             {
-                ViewBag.ErrorMessage = "This Drone Flight does not exist.";
-                return View("~/Views/ErrorPage/Error.cshtml");
+                return 3;
             }
-
+            // Check whether files were submitted
+            else if (files.Count == 0)
+            {
+                return 0;
+            }
+            
             System.Diagnostics.Debug.WriteLine("Total Files to Parse: " + totalFilesToParse );
 
-            // Lists to be returned to the front-end
-            //fileNames = new List<string>();
-            //parseResults = new List<bool>();
+            // Keep track of which files were successfully read
             results = new Dictionary<string, bool>();
 
+            // Parse all submitted files
             foreach (HttpPostedFileBase file in files)
             {
+                System.Diagnostics.Debug.WriteLine("File name: " + file.ToString());
                 // Verify that the file provided exists
                 if (file != null)
                 {
@@ -103,43 +120,40 @@ namespace DroneWebApp.Controllers
                     {
                         // extract only the filename
                         currentFileName = Path.GetFileName(file.FileName); // set the current file name
-                                                                           // add this file name to the list of files
-                        fileNames.Add(currentFileName);
-                        
+                                                                           // add this file name to the list of files  
                         // store the file inside ~/files/ folder
                         path = Path.Combine(Server.MapPath("~/files"), currentFileName);
                         file.SaveAs(path);
                     }
 
                     string fileExtension = currentFileName.Substring(currentFileName.Length - 4);
-                    // Verify that the user's file is an appropriate filetype
-                    if (!validExtensions.Contains(fileExtension.ToLower())) //set lowercase
+                    // Check that the user's file is an appropriate file type
+                    if (!validExtensions.Contains(fileExtension.ToLower()))
                     {
-                        ViewBag.ErrorMessage = "This is not a valid filetype. Please choose an appropriate filetype.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
+                        return 5;
                     }
                     else
                     {
-                        // Parsing
+                        // Parse the submitted file
                         if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
                         {
                             currentParseResult = creator.GetParser(".dat", path, (int)id);
-                            //parseResults.Add(currentParseResult);
                             results.Add(currentFileName, currentParseResult);
                         }
                         else
                         {
                             currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                            //parseResults.Add(currentParseResult);
                             results.Add(currentFileName, currentParseResult);
                         }
                     }
+                    filesLeft--;
                 }
-                filesLeft--;
-            }
-            return View("Index");
+                
+            } // end of foreach loop
+            return 1; // success
         }
 
+        // Exports pilot or drone data to a log file
         public ActionResult Export(int? id, string extension, string type)
         {
             if (id == null)
@@ -183,9 +197,26 @@ namespace DroneWebApp.Controllers
             return View("Export");
         }
 
+        // Returns the Status of the parsing to the Client
         [HttpGet]
         public ActionResult GetStatus()
         {
+            System.Diagnostics.Debug.WriteLine("Files left***:" + filesLeft);
+            // Build the list of failed files (where the parser returned false) to pass to Client
+            List<string> failed = new List<string>();
+            if (filesLeft == 0 && (results != null))
+            {
+                foreach (KeyValuePair<string, bool> entry in results)
+                {
+                    if (entry.Value == false)
+                    {
+                        failed.Add(entry.Key);
+                    }
+                }
+                results = null;
+            }
+
+            // Convert parseResult to an int to pass to Client
             int parseResultToInt;
             if (currentParseResult)
             {
@@ -196,33 +227,13 @@ namespace DroneWebApp.Controllers
                 parseResultToInt = 0;
             }
 
+            // Create struct
             var result = (new
             {
                 currProgress = Helper.progress,
                 currParseResult = parseResultToInt,
                 currFileName = currentFileName,
                 currFilesLeft = filesLeft,
-            });
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        // gets the list of parsing results and list of file names
-        // todo: return a list of the files that failed + their name
-        [HttpGet]
-        public ActionResult GetResultsAndFileNames()
-        {
-            List<string> failed = new List<string>();
-            foreach (KeyValuePair<string, bool> entry in results)
-            {
-                if(entry.Value == false)
-                {
-                    failed.Add(entry.Key);
-                }
-            }
-
-            var result = (new
-            {
                 failedFiles = failed,
             });
 

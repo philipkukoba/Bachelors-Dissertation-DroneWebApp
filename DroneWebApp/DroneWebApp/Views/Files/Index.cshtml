@@ -18,6 +18,12 @@
 </div>
 <br />
 
+@* Errors *@
+<div id="errorField" class="alert alert-warning" hidden>
+    <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br />
+    <span id="errorMessage"></span>
+</div>
+
 @* Progress *@
 <div id="progressField" class="alert alert-info" hidden>
     Adding files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br/>
@@ -25,16 +31,17 @@
 </div>
 
 @* Success *@
-<div id="successfullyAdded" class="alert alert-success" role="alert" hidden>
-    Files <span id="fileNames"></span> have been successfully added to your Flight.
-    <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files were read.
+<div id="endField" class="alert alert-success" role="alert" hidden>
+    Parser successfully finished and read <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files were read, of which <strong><span id="totalFailed"></span></strong> files failed to parse.
     <br />
+    <div id="failedFilesList" hidden>The files that were not parsed are:</div>
     <div id="showNavigation">
         <br />
         @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId }, new { @class = "btn btn-primary btn-sm" }) |
         @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights", null, new { @class = "btn btn-primary btn-sm" })
     </div>
 </div>
+
 
 @if (ViewBag.ErrorMessage != null)
 {

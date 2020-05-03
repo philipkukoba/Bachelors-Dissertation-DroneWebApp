@@ -43,6 +43,9 @@ namespace DroneWebApp.Models
         public string GpsLongitude { get; set; }
         public string GpsPosition { get; set; }
         public int FlightId { get; set; }
+        public string GPSLatRef { get; set; }
+        public string GPSLongRef { get; set; }
+        public string GPSAltitudeRef { get; set; }
     
         public virtual DroneFlight DroneFlight { get; set; }
     }

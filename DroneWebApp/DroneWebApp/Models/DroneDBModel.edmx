@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DroneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AbsoluteGeolocationVariance">
           <Key>
             <PropertyRef Name="AbsoluteGeolocationVarianceId" />
@@ -336,6 +336,9 @@
           <Property Name="GpsLatitude" Type="varchar" MaxLength="50" />
           <Property Name="GpsLongitude" Type="varchar" MaxLength="50" />
           <Property Name="GpsPosition" Type="varchar" MaxLength="50" />
+          <Property Name="GPSLatRef" Type="varchar" MaxLength="50" />
+          <Property Name="GPSLongRef" Type="varchar" MaxLength="50" />
+          <Property Name="GPSAltitudeRef" Type="varchar" MaxLength="50" />
           <Property Name="FlightId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -796,8 +799,7 @@
             <End Role="Uncertainty" EntitySet="Uncertainty" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DroneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1175,6 +1177,9 @@
           <Property Name="GpsPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FlightId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
+          <Property Name="GPSLatRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPSLongRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPSAltitudeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1964,6 +1969,9 @@
           <EntitySetMapping Name="RawImages">
             <EntityTypeMapping TypeName="DroneDBModel.RawImage">
               <MappingFragment StoreEntitySet="RawImages">
+                <ScalarProperty Name="GPSAltitudeRef" ColumnName="GPSAltitudeRef" />
+                <ScalarProperty Name="GPSLongRef" ColumnName="GPSLongRef" />
+                <ScalarProperty Name="GPSLatRef" ColumnName="GPSLatRef" />
                 <ScalarProperty Name="RawImageKey" ColumnName="RawImageKey" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="RawData" ColumnName="RawData" />
