@@ -26,6 +26,7 @@ namespace DroneWebApp.Controllers
         // Parsing variables
         private static List<string> fileNames; // list that keeps track of the files' names
         private static List<bool> parseResults; // list that keeps track of the success or failure of those files
+        private static Dictionary<string, bool> results;
         private static string currentFileName; // the current file that is being processed
         private static bool currentParseResult; // the current parse result
         private static int totalFilesToParse = 0; // the total amount of files that must be parsed
@@ -36,12 +37,13 @@ namespace DroneWebApp.Controllers
         {
             Db = (DroneDBEntities)db;
             creator = new Creator(Db);
+            System.Diagnostics.Debug.WriteLine("FilesController constructor");
         }
 
         [HttpGet]
         public ActionResult Index(int? id)
         {
-            DroneFlight droneFlight = Db.DroneFlights.Find((int)id);
+            DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
@@ -69,7 +71,7 @@ namespace DroneWebApp.Controllers
             // How many files must be parsed?
             totalFilesToParse = files.Count;
             filesLeft = totalFilesToParse;
-            // Check if an id was submitted & whether a drone flight with this id exists            // ********************************
+            // Check if an id was submitted & whether a drone flight with this id exists   
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
             if (id == null)
             {
@@ -85,8 +87,9 @@ namespace DroneWebApp.Controllers
             System.Diagnostics.Debug.WriteLine("Total Files to Parse: " + totalFilesToParse );
 
             // Lists to be returned to the front-end
-            fileNames = new List<string>();
-            parseResults = new List<bool>();
+            //fileNames = new List<string>();
+            //parseResults = new List<bool>();
+            results = new Dictionary<string, bool>();
 
             foreach (HttpPostedFileBase file in files)
             {
@@ -102,6 +105,7 @@ namespace DroneWebApp.Controllers
                         currentFileName = Path.GetFileName(file.FileName); // set the current file name
                                                                            // add this file name to the list of files
                         fileNames.Add(currentFileName);
+                        
                         // store the file inside ~/files/ folder
                         path = Path.Combine(Server.MapPath("~/files"), currentFileName);
                         file.SaveAs(path);
@@ -120,17 +124,18 @@ namespace DroneWebApp.Controllers
                         if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
                         {
                             currentParseResult = creator.GetParser(".dat", path, (int)id);
-                            parseResults.Add(currentParseResult);
+                            //parseResults.Add(currentParseResult);
+                            results.Add(currentFileName, currentParseResult);
                         }
                         else
                         {
                             currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                            parseResults.Add(currentParseResult);
+                            //parseResults.Add(currentParseResult);
+                            results.Add(currentFileName, currentParseResult);
                         }
                     }
-
-                    filesLeft--;
                 }
+                filesLeft--;
             }
             return View("Index");
         }
@@ -179,13 +184,6 @@ namespace DroneWebApp.Controllers
         }
 
         [HttpGet]
-        public int GetTotalFiles()
-        {
-            System.Diagnostics.Debug.WriteLine("Total Files to Parse in GetTotalFiles: " + totalFilesToParse);
-            return totalFilesToParse;
-        }
-
-        [HttpGet]
         public ActionResult GetStatus()
         {
             int parseResultToInt;
@@ -197,7 +195,7 @@ namespace DroneWebApp.Controllers
             {
                 parseResultToInt = 0;
             }
-            //data projection
+
             var result = (new
             {
                 currProgress = Helper.progress,
@@ -212,20 +210,23 @@ namespace DroneWebApp.Controllers
         // gets the list of parsing results and list of file names
         // todo: return a list of the files that failed + their name
         [HttpGet]
-        public HttpResponseMessage GetResultsAndFileNames()
+        public ActionResult GetResultsAndFileNames()
         {
-            //data projection
+            List<string> failed = new List<string>();
+            foreach (KeyValuePair<string, bool> entry in results)
+            {
+                if(entry.Value == false)
+                {
+                    failed.Add(entry.Key);
+                }
+            }
+
             var result = (new
             {
-
+                failedFiles = failed,
             });
 
-            //config to set to json
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(result));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            return response;
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
