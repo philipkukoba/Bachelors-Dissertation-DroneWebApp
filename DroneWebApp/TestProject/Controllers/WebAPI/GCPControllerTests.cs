@@ -10,6 +10,11 @@ using DroneWebApp.Models;
 using System.Data.Entity;
 using System.Net.Http;
 using System.Web.Http;
+using System.Net;
+using System.Web.Http.Routing;
+using System.Web.Mvc;
+using System.Web;
+using System.Web.Routing;
 
 namespace DroneWebApp.Controllers.Tests
 {
@@ -17,13 +22,21 @@ namespace DroneWebApp.Controllers.Tests
     public class GCPControllerTests
     {
         [TestMethod()]
-        public void GetGroundControlPointsByFlightIDTest()
+        public void GetGroundControlPointsByFlightIDTest_LinkGeneration()
         {
             // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
             GCPController controller = new GCPController();
-            controller.Request = new HttpRequestMessage();
+            controller.Request = new HttpRequestMessage { RequestUri = new Uri("http://localhost:44378/api/GCP") };
             controller.Configuration = new HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary { { "controller", "GCP" } });
 
             // Create a mock DbSet
             List<DroneFlight> flights = GetFlights();
@@ -35,8 +48,35 @@ namespace DroneWebApp.Controllers.Tests
 
             var response = controller.GetGroundControlPointsByFlightID(3);
 
-            // var gcps
-            Assert.IsTrue(response.TryGetContentValue(out object gcps));
+            Assert.AreEqual("http://localhost:44378/api/GCP/3", response.Headers.Location.AbsoluteUri);
+        }
+
+        [TestMethod()]
+        public void GetGroundControlPointsByFlightIDTest_ActionExecutes()
+        {
+            // Create mock context
+            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
+            GCPController controller = new GCPController();
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+            var httpContextMock = new Mock<HttpContextBase>();
+
+            
+
+            //controller.ControllerContext = new ControllerContext(httpContextMock.Object, new RouteData(), controller);
+
+            // Create a mock DbSet
+            List<DroneFlight> flights = GetFlights();
+            //var mockSet = CreateMockSet(flights);
+            // Set up the DroneFlights property so it returns the mocked DbSet
+            //mockContext.Setup(o => o.DroneFlights).Returns(() => mockSet.Object);
+            // Set up the Find method for the mocked DbSet
+            //mockContext.Setup(c => c.DroneFlights.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
+
+            var response = controller.GetGroundControlPointsByFlightID(3);
+
+            System.Diagnostics.Debug.WriteLine(response.Content);
+            Assert.AreEqual(flights.FirstOrDefault(df => df.FlightId == 3).GroundControlPoints, response.Content);
         }
 
         private List<DroneFlight> GetFlights()
