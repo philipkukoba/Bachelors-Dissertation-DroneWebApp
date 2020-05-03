@@ -1,6 +1,7 @@
 ﻿using MetadataExtractor;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -17,7 +18,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		public bool Parse(string path, int flightId, DroneDBEntities db)
 		{
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
-
 
 			// Set culture for double conversion 
 			CultureInfo customCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -37,26 +37,27 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
 			}
 
+			//reading metadata
+			var directories = ImageMetadataReader.ReadMetadata(path);
+
+			//check if image is already in db 
+			string filename = directories[10].Tags[0].Description;
+			int count = db.RawImages.SqlQuery(
+					   "SELECT * FROM RawImages WHERE FlightId = @id AND FileName = @filename; ",
+					   new SqlParameter("id", flightId),
+					   new SqlParameter("filename", filename))
+					   .Count<RawImage>();
+
+			//the image is already in the db for this flight
+			if (count != 0) return false;
+
+			Helper.Helper.SetProgress(30);
+
 			//thumbnail
 			byte[] rawDataDownsized;
 			Bitmap bmp = ResizeImage(Image.FromFile(path), 225, 150);
 			ImageConverter converter = new ImageConverter();
-			rawDataDownsized =  (byte[])converter.ConvertTo(bmp, typeof(byte[]));
-
-
-			//reading metadata
-			var directories = ImageMetadataReader.ReadMetadata(path);
-
-
-			//check if image is already in db 
-			//TODO FIX THIS
-			string filename = directories[10].Tags[0].Description;
-			foreach (RawImage img in droneFlight.RawImages)
-			{
-				if (img.FileName == filename) return false; 
-			}
-
-			Helper.Helper.SetProgress(30);
+			rawDataDownsized = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
 
 			Helper.Helper.SetProgress(60);
 
@@ -67,8 +68,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 				RawData = rawData,
 				RawDataDownsized = rawDataDownsized,
-				
-				
+
+
 				FlightId = flightId,
 
 				CreateDate = DateTime.ParseExact(directories[1].Tags[8].Description, format, provider),
@@ -93,7 +94,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				//new fields 
 				ExposureTime = directories[2].Tags[0].Description,
 				ShutterSpeedValue = directories[2].Tags[9].Description,
-				ApertureValue = directories[2].Tags[10].Description, 
+				ApertureValue = directories[2].Tags[10].Description,
 				MaxApertureValue = directories[2].Tags[12].Description,
 
 
@@ -104,7 +105,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				AbsoluteAltitude = null,
 				RelativeAltitude = null,
 				GpsPosition = null,
-				RtkFlag = null
+				RtkFlag = null,
+
+				GPSLatRef = directories[5].Tags[1].Description,
+				GPSLongRef = directories[5].Tags[3].Description,
+				GPSAltitudeRef = directories[5].Tags[5].Description
+
 
 				//old fields 
 
@@ -141,18 +147,18 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			Helper.Helper.SetProgress(100);
 
 			#region console prints 
-			//int directory_i = 0; 
-			//foreach (var directory in directories)
-			//{
-			//	int tag_i = 0; 
-			//	foreach (var tag in directory.Tags)
-			//	{
+			int directory_i = 0;
+			foreach (var directory in directories)
+			{
+				int tag_i = 0;
+				foreach (var tag in directory.Tags)
+				{
 
-			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
-			//		tag_i++; 
-			//	}
-			//	directory_i++;
-			//}
+					System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
+					tag_i++;
+				}
+				directory_i++;
+			}
 
 			//Debug.WriteLine(directories[0]); //JPEG Directory (8 tags)
 			//Debug.WriteLine(directories[1]); //Exif IFD0 Directory (12 tags)

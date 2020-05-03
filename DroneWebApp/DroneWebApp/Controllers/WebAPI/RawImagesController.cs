@@ -37,11 +37,6 @@ namespace DroneWebApp.Controllers.WebAPI
 
 					ImageID = rawImage.RawImageKey,
 
-
-					//rawImage.RawData,   //raw image data (bytes)
-					//conversion already happens here
-					//url = "data:image/jpg;base64," + Convert.ToBase64String(rawImage.RawData, 0, rawImage.RawData.Length),
-
 					FlightID = rawImage.FlightId,
 
 					rawImage.CreateDate,
@@ -56,10 +51,11 @@ namespace DroneWebApp.Controllers.WebAPI
 					rawImage.GpsAltitude,
 					rawImage.GpsLatitude,
 					rawImage.GpsLongitude,
-					rawImage.GpsPosition
+					rawImage.GpsPosition,
 
-					//missing new fields
-
+					rawImage.GPSAltitudeRef,
+					rawImage.GPSLatRef,
+					rawImage.GPSLongRef
 				}).ToList();
 
 			//config to set to json 
@@ -94,10 +90,5 @@ namespace DroneWebApp.Controllers.WebAPI
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 			}
 		}
-
-		//return compressedimg 
-
-		//TODO
-
 	}
 }
