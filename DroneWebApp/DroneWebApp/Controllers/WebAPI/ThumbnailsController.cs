@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,51 +18,76 @@ namespace DroneWebApp.Controllers.WebAPI
     {
         private DroneDBEntities db = new DroneDBEntities();
 
-        // GET: api/Thumbnails
-        public HttpResponseMessage GetThumbNail(int id, int imageid)
+
+        public HttpResponseMessage GetThumbnail(int id, int imageid)
         {
-            System.Diagnostics.Debug.WriteLine("aaaaaaaa");
-
-            //find the right image in db 
-            DroneFlight droneFlight = db.DroneFlights.Find(id);
-            RawImage rawImage = null;
-            bool found = false;
-            foreach (RawImage img in droneFlight.RawImages)
+            try
             {
-                if (img.RawImageKey == imageid)
-                {
-                    rawImage = img;
-                    found = true;
-                }
+                //using parameters against sql injections
+                RawImage rawImage = db.RawImages.SqlQuery(
+                    "SELECT * FROM RawImages WHERE FlightId = @id AND RawImageKey = @imageid;",
+                     new SqlParameter("id", id),
+                     new SqlParameter("imageid", imageid)
+                    ).First<RawImage>();
+
+                //config to an image
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new ByteArrayContent(rawImage.RawDataDownsized); //downsized img 
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+                return result;
             }
-            if (!found) return new HttpResponseMessage(HttpStatusCode.NotFound);
-
-            System.Diagnostics.Debug.WriteLine("bbbbbbbbbbbb");
-
-            //compression of image (making the thumbnail)
-            System.IO.MemoryStream myMemStream = new System.IO.MemoryStream(rawImage.RawData);
-            System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(myMemStream);
-            System.Diagnostics.Debug.WriteLine("ccccccccccccccccc");
-
-            int resizeFactor = 64; 
-            int newWidth = (int) 5472 / resizeFactor;
-            int newHeight = (int) 3648 / resizeFactor;
-            
-            System.Diagnostics.Debug.WriteLine("ddddddddddddddddd");
-            
-            System.Drawing.Image newImage = fullsizeImage.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-            System.IO.MemoryStream myResult = new System.IO.MemoryStream();
-            newImage.Save(myResult, System.Drawing.Imaging.ImageFormat.Jpeg);  //Or whatever format you want.
-            //return myResult.ToArray();  //Returns a new byte array.
-            
-            System.Diagnostics.Debug.WriteLine("eeeeeeeeeeeeeeee");
-            
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(myResult.ToArray());
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
-            return result;
-
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
         }
+
+        // GET: api/Thumbnails
+        //public HttpResponseMessage GetThumbNail(int id, int imageid)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("aaaaaaaa");
+
+        //    //find the right image in db 
+        //    DroneFlight droneFlight = db.DroneFlights.Find(id);
+        //    RawImage rawImage = null;
+        //    bool found = false;
+        //    foreach (RawImage img in droneFlight.RawImages)
+        //    {
+        //        if (img.RawImageKey == imageid)
+        //        {
+        //            rawImage = img;
+        //            found = true;
+        //        }
+        //    }
+        //    if (!found) return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+        //    System.Diagnostics.Debug.WriteLine("bbbbbbbbbbbb");
+
+        //    //compression of image (making the thumbnail)
+        //    System.IO.MemoryStream myMemStream = new System.IO.MemoryStream(rawImage.RawData);
+        //    System.Drawing.Image fullsizeImage = System.Drawing.Image.FromStream(myMemStream);
+        //    System.Diagnostics.Debug.WriteLine("ccccccccccccccccc");
+
+        //    int resizeFactor = 64; 
+        //    int newWidth = (int) 5472 / resizeFactor;
+        //    int newHeight = (int) 3648 / resizeFactor;
+            
+        //    System.Diagnostics.Debug.WriteLine("ddddddddddddddddd");
+            
+        //    System.Drawing.Image newImage = fullsizeImage.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+        //    System.IO.MemoryStream myResult = new System.IO.MemoryStream();
+        //    newImage.Save(myResult, System.Drawing.Imaging.ImageFormat.Jpeg);  //Or whatever format you want.
+        //    //return myResult.ToArray();  //Returns a new byte array.
+            
+        //    System.Diagnostics.Debug.WriteLine("eeeeeeeeeeeeeeee");
+            
+        //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+        //    result.Content = new ByteArrayContent(myResult.ToArray());
+        //    result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+        //    return result;
+
+        //}
 
         
     }

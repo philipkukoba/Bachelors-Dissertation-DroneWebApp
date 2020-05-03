@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -69,39 +70,29 @@ namespace DroneWebApp.Controllers.WebAPI
 			return response;
 		}
 
-		//[Route("/{flightid}/{filename}")]
-
-
+		
 		//get the full image by flightid and by imageid
 		public HttpResponseMessage GetImage(int id, int imageid)
 		{
-			System.Diagnostics.Debug.WriteLine(id);
-			System.Diagnostics.Debug.WriteLine("aaaaaaa");
+			try {
+				//using parameters against sql injections
+				RawImage rawImage = db.RawImages.SqlQuery(
+					"SELECT * FROM RawImages WHERE FlightId = @id AND RawImageKey = @imageid;",
+					 new SqlParameter("id", id),
+					 new SqlParameter("imageid", imageid)
+					).First<RawImage>();
 
-			//TODO 
-			//db.RawImages.SqlQuery("");
-			//db.RawImages.Find(); 
-
-			//find the right image in db 
-			DroneFlight droneFlight = db.DroneFlights.Find(id);
-			RawImage rawImage = null;
-			bool found = false;
-			foreach (RawImage img in droneFlight.RawImages)
-			{
-				if (img.RawImageKey == imageid)
-				{
-					rawImage = img;
-					found = true;
-				}
+				//config to an image
+				HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+				result.Content = new ByteArrayContent(rawImage.RawData);
+				result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+				return result;
 			}
-			if (!found) return new HttpResponseMessage(HttpStatusCode.NotFound);
-
-			//config to an image
-			HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-			result.Content = new ByteArrayContent(rawImage.RawData);
-			result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
-			return result;
-
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(ex);
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
+			}
 		}
 
 		//return compressedimg 

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7b2ec8f4643449bdb8f37a6894f1a531" Name="Diagram1">
+      <Diagram DiagramId="340457b590c041d182670a1d16259e70" Name="Diagram1">
         <EntityTypeShape EntityType="DroneDBModel.AbsoluteGeolocationVariance" Width="1.5" PointX="7.5" PointY="45" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.CTRLPoint" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.DepartureInfo" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
@@ -25,9 +25,8 @@
         <EntityTypeShape EntityType="DroneDBModel.PointCloudXYZ" Width="1.5" PointX="5.25" PointY="41.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.Project" Width="1.5" PointX="0.75" PointY="38.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.QualityReport" Width="1.5" PointX="5.25" PointY="47.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.RawImage" Width="1.5" PointX="5.25" PointY="57.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DroneDBModel.TFW" Width="1.5" PointX="5.25" PointY="64.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.RawImage" Width="1.5" PointX="5.25" PointY="60.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DroneDBModel.TFW" Width="1.5" PointX="5.25" PointY="57.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DroneDBModel.Uncertainty" Width="1.5" PointX="7.5" PointY="52.75" IsExpanded="true" />
         <AssociationConnector Association="DroneDBModel.FK_AbsoluteGeolocationVariance_QualityReport" ManuallyRouted="false" />
         <AssociationConnector Association="DroneDBModel.FK_CTRLPoints_DroneFlight" ManuallyRouted="false" />
