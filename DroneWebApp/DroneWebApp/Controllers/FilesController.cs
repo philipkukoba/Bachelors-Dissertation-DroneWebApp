@@ -60,7 +60,7 @@ namespace DroneWebApp.Controllers
                 date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
             }
             ViewBag.Date = date;
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -175,7 +175,7 @@ namespace DroneWebApp.Controllers
                 }
             }
 
-            return View();
+            return View("Export");
         }
 
         [HttpGet]
