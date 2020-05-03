@@ -15,13 +15,20 @@
     </ol>
 </nav>
 
-<h4><strong>Drone Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy"))</strong></h4>
+@{
+    string str = "NA.";
+    if (@ViewBag.droneFlight.Date != null)
+    {
+        str = @ViewBag.droneFlight.Date.ToString("dd/MM/yyyy, HH:mm:ss");
+    }
+}
+<h4><strong>Drone Flight @ViewBag.droneFlight.FlightId (@ViewBag.droneFlight.Location, @str)</strong></h4>
 
 <a href='@Url.Action("Index", "Files", new { id = @ViewBag.droneFlight.FlightId })' id="upload_icon">
     <img src="~/Content/images/upload_icon.png" class="img-size">
     <img src="~/Content/images/upload_icon_hover.png" class="img-size">
 </a>
-<br/>
+<br />
 
 <div>
     <hr />
