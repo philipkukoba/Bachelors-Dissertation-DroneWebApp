@@ -75,3 +75,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/05/20,17:00,19:40,Extern,Oplossen van ajax communicatie bug (tonen van progress + juiste aantal files tijdens inlezen + op het einde),172,
 03/05/20,20:00,23:55,Extern,Oplossen van ajax communicatie bug (tonen van progress + juiste aantal files tijdens inlezen + op het einde) + progress bar voor alle files naar 100% in totaal + tonen van lijst met files die niet werden geparset,163/172/191,Databank script update + debugging ajax + error messages & rewrite FilesController
 04/05/20,12:30,14:45,Extern,Bug opgelost heruploaden + fixed css-klassen toevoegen/verwijderen via jquery + fixed output naar Client in fileUpload.js,192/193/195,
+04/05/20,15:00,16:30,Extern,Deployment diagram,197,
