@@ -353,7 +353,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 DroneWebApp/DroneWebApp/files
+documenten/demo_docs/demo_bestanden/*.JPG
 documenten/demo_docs/demo_sprint_1.mp4
 documenten/demo_docs/demo_bestanden/Drone Flight - Harelbeke - 190912_dsm_10cm.xyz
-*.JPG
+documenten/demo_docs/demo_bestanden/00 raw pictures survey/*.JPG
 meetings/sprint_planning_meeting_sprint_3.mp4
