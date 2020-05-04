@@ -104,3 +104,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/05/20,00:00,02:00,Extern,Verder probleem dat converten oplossen,26,
 03/05/20,12:45,14:15,Extern,DatCon automatisch oproepen via cmd en ook automatisch proberen te laten sluiten na converteren dat file,26,
 03/05/20,22:00,23:59,Extern,Uitzoeken hoe datcon automatisch laten sluiten,26,
+04/05/20,16:00,19:00,Extern,Datcon proberen implementeren in applicatie,26,
