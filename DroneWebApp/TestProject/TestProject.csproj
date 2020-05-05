@@ -345,13 +345,6 @@
     <Compile Include="Controllers\MapControllerTests.cs" />
     <Compile Include="Controllers\PilotsControllerTests.cs" />
     <Compile Include="Controllers\ProjectsControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\CTRLPointsControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\DroneFlightsAPIControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\DroneGPsControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\GCPControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\PointCloudXYZsControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\RawImagesControllerTests.cs" />
-    <Compile Include="Controllers\WebAPI\ThumbnailsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
