@@ -157,7 +157,14 @@ namespace DroneWebApp.Controllers
             df.ProjectId = postedDroneFlight.ProjectId;
             df.Location = postedDroneFlight.Location;
             // keep the old time portion of the date; user cannot update time, only date
-            df.Date = new DateTime(((DateTime)postedDroneFlight.Date).Year, ((DateTime)postedDroneFlight.Date).Month, ((DateTime)postedDroneFlight.Date).Day,((DateTime)df.Date).Hour, ((DateTime)df.Date).Minute, ((DateTime)df.Date).Second);
+            if(df.Date != null)
+            {
+                df.Date = new DateTime(((DateTime)postedDroneFlight.Date).Year, ((DateTime)postedDroneFlight.Date).Month, ((DateTime)postedDroneFlight.Date).Day, ((DateTime)df.Date).Hour, ((DateTime)df.Date).Minute, ((DateTime)df.Date).Second);
+            }
+            else
+            {
+                df.Date = postedDroneFlight.Date;
+            }
             df.TypeOfActivity = postedDroneFlight.TypeOfActivity;
             df.Other = postedDroneFlight.Other;
             df.Simulator = postedDroneFlight.Simulator;
