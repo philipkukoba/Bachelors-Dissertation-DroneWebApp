@@ -7,11 +7,12 @@ let my_form;
 let firstCheck = true;
 
 $(document).ready(function () {
-    // File extension verification; upload button will be disabled if the user tries to upload an extension that is not allowed
+    // File extension verification; upload button will be disabled...
+    // ...if the user tries to upload an extension that is not allowed
     $("#file").change(function () {
         var fileExtension = ['pdf', 'dat', 'txt', 'csv', 'xyz', 'tfw', 'jpg']; // allowed extensions
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-            alert("Only formats are allowed : " + fileExtension.join(', '));
+            alert("Only the following formats are allowed : " + fileExtension.join(', ') + ". Please try again.");
             $("#uploadbtnSubmit").prop('disabled', true); // disable upload button
         }
         else {
@@ -35,12 +36,10 @@ $(document).ready(function () {
                 filesLeftToParse = 0; // reset
                 firstCheck = true;
             }
-            console.log("beforeSend! :)");
         },
         uploadProgress: function (event, position, total, percentComplete) {
             $("#uploadstatus").text("Uploading files... (" + percentComplete + "%)");
             $("#progressbar").progressbar("value", percentComplete);
-            //$("#endField").hide();
             // Once uploading is complete...
             if (percentComplete == 100) {
                 $("#uploadstatus").text("Upload complete.");

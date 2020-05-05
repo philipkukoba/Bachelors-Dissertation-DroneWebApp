@@ -420,9 +420,8 @@
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom\datatable_script.js" />
-    <Content Include="Scripts\custom\datetime-moment.js" />
+    <Content Include="Scripts\datetime-moment.js" />
     <Content Include="Scripts\custom\fileUpload.js" />
-    <Content Include="Scripts\custom\moment.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
