@@ -103,13 +103,14 @@ $(document).ready(function () {
 
 }); // end of $(document).ready
 
-// Helper-function for AjaxForm: changes the progress bar value at an interval
+// Changes the progress bar value at an interval
 function startParsing() {
     $("#progressbar").progressbar({ value: 0 });
     intervalID = setTimeout(parse, 500);  //every 0.5 sec the progress bar updates
 }
 
-// Helper-function for startParsing: called in startParsing to change the progress bar value through an ajax call
+// Helper-function for startParsing: called in startParsing to change the progress bar value ...
+// ... through an ajax call
 function parse() {
     $.get("/Files/GetStatus/", function (result) {
         currentFile = result.currFileName // set the current file
@@ -129,7 +130,10 @@ function parse() {
         // Update the amount of files that still have to be parsed
         console.log("Files left to parse: " + filesLeftToParse);
         //update the progress bar
-        let progress = Math.round((amountParsed / totalFilesToParse + (result.currProgress / 100) / totalFilesToParse) * 100);
+        let progress = Math.round((amountParsed / totalFilesToParse
+                                        + (result.currProgress / 100)
+                                        / totalFilesToParse)
+                                            * 100);
         $("#uploadstatus").text("Parsing file: " + currentFile + " (" + progress + "%)");
         $("#progressbar").progressbar("value", progress);
 
