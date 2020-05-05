@@ -815,7 +815,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							command_DroneLogEntry.ExecuteNonQuery();
 
 							//some kind of sql query to get dronelog entry id
-							int DroneLogEntryId = IDCommand.ExecuteNonQuery();
+							//int DroneLogEntryId = IDCommand.ExecuteNonQuery();
+
+							//datareader nodig om id op te vragen 
+							// getInt(0);
+							DbDataReader reader = IDCommand.ExecuteReader();
+							int DroneLogEntryId;
+							if (reader.Read())
+							{
+								DroneLogEntryId = reader.GetInt32(0);
+							}
+							else return false; //something went wrong 
 
 							//set this id on all other commands
 							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId; 
