@@ -26,7 +26,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			//culture for date parsing 
 			CultureInfo provider = CultureInfo.InvariantCulture;
-			string format = "yyyy:dd:MM HH:mm:ss"; //2019:09:12 15:49:47
+			string format = "yyyy:MM:dd HH:mm:ss"; //2019:09:12 15:49:47
 
 			Helper.Helper.SetProgress(10);
 

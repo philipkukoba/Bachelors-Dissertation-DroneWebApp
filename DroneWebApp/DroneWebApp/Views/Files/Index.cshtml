@@ -30,11 +30,23 @@
     <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files. Please wait...
 </div>
 
-@* Success *@
+@* End *@
 <div id="endField" class="alert alert-success" role="alert" hidden>
-    Parser successfully finished and read <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files were read, of which <strong><span id="totalFailed"></span></strong> files failed to parse.
+    The parser successfully finished and read <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files.
     <br />
-    <div id="failedFilesList" hidden>The files that were not parsed are:</div>
+    <div id="successField" hidden>
+        All of your files have been <strong>added</strong> to this Drone Flight in the database.
+    </div>
+    <div id="failedField" hidden>
+        <div id="oneFile" hidden>
+            The following <strong><span class="totalFailed"></span></strong> file was not parsed, because it <strong>already exists</strong> in the database:
+        </div>
+        <div id="multipleFiles" hidden>
+            The following <strong><span class="totalFailed"></span></strong> files were not parsed, because they <strong>already exist</strong> in the database:
+        </div>
+        <div id="failedFilesList">
+        </div>
+    </div>
     <div id="showNavigation">
         <br />
         @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId }, new { @class = "btn btn-primary btn-sm" }) |
@@ -50,6 +62,9 @@
     </div>
 }
 
+<div id="moreUpload" hidden>
+    Would you like to upload more files?
+</div>
 
 <div class="card paddingErrorIndex">
     <form class="form-inline" method="post" enctype="multipart/form-data" id="Myform">

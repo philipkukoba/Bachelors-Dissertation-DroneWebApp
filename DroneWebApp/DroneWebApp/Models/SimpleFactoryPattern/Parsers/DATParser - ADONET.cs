@@ -274,7 +274,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// Get the approriate DroneFlight that goes with this data
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
 
-			// Do not parse a new file, if this flight already has an XYZ file
+			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) return false;
 
 			// calculate the total amount of lines by going through the whole file once
@@ -815,7 +815,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							command_DroneLogEntry.ExecuteNonQuery();
 
 							//some kind of sql query to get dronelog entry id
-							int DroneLogEntryId = IDCommand.ExecuteNonQuery();
+							//int DroneLogEntryId = IDCommand.ExecuteNonQuery();
+
+							//datareader nodig om id op te vragen 
+							// getInt(0);
+							DbDataReader reader = IDCommand.ExecuteReader();
+							int DroneLogEntryId;
+							if (reader.Read())
+							{
+								DroneLogEntryId = reader.GetInt32(0);
+							}
+							else return false; //something went wrong 
 
 							//set this id on all other commands
 							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId; 

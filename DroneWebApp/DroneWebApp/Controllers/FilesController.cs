@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -109,7 +110,7 @@ namespace DroneWebApp.Controllers
             // Parse all submitted files
             foreach (HttpPostedFileBase file in files)
             {
-                System.Diagnostics.Debug.WriteLine("File name: " + file.ToString());
+                System.Diagnostics.Debug.WriteLine("File name " + filesLeft + " :" + file.ToString());
                 // Verify that the file provided exists
                 if (file != null)
                 {
@@ -145,6 +146,11 @@ namespace DroneWebApp.Controllers
                             currentParseResult = creator.GetParser(fileExtension, path, (int)id);
                             results.Add(currentFileName, currentParseResult);
                         }
+                    }
+                    // Wait a bit so the ajax call can correctly happen in case of uploading 1 file that is already present (parser returns false very quickly)
+                    if(files.Count == 1)
+                    {
+                        Thread.Sleep(1000);
                     }
                     filesLeft--;
                 }
