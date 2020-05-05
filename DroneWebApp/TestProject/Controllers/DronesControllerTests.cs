@@ -224,11 +224,23 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Drones property so it returns the mocked DbSet
             mockContext.Setup(o => o.Drones).Returns(() => mockSet.Object);
             // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.Drones.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
+            mockSet.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
+
+            List<Drone> test = mockSet.Object.ToList();
+            foreach (Drone d in test)
+            {
+                System.Diagnostics.Debug.WriteLine(d.DroneName);
+            }
+            
+            List<Drone> test1 = mockContext.Object.Drones.ToList();
+            foreach (Drone d in test1)
+            {
+                System.Diagnostics.Debug.WriteLine(d.DroneName);
+            }
 
             var result = controller.Edit(drones[3]) as RedirectToRouteResult;
 
-            mockContext.Verify(x => x.SaveChanges(), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.Exactly(21)); // SaveChanges is called once in the controller method and 2 times per drone in the Helper class
             //Assert.AreEqual(EntityState.Modified, mockContext.Object.Entry(drones[3]).State);
             Assert.AreEqual("Index", result.RouteValues["Action"]);
         }
@@ -249,7 +261,7 @@ namespace DroneWebApp.Controllers.Tests
             mockSet.Setup(set => set.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
 
             var result = controller.Delete(3) as ViewResult;
-            Assert.AreEqual("Delete", result.ViewName); ;
+            Assert.AreEqual("Delete", result.ViewName);
         }
 
         [TestMethod()]

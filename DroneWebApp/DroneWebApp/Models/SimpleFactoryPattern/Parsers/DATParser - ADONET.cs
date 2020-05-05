@@ -41,6 +41,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		private string InsertionCommand_DroneMotor = "insert into DroneMotor" +
 						"(MotorId, CurrentRFront, CurrentLFRont, CurrentLBack, CurrentRBack)" +
 						"VALUES (@MotorId, @CurrentRFront, @CurrentLFRont, @CurrentLBack, @CurrentRBack)";
+		private string InsertionCommand_DroneAttributeValues = "insert into DroneAttributeValues" +
+						"(AttributeValueId, ACType, FirmwareDate, DateTime, BatterySN, GeoDeclination, GeoInclination, GeoIntensity)" +
+						"VALUES (@AttributeValueId, @ACType, @FirmwareDate, @DateTime, @BatterySN, @GeoDeclination, @GeoInclination, @GeoIntensity)";
 		#endregion
 
 		private Dictionary<string, string> fieldsAndParameters_DroneLogEntry;
@@ -50,12 +53,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		private Dictionary<string, string> fieldsAndParameters_DroneRTKData;
 		private Dictionary<string, string> fieldsAndParameters_DroneOA;
 		private Dictionary<string, string> fieldsAndParameters_DroneMotor;
+		private Dictionary<string, string> fieldsAndParameters_DroneAttributeValues;
 
 		private HashSet<string> doubles;
 		private HashSet<string> ints;
 
 		private string DroneLogEntry_ID_QUERY = "SELECT DroneLogEntryId FROM DroneLogEntry WHERE DroneLogEntryId = (SELECT max(DroneLogEntryId) FROM DroneLogEntry)";
 
+		//used for DroneAttributeValues table
+		private string dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+		private string dateFormat = "MMM dd yyyy"; //Dec 24 2018 
+		private double geoDeclination;
+		private double geoInclination;
+		private double geoIntensity;
+		private DateTime dateTime;
+		public int BatterySN;
+		public DateTime FirmwareDate;
+		public string ACType;
 
 		public DATParser___ADONET()
 		{
@@ -67,6 +81,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			fieldsAndParameters_DroneRTKData = fill_DroneRTKData_Dictionary();
 			fieldsAndParameters_DroneOA = fill_DroneOA_Dictionary();
 			fieldsAndParameters_DroneMotor = fill_DroneMotor_Dictionary();
+			fieldsAndParameters_DroneAttributeValues = fill_DroneAttributeValues_Dictionary();
 
 			//fill hashsets
 			doubles = fillDoubles();
@@ -74,6 +89,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			connStringSet = ConfigurationManager.ConnectionStrings["DroneDB_ADONET"];
 			factory = DbProviderFactories.GetFactory(connStringSet.ProviderName);
+		}
+
+		private Dictionary<string, string> fill_DroneAttributeValues_Dictionary()
+		{
+			Dictionary<string, string> possiblefieldsAndParameters = new Dictionary<string, string>();
+
+			possiblefieldsAndParameters.Add("Firmware Date", "@FirmwareDate");
+			possiblefieldsAndParameters.Add("ACType", "@ACType");
+			possiblefieldsAndParameters.Add("dateTime", "@DateTime");
+			possiblefieldsAndParameters.Add("BatterySN", "@BatterySN");
+			possiblefieldsAndParameters.Add("geoDeclination", "@GeoDeclination");
+			possiblefieldsAndParameters.Add("geoInclination", "@GeoInclination");
+			possiblefieldsAndParameters.Add("geoIntensity", "@GeoIntensity");
+
+			return possiblefieldsAndParameters;
 		}
 
 		private HashSet<string> fillInts()
@@ -148,7 +178,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		{
 			Dictionary<string, string> possiblefieldsAndParameters = new Dictionary<string, string>();
 
-			//dronelogentry
 			possiblefieldsAndParameters.Add("Battery:lowVoltage", "@BatteryLowVoltage");
 			possiblefieldsAndParameters.Add("Battery:status", "@BatteryStatus");
 			possiblefieldsAndParameters.Add("BattInfo:Remaining%", "@BatteryPercentage");
@@ -251,6 +280,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		{
 			Dictionary<string, string> possiblefieldsAndParameters = new Dictionary<string, string>();
 
+
+
+			possiblefieldsAndParameters.Add("OAId", "@OAId");
+			possiblefieldsAndParameters.Add("AvoidObst", "@AvoidObst");
+			possiblefieldsAndParameters.Add("AirportLimit", "@AirportLimit");
+			possiblefieldsAndParameters.Add("GroundForceLanding", "@GroundForceLanding");
+			possiblefieldsAndParameters.Add("VertAirportLimit", "@VertAirportLimit");
+
 			return possiblefieldsAndParameters;
 		}
 
@@ -301,280 +338,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					Dictionary<string, int> headerDict = new Dictionary<string, int>();
 					string[] fields = parser.ReadFields();
 					#region Read headers of csv file
-					for (int i = 0; i < fields.Length; i++)
+					for (int i = 0; i < fields.Length - 2; i++) //2 useless fields at end are not needed
 					{
-						if (!headerDict.ContainsKey(fields[i]))
+						if (!headerDict.ContainsKey(fields[i])) //TODO wegdoen?
 						{
 							headerDict.Add(fields[i], i);
 						}
-
-						#region todo wegdoen 
-						//if (fields[i].Equals("Tick#"))
-						//{
-						//    dict.Add("Tick#", i);
-						//}
-						//else if (fields[i].Equals("offsetTime"))
-						//{
-						//    dict.Add("offsetTime", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):GPS-H"))
-						//{
-						//    dict.Add("IMU_ATTI(0):GPS-H", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):roll"))
-						//{
-						//    dict.Add("IMU_ATTI(0):roll", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):pitch"))
-						//{
-						//    dict.Add("IMU_ATTI(0):pitch", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):yaw"))
-						//{
-						//    dict.Add("IMU_ATTI(0):yaw", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):distanceTravelled"))
-						//{
-						//    dict.Add("IMU_ATTI(0):distanceTravelled", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):directionOfTravel[mag]"))
-						//{
-						//    dict.Add("IMU_ATTI(0):directionOfTravel[mag]", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):directionOfTravel[true]"))
-						//{
-						//    dict.Add("IMU_ATTI(0):directionOfTravel[true]", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):temperature"))
-						//{
-						//    dict.Add("IMU_ATTI(0):temperature", i);
-						//}
-						//else if (fields[i].Equals("flightTime"))
-						//{
-						//    dict.Add("flightTime", i);
-						//}
-						//else if (fields[i].Equals("navHealth"))
-						//{
-						//    dict.Add("navHealth", i);
-						//}
-						//else if (fields[i].Equals("General:relativeHeight"))
-						//{
-						//    dict.Add("General:relativeHeight", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):Long"))
-						//{
-						//    dict.Add("GPS(0):Long", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):Lat"))
-						//{
-						//    dict.Add("GPS(0):Lat", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):Date"))
-						//{
-						//    dict.Add("GPS(0):Date", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):Time"))
-						//{
-						//    dict.Add("GPS(0):Time", i);
-						//}
-						//else if (fields[i].Equals("GPS:dateTimeStamp"))
-						//{
-						//    dict.Add("GPS:dateTimeStamp", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):heightMSL"))
-						//{
-						//    dict.Add("GPS(0):heightMSL", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):hDOP"))
-						//{
-						//    dict.Add("GPS(0):hDOP", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):pDOP"))
-						//{
-						//    dict.Add("GPS(0):pDOP", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):sAcc"))
-						//{
-						//    dict.Add("GPS(0):sAcc", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):numGPS"))
-						//{
-						//    dict.Add("GPS(0):numGPS", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):numGLNAS"))
-						//{
-						//    dict.Add("GPS(0):numGLNAS", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):numSV"))
-						//{
-						//    dict.Add("GPS(0):numSV", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):velN"))
-						//{
-						//    dict.Add("GPS(0):velN", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):velE"))
-						//{
-						//    dict.Add("GPS(0):velE", i);
-						//}
-						//else if (fields[i].Equals("GPS(0):velD"))
-						//{
-						//    dict.Add("GPS(0):velD", i);
-						//}
-						//else if (fields[i].Equals("Controller:ctrlMode"))
-						//{
-						//    dict.Add("Controller:ctrlMode", i);
-						//}
-						//else if (fields[i].Equals("RC:failSafe"))
-						//{
-						//    dict.Add("RC:failSafe", i);
-						//}
-						//else if (fields[i].Equals("RC:dataLost"))
-						//{
-						//    dict.Add("RC:dataLost", i);
-						//}
-						//else if (fields[i].Equals("RC:appLost"))
-						//{
-						//    dict.Add("RC:appLost", i);
-						//}
-						//else if (fields[i].Equals("Battery:status"))
-						//{
-						//    dict.Add("Battery:status", i);
-						//}
-						//else if (fields[i].Equals("BattInfo:Remaining%"))
-						//{
-						//    dict.Add("BattInfo:Remaining%", i);
-						//}
-						//else if (fields[i].Equals("SMART_BATT:goHome%"))
-						//{
-						//    dict.Add("SMART_BATT:goHome%", i);
-						//}
-						//else if (fields[i].Equals("SMART_BATT:land%"))
-						//{
-						//    dict.Add("SMART_BATT:land%", i);
-						//}
-						//else if (fields[i].Equals("OA:avoidObst"))
-						//{
-						//    dict.Add("OA:avoidObst", i);
-						//}
-						//else if (fields[i].Equals("OA:airportLimit"))
-						//{
-						//    dict.Add("OA:airportLimit", i);
-						//}
-						//else if (fields[i].Equals("OA:groundForceLanding"))
-						//{
-						//    dict.Add("OA:groundForceLanding", i);
-						//}
-						//else if (fields[i].Equals("OA:vertAirportLimit"))
-						//{
-						//    dict.Add("OA:vertAirportLimit", i);
-						//}
-						//else if (fields[i].Equals("Motor:Current:RFront"))
-						//{
-						//    dict.Add("Motor:Current:RFront", i);
-						//}
-						//else if (fields[i].Equals("Motor:Current:LFront"))
-						//{
-						//    dict.Add("Motor:Current:LFront", i);
-						//}
-						//else if (fields[i].Equals("Motor:Current:LBack"))
-						//{
-						//    dict.Add("Motor:Current:LBack", i);
-						//}
-						//else if (fields[i].Equals("Motor:Current:RBack"))
-						//{
-						//    dict.Add("Motor:Current:RBack", i);
-						//}
-						//else if (fields[i].Equals("flyCState") && !dict.ContainsKey("flyCState"))
-						//{
-						//    dict.Add("flyCState", i);
-						//}
-						//else if (fields[i].Equals("nonGPSCause"))
-						//{
-						//    dict.Add("nonGPSCause", i);
-						//}
-						//else if (fields[i].Equals("compassError"))
-						//{
-						//    dict.Add("compassError", i);
-						//}
-						//else if (fields[i].Equals("connectedToRC"))
-						//{
-						//    dict.Add("connectedToRC", i);
-						//}
-						//else if (fields[i].Equals("Battery:lowVoltage"))
-						//{
-						//    dict.Add("Battery:lowVoltage", i);
-						//}
-						//else if (fields[i].Equals("RC:ModeSwitch"))
-						//{
-						//    dict.Add("RC:ModeSwitch", i);
-						//}
-						//else if (fields[i].Equals("gpsUsed"))
-						//{
-						//    dict.Add("gpsUsed", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Date"))
-						//{
-						//    dict.Add("RTKdata:Date", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Time"))
-						//{
-						//    dict.Add("RTKdata:Time", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Lon_P"))
-						//{
-						//    dict.Add("RTKdata:Lon_P", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Lat_P"))
-						//{
-						//    dict.Add("RTKdata:Lat_P", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Hmsl_P"))
-						//{
-						//    dict.Add("RTKdata:Hmsl_P", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Lon_S"))
-						//{
-						//    dict.Add("RTKdata:Lon_S", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Lat_S"))
-						//{
-						//    dict.Add("RTKdata:Lat_S", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Hmsl_S"))
-						//{
-						//    dict.Add("RTKdata:Hmsl_S", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Vel_N"))
-						//{
-						//    dict.Add("RTKdata:Vel_N", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Vel_E"))
-						//{
-						//    dict.Add("RTKdata:Vel_E", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:Vel_D"))
-						//{
-						//    dict.Add("RTKdata:Vel_D", i);
-						//}
-						//else if (fields[i].Equals("RTKdata:hdop"))
-						//{
-						//    dict.Add("RTKdata:hdop", i);
-						//}
-						//else if (fields[i].Equals("Attribute|Value"))
-						//{
-						//    dict.Add("Attribute|Value", i);
-						//}
-						//else if (fields[i].Equals("IMU_ATTI(0):velComposite"))
-						//{
-						//    dict.Add("IMU_ATTI(0):velComposite", i);
-						//}
-						#endregion
 					}
 					#endregion
 					//delete 2 useless keys from headerDict (ConvertDatV3, 3.7.1)
-					headerDict.Remove("ConvertDatV3");
-					headerDict.Remove("3.7.1");
+					//headerDict.Remove("ConvertDatV3");
+					//headerDict.Remove("3.7.1");
 
 					#region Create ALL commands 
 					DbCommand command_DroneLogEntry = connection.CreateCommand();
@@ -612,6 +386,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					command_DroneMotor.CommandText = InsertionCommand_DroneMotor;
 					createParametersForDroneMotor(command_DroneMotor);
 
+					DbCommand command_DroneAttributeValues = connection.CreateCommand();
+					command_DroneAttributeValues.Connection = connection;
+					command_DroneAttributeValues.CommandText = InsertionCommand_DroneAttributeValues;
+					createParametersForDroneAttributeValues(command_DroneAttributeValues);
+
+					//command to get id from last filled dronelogentry row (to be used as foreign key in child tables)
 					DbCommand IDCommand = connection.CreateCommand();
 					IDCommand.Connection = connection;
 					IDCommand.CommandText = DroneLogEntry_ID_QUERY;
@@ -657,7 +437,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							{
 								command_DroneRTKData.Parameters[i].Value = DBNull.Value;
 							}
-							#endregion 
+							for (int i = 0; i < command_DroneAttributeValues.Parameters.Count; i++)
+							{
+								command_DroneAttributeValues.Parameters[i].Value = DBNull.Value;
+							}
+							#endregion
 
 							//Set parameters for all commands
 							//loops through the found headers 
@@ -712,7 +496,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 								{
 									if (isDouble)
 									{
-										Debug.WriteLine("will try to convert to double: *" + fields[headerDict[headerPair.Key]] + "*");
 										command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
 									}
 									else if (isInt)
@@ -790,45 +573,145 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 								}
 
-								//set all empty parameters to dbnull?????
+								//droneattribute values
+								else if (headerPair.Key == "Attribute|Value")
+								{
+									string[] a = fields[headerDict[headerPair.Key]].Split('|');
+									if (a[0] == "geoDeclination")  //doubles 
+									{
+										Debug.WriteLine(a[1].Split(' ')[0]);
+										geoDeclination = Double.Parse(a[1].Split(' ')[0],customCulture);
+									}
+									else if (a[0] == "geoInclination")
+									{
+										Debug.WriteLine(a[1].Split(' ')[0]);
+										geoInclination = Double.Parse(a[1].Split(' ')[0], customCulture);
+									}
+									else if (a[0] == "geoIntensity")
+									{
+										Debug.WriteLine(a[1].Split(' ')[0]);
+										geoIntensity = Double.Parse(a[1].Split(' ')[0], customCulture);
+									}
+
+									else if (a[0] == "BatterySN") //int 
+									{
+										Debug.WriteLine(a[1].Split(' ')[0]);
+										BatterySN = Int32.Parse(a[1].Split(' ')[0]);
+									}
+
+									else if (a[0] == "Firmware Date") //date
+									{
+										Debug.WriteLine("_____________");
+										Debug.WriteLine(a[1].Trim());
+										Debug.WriteLine(dateFormat);
+										Debug.WriteLine("_____________");
+										FirmwareDate = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
+									}
+									else if (a[0] == "dateTime") //datetime
+									{
+
+										//TODO PROPER CONVERSION FOR 2015-10-18 0:0:0    
+
+
+
+										string properFormatString = formatDateTimeProperly(a[1]);
+
+										Debug.WriteLine("_____________");
+										Debug.WriteLine(a[1]);
+										Debug.WriteLine(properFormatString);
+										Debug.WriteLine(dateTimeFormat);
+										Debug.WriteLine("_____________");
+
+
+										//TODO WEGDOEN
+										//string copy = a[1];
+										//string[] copysplit = copy.Split('-');
+
+										//string copyfixed = copysplit[0];
+										//copyfixed += '-';
+										////month is too short
+										//if (copysplit[1].Length == 1)
+										//{
+										//	copyfixed += '0';
+
+										//}
+										//copyfixed += copysplit[1];
+
+										//copyfixed += '-';
+										////day is too short 
+										//if (copysplit[2].Split(' ')[0].Length == 1)
+										//{
+										//	copyfixed += '0';
+										//}
+
+										//copyfixed += copysplit[2];
+
+										//Debug.WriteLine("_____________");
+										//Debug.WriteLine(copyfixed.Substring(0, (copyfixed.Length - 3)).Trim());
+										//Debug.WriteLine(dateTimeFormat);
+										//Debug.WriteLine("_____________");
+
+										dateTime = DateTime.ParseExact(properFormatString, dateTimeFormat, CultureInfo.InvariantCulture);
+									}
+									else if (a[0] == "ACType")
+									{
+										ACType = a[1].Trim();
+									}
+
+
+									//TODO wegdoen
+									//Debug.WriteLine("1");
+									//if (a[0] == "geoDeclination" ||
+									//	a[0] == "geoInclination" ||
+									//	a[0] == "geoIntensity") //is double
+									//{
+									//	Debug.WriteLine("2");
+									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = Double.Parse(a[1]);
+									//}
+									//else if (a[0] == "BatterySN") //is int 
+									//{
+									//	Debug.WriteLine("3");
+									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = Int32.Parse(a[1]);
+									//}
+									//else if (a[0] == "Firmware Date") //date
+									//{
+									//	Debug.WriteLine("4");
+									//	Debug.WriteLine(dateFormat);
+									//	Debug.WriteLine(a[1]);
+									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
+									//}
+									//else if (a[0] == "dateTime") //datetime
+									//{
+									//	Debug.WriteLine("5");
+									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = DateTime.ParseExact(a[1].Trim(), dateTimeFormat, CultureInfo.InvariantCulture); ;
+									//}
+									//else
+									//{
+									//	Debug.WriteLine("6");
+									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = a[1].Trim();
+									//}
+								}
+
 							}
-
-
-							//command.CommandText = InsertionCommand_DroneLogEntry;
-							//createParametersForDroneLogEntry(command);
-							//foreach (var pair in possiblefieldsAndParameters)
-							//{
-							//	if (headerDict.ContainsKey(pair.Key))
-							//	{
-							//		command.Parameters[pair.Value].Value = fields[headerDict[pair.Key]];
-							//	}
-							//	else
-							//	{
-							//		command.Parameters[pair.Value].Value = DBNull.Value;
-							//	}
-							//}
 
 							command_DroneLogEntry.Parameters["@FlightId"].Value = droneFlight.FlightId;
 
 
- 
+
 							command_DroneLogEntry.ExecuteNonQuery();
 
-							//some kind of sql query to get dronelog entry id
-							//int DroneLogEntryId = IDCommand.ExecuteNonQuery();
-
-							//datareader nodig om id op te vragen 
-							// getInt(0);
-							DbDataReader reader = IDCommand.ExecuteReader();
+							DbDataReader reader = IDCommand.ExecuteReader(); //todo wegdoen uit de for loop?
 							int DroneLogEntryId;
 							if (reader.Read())
 							{
 								DroneLogEntryId = reader.GetInt32(0);
+								reader.Close();
 							}
-							else return false; //something went wrong 
+							else return false; //TODO CUSTOM EXCEPTION
+
 
 							//set this id on all other commands
-							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId; 
+							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId;
 							command_DroneIMU_ATTI.Parameters["@IMU_ATTI_Id"].Value = DroneLogEntryId;
 							command_DroneMotor.Parameters["@MotorId"].Value = DroneLogEntryId;
 							command_DroneOA.Parameters["@OAId"].Value = DroneLogEntryId;
@@ -857,9 +740,21 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						{
 							//TODO rollback? (kan enkel met transaction)
 							System.Diagnostics.Debug.WriteLine(ex);
-							return false;
+							return false; //Todo wegdoen
 						}
 					}
+
+					//droneattributevalues command
+					command_DroneAttributeValues.Parameters["@AttributeValueId"].Value = flightId;
+					command_DroneAttributeValues.Parameters["@FirmwareDate"].Value = FirmwareDate;
+					command_DroneAttributeValues.Parameters["@ACType"].Value = ACType;
+					command_DroneAttributeValues.Parameters["@DateTime"].Value = dateTime;
+					command_DroneAttributeValues.Parameters["@BatterySN"].Value = BatterySN;
+					command_DroneAttributeValues.Parameters["@GeoDeclination"].Value = geoDeclination;
+					command_DroneAttributeValues.Parameters["@GeoInclination"].Value = geoInclination;
+					command_DroneAttributeValues.Parameters["@GeoIntensity"].Value = geoIntensity;
+					command_DroneAttributeValues.ExecuteNonQuery();
+
 					connection.Close(); //TODO not sure if needed
 				}
 			}
@@ -871,6 +766,105 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			return true;
 		}
 
+
+		private string formatDateTimeProperly(string a)
+		{
+			string result = "";
+
+			string date = a.Split(' ')[0];
+			string timestamp = a.Split(' ')[1];
+
+			string[] year_month_day = date.Split('-');
+			string[] hour_minute_seconds = timestamp.Split(':');
+
+			result += year_month_day[0];
+			result += '-';
+			//month is too short 
+			if (year_month_day[1].Length == 1)
+			{
+				result += '0';
+			}
+			result += year_month_day[1];
+
+			result += '-';
+			//day is too short
+			if (year_month_day[2].Length == 1)
+			{
+				result += '0';
+			}
+			result += year_month_day[2];
+
+			result += ' ';
+
+			//hour is too short
+			if (hour_minute_seconds[0].Length == 1)
+			{
+				result += '0';
+			}
+			result += hour_minute_seconds[0];
+
+			result += ':';
+			//minutes is too short
+			if (hour_minute_seconds[1].Length == 1)
+			{
+				result += '0';
+			}
+			result += hour_minute_seconds[1];
+
+			result += ':';
+			//seconds is too short 
+			if (hour_minute_seconds[2].Length == 1)
+			{
+				result += '0';
+			}
+			result += hour_minute_seconds[2];
+
+			return result; 
+		}
+
+		private void createParametersForDroneAttributeValues(DbCommand command)
+		{
+			DbParameter param = factory.CreateParameter();
+			param.ParameterName = "@AttributeValueId";
+			param.DbType = DbType.Int32;
+			command.Parameters.Add(param);
+
+			DbParameter param1 = factory.CreateParameter();
+			param1.ParameterName = "@ACType";
+			param1.DbType = DbType.String;
+			command.Parameters.Add(param1);
+
+			DbParameter param2 = factory.CreateParameter();
+			param2.ParameterName = "@FirmwareDate";
+			param2.DbType = DbType.Date;
+			command.Parameters.Add(param2);
+
+			DbParameter param3 = factory.CreateParameter();
+			param3.ParameterName = "@DateTime";
+			param3.DbType = DbType.DateTime;
+			command.Parameters.Add(param3);
+
+			DbParameter param4 = factory.CreateParameter();
+			param4.ParameterName = "@BatterySN";
+			param4.DbType = DbType.Int32;
+			command.Parameters.Add(param4);
+
+			DbParameter param5 = factory.CreateParameter();
+			param5.ParameterName = "@GeoDeclination";
+			param5.DbType = DbType.Double;
+			command.Parameters.Add(param5);
+
+			DbParameter param6 = factory.CreateParameter();
+			param6.ParameterName = "@GeoInclination";
+			param6.DbType = DbType.Double;
+			command.Parameters.Add(param6);
+
+			DbParameter param7 = factory.CreateParameter();
+			param7.ParameterName = "@GeoIntensity";
+			param7.DbType = DbType.Double;
+			command.Parameters.Add(param7);
+		}
+
 		private void createParametersForDroneMotor(DbCommand command)
 		{
 			DbParameter param = factory.CreateParameter();
@@ -880,7 +874,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			DbParameter param1 = factory.CreateParameter();
 			param1.ParameterName = "@CurrentRFront";
-			param1.DbType = DbType.Int32;
+			param1.DbType = DbType.Double;
 			command.Parameters.Add(param1);
 
 			DbParameter param2 = factory.CreateParameter();
@@ -907,7 +901,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			command.Parameters.Add(param);
 
 			DbParameter param1 = factory.CreateParameter();
-			param1.ParameterName = "@AboidObst";
+			param1.ParameterName = "@AvoidObst";
 			param1.DbType = DbType.String;
 			command.Parameters.Add(param1);
 
