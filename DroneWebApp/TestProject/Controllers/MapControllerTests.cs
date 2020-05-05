@@ -47,7 +47,7 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the DroneFlights property so it returns the mocked DbSet
             mockContext.Setup(o => o.DroneFlights).Returns(() => mockSet.Object);
             // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.DroneFlights.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
+            mockSet.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
 
             var result = controller.ViewMap(3) as ViewResult;
             Assert.AreEqual("ViewMap", result.ViewName);
@@ -66,7 +66,7 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the DroneFlights property so it returns the mocked DbSet
             mockContext.Setup(o => o.DroneFlights).Returns(() => mockSet.Object);
             // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.DroneFlights.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
+            mockSet.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
 
             var result = controller.ViewMap(3) as ViewResult;
             List<DroneFlight> flightsResult = (List<DroneFlight>)result.Model;

@@ -30,10 +30,9 @@ $(document).ready(function () {
                 //init 
                 $("#progressbar").progressbar({ value: 0 }); // reset to 0%
                 $("#progressbar").progressbar("enable");
-                $("#endField").hide(); // hide endField ending message 
-                $("#progressField").hide(); // hide progress of reading files
-                totalFilesToParse = $('#file').get(0).files.length;
-                filesLeftToParse = 0;
+                initHide();
+                totalFilesToParse = $('#file').get(0).files.length; // amount of uploaded files
+                filesLeftToParse = 0; // reset
                 firstCheck = true;
             }
             console.log("beforeSend! :)");
@@ -41,7 +40,7 @@ $(document).ready(function () {
         uploadProgress: function (event, position, total, percentComplete) {
             $("#uploadstatus").text("Uploading files... (" + percentComplete + "%)");
             $("#progressbar").progressbar("value", percentComplete);
-            $("#endField").hide();
+            //$("#endField").hide();
             // Once uploading is complete...
             if (percentComplete == 100) {
                 $("#uploadstatus").text("Upload complete.");
@@ -91,6 +90,18 @@ $(document).ready(function () {
         }
     });
 
+    // Helper-function: Reset all output fields to hidden
+    function initHide() {
+        $("#endField").hide(); // hide endField ending message 
+        $("#successField").hide(); // hide the successField ending
+        $("#failedField").hide(); // hide failedField ending message
+        $("#progressField").hide(); // hide progress of reading files
+        $("#failedFilesList").empty() // empty the unordered list of failed files
+        $("#moreUpload").hide(); // hide the moreUpload text
+        $("#oneFile").hide(); // hide single failed file text
+        $("#multipleFiles").hide(); // hide multiple failed files text
+    }
+
 }); // end of $(document).ready
 
 // Helper-function for AjaxForm: changes the progress bar value at an interval
@@ -103,7 +114,7 @@ function startParsing() {
 function parse() {
     $.get("/Files/GetStatus/", function (result) {
         currentFile = result.currFileName // set the current file
-        console.log(result.currFilesLeft);
+        console.log("Get:" + result.currFilesLeft);
         filesLeftToParse = result.currFilesLeft;
         if (firstCheck) {
             if (filesLeftToParse > 0) {
@@ -130,23 +141,31 @@ function parse() {
             $(".totalParsed").text(totalFilesToParse);
             $("#uploadstatus").text("Parsing complete.");
             $("#progressField").hide();
-            $("#totalFailed").text(result.failedFiles.length);
             console.log("Done.")
-            // Display the list of files that were parsed unsuccessfully, if any
-            // **todo**
+
+            // Check whether any files failed to parse because of duplicates
             if (result.failedFiles.length == 0) { // no failed files
-                //document.getElementById("endField").classList.add(" alert-success");
-                //document.getElementById("endField").classList.remove("alert-warning");
+                $("#successField").show();
+                $("#endField").addClass("alert-success");
+                $("#endField").removeClass("alert-warning");
                 $("#endField").show();
             }
             else { // failed files
                 console.log("array length else: " + result.failedFiles.length);
-                //document.getElementById("endField").classList.add(" alert-warning");
-                //document.getElementById("endField").classList.remove("alert-success");
-                $("#endField").show();
+                $("#failedField").show();
+                $(".totalFailed").text(result.failedFiles.length);
+                if (result.failedFiles.length > 1) { // more than 1 failed file
+                    $("#multipleFiles").show()
+                }
+                else { // 1 failed file
+                    $("#oneFile").show()
+                }
+                $("#endField").removeClass("alert-success");
+                $("#endField").addClass("alert-warning");
                 document.getElementById("failedFilesList").appendChild(makeUL(result.failedFiles));
-                $("#failedFilesList").show()
+                $("#endField").show();
             }
+            $("#moreUpload").show();
         }
         else { // fire another parse
             intervalID = setTimeout(parse, 500);
@@ -155,12 +174,7 @@ function parse() {
 
 }
 
-var options = [
-    set0 = ['Option 1', 'Option 2'],
-    set1 = ['First Option', 'Second Option', 'Third Option']
-];
-
-// Make the HTML for the failed files
+// Make the HTML unordered list for the failed files
 function makeUL(array) {
     // Create the list element:
     var list = document.createElement('ul');
