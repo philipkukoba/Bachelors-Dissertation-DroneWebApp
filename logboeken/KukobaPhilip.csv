@@ -69,3 +69,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 02/05/20,21:45,23:45,Extern, fancy popup voor images - css fiddling,171, 
 03/05/20,11:00,16:15,Extern, fixed for loop for getting image - implemented proper thumbnails for images - fixed popup css,171,
 03/05/20,19:00,20:45,Extern, fixed forloop in parser - long/lat conversion based on hemisphere implemented,171,
+05/05/20,08:15,12:30,Contacturen, afwerken DATParser,177,
