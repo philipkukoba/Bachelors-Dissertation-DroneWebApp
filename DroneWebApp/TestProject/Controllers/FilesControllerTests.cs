@@ -101,11 +101,15 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Drones property so it returns the mocked DbSet
             mockContext.Setup(o => o.Drones).Returns(() => mockSetDrones.Object);
             // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.DroneFlights.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
+            mockSetFlights.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
             // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.Drones.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
+            mockSetDrones.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => drones.SingleOrDefault(x => x.DroneId == (int)input.First()));
 
-            
+            var httpContext = new Mock<HttpContextBase>();
+            var httpResponse = new Mock<HttpResponseBase>();
+            httpContext.Setup(c => c.Response).Returns(httpResponse.Object);
+
+            controller.ControllerContext = new ControllerContext(httpContext.Object, new RouteData(), controller);
 
             var result = controller.Export(1, "csv", "drone") as ViewResult;
 
