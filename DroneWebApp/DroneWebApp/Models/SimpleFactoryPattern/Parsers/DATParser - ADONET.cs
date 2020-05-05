@@ -274,7 +274,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// Get the approriate DroneFlight that goes with this data
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
 
-			// Do not parse a new file, if this flight already has an XYZ file
+			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) return false;
 
 			// calculate the total amount of lines by going through the whole file once

@@ -106,11 +106,14 @@ $(document).ready(function () {
 // Images table
 $(document).ready(function () {
     $('#imgtable').dataTable({
+        /*
         "columnDefs": [
             {
                 "orderable": false, 
                 "searchable": false, "targets": 0
             }
         ]
+        */
+        searching: false
     });
 });

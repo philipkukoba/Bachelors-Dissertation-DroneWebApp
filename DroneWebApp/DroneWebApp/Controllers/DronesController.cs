@@ -16,7 +16,8 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db;
         // thresholdTime is the amount of time after which a drone has to be checked to verify it is safe to fly, from its last check-up (or from 0 flight time)   
-        private static TimeSpan thresholdTime = new TimeSpan(2, 2, 0, 0); // 2*24 + 2 = 50h
+        private static TimeSpan thresholdTime = new TimeSpan(2, 2, 0, 0); // 2*24h + 2h = 50h
+
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
@@ -124,9 +125,14 @@ namespace DroneWebApp.Controllers
         {
             dr.Registration = postedDrone.Registration;
             dr.DroneType = postedDrone.DroneType;
+            dr.DroneName = postedDrone.DroneName;
             if(string.IsNullOrWhiteSpace(postedDrone.DroneName))
             {
                 dr.DroneName = postedDrone.DroneType + ":" + postedDrone.Registration;
+            }
+            else
+            {
+                dr.DroneName = postedDrone.DroneName;
             }
             if(postedDrone.needsCheckUp == true && dr.needsCheckUp == false) // This condition checks whether the user manually indicated that the drone NEEDS a check-up
             {

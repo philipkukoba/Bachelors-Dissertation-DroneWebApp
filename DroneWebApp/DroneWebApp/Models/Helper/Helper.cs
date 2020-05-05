@@ -21,7 +21,7 @@ namespace DroneWebApp.Models.Helper
             // Calculate the total flight time for each drone
             foreach(Drone d in drones)
             {
-                TimeSpan totalTime = new TimeSpan(2, 2, 0, 0);
+                TimeSpan totalTime = new TimeSpan(0, 0, 0, 0);
                 // Sum the drone's drone flights' times
                 foreach (DroneFlight df in d.DroneFlights)
                 {
