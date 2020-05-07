@@ -346,6 +346,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						}
 					}
 					#endregion
+
+					//TODO remove
 					//delete 2 useless keys from headerDict (ConvertDatV3, 3.7.1)
 					//headerDict.Remove("ConvertDatV3");
 					//headerDict.Remove("3.7.1");
@@ -447,15 +449,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							//loops through the found headers 
 							foreach (var headerPair in headerDict)
 							{
-								if (fields[headerDict[headerPair.Key]].Length == 0) continue;
+								if (fields[headerDict[headerPair.Key]].Length == 0) continue; //todo remove continue
 
 								bool isDouble = false;
 								bool isInt = false;
-								if (doubles.Contains(headerPair.Key))
+								if (doubles.Contains(headerPair.Key)) //is a double
 								{
 									isDouble = true;
 								}
-								else if (ints.Contains(headerPair.Key))
+								else if (ints.Contains(headerPair.Key)) //is an int 
 								{
 									isInt = true;
 								}
@@ -579,49 +581,30 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 									string[] a = fields[headerDict[headerPair.Key]].Split('|');
 									if (a[0] == "geoDeclination")  //doubles 
 									{
-										Debug.WriteLine(a[1].Split(' ')[0]);
-										geoDeclination = Double.Parse(a[1].Split(' ')[0],customCulture);
+										geoDeclination = Double.Parse(a[1].Split(' ')[0], customCulture);
 									}
 									else if (a[0] == "geoInclination")
 									{
-										Debug.WriteLine(a[1].Split(' ')[0]);
 										geoInclination = Double.Parse(a[1].Split(' ')[0], customCulture);
 									}
 									else if (a[0] == "geoIntensity")
 									{
-										Debug.WriteLine(a[1].Split(' ')[0]);
 										geoIntensity = Double.Parse(a[1].Split(' ')[0], customCulture);
 									}
 
 									else if (a[0] == "BatterySN") //int 
 									{
-										Debug.WriteLine(a[1].Split(' ')[0]);
 										BatterySN = Int32.Parse(a[1].Split(' ')[0]);
 									}
 
 									else if (a[0] == "Firmware Date") //date
 									{
-										Debug.WriteLine("_____________");
-										Debug.WriteLine(a[1].Trim());
-										Debug.WriteLine(dateFormat);
-										Debug.WriteLine("_____________");
 										FirmwareDate = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
 									}
 									else if (a[0] == "dateTime") //datetime
 									{
 
-										//TODO PROPER CONVERSION FOR 2015-10-18 0:0:0    
-
-
-
 										string properFormatString = formatDateTimeProperly(a[1]);
-
-										Debug.WriteLine("_____________");
-										Debug.WriteLine(a[1]);
-										Debug.WriteLine(properFormatString);
-										Debug.WriteLine(dateTimeFormat);
-										Debug.WriteLine("_____________");
-
 
 										//TODO WEGDOEN
 										//string copy = a[1];
@@ -819,7 +802,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			}
 			result += hour_minute_seconds[2];
 
-			return result; 
+			return result;
 		}
 
 		private void createParametersForDroneAttributeValues(DbCommand command)
