@@ -111,4 +111,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 06/05/20,20:00,23:00,Extern,Verder datcon proberen oplossen dmv dll's + Oplossing datcon met jni4net beginnen proberen,26,
 07/05/20,12:30,13:29,Extern,Oplossing datcon met jni4net verder proberen,26,
 07/05/20,13:30,18:00,Contacturen,Oplossing datcon met jnbridge proberen,26,
-07/05/20,18:45,20:45,Extern,Datcon met jnbridge,26,
+07/05/20,18:45,23:00,Extern,Datcon met jnbridge en javonet,26,
