@@ -333,9 +333,6 @@
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser - ADONET.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>DroneDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>
     </Compile>
@@ -438,6 +435,7 @@
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Content\images\upload_icon.png" />
     <Content Include="Content\images\upload_icon_hover.png" />
+    <Content Include="Scripts\visualisation\world_map_overview.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
