@@ -4,8 +4,9 @@
     "esri/geometry/SpatialReference",
     "esri/widgets/Search",
     "esri/PopupTemplate",
-    "esri/layers/FeatureLayer"
-], function (Map, MapView, SpatialReference, Search, PopupTemplate, FeatureLayer) {
+    "esri/layers/FeatureLayer",
+    "esri/widgets/Legend"
+], function (Map, MapView, SpatialReference, Search, PopupTemplate, FeatureLayer, Legend) {
 
     //#region Basic setup: Map and View
 
@@ -148,7 +149,8 @@
             }
 
             flightsFeatureLayer = new FeatureLayer({
-                source: flightpoints,                                  
+                title: "Track starting points", //todo rename?
+                source: flightpoints,
                 fields: [
                     {
                         name: "FlightId",
@@ -187,18 +189,38 @@
                         type: "double"
                     }
                 ],
-                objectIdField: "FlightId",   
-                geometryType: "point",                      
-                popupTemplate: popup,
+                objectIdField: "FlightId",
+                geometryType: "point",
+                popupTemplate: {
+                    title: "Drone Flight Information",
+                    outFields: ["*"],
+                    content: (feature) => {
+                        var node = document.createElement("div");
+
+                        node.innerHTML = `<div class="droneFlightPopup">
+	<table>
+		<tr><td rowspan="2">👨‍✈️</td><th>Pilot</th><td>${feature.graphic.attributes.PilotName}</td></tr>
+		<tr><th>Drone</th><td>${feature.graphic.attributes.DroneName}</td></tr>
+		<tr class="titleRow"><td>↗️</td><th colspan="2">Departure</th></tr>
+		<tr><td></td><th>Time (UTC)</th><td>${feature.graphic.attributes.DepartureUTC}</td></tr>
+		<tr class="coordinatesRow"><td></td><th>Coordinates</th><td>${feature.graphic.attributes.DepartureLatitude},${feature.graphic.attributes.DepartureLongitude}</td></tr>
+		<tr class="titleRow"><td>↘️</td><th colspan="2">Destination</th></tr>
+		<tr><td></td><th>Time (UTC)</th><td>${feature.graphic.attributes.DestinationUTC}</td></tr>
+		<tr class="coordinatesRow"><td></td><th>Coordinates</th><td>${feature.graphic.attributes.DestinationLatitude},${feature.graphic.attributes.DestinationLongitude}</td></tr>
+	</table><a href="/Map/ViewMap/${feature.graphic.attributes.FlightId}">Go to Flight ▶️</a>
+</div>`;
+                        return node;
+                    }
+                },
                 renderer: {
-                    type: "simple",  // autocasts as new SimpleRenderer()
+                    type: "simple",
                     symbol: {
-                        type: "simple-marker",
-                        size: 25,
-                        color: [26, 102, 255], // light blue
-                        outline: {
-                            color: [255, 255, 255], // white
-                            width: 1
+                        type: "text",
+                        color: "#1d82ac",
+                        text: "\ue61d",
+                        font: {
+                            size: 20,
+                            family: "CalciteWebCoreIcons"
                         }
                     }
                 }
@@ -218,5 +240,16 @@
     });
 
     //#endregion 
-  
+
+
+    //#region LEGEND Widget
+    let legend = new Legend({
+        view: view,
+        style: "classic", // other styles include 'card'
+        label: {
+            title: "DEFAULT TITLE"
+        }
+    });
+    view.ui.add(legend, "top-right");
+    //#endregion
 });

@@ -453,13 +453,27 @@
 
     //#region TRACK VISUALISATION 
 
-    //#region battery% visual var, custom Renderer and popup
+    //#region visual variables, custom Renderer and popup
 
     //visual variable BatteryPercentage
     let colorVar_BatteryPercentage = {
         type: "color",          //specify that its based on color (not size or rotation etc)
         field: "BatteryPercentage",     //specify which field to use
         stops: [{ value: 0, color: "red" }, { value: 50, color: "yellow" }, { value: 100, color: "green" }]
+    };
+
+    //visual variable HeightMSL
+    let colorVar_HeightMSL = {
+        type: "color",          //specify that its based on color (not size or rotation etc)
+        field: "HeightMSL",     //specify which field to use
+        stops: [{ value: 2, color: "#FF0000" }, { value: 53, color: "#0000FF" }]
+    };
+
+    //visual variable VelComposite
+    let colorVar_VelComposite = {
+        type: "color",          //specify that its based on color (not size or rotation etc)
+        field: "VelComposite",     //specify which field to use
+        stops: [{ value: 0, color: "#436480" }, { value: 6, color: "#afbac4" }, { value: 13, color: "#ebe6df" }]
     };
 
     //specify visualisation here 
@@ -547,19 +561,10 @@
 
             //#region visual variables with non hardcoded maxima 
 
-            //visual variable HeightMSL
-            let colorVar_HeightMSL = {
-                type: "color",          //specify that its based on color (not size or rotation etc)
-                field: "HeightMSL",     //specify which field to use
-                stops: [{ value: 2, color: "#FF0000" }, { value: maxHeightMSL, color: "#0000FF" }]
-            };
 
-            //visual variable VelComposite
-            let colorVar_VelComposite = {
-                type: "color",          //specify that its based on color (not size or rotation etc)
-                field: "VelComposite",     //specify which field to use
-                stops: [{ value: 0, color: "#436480" }, { value: (maxVelComposite / 2), color: "#afbac4" }, { value: maxVelComposite, color: "#ebe6df" }]
-            };
+            colorVar_HeightMSL.stops[1].value = maxHeightMSL;
+            colorVar_VelComposite.stops[1].value = (maxVelComposite / 2);
+            colorVar_VelComposite.stops[2].value = maxVelComposite;
 
             //#endregion 
 
@@ -596,32 +601,35 @@
             map.add(trackFeatureLayer);
 
             //#region KEY LISTENER 
-            let featureHidden = false;
-            view.on("key-down", (event) => {
-                if (event.key == "b") {  //battery
-                    customRenderer.visualVariables = [colorVar_BatteryPercentage];
-                    trackFeatureLayer.renderer = customRenderer;
-                }
-                else if (event.key == "h") {  //heightmsl
-                    customRenderer.visualVariables = [colorVar_HeightMSL];
-                    trackFeatureLayer.renderer = customRenderer;
-                }
-                else if (event.key == "v") {  //velocity
-                    customRenderer.visualVariables = [colorVar_VelComposite];
-                    trackFeatureLayer.renderer = customRenderer;
-                }
-                else if (event.key == "l") {  //toggle visibility of feature component
-                    if (!featureHidden) {
-                        document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
-                        featureHidden = true;
-                    }
-                    else {
-                        document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
-                        featureHidden = false;
-                    }
 
-                }
-            });
+            //TODO wegdoen
+
+            //let featureHidden = false;
+            //view.on("key-down", (event) => {
+            //    if (event.key == "b") {  //battery
+            //        customRenderer.visualVariables = [colorVar_BatteryPercentage];
+            //        trackFeatureLayer.renderer = customRenderer;
+            //    }
+            //    else if (event.key == "h") {  //heightmsl
+            //        customRenderer.visualVariables = [colorVar_HeightMSL];
+            //        trackFeatureLayer.renderer = customRenderer;
+            //    }
+            //    else if (event.key == "v") {  //velocity
+            //        customRenderer.visualVariables = [colorVar_VelComposite];
+            //        trackFeatureLayer.renderer = customRenderer;
+            //    }
+            //    else if (event.key == "l") {  //toggle visibility of feature component
+            //        if (!featureHidden) {
+            //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
+            //            featureHidden = true;
+            //        }
+            //        else {
+            //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
+            //            featureHidden = false;
+            //        }
+
+            //    }
+            //});
             //#endregion
 
         },
@@ -775,59 +783,34 @@
                         destinationLongitude: result.DestinationLongitude
                     },
                     popupTemplate: {
-                        "title": "Drone Flight Information",
-                        "content": [{
-                            "type": "fields",
-                            "fieldInfos": [
-                                {
-                                    "fieldName": "pilotName", //result.PilotName,   
-                                    "label": "Pilot Name",
+                        title: "Drone Flight Information",
+                        outFields: ["*"],
+                        content: (feature) => {
+                            var node = document.createElement("div");
 
-                                },
-                                {
-                                    "fieldName": "droneName",
-                                    "label": "Drone Name",
-
-                                },
-                                {
-                                    "fieldName": "departureUTC",
-                                    "label": "Departure Time (UTC)",
-
-                                },
-                                {
-                                    "fieldName": "departureLatitude",
-                                    "label": "Departure Latitude",
-
-                                },
-                                {
-                                    "fieldName": "departureLongitude",
-                                    "label": "Departure Longitude",
-
-                                },
-                                {
-                                    "fieldName": "destinationUTC",
-                                    "label": "Destination Time (UTC)",
-
-                                },
-                                {
-                                    "fieldName": "destinationLatitude",
-                                    "label": "Destination Latitude",
-
-                                },
-                                {
-                                    "fieldName": "destinationLongitude",
-                                    "label": "Destination Longitude",
-                                }
-                            ]
-                        }]
+                            node.innerHTML = `<div class="droneFlightPopup">
+	<table>
+		<tr><td rowspan="2">👨‍✈️</td><th>Pilot</th><td>${feature.graphic.attributes.pilotName}</td></tr>
+		<tr><th>Drone</th><td>${feature.graphic.attributes.droneName}</td></tr>
+		<tr class="titleRow"><td>↗️</td><th colspan="2">Departure</th></tr>
+		<tr><td></td><th>Time (UTC)</th><td>${feature.graphic.attributes.departureUTC}</td></tr>
+		<tr class="coordinatesRow"><td></td><th>Coordinates</th><td>${feature.graphic.attributes.departureLatitude},${feature.graphic.attributes.departureLongitude}</td></tr>
+		<tr class="titleRow"><td>↘️</td><th colspan="2">Destination</th></tr>
+		<tr><td></td><th>Time (UTC)</th><td>${feature.graphic.attributes.destinationUTC}</td></tr>
+		<tr class="coordinatesRow"><td></td><th>Coordinates</th><td>${feature.graphic.attributes.destinationLatitude},${feature.graphic.attributes.destinationLongitude}</td></tr>
+	</table>
+</div>`;
+                            return node;
+                        }
                     }
                 }),
                 map: map
             });
 
+            //todo center map view on track 
             //view.center[result.DepartureLatitude, result.DepartureLongitude]; 
 
-            view.ui.add(feature, "top-left");
+            view.ui.add(feature, "top-right");
         },
         error: (req, status, error) => {
             console.log("AJAX FAIL: FEATURE (LEGENDE)");
@@ -835,16 +818,59 @@
     });
     //#endregion 
 
-    //#region FANCY POPUP for IMAGES
 
     $(document).ready(function () {
+
+
+        //#region FANCY POPUP for IMAGES
         $(document).on('click', '.thumbnail-enlarge', function (e) {
             e.preventDefault();
             $.magnificPopup.open({ type: 'image', items: { src: $(this).attr('href') } });
             return false;
         });
+        //#endregion
+
+        //#region interface voor visual variables 
+        let visualVariableInterface = new Feature({
+            id: 'visualVariableInterface',
+            graphic: new Graphic({
+                popupTemplate: {
+                    title: "Color Coding", //todo proper naming
+                    outFields: ["*"],
+                    content: (feature) => {
+                        var node = document.createElement("div");
+
+                        node.innerHTML = `<div class="colorCodingInterface">
+	<button class="colorCodingButton" data-colorMode="height">Height (MSL)</button>
+	<button class="colorCodingButton" data-colorMode="velocity">Velocity</button>
+	<button class="colorCodingButton active" data-colorMode="battery">Battery %</button>
+</div>`;
+                        return node;
+                    }
+                },
+
+            }),
+            map: map
+        });
+
+        view.ui.add(visualVariableInterface, "bottom-left");
+
+        $(document).on('click', '.colorCodingButton', function () {
+            var mode = $(this).attr('data-colorMode');
+            var useMode = colorVar_BatteryPercentage;
+            if (mode == 'height') useMode = colorVar_HeightMSL;
+            if (mode == 'velocity') useMode = colorVar_VelComposite;
+            if (mode == 'battery') useMode = colorVar_BatteryPercentage;
+            customRenderer.visualVariables = [useMode];
+            trackFeatureLayer.renderer = customRenderer;
+            $(this).addClass('active').siblings().removeClass('active');
+
+        });
+        //#endregion
+
     });
 
-    //#endregion 
+
+
 
 });

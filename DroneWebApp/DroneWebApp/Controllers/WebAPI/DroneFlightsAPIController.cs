@@ -58,6 +58,9 @@ namespace DroneWebApp.Controllers
 
 			var droneFlightsProjected = db.DroneFlights.Select(
 				df => new {
+
+					df.FlightId,
+
 					df.Pilot.PilotName,
 					df.Drone.DroneName,
 
