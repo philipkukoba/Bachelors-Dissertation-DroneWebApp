@@ -11,9 +11,30 @@ $(document).ready(function () {
     // ...if the user tries to upload an extension that is not allowed
     $("#file").change(function () {
         var fileExtension = ['pdf', 'dat', 'txt', 'csv', 'xyz', 'tfw', 'jpg']; // allowed extensions
+        var files = $("#file").get(0).files;
+        var totalSize = 0;
+        var imageSize = 0;
+        for (i = 0; i < files.length; i++) { // limit images upload to 500 MB
+            if (files[i].type.toLowerCase() == 'image/jpeg') {
+                imageSize += files[i].size;
+            }
+            totalSize += files[i].size;
+        }
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
             alert("Only the following formats are allowed : " + fileExtension.join(', ') + ". Please try again.");
             $("#uploadbtnSubmit").prop('disabled', true); // disable upload button
+        }
+        else if (totalSize > 2147483647) {
+            alert("Maximum total upload size is: 2.1 GB.");
+            $("#uploadbtnSubmit").prop('disabled', true); // disable upload button
+            $("#maximum").show();
+            $("#maxUploadTextFiles").show();
+        }
+        else if (imageSize > 524288000) { // 500 MB
+            alert("Maximum total upload size for images is: 500 MB.");
+            $("#uploadbtnSubmit").prop('disabled', true); // disable upload button
+            $("#maximum").show();
+            $("#maxUploadTextImages").show();
         }
         else {
             $("#uploadbtnSubmit").prop('disabled', false); // enable upload button
@@ -95,10 +116,13 @@ $(document).ready(function () {
         $("#successField").hide(); // hide the successField ending
         $("#failedField").hide(); // hide failedField ending message
         $("#progressField").hide(); // hide progress of reading files
-        $("#failedFilesList").empty() // empty the unordered list of failed files
+        $("#failedFilesList").empty(); // empty the unordered list of failed files
         $("#moreUpload").hide(); // hide the moreUpload text
         $("#oneFile").hide(); // hide single failed file text
         $("#multipleFiles").hide(); // hide multiple failed files text
+        $("#maxUploadTextImages").hide(); // hide maximum upload text
+        $("#maxUploadTextFiles").hide(); // hide maximum upload text
+        $("#maximum").hide(); // hide maximum upload text
     }
 
 }); // end of $(document).ready
