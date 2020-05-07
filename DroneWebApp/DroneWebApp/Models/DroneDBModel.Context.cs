@@ -46,7 +46,6 @@ namespace DroneWebApp.Models
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<QualityReport> QualityReports { get; set; }
         public virtual DbSet<RawImage> RawImages { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TFW> TFWs { get; set; }
         public virtual DbSet<Uncertainty> Uncertainties { get; set; }
     }

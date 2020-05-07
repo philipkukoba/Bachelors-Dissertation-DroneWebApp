@@ -310,6 +310,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		{
 			// Get the approriate DroneFlight that goes with this data
 			DroneFlight droneFlight = db.DroneFlights.Find(flightId);
+			DepartureInfo departureInfo;
+			DestinationInfo destinationInfo;
 
 			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) return false;
@@ -317,6 +319,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// calculate the total amount of lines by going through the whole file once
 			int totalLines = Helper.Helper.CountFileLines(path);
 			System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
+
+			#region Track starting variables 
+			bool firstRead = false;
+			int startTime = 0;
+			double startLong = 0;
+			double startLat = 0;
+			double endLong = 0;
+			double endLat = 0;
+			int finalTime = 0;
+			DateTime droneGPSDateTime;
+			#endregion
 
 			// Parse
 			using (TextFieldParser parser = new TextFieldParser(path))
@@ -346,11 +359,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						}
 					}
 					#endregion
-
-					//TODO remove
-					//delete 2 useless keys from headerDict (ConvertDatV3, 3.7.1)
-					//headerDict.Remove("ConvertDatV3");
-					//headerDict.Remove("3.7.1");
 
 					#region Create ALL commands 
 					DbCommand command_DroneLogEntry = connection.CreateCommand();
@@ -449,238 +457,218 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							//loops through the found headers 
 							foreach (var headerPair in headerDict)
 							{
-								if (fields[headerDict[headerPair.Key]].Length == 0) continue; //todo remove continue
+								if (fields[headerDict[headerPair.Key]].Length != 0) //skip empty field
+								{ 
 
-								bool isDouble = false;
-								bool isInt = false;
-								if (doubles.Contains(headerPair.Key)) //is a double
-								{
-									isDouble = true;
+									bool isDouble = false;
+									bool isInt = false;
+									if (doubles.Contains(headerPair.Key)) //is a double
+									{
+										isDouble = true;
+									}
+									else if (ints.Contains(headerPair.Key)) //is an int 
+									{
+										isInt = true;
+									}
+
+									if (fieldsAndParameters_DroneLogEntry.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneGPS.ContainsKey(headerPair.Key))
+									{
+										if (!firstRead)
+										{
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+											Debug.WriteLine("!firstRead");
+										}
+										//track settings
+										if (headerPair.Key == "GPS:dateTimeStamp" && !firstRead)
+										{
+											DateTime.TryParse(fields[headerDict[headerPair.Key]], out droneGPSDateTime);
+											droneFlight.Date = droneGPSDateTime;
+										}
+										else if (headerPair.Key == "GPS(0):Lat")
+										{
+											if (!firstRead)
+											{
+												startLat = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+											}
+											endLat = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (headerPair.Key == "GPS(0):Long")
+										{
+											if (!firstRead)
+											{
+												startLong = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+											}
+											endLong = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (headerPair.Key == "GPS(0):Time")
+										{
+											if (!firstRead) { startTime = Int32.Parse(fields[headerDict[headerPair.Key]]); }
+											int currentReadTime = Int32.Parse(fields[headerDict[headerPair.Key]]);
+											if (currentReadTime > finalTime)
+											{
+												finalTime = Int32.Parse(fields[headerDict[headerPair.Key]]);
+											}
+										}
+
+
+										if (isDouble)
+										{
+											command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneIMU_ATTI.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneMotor.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneOA.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneRC.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+									else if (fieldsAndParameters_DroneRTKData.ContainsKey(headerPair.Key))
+									{
+										if (isDouble)
+										{
+											command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
+										}
+										else if (isInt)
+										{
+											command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
+										}
+										else
+										{
+											command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
+										}
+
+									}
+
+									//droneattribute values
+									else if (headerPair.Key == "Attribute|Value")
+									{
+										string[] a = fields[headerDict[headerPair.Key]].Split('|');
+										if (a[0] == "geoDeclination")  //doubles 
+										{
+											geoDeclination = Double.Parse(a[1].Split(' ')[0], customCulture);
+										}
+										else if (a[0] == "geoInclination")
+										{
+											geoInclination = Double.Parse(a[1].Split(' ')[0], customCulture);
+										}
+										else if (a[0] == "geoIntensity")
+										{
+											geoIntensity = Double.Parse(a[1].Split(' ')[0], customCulture);
+										}
+
+										else if (a[0] == "BatterySN") //int 
+										{
+											BatterySN = Int32.Parse(a[1].Split(' ')[0]);
+										}
+
+										else if (a[0] == "Firmware Date") //date
+										{
+											FirmwareDate = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
+										}
+										else if (a[0] == "dateTime") //datetime
+										{
+											string properFormatString = formatDateTimeProperly(a[1]);
+											dateTime = DateTime.ParseExact(properFormatString, dateTimeFormat, CultureInfo.InvariantCulture);
+										}
+										else if (a[0] == "ACType")
+										{
+											ACType = a[1].Trim();
+										}
+
+									}
+									
 								}
-								else if (ints.Contains(headerPair.Key)) //is an int 
-								{
-									isInt = true;
-								}
-
-								if (fieldsAndParameters_DroneLogEntry.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneLogEntry.Parameters[fieldsAndParameters_DroneLogEntry[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneGPS.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneGPS.Parameters[fieldsAndParameters_DroneGPS[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneIMU_ATTI.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneIMU_ATTI.Parameters[fieldsAndParameters_DroneIMU_ATTI[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneMotor.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneMotor.Parameters[fieldsAndParameters_DroneMotor[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneOA.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneOA.Parameters[fieldsAndParameters_DroneOA[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneRC.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneRC.Parameters[fieldsAndParameters_DroneRC[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-								else if (fieldsAndParameters_DroneRTKData.ContainsKey(headerPair.Key))
-								{
-									if (isDouble)
-									{
-										command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = Double.Parse(fields[headerDict[headerPair.Key]], customCulture);
-									}
-									else if (isInt)
-									{
-										command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = Int32.Parse(fields[headerDict[headerPair.Key]]);
-									}
-									else
-									{
-										command_DroneRTKData.Parameters[fieldsAndParameters_DroneRTKData[headerPair.Key]].Value = fields[headerDict[headerPair.Key]];
-									}
-
-								}
-
-								//droneattribute values
-								else if (headerPair.Key == "Attribute|Value")
-								{
-									string[] a = fields[headerDict[headerPair.Key]].Split('|');
-									if (a[0] == "geoDeclination")  //doubles 
-									{
-										geoDeclination = Double.Parse(a[1].Split(' ')[0], customCulture);
-									}
-									else if (a[0] == "geoInclination")
-									{
-										geoInclination = Double.Parse(a[1].Split(' ')[0], customCulture);
-									}
-									else if (a[0] == "geoIntensity")
-									{
-										geoIntensity = Double.Parse(a[1].Split(' ')[0], customCulture);
-									}
-
-									else if (a[0] == "BatterySN") //int 
-									{
-										BatterySN = Int32.Parse(a[1].Split(' ')[0]);
-									}
-
-									else if (a[0] == "Firmware Date") //date
-									{
-										FirmwareDate = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
-									}
-									else if (a[0] == "dateTime") //datetime
-									{
-
-										string properFormatString = formatDateTimeProperly(a[1]);
-
-										//TODO WEGDOEN
-										//string copy = a[1];
-										//string[] copysplit = copy.Split('-');
-
-										//string copyfixed = copysplit[0];
-										//copyfixed += '-';
-										////month is too short
-										//if (copysplit[1].Length == 1)
-										//{
-										//	copyfixed += '0';
-
-										//}
-										//copyfixed += copysplit[1];
-
-										//copyfixed += '-';
-										////day is too short 
-										//if (copysplit[2].Split(' ')[0].Length == 1)
-										//{
-										//	copyfixed += '0';
-										//}
-
-										//copyfixed += copysplit[2];
-
-										//Debug.WriteLine("_____________");
-										//Debug.WriteLine(copyfixed.Substring(0, (copyfixed.Length - 3)).Trim());
-										//Debug.WriteLine(dateTimeFormat);
-										//Debug.WriteLine("_____________");
-
-										dateTime = DateTime.ParseExact(properFormatString, dateTimeFormat, CultureInfo.InvariantCulture);
-									}
-									else if (a[0] == "ACType")
-									{
-										ACType = a[1].Trim();
-									}
-
-
-									//TODO wegdoen
-									//Debug.WriteLine("1");
-									//if (a[0] == "geoDeclination" ||
-									//	a[0] == "geoInclination" ||
-									//	a[0] == "geoIntensity") //is double
-									//{
-									//	Debug.WriteLine("2");
-									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = Double.Parse(a[1]);
-									//}
-									//else if (a[0] == "BatterySN") //is int 
-									//{
-									//	Debug.WriteLine("3");
-									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = Int32.Parse(a[1]);
-									//}
-									//else if (a[0] == "Firmware Date") //date
-									//{
-									//	Debug.WriteLine("4");
-									//	Debug.WriteLine(dateFormat);
-									//	Debug.WriteLine(a[1]);
-									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = DateTime.ParseExact(a[1].Trim(), dateFormat, CultureInfo.InvariantCulture);
-									//}
-									//else if (a[0] == "dateTime") //datetime
-									//{
-									//	Debug.WriteLine("5");
-									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = DateTime.ParseExact(a[1].Trim(), dateTimeFormat, CultureInfo.InvariantCulture); ;
-									//}
-									//else
-									//{
-									//	Debug.WriteLine("6");
-									//	command_DroneAttributeValues.Parameters[fieldsAndParameters_DroneAttributeValues[a[0]]].Value = a[1].Trim();
-									//}
-								}
-
 							}
 
 							command_DroneLogEntry.Parameters["@FlightId"].Value = droneFlight.FlightId;
-
-
-
 							command_DroneLogEntry.ExecuteNonQuery();
 
 							DbDataReader reader = IDCommand.ExecuteReader(); //todo wegdoen uit de for loop?
@@ -691,7 +679,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 								reader.Close();
 							}
 							else return false; //TODO CUSTOM EXCEPTION
-
 
 							//set this id on all other commands
 							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId;
@@ -709,6 +696,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							command_DroneRTKData.ExecuteNonQuery();
 
 							Debug.WriteLine("line number: " + lineNo);
+							firstRead = true;
 
 							#region progressbar
 							lineNo++;
@@ -718,6 +706,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							}
 							#endregion
 
+
+				
+
 						}
 						catch (Exception ex)
 						{
@@ -725,9 +716,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							System.Diagnostics.Debug.WriteLine(ex);
 							return false; //Todo wegdoen
 						}
+						
 					}
 
-					//droneattributevalues command
+					#region  droneattributevalues command
 					command_DroneAttributeValues.Parameters["@AttributeValueId"].Value = flightId;
 					command_DroneAttributeValues.Parameters["@FirmwareDate"].Value = FirmwareDate;
 					command_DroneAttributeValues.Parameters["@ACType"].Value = ACType;
@@ -737,12 +729,64 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					command_DroneAttributeValues.Parameters["@GeoInclination"].Value = geoInclination;
 					command_DroneAttributeValues.Parameters["@GeoIntensity"].Value = geoIntensity;
 					command_DroneAttributeValues.ExecuteNonQuery();
+					#endregion
 
+					
 					connection.Close(); //TODO not sure if needed
 				}
 			}
+
+			#region TRACK 						
+			if (droneFlight.Location == "TBD") // TBD = to be determined; indicates no location was set during creation of flight
+			{
+				try
+				{
+					droneFlight.Location = reverseGeocode(startLong, startLat);
+				}
+				catch (NullReferenceException)
+				{
+					droneFlight.Location = "NA"; // NA = Not Available; indicates the user will have to set it themselves
+				}
+			}
+			#endregion
+
+
 			//Set hasDroneLog to true
 			droneFlight.hasDroneLog = true;
+
+			#region Departure and Destination Information
+			departureInfo = new DepartureInfo();
+			destinationInfo = new DestinationInfo();
+
+			// Map all ids 1-to-1
+			departureInfo.DepartureInfoId = droneFlight.FlightId;
+			destinationInfo.DestinationInfoId = droneFlight.FlightId;
+
+			Debug.WriteLine("__________________________");
+			Debug.WriteLine(startTime);
+			Debug.WriteLine(finalTime);
+			Debug.WriteLine("__________________________");
+
+			// Assign Time fields for DepartureInfo and DestinationInfo of flight
+			departureInfo.UTCTime = TimeSpan.ParseExact(startTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
+			destinationInfo.UTCTime = TimeSpan.ParseExact(finalTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
+
+			// Assign starting and ending longitude and latitude for DepartureInfo and DestinationInfo of flight
+			departureInfo.Longitude = startLong;
+			departureInfo.Latitude = startLat;
+			destinationInfo.Longitude = endLong;
+			destinationInfo.Latitude = endLat;
+
+			// Add all ORM-objects to lists to be added to the database
+			db.DepartureInfoes.Add(departureInfo);
+			db.DestinationInfoes.Add(destinationInfo);
+
+			// Set hasDepInfo and hasDestInfo to true for the Drone Flight
+			droneFlight.hasDepInfo = true;
+			droneFlight.hasDestInfo = true;
+			droneFlight.Date = new DateTime(((DateTime)droneFlight.Date).Year, ((DateTime)droneFlight.Date).Month, ((DateTime)droneFlight.Date).Day, ((TimeSpan)departureInfo.UTCTime).Hours, ((TimeSpan)departureInfo.UTCTime).Minutes, ((TimeSpan)departureInfo.UTCTime).Seconds);
+			#endregion
+
 			db.SaveChanges();
 
 			Helper.Helper.SetProgress(100);
