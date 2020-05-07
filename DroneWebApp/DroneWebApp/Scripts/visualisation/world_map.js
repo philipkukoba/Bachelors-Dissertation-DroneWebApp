@@ -2,16 +2,14 @@
     "esri/Map",
     "esri/views/MapView",
     "esri/Graphic",
-    "esri/layers/GraphicsLayer",
     "esri/geometry/SpatialReference",
     "esri/widgets/LayerList",
     "esri/widgets/Search",
     "esri/widgets/Legend",
     "esri/PopupTemplate",
     "esri/layers/FeatureLayer",
-    "esri/widgets/AreaMeasurement2D",
     "esri/widgets/Feature"
-], function (Map, MapView, Graphic, GraphicsLayer, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, AreaMeasurement2D, Feature) {
+], function (Map, MapView, Graphic, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, Feature) {
 
     let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key
 
@@ -26,8 +24,8 @@
     let view = new MapView({
         container: "droneFlightMap",
         map: map,
-        center: [3.30120924, 50.85590007],
-        zoom: 20
+        center: [4.3, 50.9],
+        zoom: 9
     });
 
     //#endregion
@@ -94,15 +92,15 @@
 
     //#region Area Measurement Widget
     // To add the AreaMeasurement2D widget to your map
-    let measurementWidget = new AreaMeasurement2D({
-        view: view
-    });
-    view.ui.add(measurementWidget, "bottom-left");
+    //let measurementWidget = new AreaMeasurement2D({
+    //    view: view
+    //});
+    //view.ui.add(measurementWidget, "bottom-left");
     //#endregion
 
     //#region Visualisation Const Values 
     //ID van de droneflight 
-        const id = $("#droneFlightMap").data("id");
+    const id = $("#droneFlightMap").data("id");
 
     //Lambert spacial reference (needed for all featurelayers except track visualisation)
     const LambertSR = { wkid: 31370 };
@@ -111,137 +109,140 @@
 
     //#region XYZ VISUALISATION
 
+    //this is fully implemented but currently not useful for the user, 
+    //as there are too many xyz points to have a clear overview of 
+    //once pointclouds have been further implemented then this code can be adjusted to be useful 
 
-    const XYZPopup = {
-        "title": "XYZ Point with ID: {XYZId}",
-        "content": [{
-            "type": "fields",
-            "fieldInfos": [
-                {
-                    "fieldName": "x",
-                    "label": "X",
+    //const XYZPopup = {
+    //    "title": "XYZ Point with ID: {XYZId}",
+    //    "content": [{
+    //        "type": "fields",
+    //        "fieldInfos": [
+    //            {
+    //                "fieldName": "x",
+    //                "label": "X",
 
-                },
-                {
-                    "fieldName": "y",
-                    "label": "Y",
+    //            },
+    //            {
+    //                "fieldName": "y",
+    //                "label": "Y",
 
-                },
-                {
-                    "fieldName": "z",
-                    "label": "Z",
+    //            },
+    //            {
+    //                "fieldName": "z",
+    //                "label": "Z",
 
-                },
-                {
-                    "fieldName": "RedValue",
-                    "label": "Red",
+    //            },
+    //            {
+    //                "fieldName": "RedValue",
+    //                "label": "Red",
 
-                },
-                {
-                    "fieldName": "GreenValue",
-                    "label": "Green",
+    //            },
+    //            {
+    //                "fieldName": "GreenValue",
+    //                "label": "Green",
 
-                },
-                {
-                    "fieldName": "BlueValue",
-                    "label": "Blue",
+    //            },
+    //            {
+    //                "fieldName": "BlueValue",
+    //                "label": "Blue",
 
-                }
-            ]
-        }]
-    };
+    //            }
+    //        ]
+    //    }]
+    //};
 
-    let readXYZ = (XYZPoint) => {
-        let pointGraphic = {             //type graphic (autocasts)
-            geometry: {
-                type: "point",
-                x: XYZPoint.X,
-                y: XYZPoint.Y,
-                z: XYZPoint.Z,
-                spatialReference: LambertSR   //needs to be defined here
-            },
-            attributes: {               //additional attributes (battery etc) will go here !!!
-                XYZId: XYZPoint.PointCloudXYZId,
-                x: XYZPoint.X,
-                y: XYZPoint.Y,
-                z: XYZPoint.Z,
-                RedValue: XYZPoint.Red,
-                GreenValue: XYZPoint.Green,
-                BlueValue: XYZPoint.Blue,
-                Intensity: XYZPoint.Intensity
-            }
-        };
-        return pointGraphic;
-    }
+    //let readXYZ = (XYZPoint) => {
+    //    let pointGraphic = {             //type graphic (autocasts)
+    //        geometry: {
+    //            type: "point",
+    //            x: XYZPoint.X,
+    //            y: XYZPoint.Y,
+    //            z: XYZPoint.Z,
+    //            spatialReference: LambertSR   //needs to be defined here
+    //        },
+    //        attributes: {               //additional attributes (battery etc) will go here !!!
+    //            XYZId: XYZPoint.PointCloudXYZId,
+    //            x: XYZPoint.X,
+    //            y: XYZPoint.Y,
+    //            z: XYZPoint.Z,
+    //            RedValue: XYZPoint.Red,
+    //            GreenValue: XYZPoint.Green,
+    //            BlueValue: XYZPoint.Blue,
+    //            Intensity: XYZPoint.Intensity
+    //        }
+    //    };
+    //    return pointGraphic;
+    //}
 
-    $.ajax({
-        type: "GET",
-        url: "/WebAPI/api/PointCloudXYZs/" + id, // the URL of the controller action method
-        //data: null, // optional data
-        success: (result) => {
+    //$.ajax({
+    //    type: "GET",
+    //    url: "/WebAPI/api/PointCloudXYZs/" + id, // the URL of the controller action method
+    //    //data: null, // optional data
+    //    success: (result) => {
 
-            let XYZPoints = [];
-            for (let i = 0; i < result.length; i++) {
-                XYZPoints.push(readXYZ(result[i]));
-            }
+    //        let XYZPoints = [];
+    //        for (let i = 0; i < result.length; i++) {
+    //            XYZPoints.push(readXYZ(result[i]));
+    //        }
 
-            let XYZFeatureLayer = new FeatureLayer({
-                title: "XYZ Points",
-                source: XYZPoints,
+    //        let XYZFeatureLayer = new FeatureLayer({
+    //            title: "XYZ Points",
+    //            source: XYZPoints,
 
-                fields: [{                //repeat the fields for visual variables here
-                    name: "x",
-                    type: "double"
-                },
-                {
-                    name: "y",
-                    type: "double"
-                },
-                {
-                    name: "z",
-                    type: "double"
-                },
-                {
-                    name: "RedValue",
-                    type: "double"
-                },
-                {
-                    name: "GreenValue",
-                    type: "double"
-                },
-                {
-                    name: "BlueValue",
-                    type: "double"
-                },
-                {
-                    name: "Intensity",
-                    type: "double"
-                }],
+    //            fields: [{                //repeat the fields for visual variables here
+    //                name: "x",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "y",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "z",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "RedValue",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "GreenValue",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "BlueValue",
+    //                type: "double"
+    //            },
+    //            {
+    //                name: "Intensity",
+    //                type: "double"
+    //            }],
 
-                objectIdField: "XYZId",                             //needed to uniquely identify each object
+    //            objectIdField: "XYZId",                             //needed to uniquely identify each object
 
-                //renderer defines how everything will be visualised inside this layer
-                renderer: {
-                    type: "simple",  // autocasts as new SimpleRenderer()
-                    symbol: {
-                        type: "simple-marker",
-                        color: ["RedValue", "GreenValue", "BlueValue"]
-                        //outline: {
-                        //    color: [255, 255, 255], // white
-                        //    width: 1
-                        //}
-                    }
-                },
-                popupTemplate: XYZPopup
-            });
+    //            //renderer defines how everything will be visualised inside this layer
+    //            renderer: {
+    //                type: "simple",  // autocasts as new SimpleRenderer()
+    //                symbol: {
+    //                    type: "simple-marker",
+    //                    color: ["RedValue", "GreenValue", "BlueValue"]
+    //                    //outline: {
+    //                    //    color: [255, 255, 255], // white
+    //                    //    width: 1
+    //                    //}
+    //                }
+    //            },
+    //            popupTemplate: XYZPopup
+    //        });
 
-            map.add(XYZFeatureLayer);
-        },
-        error: (req, status, error) => {
-            console.log("AJAX FAIL: XYZ");
-            console.log(req + status + error);
-        }
-    });
+    //        map.add(XYZFeatureLayer);
+    //    },
+    //    error: (req, status, error) => {
+    //        console.log("AJAX FAIL: XYZ");
+    //        console.log(req + status + error);
+    //    }
+    //});
     //#endregion 
 
     //#region CTRLPoints VISUALISATION 
@@ -451,21 +452,8 @@
     //#endregion
 
     //#region TRACK VISUALISATION 
-    //#region Visual Variable, custom Renderer and popup
 
-    //visual variable HeightMSL
-    let colorVar_HeightMSL = {
-        type: "color",          //specify that its based on color (not size or rotation etc)
-        field: "HeightMSL",     //specify which field to use
-        stops: [{ value: 2, color: "#FF0000" }, { value: 52, color: "#0000FF" }]
-    };
-
-    //visual variable VelComposite
-    let colorVar_VelComposite = {
-        type: "color",          //specify that its based on color (not size or rotation etc)
-        field: "VelComposite",     //specify which field to use
-        stops: [{ value: 0, color: "#436480" }, { value: 7, color: "#afbac4" }, { value: 14, color: "#ebe6df" }]
-    };
+    //#region battery% visual var, custom Renderer and popup
 
     //visual variable BatteryPercentage
     let colorVar_BatteryPercentage = {
@@ -478,7 +466,7 @@
     let customRenderer = {
         type: "simple",                 // autocasts as new SimpleRenderer()
         symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
-        visualVariables: [colorVar_HeightMSL]
+        visualVariables: [colorVar_BatteryPercentage]
     };
 
     const GPTemplate = {
@@ -512,7 +500,20 @@
 
     //#endregion
 
+    //niet-hardgecodeerde maxima voor colorranges
+    let maxHeightMSL = 0;
+    let maxVelComposite = 0;
+
     let readTrackPoint = (gp) => {
+
+        //set maxima 
+        if (maxHeightMSL < gp.HeightMSL) {
+            maxHeightMSL = gp.HeightMSL
+        }
+        if (maxVelComposite < gp.VelComposite) {
+            maxVelComposite = gp.VelComposite;
+        }
+
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
                 type: "point",
@@ -543,6 +544,24 @@
             for (let i = 0; i < result.length; i++) {
                 trackpoints.push(readTrackPoint(result[i]));
             }
+
+            //#region visual variables with non hardcoded maxima 
+
+            //visual variable HeightMSL
+            let colorVar_HeightMSL = {
+                type: "color",          //specify that its based on color (not size or rotation etc)
+                field: "HeightMSL",     //specify which field to use
+                stops: [{ value: 2, color: "#FF0000" }, { value: maxHeightMSL, color: "#0000FF" }]
+            };
+
+            //visual variable VelComposite
+            let colorVar_VelComposite = {
+                type: "color",          //specify that its based on color (not size or rotation etc)
+                field: "VelComposite",     //specify which field to use
+                stops: [{ value: 0, color: "#436480" }, { value: (maxVelComposite / 2), color: "#afbac4" }, { value: maxVelComposite, color: "#ebe6df" }]
+            };
+
+            //#endregion 
 
             trackFeatureLayer = new FeatureLayer({
                 title: "Track",
@@ -575,6 +594,35 @@
             });
 
             map.add(trackFeatureLayer);
+
+            //#region KEY LISTENER 
+            let featureHidden = false;
+            view.on("key-down", (event) => {
+                if (event.key == "b") {  //battery
+                    customRenderer.visualVariables = [colorVar_BatteryPercentage];
+                    trackFeatureLayer.renderer = customRenderer;
+                }
+                else if (event.key == "h") {  //heightmsl
+                    customRenderer.visualVariables = [colorVar_HeightMSL];
+                    trackFeatureLayer.renderer = customRenderer;
+                }
+                else if (event.key == "v") {  //velocity
+                    customRenderer.visualVariables = [colorVar_VelComposite];
+                    trackFeatureLayer.renderer = customRenderer;
+                }
+                else if (event.key == "l") {  //toggle visibility of feature component
+                    if (!featureHidden) {
+                        document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
+                        featureHidden = true;
+                    }
+                    else {
+                        document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
+                        featureHidden = false;
+                    }
+
+                }
+            });
+            //#endregion
 
         },
         error: (req, status, error) => {
@@ -609,7 +657,7 @@
             y = y * -1;
         }
         if (img.GPSLongRef == "W") {
-            x = x * -1; 
+            x = x * -1;
         }
 
         let pointGraphic = {             //type graphic (autocasts)
@@ -777,6 +825,8 @@
                 map: map
             });
 
+            //view.center[result.DepartureLatitude, result.DepartureLongitude]; 
+
             view.ui.add(feature, "top-left");
         },
         error: (req, status, error) => {
@@ -785,36 +835,6 @@
     });
     //#endregion 
 
-    //#region KEY LISTENER 
-    let featureHidden = false;
-    view.on("key-down", (event) => {
-        if (event.key == "b") {  //battery
-            customRenderer.visualVariables = [colorVar_BatteryPercentage];
-            trackFeatureLayer.renderer = customRenderer;
-        }
-        else if (event.key == "h") {  //heightmsl
-            customRenderer.visualVariables = [colorVar_HeightMSL];
-            trackFeatureLayer.renderer = customRenderer;
-        }
-        else if (event.key == "v") {  //velocity
-            customRenderer.visualVariables = [colorVar_VelComposite];
-            trackFeatureLayer.renderer = customRenderer;
-        }
-        else if (event.key == "l") {  //toggle visibility of feature component
-            if (!featureHidden) {
-                document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
-                featureHidden = true;
-            }
-            else {
-                document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
-                featureHidden = false;
-            }
-
-        }
-    });
-    //#endregion 
-
-
     //#region FANCY POPUP for IMAGES
 
     $(document).ready(function () {
@@ -822,7 +842,7 @@
             e.preventDefault();
             $.magnificPopup.open({ type: 'image', items: { src: $(this).attr('href') } });
             return false;
-        });   
+        });
     });
 
     //#endregion 

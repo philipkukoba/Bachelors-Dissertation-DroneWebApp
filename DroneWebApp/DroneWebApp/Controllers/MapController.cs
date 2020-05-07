@@ -28,14 +28,16 @@ namespace DroneWebApp.Controllers
             System.Diagnostics.Debug.WriteLine(id);
             if (id == null)
             {
-                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            else if (id == 0)
-            {
+                //ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                //return View("~/Views/ErrorPage/Error.cshtml");
+                ////return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
                 return View("ViewMap");
             }
+            //else if (id == 0)
+            //{
+                
+            //}
             else
             {
                 DroneFlight droneFlight = db.DroneFlights.Find(id);
@@ -47,7 +49,7 @@ namespace DroneWebApp.Controllers
                 }
                 ViewBag.id = id;
             }
-            return View("ViewMap", db.DroneFlights.ToList());
+            return View("ViewMap", db.DroneFlights.ToList()); //TODO: waarom droneflights meegeven? 
         }
 
 

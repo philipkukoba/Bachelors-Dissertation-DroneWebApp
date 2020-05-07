@@ -434,6 +434,7 @@
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Content\images\upload_icon.png" />
     <Content Include="Content\images\upload_icon_hover.png" />
+    <Content Include="Scripts\visualisation\world_map_overview.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
