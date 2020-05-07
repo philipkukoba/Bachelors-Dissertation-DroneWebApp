@@ -7,11 +7,12 @@ let my_form;
 let firstCheck = true;
 
 $(document).ready(function () {
-    // File extension verification; upload button will be disabled if the user tries to upload an extension that is not allowed
+    // File extension verification; upload button will be disabled...
+    // ...if the user tries to upload an extension that is not allowed
     $("#file").change(function () {
         var fileExtension = ['pdf', 'dat', 'txt', 'csv', 'xyz', 'tfw', 'jpg']; // allowed extensions
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-            alert("Only formats are allowed : " + fileExtension.join(', '));
+            alert("Only the following formats are allowed : " + fileExtension.join(', ') + ". Please try again.");
             $("#uploadbtnSubmit").prop('disabled', true); // disable upload button
         }
         else {
@@ -35,12 +36,10 @@ $(document).ready(function () {
                 filesLeftToParse = 0; // reset
                 firstCheck = true;
             }
-            console.log("beforeSend! :)");
         },
         uploadProgress: function (event, position, total, percentComplete) {
             $("#uploadstatus").text("Uploading files... (" + percentComplete + "%)");
             $("#progressbar").progressbar("value", percentComplete);
-            //$("#endField").hide();
             // Once uploading is complete...
             if (percentComplete == 100) {
                 $("#uploadstatus").text("Upload complete.");
@@ -104,13 +103,14 @@ $(document).ready(function () {
 
 }); // end of $(document).ready
 
-// Helper-function for AjaxForm: changes the progress bar value at an interval
+// Changes the progress bar value at an interval
 function startParsing() {
     $("#progressbar").progressbar({ value: 0 });
     intervalID = setTimeout(parse, 500);  //every 0.5 sec the progress bar updates
 }
 
-// Helper-function for startParsing: called in startParsing to change the progress bar value through an ajax call
+// Helper-function for startParsing: called in startParsing to change the progress bar value ...
+// ... through an ajax call
 function parse() {
     $.get("/Files/GetStatus/", function (result) {
         currentFile = result.currFileName // set the current file
@@ -130,7 +130,10 @@ function parse() {
         // Update the amount of files that still have to be parsed
         console.log("Files left to parse: " + filesLeftToParse);
         //update the progress bar
-        let progress = Math.round((amountParsed / totalFilesToParse + (result.currProgress / 100) / totalFilesToParse) * 100);
+        let progress = Math.round((amountParsed / totalFilesToParse
+                                        + (result.currProgress / 100)
+                                        / totalFilesToParse)
+                                            * 100);
         $("#uploadstatus").text("Parsing file: " + currentFile + " (" + progress + "%)");
         $("#progressbar").progressbar("value", progress);
 
