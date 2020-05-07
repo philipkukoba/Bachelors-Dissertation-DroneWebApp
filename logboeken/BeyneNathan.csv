@@ -109,3 +109,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 05/05/20,20:00,22:00,Extern,Oplossing datcon door middel van omvormen jar tot dll uitproberen,26,
 06/05/20,14:00,18:00,Extern,Verder datcon proberen oplossen dmv dll's,26,
 06/05/20,20:00,23:00,Extern,Verder datcon proberen oplossen dmv dll's + Oplossing datcon met jni4net beginnen proberen,26,
+07/05/20,12:30,13:29,Extern,Oplossing met datcon met jni4net verder proberen,26,
