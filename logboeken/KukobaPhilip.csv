@@ -71,3 +71,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/05/20,19:00,20:45,Extern, fixed forloop in parser - long/lat conversion based on hemisphere implemented,171,
 05/05/20,08:15,12:30,Contacturen, afwerken DATParser,177,
 07/05/20,10:00,12:15,Extern, DATParser afgewerkt, 177,
+07/05/20,13:30,17:45,Contacturen, Afwerking visualisation,168,
