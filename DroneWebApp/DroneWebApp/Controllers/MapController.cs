@@ -18,27 +18,14 @@ namespace DroneWebApp.Controllers
             this.db = (DroneDBEntities)db;
         }
 
-        //public ActionResult ViewMap()
-        //{
-        //    return View(db.DroneFlights.ToList());
-        //}
-
         public ActionResult ViewMap(int? id)
         {
             System.Diagnostics.Debug.WriteLine(id);
-            if (id == null)
+            if (id == null) // general overview of all Flights
             {
-                //ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                //return View("~/Views/ErrorPage/Error.cshtml");
-                ////return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
                 return View("ViewMap");
             }
-            //else if (id == 0)
-            //{
-                
-            //}
-            else
+            else // specific Flight
             {
                 DroneFlight droneFlight = db.DroneFlights.Find(id);
                 if (droneFlight == null)
@@ -47,15 +34,15 @@ namespace DroneWebApp.Controllers
                     return View("~/Views/ErrorPage/Error.cshtml");
                     //return HttpNotFound();
                 }
-                ViewBag.id = id;
+                ViewBag.id = id; 
+                // The user can only navigate to the Map of a specific Flight, if that Flight has a Drone Log uploaded to it
+                if( droneFlight.hasDroneLog == false)
+                {
+                    ViewBag.ErrorMessage = "Please upload a Drone Log for this Flight first.";
+                    return View("~/Views/ErrorPage/Error.cshtml");
+                }
             }
             return View("ViewMap"); //TODO: waarom droneflights meegeven? 
         }
-
-
-        //public ActionResult ViewMapByID()
-        //{
-        //    return View();
-        //}
     }
 }
