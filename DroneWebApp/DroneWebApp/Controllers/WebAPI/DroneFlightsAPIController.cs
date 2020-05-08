@@ -14,49 +14,72 @@ using Newtonsoft.Json;
 
 namespace DroneWebApp.Controllers
 {
-    public class DroneFlightsAPIController : ApiController
-    {
-        private DroneDBEntities db = new DroneDBEntities();
+	public class DroneFlightsAPIController : ApiController
+	{
+		private DroneDBEntities db = new DroneDBEntities();
 
+		// GET: api/DroneFlightsAPI/5
+		// [ResponseType(typeof(DroneFlight))]
+		public HttpResponseMessage GetDroneFlight(int id)
+		{
+			var Flight = db.DroneFlights.Find(id);
 
-        //TODO: unused
-        //// GET: api/DroneFlightsAPI
-        //public IQueryable<DroneFlight> GetDroneFlights()
-        //{
-        //    return db.DroneFlights;
-        //}
+			if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+			//data projection
+			var flightProjected = (new
+			{
+				Flight.FlightId,
 
-        // GET: api/DroneFlightsAPI/5
-       // [ResponseType(typeof(DroneFlight))]
-        public HttpResponseMessage GetDroneFlight(int id)
-        {
-            var Flight = db.DroneFlights.Find(id);
+				Flight.Pilot.PilotName,
+				Flight.Drone.DroneName,
 
-            if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
+				DepartureUTC = Flight.DepartureInfo.UTCTime,
+				DepartureLatitude = Flight.DepartureInfo.Latitude,
+				DepartureLongitude = Flight.DepartureInfo.Longitude,
 
-            //data projection
-            var flightProjected = (new { 
+				DestinationUTC = Flight.DestinationInfo.UTCTime,
+				DestinationLatitude = Flight.DestinationInfo.Latitude,
+				DestinationLongitude = Flight.DestinationInfo.Longitude
 
-                Flight.Pilot.PilotName, 
-                Flight.Drone.DroneName,
+			});
 
-                DepartureUTC = Flight.DepartureInfo.UTCTime,
-                DepartureLatitude = Flight.DepartureInfo.Latitude,
-                DepartureLongitude = Flight.DepartureInfo.Longitude,
+			//config to set to json 
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(JsonConvert.SerializeObject(flightProjected));
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                DestinationUTC = Flight.DestinationInfo.UTCTime, 
-                DestinationLatitude = Flight.DestinationInfo.Latitude, 
-                DestinationLongitude = Flight.DestinationInfo.Longitude
+			return response;
+		}
 
-            });
+		public HttpResponseMessage getAllDroneFlights()
+		{
+			//List<DroneFlight> droneFlights = db.DroneFlights.ToList();
 
-            //config to set to json 
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(flightProjected));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+			var droneFlightsProjected = db.DroneFlights.Select(
+				df => new {
 
-            return response;
-        }
-    }
+					df.FlightId,
+
+					df.Pilot.PilotName,
+					df.Drone.DroneName,
+
+					DepartureUTC = df.DepartureInfo.UTCTime,
+					DepartureLatitude = df.DepartureInfo.Latitude,
+					DepartureLongitude = df.DepartureInfo.Longitude,
+
+					DestinationUTC = df.DestinationInfo.UTCTime,
+					DestinationLatitude = df.DestinationInfo.Latitude,
+					DestinationLongitude = df.DestinationInfo.Longitude
+				}).ToList();
+
+			//config to set to json 
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(JsonConvert.SerializeObject(droneFlightsProjected));
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return response;
+		}
+
+	}
 }

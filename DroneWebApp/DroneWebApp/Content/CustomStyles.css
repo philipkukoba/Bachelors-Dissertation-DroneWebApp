@@ -184,3 +184,69 @@ table#metadatatable tr:last-of-type td, table#metadatatable tr:last-of-type th {
 #droneFlightMap .esri-popup__footer {
     display: none;
 }
+
+/* Main Map View - Popup for flight */
+.droneFlightPopup table th {
+    font-weight: bold;
+    padding-right: 0.5em;
+}
+.droneFlightPopup table td:first-of-type { padding-right:0.428em; }
+.droneFlightPopup table .titleRow td,
+.droneFlightPopup table .titleRow th {
+    padding-top: 0.7142857em;
+    padding-bottom:0.21428em;
+    /*padding-bottom: 0.25em;*/
+}
+.droneFlightPopup table .coordinatesRow {
+    font-size: 0.8em;
+    line-height:1.25em;
+}
+
+.droneFlightPopup a {
+    display: block;
+    margin: 0.857em 0px 0.14285em;
+    padding: 0.3em 1em;
+    text-align: center;
+    border:1px solid #999; background-color:#f0f0f0;
+    text-decoration:none;
+    color:#333;
+    border-radius:5px;
+}
+    .droneFlightPopup a:hover {
+        border-color: #000;
+        color: #000;
+        background-color: #ececec;
+    }
+
+/* drone flight map detail*/
+.esri-feature { padding:1em; }
+.esri-feature h4 { padding-top:0px; margin-top:0px; margin-bottom:1em; }
+
+/* drone flight map detail, color coding buttons*/
+button.colorCodingButton {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    border: 1px solid #999;
+    color: #333;
+    border-radius: 5px;
+    margin-left:0.6em;
+    text-align:center;
+    outline:none;
+}
+    button.colorCodingButton.active { border-color:#000; border-width:2px; color:#000; }
+    /*
+button.colorCodingButton:first-of-type { margin-top:0px; }
+     */
+    .esri-ui-bottom-left .esri-feature__size-container > * {
+        display: inline-block;
+    }
+.esri-ui-bottom-left h4 {
+    margin: 0px 7px;
+    line-height:2.785em;
+}
+.esri-ui-bottom-left .esri-feature {
+    padding: 0.8em;
+}
+
+/* interface fixes arcgis */
+.esri-layer-list__item-label { outline:none; display:pointer; }
