@@ -49,7 +49,7 @@ namespace DroneWebApp.Controllers
                 }
                 ViewBag.id = id;
             }
-            return View("ViewMap", db.DroneFlights.ToList()); //TODO: waarom droneflights meegeven? 
+            return View("ViewMap"); //TODO: waarom droneflights meegeven? 
         }
 
 

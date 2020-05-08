@@ -51,11 +51,23 @@ namespace DroneWebApp.Models.Helper
         public static int CountFileLines(string path)
         {
             int totalLines = 0;
-            using (StreamReader r = new StreamReader(path))
+            Boolean succeeded = false;
+            while (!succeeded)
             {
-                while (r.ReadLine() != null)
+                try
                 {
-                    totalLines++;
+                    using (StreamReader r = new StreamReader(path))
+                    {
+                        while (r.ReadLine() != null)
+                        {
+                            totalLines++;
+                        }
+                    }
+                    succeeded = true;
+                }
+                catch(Exception e)
+                {
+                    System.Threading.Thread.Sleep(500);
                 }
             }
             return totalLines;
