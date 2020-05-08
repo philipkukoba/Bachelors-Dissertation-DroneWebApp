@@ -8,12 +8,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DroneWebApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DroneWebApp.Controllers
 {
     public class PilotsController : Controller
     {
         private DroneDBEntities db;
+        private ApplicationDbContext applicationDb = new ApplicationDbContext();
 
         public PilotsController(DbContext db)
         {
@@ -23,32 +26,65 @@ namespace DroneWebApp.Controllers
         // GET: Pilots
         public ActionResult Index()
         {
-            return View("Index", db.Pilots.ToList());
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
+                {
+                    return View("Index", db.Pilots.ToList());
+                }
+            }
+            ViewBag.ErrorMessage = "Please make sure you are logged in";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // GET: Pilots/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
+                {
+                    if (id == null)
+                    {
+                        ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Pilot pilot = db.Pilots.Find(id);
+                    if (pilot == null)
+                    {
+                        ViewBag.ErrorMessage = "Pilot could not be found.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return HttpNotFound();
+                    }
+                    return View("Details", pilot);
+                }
             }
-            Pilot pilot = db.Pilots.Find(id);
-            if (pilot == null)
-            {
-                ViewBag.ErrorMessage = "Pilot could not be found.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
-            }
-            return View("Details", pilot);
+            ViewBag.ErrorMessage = "Please make sure you are logged in";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // GET: Pilots/Create
         public ActionResult Create()
         {
-            return View("Create");
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    return View("Create");
+                }
+            }
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // POST: Pilots/Create
@@ -58,40 +94,62 @@ namespace DroneWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                bool pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
-                if (pilotAlreadyExists)
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
                 {
-                    ViewBag.ErrorPilotCreate = "Pilot already exists. Please choose a different name.";
+                    if (ModelState.IsValid)
+                    {
+                        bool pilotAlreadyExists = db.Pilots.Any(x => x.PilotName == pilot.PilotName);
+                        if (pilotAlreadyExists)
+                        {
+                            ViewBag.ErrorPilotCreate = "Pilot already exists. Please choose a different name.";
+                            return View(pilot);
+                        }
+
+                        db.Pilots.Add(pilot);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
                     return View(pilot);
                 }
-                
-                db.Pilots.Add(pilot);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(pilot);
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // GET: Pilots/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    if (id == null)
+                    {
+                        ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Pilot pilot = db.Pilots.Find(id);
+                    if (pilot == null)
+                    {
+                        ViewBag.ErrorMessage = "Pilot could not be found.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return HttpNotFound();
+                    }
+                    return View("Edit", pilot);
+                }
             }
-            Pilot pilot = db.Pilots.Find(id);
-            if (pilot == null)
-            {
-                ViewBag.ErrorMessage = "Pilot could not be found.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
-            }
-            return View("Edit", pilot);
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // POST: Pilots/Edit/5
@@ -101,15 +159,26 @@ namespace DroneWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PilotId,PilotName,Street,ZIP,City,Country,Phone,LicenseNo,Email,EmergencyPhone")] Pilot pilot)
         {
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                Pilot p = db.Pilots.Find(pilot.PilotId);
-                UpdatePilotFields(pilot, p);
-                db.Entry(p).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Pilot p = db.Pilots.Find(pilot.PilotId);
+                        UpdatePilotFields(pilot, p);
+                        db.Entry(p).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    return View(pilot);
+                }
             }
-            return View(pilot);
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // Update the fields of the DroneFlight that has been found by FlightId with the fields of the posted DroneFlight, a.k.a. the drone flight 
@@ -130,21 +199,32 @@ namespace DroneWebApp.Controllers
         // GET: Pilots/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    if (id == null)
+                    {
+                        ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Pilot pilot = db.Pilots.Find(id);
+                    ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
+                    if (pilot == null)
+                    {
+                        ViewBag.ErrorMessage = "Pilot could not be found.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return HttpNotFound();
+                    }
+                    return View("Delete", pilot);
+                }
             }
-            Pilot pilot = db.Pilots.Find(id);
-            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
-            if (pilot == null)
-            {
-                ViewBag.ErrorMessage = "Pilot could not be found.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
-            }
-            return View("Delete", pilot);
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // POST: Pilots/Delete/5
@@ -152,39 +232,62 @@ namespace DroneWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int? id)
         {
-            Pilot pilot = db.Pilots.Find(id);
-            ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                db.Pilots.Remove(pilot);
-                db.SaveChanges();
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    Pilot pilot = db.Pilots.Find(id);
+                    ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
+                    try
+                    {
+                        db.Pilots.Remove(pilot);
+                        db.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                        ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName + " is assigned to one or more Flights.";
+                        return View(pilot);
+                    }
+                    return RedirectToAction("Index");
+                }
             }
-            catch(Exception) {
-                ViewBag.ErrorPilotDelete = "Cannot delete this Pilot. " + pilot.PilotName +" is assigned to one or more Flights.";
-                return View(pilot);
-            }
-            return RedirectToAction("Index");
+            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // GET: Pilots/DroneFlights/5
         public ActionResult DroneFlights(int? id)
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
+                {
+                    if (id == null)
+                    {
+                        ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Pilot pilot = db.Pilots.Find(id);
+                    if (pilot == null)
+                    {
+                        ViewBag.ErrorMessage = "Pilot could not be found.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                        //return HttpNotFound();
+                    }
+                    ViewBag.Pilot = pilot.PilotName;
+                    ViewBag.PilotId = id;
+                    return View("DroneFlights", pilot.DroneFlights.ToList());
+                }
             }
-            Pilot pilot = db.Pilots.Find(id);
-            if (pilot == null)
-            {
-                ViewBag.ErrorMessage = "Pilot could not be found.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
-            }
-            ViewBag.Pilot = pilot.PilotName;
-            ViewBag.PilotId = id;
-            return View("DroneFlights", pilot.DroneFlights.ToList());
+            ViewBag.ErrorMessage = "Please make sure you are logged in";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         protected override void Dispose(bool disposing)
