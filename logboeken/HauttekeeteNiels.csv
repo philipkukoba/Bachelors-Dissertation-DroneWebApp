@@ -85,3 +85,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 07/05/20,13:30,18:00,Contacturen,Login met identity,57,
 07/05/20,20:00,21:15,Extern,Login met identity,57,
 08/05/20,09:30,12:30,Extern,Probleem login met unity oplossen,57,
+08/05/20,14:30,18:30,Extern,Rollen voor authorisatie toevoegen,57,
+08/05/20,20:00,22:25,Extern,Authorisatie toevoegen,57,
