@@ -113,4 +113,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 07/05/20,13:30,18:00,Contacturen,Oplossing datcon met jnbridge proberen,26,
 07/05/20,18:45,23:49,Extern,Datcon met jnbridge en javonet en nog eens geprobeerd door middel van het oproepen van de exe in de web applicatie,26,
 08/05/20,00:00,00:45,Extern,Afbeeldingen database model updaten,138,
-08/05/20,19:00,21:00,Extern,Eerste werkende versie dat converter implementeren,26,
+08/05/20,19:00,23:59,Extern,Eerste werkende versie dat converter implementeren + proberen automatiseren van dat converter,26,
