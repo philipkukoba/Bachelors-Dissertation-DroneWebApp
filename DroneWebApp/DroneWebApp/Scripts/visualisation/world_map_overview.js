@@ -218,6 +218,7 @@
                         type: "text",
                         color: "#1d82ac",
                         text: "\ue61d",
+                        //size: 20,
                         font: {
                             size: 20,
                             family: "CalciteWebCoreIcons"

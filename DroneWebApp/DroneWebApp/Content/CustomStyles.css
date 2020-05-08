@@ -250,3 +250,11 @@ button.colorCodingButton:first-of-type { margin-top:0px; }
 
 /* interface fixes arcgis */
 .esri-layer-list__item-label { outline:none; display:pointer; }
+
+.esri-layer-list__item-container {
+    padding: 7px;
+}
+
+.esri-legend__service {
+    padding: 10px 10px 0px 10px;
+}

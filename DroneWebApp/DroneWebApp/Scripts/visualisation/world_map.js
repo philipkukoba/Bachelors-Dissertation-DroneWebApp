@@ -465,22 +465,29 @@
     //visual variable HeightMSL
     let colorVar_HeightMSL = {
         type: "color",          //specify that its based on color (not size or rotation etc)
-        field: "HeightMSL",     //specify which field to use
-        stops: [{ value: 2, color: "#FF0000" }, { value: 53, color: "#0000FF" }]
+        field: "HeightMSL",     //specify which field to use   
+        stops: [{ value: 2, color: "#470000" }, { value: 53, color: "#ffefdc" }]
     };
 
     //visual variable VelComposite
     let colorVar_VelComposite = {
         type: "color",          //specify that its based on color (not size or rotation etc)
-        field: "VelComposite",     //specify which field to use
-        stops: [{ value: 0, color: "#436480" }, { value: 6, color: "#afbac4" }, { value: 13, color: "#ebe6df" }]
+        field: "VelComposite",     //specify which field to use  
+        stops: [{ value: 0, color: "#ebe6df" }, { value: 6, color: "#afbac4" }, { value: 13, color: "#436480" }]
     };
 
     //specify visualisation here 
     let customRenderer = {
         type: "simple",                 // autocasts as new SimpleRenderer()
-        symbol: { type: "simple-marker", size: 5 }, // autocasts as new SimpleMarkerSymbol()
-        visualVariables: [colorVar_BatteryPercentage]
+        symbol: {
+            type: "simple-marker",
+            size: 7,
+            outline: {
+                color: [0, 0, 0],
+                width: 1
+            }
+        }, // autocasts as new SimpleMarkerSymbol()
+        visualVariables: [colorVar_HeightMSL]
     };
 
     const GPTemplate = {
@@ -807,8 +814,9 @@
                 map: map
             });
 
-            //todo center map view on track 
-            //view.center[result.DepartureLatitude, result.DepartureLongitude]; 
+            //center and zoom to track starting point
+            view.center = [result.DepartureLongitude, result.DepartureLatitude];
+            view.zoom = 16;
 
             view.ui.add(feature, "top-right");
         },
@@ -841,9 +849,9 @@
                         var node = document.createElement("div");
 
                         node.innerHTML = `<div class="colorCodingInterface">
-	<button class="colorCodingButton" data-colorMode="height">Height (MSL)</button>
+	<button class="colorCodingButton active" data-colorMode="height">Height (MSL)</button>
 	<button class="colorCodingButton" data-colorMode="velocity">Velocity</button>
-	<button class="colorCodingButton active" data-colorMode="battery">Battery %</button>
+	<button class="colorCodingButton" data-colorMode="battery">Battery %</button>
 </div>`;
                         return node;
                     }

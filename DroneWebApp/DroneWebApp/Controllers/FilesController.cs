@@ -2,6 +2,8 @@
 using DroneWebApp.Models.DataExport;
 using DroneWebApp.Models.Helper;
 using DroneWebApp.Models.SimpleFactoryPattern;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace DroneWebApp.Controllers
     public class FilesController : Controller
     {
         public DroneDBEntities Db { get; set; }
+        private ApplicationDbContext applicationDb = new ApplicationDbContext();
         private Creator creator;
         private readonly List<string> validExtensions = new List<string>(){ ".pdf", ".dat", ".txt", ".csv", ".xyz", ".tfw", ".jpg"};
         // Parsing variables
@@ -44,26 +47,37 @@ namespace DroneWebApp.Controllers
         [HttpGet]
         public ActionResult Index(int? id)
         {
-            DroneFlight droneFlight = Db.DroneFlights.Find(id);
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
+                {
+                    DroneFlight droneFlight = Db.DroneFlights.Find(id);
+                    if (id == null)
+                    {
+                        ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                    }
+                    else if (droneFlight == null)
+                    {
+                        ViewBag.ErrorMessage = "This Drone Flight does not exist.";
+                        return View("~/Views/ErrorPage/Error.cshtml");
+                    }
+                    ViewBag.FlightId = (int)id;
+                    ViewBag.Location = droneFlight.Location;
+                    string date = "NA";
+                    if (droneFlight.Date != null)
+                    {
+                        date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
+                    }
+                    ViewBag.Date = date;
+                    return View("Index");
+                }
             }
-            else if (droneFlight == null)
-            {
-                ViewBag.ErrorMessage = "This Drone Flight does not exist.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-            }
-            ViewBag.FlightId = (int) id;
-            ViewBag.Location = droneFlight.Location;
-            string date = "NA";
-            if (droneFlight.Date != null)
-            {
-                date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
-            }
-            ViewBag.Date = date;
-            return View("Index");
+            ViewBag.ErrorMessage = "Please make sure you are logged in";
+            return View("~/Views/ErrorPage/Error.cshtml");
         }
 
         // Return values for error-handling: 
@@ -136,16 +150,8 @@ namespace DroneWebApp.Controllers
                     else
                     {
                         // Parse the submitted file
-                        if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
-                        {
-                            currentParseResult = creator.GetParser(".dat", path, (int)id);
-                            results.Add(currentFileName, currentParseResult);
-                        }
-                        else
-                        {
-                            currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                            results.Add(currentFileName, currentParseResult);
-                        }
+                        currentParseResult = creator.GetParser(fileExtension, path, (int)id);
+                        results.Add(currentFileName, currentParseResult);
                     }
                     // Wait a bit so the ajax call can correctly happen in case of uploading 1 file that is already present (parser returns false very quickly)
                     if(files.Count == 1)
