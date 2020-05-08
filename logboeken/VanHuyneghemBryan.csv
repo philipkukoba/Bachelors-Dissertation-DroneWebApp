@@ -80,3 +80,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 07/05/20,13:25,17:45,Contacturen,installatiehandleiding,138,
 07/05/20,17:45,20:10,Extern,Limiet toegevoegd uploaden bestanden + documentatie js-scripts,201/206,
 08/05/20,17:00,17:40,Extern,Navigation issue,204,
+08/05/20,22:35,22:40,Extern,Gebruiker kan niet naar vlucht zijn map navigeren indien er geen drone log geüpload is,168,
