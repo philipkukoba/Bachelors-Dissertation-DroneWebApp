@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
@@ -316,8 +317,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) return false;
 
+			// Conversion of dat to csv
+			string location = ConfigurationManager.AppSettings["EXELOC"];
+			Process.Start(location + "DatCon.3.7.3.exe");
+			string pathCsv = path.Substring(0, path.Length - 3) + "CSV";
+			while (!File.Exists(pathCsv))
+			{
+				System.Threading.Thread.Sleep(1000);
+			}
+
 			// calculate the total amount of lines by going through the whole file once
-			int totalLines = Helper.Helper.CountFileLines(path);
+			int totalLines = Helper.Helper.CountFileLines(pathCsv);
 			System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
 			#region Track starting variables 
@@ -332,7 +342,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			#endregion
 
 			// Parse
-			using (TextFieldParser parser = new TextFieldParser(path))
+			using (TextFieldParser parser = new TextFieldParser(pathCsv))
 			{
 				parser.TextFieldType = FieldType.Delimited;
 				parser.SetDelimiters(",");

@@ -136,16 +136,8 @@ namespace DroneWebApp.Controllers
                     else
                     {
                         // Parse the submitted file
-                        if (currentFileName.Contains("FLY")) // DAT-bestanden zijn voorlopig csv en moeten dus juist afgehandeld worden
-                        {
-                            currentParseResult = creator.GetParser(".dat", path, (int)id);
-                            results.Add(currentFileName, currentParseResult);
-                        }
-                        else
-                        {
-                            currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                            results.Add(currentFileName, currentParseResult);
-                        }
+                        currentParseResult = creator.GetParser(fileExtension, path, (int)id);
+                        results.Add(currentFileName, currentParseResult);
                     }
                     // Wait a bit so the ajax call can correctly happen in case of uploading 1 file that is already present (parser returns false very quickly)
                     if(files.Count == 1)
