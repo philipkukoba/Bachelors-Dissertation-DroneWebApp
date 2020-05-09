@@ -149,9 +149,17 @@ namespace DroneWebApp.Controllers
                     }
                     else
                     {
-                        // Parse the submitted file
-                        currentParseResult = creator.GetParser(fileExtension, path, (int)id);
-                        results.Add(currentFileName, currentParseResult);
+                        if(path.Contains("FLY"))
+                        {
+                            currentParseResult = creator.GetParser(".dat", path, (int)id);
+                            results.Add(currentFileName, currentParseResult);
+                        }
+                        else
+                        {
+                            // Parse the submitted file
+                            currentParseResult = creator.GetParser(fileExtension, path, (int)id);
+                            results.Add(currentFileName, currentParseResult);
+                        }
                     }
                     // Wait a bit so the ajax call can correctly happen in case of uploading 1 file that is already present (parser returns false very quickly)
                     if(files.Count == 1)

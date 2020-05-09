@@ -317,14 +317,25 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) return false;
 
-			// Conversion of dat to csv
-			string location = ConfigurationManager.AppSettings["EXELOC"];
-			Process.Start(location + "DatCon.3.7.3.exe");
-			string pathCsv = path.Substring(0, path.Length - 3) + "CSV";
-			while (!File.Exists(pathCsv))
+			string pathCsv = "";
+
+			/*if (!path.Substring(path.Length - 3).Equals("CSV"))
 			{
-				System.Threading.Thread.Sleep(1000);
+				// Conversion of dat to csv
+				string location = ConfigurationManager.AppSettings["EXELOC"];
+				Process.Start(location + "DatCon.3.7.3.exe");
+				pathCsv = path.Substring(0, path.Length - 3) + "CSV";
+				while (!File.Exists(pathCsv))
+				{
+					System.Threading.Thread.Sleep(1000);
+				}
 			}
+			else
+			{
+				pathCsv = path;
+			}*/
+
+			pathCsv = path;
 
 			// calculate the total amount of lines by going through the whole file once
 			int totalLines = Helper.Helper.CountFileLines(pathCsv);
