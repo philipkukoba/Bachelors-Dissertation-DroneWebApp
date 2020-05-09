@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace DroneWebApp.Controllers
 {
+    [AllowAnonymous]
     public class MapController : Controller
     {
         private DroneDBEntities db;
@@ -18,6 +19,7 @@ namespace DroneWebApp.Controllers
             this.db = (DroneDBEntities)db;
         }
 
+        [AllowAnonymous]
         public ActionResult ViewMap(int? id)
         {
             System.Diagnostics.Debug.WriteLine(id);

@@ -150,8 +150,18 @@
         </tr>
     </table>
 </div>
-<p>
-    @Html.ActionLink("Edit Drone", "Edit", new { id = Model.DroneId }, new { @class = "btn btn-info btn-sm" }) |
-    @Html.ActionLink("Back to Drones List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.DroneId }, new { @class = "btn btn-danger btn-sm" })
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Edit Drone", "Edit", new { id = Model.DroneId }, new { @class = "btn btn-info btn-sm" }) |
+        @Html.ActionLink("Back to Drones List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.DroneId }, new { @class = "btn btn-danger btn-sm" })
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to Drones List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    </p>
+}
+

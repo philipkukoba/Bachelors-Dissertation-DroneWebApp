@@ -16,16 +16,19 @@
 
 <div>
     <h4><strong>Drone Flight @Model.FlightId</strong></h4>
-    <a href='@Url.Action("Index", "Files", new { id = @Model.FlightId })' class="anchor_icon">
-        <img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
-        <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
-    </a>
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <a href='@Url.Action("Index", "Files", new { id = @Model.FlightId })' class="anchor_icon">
+            <img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
+            <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
+        </a>
+    }
     <a href='@Url.Action("ViewMap", "Map", new { id = @Model.FlightId })' class="anchor_icon">
         <img src="~/Content/images/map_marker.png" alt="Go to map" class="img-size" title="Navigate to Map for this Drone Flight">
         <img src="~/Content/images/map_marker_hover.png" alt="Go to map" class="img-size" title="Navigate to Map for this Drone Flight">
     </a>
- </div>
-    
+</div>
+
 <div>
     <p>
     </p>
@@ -77,18 +80,36 @@
             <th>
                 @Html.DisplayNameFor(model => model.Drone)
             </th>
-            <td>
-                @Html.ActionLink(@Model.Drone.DroneName, "Details", "Drones", new { id = @Model.DroneId }, new { @class = "btn btn-primary btn-sm whiteText" })
-            </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("User"))
+            {
+                <td>
+                    @Html.ActionLink(@Model.Drone.DroneName, "Details", "Drones", new { id = @Model.DroneId }, new { @class = "btn btn-primary btn-sm whiteText" })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(model => model.Drone.DroneName)
+                </td>
+            }
         </tr>
 
         <tr>
             <th>
                 @Html.DisplayName("Pilot")
             </th>
-            <td>
-                @Html.ActionLink(@Model.Pilot.PilotName, "Details", "Pilots", new { id = @Model.PilotId }, new { @class = "btn btn-primary btn-sm whiteText" })
-            </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("User"))
+            {
+                <td>
+                    @Html.ActionLink(@Model.Pilot.PilotName, "Details", "Pilots", new { id = @Model.PilotId }, new { @class = "btn btn-primary btn-sm whiteText" })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(model => model.Pilot.PilotName)
+                </td>
+            }
         </tr>
 
         <tr>
@@ -293,8 +314,18 @@
         </tr>
     </table>
 </div>
-<p>
-    @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-info btn-sm" }) |
-    @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.FlightId }, new { @class = "btn btn-danger btn-sm" })
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-info btn-sm" }) |
+        @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.FlightId }, new { @class = "btn btn-danger btn-sm" })
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    </p>
+}
+

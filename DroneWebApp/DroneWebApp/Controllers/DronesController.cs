@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DroneWebApp.Controllers
 {
+    [Authorize]
     public class DronesController : Controller
     {
         private DroneDBEntities db;
@@ -27,67 +28,37 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Drones
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
-                {
-                    return View("Index", db.Drones.ToList());
-                }
-            }
-            ViewBag.ErrorMessage = "Please make sure you are logged in";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View("Index", db.Drones.ToList());
         }
 
         // GET: Drones/Details/5
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Details(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    Drone drone = db.Drones.Find(id);
-                    if (drone == null)
-                    {
-                        ViewBag.ErrorMessage = "Pilot could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    return View("Details", drone);
-                }
+                ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            Drone drone = db.Drones.Find(id);
+            if (drone == null)
+            {
+                ViewBag.ErrorMessage = "Pilot could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            return View("Details", drone);
         }
 
         // GET: Drones/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    return View("Create");
-                }
-            }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View("Create");
         }
 
         // POST: Drones/Create
@@ -95,66 +66,46 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "DroneId,Registration,DroneType, DroneName, Notes")] Drone drone)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
+                if (drone.DroneName == null)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        if (drone.DroneName == null)
-                        {
-                            drone.DroneName = drone.DroneType + ":" + drone.Registration;
-                        }
-                        drone.TotalFlightTime = 0; // no time flown yet
-                        drone.needsCheckUp = false; // does not yet need a check-up
-
-                        drone.nextTimeCheck = (long)thresholdTime.TotalSeconds; // Save the next time check as total amount of ticks (bigint in database, long in application).
-                                                                                // This is because SQL Server cannot store times > 24 hours; solution: store time as seconds
-                        db.Drones.Add(drone);
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-
-                    return View(drone);
+                    drone.DroneName = drone.DroneType + ":" + drone.Registration;
                 }
+                drone.TotalFlightTime = 0; // no time flown yet
+                drone.needsCheckUp = false; // does not yet need a check-up
+
+                drone.nextTimeCheck = (long)thresholdTime.TotalSeconds; // Save the next time check as total amount of ticks (bigint in database, long in application).
+                                                                        // This is because SQL Server cannot store times > 24 hours; solution: store time as seconds
+                db.Drones.Add(drone);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+
+            return View(drone);
         }
 
         // GET: Drones/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    Drone drone = db.Drones.Find(id);
-                    if (drone == null)
-                    {
-                        ViewBag.ErrorMessage = "Drone could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    return View("Edit", drone);
-                }
+                ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            Drone drone = db.Drones.Find(id);
+            if (drone == null)
+            {
+                ViewBag.ErrorMessage = "Drone could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            return View("Edit", drone);
         }
 
         // POST: Drones/Edit/5
@@ -162,30 +113,20 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "DroneId,Registration,DroneType,DroneName,needsCheckUp, Notes")] Drone drone)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (ModelState.IsValid)
-                    {
-                        Drone dr = db.Drones.Find(drone.DroneId);
-                        UpdateDroneFields(drone, dr);
-                        db.Entry(dr).State = EntityState.Modified;
-                        db.SaveChanges();
-                        // Update the total time drones have flown in case the drone flight's drone has been changed by the user
-                        Helper.UpdateTotalDroneFlightTime(this.db);
-                        return RedirectToAction("Index");
-                    }
-                    return View(drone);
-                }
+                Drone dr = db.Drones.Find(drone.DroneId);
+                UpdateDroneFields(drone, dr);
+                db.Entry(dr).State = EntityState.Modified;
+                db.SaveChanges();
+                // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+                Helper.UpdateTotalDroneFlightTime(this.db);
+                return RedirectToAction("Index");
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View(drone);
         }
 
         // Update the fields of the Drone that has been found by DroneId with the fields of the posted Drone, a.k.a. the drone 
@@ -216,100 +157,70 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Drones/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    Drone drone = db.Drones.Find(id);
-
-                    if (drone == null)
-                    {
-                        ViewBag.ErrorMessage = "Drone could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    // Count its total flights
-                    ViewBag.TotalFlights = drone.DroneFlights.Count;
-                    return View("Delete", drone);
-                }
+                ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            Drone drone = db.Drones.Find(id);
+
+            if (drone == null)
+            {
+                ViewBag.ErrorMessage = "Drone could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            // Count its total flights
+            ViewBag.TotalFlights = drone.DroneFlights.Count;
+            return View("Delete", drone);
         }
 
         // POST: Drones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            Drone drone = db.Drones.Find(id);
+            try
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    Drone drone = db.Drones.Find(id);
-                    try
-                    {
-                        db.Drones.Remove(drone);
-                        db.SaveChanges();
-                    }
-                    catch (Exception)
-                    {
-                        ViewBag.ErrorDroneDelete = "Cannot delete this Drone. " + drone.DroneName + " is assigned to one or more Flight.";
-                        return View(drone);
-                    }
-                    // Count its total flights
-                    ViewBag.TotalFlights = drone.DroneFlights.Count;
-                    return RedirectToAction("Index");
-                }
+                db.Drones.Remove(drone);
+                db.SaveChanges();
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            catch (Exception)
+            {
+                ViewBag.ErrorDroneDelete = "Cannot delete this Drone. " + drone.DroneName + " is assigned to one or more Flight.";
+                return View(drone);
+            }
+            // Count its total flights
+            ViewBag.TotalFlights = drone.DroneFlights.Count;
+            return RedirectToAction("Index");
         }
 
         // GET: Drones/DroneFlights/5
+        [Authorize(Roles = "Admin,User")]
         public ActionResult DroneFlights(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    Drone drone = db.Drones.Find(id);
-                    if (drone == null)
-                    {
-                        ViewBag.ErrorMessage = "Drone could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    ViewBag.DroneName = drone.DroneName;
-                    ViewBag.DroneId = id;
-                    return View("DroneFlights", drone.DroneFlights.ToList());
-                }
+                ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            Drone drone = db.Drones.Find(id);
+            if (drone == null)
+            {
+                ViewBag.ErrorMessage = "Drone could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            ViewBag.DroneName = drone.DroneName;
+            ViewBag.DroneId = id;
+            return View("DroneFlights", drone.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)

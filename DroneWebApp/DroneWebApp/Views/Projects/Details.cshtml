@@ -69,8 +69,18 @@
         </tr>
     </table>
 </div>
-<p>
-    @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-info btn-sm" }) |
-    @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.ProjectId }, new { @class = "btn btn-danger btn-sm" })
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-info btn-sm" }) |
+        @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ProjectId }, new { @class = "btn btn-danger btn-sm" })
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    </p>
+}
+

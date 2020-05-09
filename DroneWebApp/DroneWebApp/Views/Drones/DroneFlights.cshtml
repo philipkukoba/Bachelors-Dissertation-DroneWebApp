@@ -15,7 +15,11 @@
     </ol>
 </nav>
 
-<h4>@Html.ActionLink("Create new Flight for this Drone", "Create", "DroneFlights", new { droneId = @ViewBag.DroneId }, new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+@if (User.IsInRole("Admin"))
+{
+    <h4>@Html.ActionLink("Create new Flight for this Drone", "Create", "DroneFlights", new { droneId = @ViewBag.DroneId }, new { @class = "btn-info btn-lg", style = "color:white; text-decoration:none;" })</h4>
+}
+
 <hr />
 
 <table id="ddftable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
@@ -150,11 +154,21 @@
                         <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
                     </a>
                 </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
-                    @Html.ActionLink("Edit", "Edit", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
-                    @Html.ActionLink("Delete", "Delete", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
-                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
+                        @Html.ActionLink("Edit", "Edit", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
+                        @Html.ActionLink("Delete", "Delete", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                }
+
             </tr>
         }
     </tbody>

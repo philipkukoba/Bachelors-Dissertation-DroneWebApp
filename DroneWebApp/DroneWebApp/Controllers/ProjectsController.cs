@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DroneWebApp.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private DroneDBEntities db;
@@ -25,12 +26,14 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Projects
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View("Index", db.Projects.ToList());
         }
 
         // GET: Projects/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,20 +53,10 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    return View("Create");
-                }
-            }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View("Create");
         }
 
         // POST: Projects/Create
@@ -71,56 +64,36 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "ProjectId,ProjectCode,SiteRefCode,VerticalRef,CoordSystem")] Project project)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (ModelState.IsValid)
-                    {
-                        db.Projects.Add(project);
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    return View(project);
-                }
+                db.Projects.Add(project);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View(project);
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Project in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    Project project = db.Projects.Find(id);
-                    if (project == null)
-                    {
-                        ViewBag.ErrorMessage = "Project could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    return View("Edit", project);
-                }
+                ViewBag.ErrorMessage = "Please specify a Project in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                ViewBag.ErrorMessage = "Project could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            return View("Edit", project);
         }
 
         // POST: Projects/Edit/5
@@ -128,97 +101,68 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "ProjectId,ProjectCode,SiteRefCode,VerticalRef,CoordSystem")] Project project)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (ModelState.IsValid)
-                    {
-                        db.Entry(project).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    return View(project);
-                }
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            return View(project);
         }
 
         // GET: Projects/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Project in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
-                    // Find the project
-                    Project project = db.Projects.Find(id);
-                    // Count its flights
-                    ViewBag.TotalFlights = project.DroneFlights.Count;
-                    if (project == null)
-                    {
-                        ViewBag.ErrorMessage = "Project could not be found.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                        //return HttpNotFound();
-                    }
-                    return View("Delete", project);
-                }
+                ViewBag.ErrorMessage = "Please specify a Project in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            // Find the project
+            Project project = db.Projects.Find(id);
+            // Count its flights
+            ViewBag.TotalFlights = project.DroneFlights.Count;
+            if (project == null)
+            {
+                ViewBag.ErrorMessage = "Project could not be found.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+                //return HttpNotFound();
+            }
+            return View("Delete", project);
         }
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (User.Identity.IsAuthenticated)
+            // Find the project
+            Project project = db.Projects.Find(id);
+            // Count its flights
+            ViewBag.TotalFlights = project.DroneFlights.Count;
+            try
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    // Find the project
-                    Project project = db.Projects.Find(id);
-                    // Count its flights
-                    ViewBag.TotalFlights = project.DroneFlights.Count;
-                    try
-                    {
-                        db.Projects.Remove(project);
-                        db.SaveChanges();
-                    }
-                    catch (Exception)
-                    {
-                        ViewBag.ErrorProjectstDelete = "Cannot delete this Project.";
-                        return View(project);
-                    }
-                    // Update the total time drones have flown in case the drone flight's drone has been changed by the user
-                    Helper.UpdateTotalDroneFlightTime(this.db);
-                    return RedirectToAction("Index");
-                }
+                db.Projects.Remove(project);
+                db.SaveChanges();
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            catch (Exception)
+            {
+                ViewBag.ErrorProjectstDelete = "Cannot delete this Project.";
+                return View(project);
+            }
+            // Update the total time drones have flown in case the drone flight's drone has been changed by the user
+            Helper.UpdateTotalDroneFlightTime(this.db);
+            return RedirectToAction("Index");
         }
 
         // GET: Project/DroneFlights/5
+        [AllowAnonymous]
         public ActionResult DroneFlights(int? id)
         {
             if (id == null)

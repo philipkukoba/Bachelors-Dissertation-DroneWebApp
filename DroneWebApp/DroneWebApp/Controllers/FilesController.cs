@@ -21,6 +21,7 @@ using System.Web.Mvc;
 
 namespace DroneWebApp.Controllers
 {
+    [Authorize]
     public class FilesController : Controller
     {
         public DroneDBEntities Db { get; set; }
@@ -45,39 +46,29 @@ namespace DroneWebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Index(int? id)
         {
-            if (User.Identity.IsAuthenticated)
+            DroneFlight droneFlight = Db.DroneFlights.Find(id);
+            if (id == null)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(applicationDb));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin" || s[0].ToString() == "User")
-                {
-                    DroneFlight droneFlight = Db.DroneFlights.Find(id);
-                    if (id == null)
-                    {
-                        ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                    }
-                    else if (droneFlight == null)
-                    {
-                        ViewBag.ErrorMessage = "This Drone Flight does not exist.";
-                        return View("~/Views/ErrorPage/Error.cshtml");
-                    }
-                    ViewBag.FlightId = (int)id;
-                    ViewBag.Location = droneFlight.Location;
-                    string date = "NA";
-                    if (droneFlight.Date != null)
-                    {
-                        date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
-                    }
-                    ViewBag.Date = date;
-                    return View("Index");
-                }
+                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
+                return View("~/Views/ErrorPage/Error.cshtml");
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            else if (droneFlight == null)
+            {
+                ViewBag.ErrorMessage = "This Drone Flight does not exist.";
+                return View("~/Views/ErrorPage/Error.cshtml");
+            }
+            ViewBag.FlightId = (int)id;
+            ViewBag.Location = droneFlight.Location;
+            string date = "NA";
+            if (droneFlight.Date != null)
+            {
+                date = ((DateTime)droneFlight.Date).ToString("dd/MM/yyyy, HH:mm:ss");
+            }
+            ViewBag.Date = date;
+            return View("Index");
         }
 
         // Return values for error-handling: 
@@ -88,6 +79,7 @@ namespace DroneWebApp.Controllers
         // 4: someone else is already uploading
         // 5: invalid file type
         [HttpPost]
+        [Authorize(Roles = "Admin,User")]
         public int Index(int? id, List<HttpPostedFileBase> files)
         {
             // Prevent users from parsing files at the same time (solution may be Websockets)
@@ -166,6 +158,7 @@ namespace DroneWebApp.Controllers
         }
 
         // Exports pilot or drone data to a log file
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Export(int? id, string extension, string type)
         {
             if (id == null)
@@ -211,6 +204,7 @@ namespace DroneWebApp.Controllers
 
         // Returns the Status of the parsing to the Client
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult GetStatus()
         {
             System.Diagnostics.Debug.WriteLine("Files left***:" + filesLeft);

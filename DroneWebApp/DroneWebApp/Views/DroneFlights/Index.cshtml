@@ -10,11 +10,15 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Action("Index", "DroneFlights")">Drone Flights</a></li>
-        <li class="breadcrumb-item active" aria-current="page"/>
+        <li class="breadcrumb-item active" aria-current="page" />
     </ol>
 </nav>
 
-<h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
+@if (User.IsInRole("Admin"))
+{
+    <h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
+}
+
 <hr />
 
 <table id="dftable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
@@ -37,7 +41,10 @@
             </th>
             <th>Map</th>
             <th>Files</th>
-            <th>Upload</th>
+            @if (User.IsInRole("Admin") || User.IsInRole("User"))
+            {
+                <th>Upload</th>
+            }
             <th>Actions</th>
         </tr>
     </thead>
@@ -52,9 +59,9 @@
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    @{ 
+                    @{
                         string str = "NA.";
-                        if(@item.Date != null)
+                        if (@item.Date != null)
                         {
                             str = ((DateTime)@item.Date).ToString("dd/MM/yyyy");
                         }
@@ -68,7 +75,7 @@
                     @Html.DisplayFor(modelItem => item.Pilot.PilotName)
                 </td>
                 <td>
-                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })'class="anchor_icon">
+                    <a href='@Url.Action("ViewMap", "Map", new { id = item.FlightId })' class="anchor_icon">
                         <img src="~/Content/images/map_marker.png" class="img-size" title="Navigate to Map for this Drone Flight">
                         <img src="~/Content/images/map_marker_hover.png" class="img-size" title="Navigate to Map for this Drone Flight">
                     </a>
@@ -149,17 +156,30 @@
                         </div>
                     }
                 </td>
-                <td>
-                    <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' class="anchor_icon">
-                        <img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
-                        <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
-                    </a>
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
-                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                {
+                    <td>
+                        <a href='@Url.Action("Index", "Files", new { id = item.FlightId })' class="anchor_icon">
+                            <img src="~/Content/images/upload_icon.png" class="img-size" title="Upload files for this Drone Flight">
+                            <img src="~/Content/images/upload_icon_hover.png" class="img-size" title="Upload files for this Drone Flight">
+                        </a>
+                    </td>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.FlightId }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                }
+
             </tr>
         }
     </tbody>

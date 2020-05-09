@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DroneWebApp.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace DroneWebApp.Controllers
 {
@@ -16,8 +18,11 @@ namespace DroneWebApp.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
+        private ApplicationDbContext context;
+
+        public ManageController(DbContext identityDb)
         {
+            context = (ApplicationDbContext)identityDb;
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)

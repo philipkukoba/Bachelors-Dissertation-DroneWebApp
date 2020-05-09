@@ -12,13 +12,16 @@ using System.Web.Mvc;
 
 namespace DroneWebApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View("Index");
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -26,6 +29,7 @@ namespace DroneWebApp.Controllers
             return View("About");
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Please contact us:";

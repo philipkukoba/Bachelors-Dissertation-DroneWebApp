@@ -26,11 +26,11 @@ namespace DroneWebApp
             // Register the database and let Unity manage it for Dependency Injection
             container.RegisterType<DbContext, DroneDBEntities > ("DroneDBEntities"); // added
 
-            container.RegisterType<IdentityDbContext<ApplicationUser>, ApplicationDbContext>("ApplicationDbContext", new HierarchicalLifetimeManager());
+            container.RegisterType<DbContext, ApplicationDbContext>("ApplicationDbContext", new HierarchicalLifetimeManager());
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
-            container.RegisterType<AccountController>(new InjectionConstructor());
-            container.RegisterType<ManageController>(new InjectionConstructor());
+            container.RegisterType<AccountController>(new InjectionConstructor(new ResolvedParameter<DbContext>("ApplicationDbContext")));
+            container.RegisterType<ManageController>(new InjectionConstructor(new ResolvedParameter<DbContext>("ApplicationDbContext")));
             container.RegisterType<IAuthenticationManager>(new InjectionFactory(o => HttpContext.Current.GetOwinContext().Authentication));
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

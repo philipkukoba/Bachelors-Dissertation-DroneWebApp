@@ -14,7 +14,11 @@
     </ol>
 </nav>
 
-<h4>@Html.ActionLink("Create new Drone", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
+@if (User.IsInRole("Admin"))
+{
+    <h4>@Html.ActionLink("Create new Drone", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
+}
+
 <hr />
 
 <table id="dtable" class="ui celled table table-hover textAlignCenter" cellspacing="0" width="100%">
@@ -58,17 +62,17 @@
                         // Convert the drone's total seconds to a TimeSpan object
                         TimeSpan totalFlightTime = TimeSpan.FromSeconds((long)@item.TotalFlightTime);
                         string hours = (totalFlightTime.Days * 24 + totalFlightTime.Hours).ToString();
-                        if(totalFlightTime.Days * 24 + totalFlightTime.Hours < 10)
+                        if (totalFlightTime.Days * 24 + totalFlightTime.Hours < 10)
                         {
                             hours = "0" + hours;
                         }
                         string minutes = totalFlightTime.Minutes.ToString();
-                        if(totalFlightTime.Minutes < 10)
+                        if (totalFlightTime.Minutes < 10)
                         {
                             minutes = "0" + minutes;
                         }
                         string seconds = totalFlightTime.Seconds.ToString();
-                        if(totalFlightTime.Seconds < 10)
+                        if (totalFlightTime.Seconds < 10)
                         {
                             seconds = "0" + seconds;
                         }
@@ -90,11 +94,21 @@
                     @Html.ActionLink("CSV", "Export", "Files", new { id = item.DroneId, extension = "csv", type = "drone" }, new { @class = "btn btn-info whiteText btn-sm" })
                     @Html.ActionLink("PDF", "Export", "Files", new { id = item.DroneId, extension = "pdf", type = "drone" }, new { @class = "btn btn-info whiteText btn-sm" })
                 </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.DroneId }, new { @class = "btn btn-success btn-sm" }) |
-                    @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }, new { @class = "btn btn-warning btn-sm" }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.DroneId }, new { @class = "btn btn-danger btn-sm" })
-                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.DroneId }, new { @class = "btn btn-success btn-sm" }) |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.DroneId }, new { @class = "btn btn-warning btn-sm" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.DroneId }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.DroneId }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                }
+
             </tr>
         }
     </tbody>

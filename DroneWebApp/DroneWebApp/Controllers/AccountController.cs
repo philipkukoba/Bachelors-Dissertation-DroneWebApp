@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DroneWebApp.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace DroneWebApp.Controllers
 {
@@ -21,9 +22,9 @@ namespace DroneWebApp.Controllers
 
         private ApplicationDbContext context;
 
-        public AccountController()
+        public AccountController(DbContext identityDb)
         {
-            context = ApplicationDbContext.Create();
+            context = (ApplicationDbContext) identityDb;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -140,64 +141,44 @@ namespace DroneWebApp.Controllers
 
         //
         // GET: /Account/Register
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
-                {
-                    ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-                    return View();
-                }
-            }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                var user = User.Identity;
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
+                var appuser = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var result = await UserManager.CreateAsync(appuser, model.Password);
+                if (result.Succeeded)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        var appuser = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-                        var result = await UserManager.CreateAsync(appuser, model.Password);
-                        if (result.Succeeded)
-                        {
-                            await SignInManager.SignInAsync(appuser, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(appuser, isPersistent: false, rememberBrowser: false);
 
-                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                            // Send an email with this link
-                            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                            await UserManager.AddToRoleAsync(appuser.Id, model.UserRoles);
+                    await UserManager.AddToRoleAsync(appuser.Id, model.UserRoles);
 
-                            return RedirectToAction("Index", "Home");
-                        }
-                        ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-                        AddErrors(result);
-                    }
-
-                    // If we got this far, something failed, redisplay form
-                    return View(model);
+                    return RedirectToAction("Index", "Home");
                 }
+                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+                AddErrors(result);
             }
-            ViewBag.ErrorMessage = "Please make sure you are logged in as administrator";
-            return View("~/Views/ErrorPage/Error.cshtml");
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         //
