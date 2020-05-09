@@ -511,7 +511,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Perl\ChangeDataSourceName_Script.exe" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Content\images\upload_icon.png" />
     <Content Include="Content\images\upload_icon_hover.png" />
