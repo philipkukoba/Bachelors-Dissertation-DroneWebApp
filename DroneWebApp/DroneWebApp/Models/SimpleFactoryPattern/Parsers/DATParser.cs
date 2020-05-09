@@ -43,32 +43,24 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                 return false;
             }
 
-            string pathCsv = "";
-
-            /*if(!path.Substring(path.Length - 3).Equals("CSV"))
+            // If passed file is a dat, convert dat to csv
+            if (path.Substring(path.Length - 3).Equals("dat", StringComparison.InvariantCultureIgnoreCase))
             {
-                // Conversion of dat to csv
-                string location = ConfigurationManager.AppSettings["EXELOC"];
+                string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]); ;
                 Process.Start(location + "DatCon.3.7.3.exe");
-                pathCsv = path.Substring(0, path.Length - 3) + "CSV";
-                while (!File.Exists(pathCsv))
+                path = path.Substring(0, path.Length - 3) + "CSV";
+                while (!File.Exists(path))
                 {
                     System.Threading.Thread.Sleep(1000);
                 }
             }
-            else
-            {
-                pathCsv = path;
-            }*/
-
-            pathCsv = path;
 
             // calculate the total amount of lines by going through the whole file once
-            int totalLines = Helper.Helper.CountFileLines(pathCsv);
+            int totalLines = Helper.Helper.CountFileLines(path);
             System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
             // Prepare map useful fields
-            using (TextFieldParser parser = new TextFieldParser(pathCsv))
+            using (TextFieldParser parser = new TextFieldParser(path))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
