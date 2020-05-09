@@ -314,7 +314,7 @@
         </tr>
     </table>
 </div>
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
     <p>
         @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-info btn-sm" }) |

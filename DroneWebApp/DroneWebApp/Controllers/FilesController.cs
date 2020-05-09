@@ -141,6 +141,7 @@ namespace DroneWebApp.Controllers
                     }
                     else
                     {
+                        // Check if passed file is a dat parsed to csv
                         if(path.Contains("FLY"))
                         {
                             currentParseResult = creator.GetParser(".dat", path, (int)id);
