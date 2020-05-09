@@ -82,3 +82,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 08/05/20,17:00,17:40,Extern,Navigation issue,204,
 08/05/20,22:35,22:40,Extern,Gebruiker kan niet naar vlucht zijn map navigeren indien er geen drone log geüpload is,168,
 09/05/20,16:45,18:45,Extern,Verslag (verbeteren en mergen van teksten Philip) + herschrijven van MVC deel (Model en Controllers) + update van indeling inhoud,138,
+09/05/20,20:05,20:25,Extern,Debugging inloggen + fix data tables,209,
+09/05/20,20:45,21:45,Extern,Debugging volledige webapplicatie,, Fout gevonden met berekening threshold en next check-up time
