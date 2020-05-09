@@ -144,14 +144,26 @@ namespace DroneWebApp.Controllers
             {
                 dr.DroneName = postedDrone.DroneName;
             }
-            if(postedDrone.needsCheckUp == true && dr.needsCheckUp == false) // This condition checks whether the user manually indicated that the drone NEEDS a check-up
+            // User has manually indicated that a drone needs a check-up, before the threshold has been met
+            if(postedDrone.needsCheckUp == true && dr.needsCheckUp == false)
             {
                 dr.needsCheckUp = postedDrone.needsCheckUp; // drone needs a check-up
             }
-            if(postedDrone.needsCheckUp == false) // This condition is true if the user has ticked the 'drone has been checked' box in the edit of a drone, indicating the drone was checked
+            // User has manually indicated that a drone that needed checking, has been checked
+            if(postedDrone.needsCheckUp == false && dr.needsCheckUp == true)
             {
                 dr.needsCheckUp = postedDrone.needsCheckUp;
                 dr.nextTimeCheck = (long)dr.TotalFlightTime + (long)thresholdTime.TotalSeconds; // calculate the new next time check
+            }
+            // User edited the drone but did not apply any changes, because both are still false
+            else if (postedDrone.needsCheckUp == false && dr.needsCheckUp == false)
+            {
+                dr.needsCheckUp = postedDrone.needsCheckUp;
+            }
+            // User edited the drone but did not apply any changes, because both are still true
+            else if (postedDrone.needsCheckUp == false && dr.needsCheckUp == false)
+            {
+                dr.needsCheckUp = postedDrone.needsCheckUp;
             }
             dr.Notes = postedDrone.Notes;
         }
