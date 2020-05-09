@@ -19,9 +19,18 @@
     <h4>@Html.ActionLink("Create new Flight", "Create", "", new { @class = "btn-info btn-lg whiteText" })</h4>
 }
 
+@* Check for privileges *@
+@{
+    string table_id = "dftable_view";
+}
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    table_id = "dftable";
+}
+
 <hr />
 
-<table id="dftable" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
+<table id="@table_id" class="ui celled table table-hover table-striped textAlignCenter" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
