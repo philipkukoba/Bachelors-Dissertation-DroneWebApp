@@ -74,6 +74,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 		public DATParser___ADONET()
 		{
+			Debug.WriteLine("constructo DATPARSER ADONET");
+			Debug.WriteLine("constructo DATPARSER ADONET");
+			Debug.WriteLine("constructo DATPARSER ADONET");
+			Debug.WriteLine("constructo DATPARSER ADONET");
+
+
 			//fill all dictionaries 
 			fieldsAndParameters_DroneLogEntry = fill_DroneLogEntry_Dictionary();
 			fieldsAndParameters_DroneIMU_ATTI = fill_DroneIMU_ATTI_Dictionary();
@@ -315,34 +321,37 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			DestinationInfo destinationInfo;
 
 			// Do not parse a new file, if this flight already has a droneLog file
-			if (droneFlight.hasDroneLog) return false;
-
-			// Conversion of dat to csv
-			string location = ConfigurationManager.AppSettings["EXELOC"];
-			Process.Start(location + "DatCon.3.7.3.exe");
-			string pathCsv = path.Substring(0, path.Length - 3) + "CSV";
-			while (!File.Exists(pathCsv))
-			{
-				System.Threading.Thread.Sleep(1000);
+			if (droneFlight.hasDroneLog) {
+				Debug.WriteLine("returning false bc flight already has dronelog");
+				return false; 
 			}
 
+			// Conversion of dat to csv
+			//string location = ConfigurationManager.AppSettings["EXELOC"];
+			//Process.Start(location + "DatCon.3.7.3.exe");
+			//string pathCsv = path.Substring(0, path.Length - 3) + "CSV";
+			//while (!File.Exists(pathCsv))
+			//{
+			//	System.Threading.Thread.Sleep(1000);
+			//}
+
 			// calculate the total amount of lines by going through the whole file once
-			int totalLines = Helper.Helper.CountFileLines(pathCsv);
+			int totalLines = Helper.Helper.CountFileLines(path);
 			System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
 
 			#region Track starting variables 
 			bool firstRead = false;
-			int startTime = 0;
+			string startTime = "";
 			double startLong = 0;
 			double startLat = 0;
 			double endLong = 0;
 			double endLat = 0;
-			int finalTime = 0;
+			string finalTime = "";
 			DateTime droneGPSDateTime;
 			#endregion
 
 			// Parse
-			using (TextFieldParser parser = new TextFieldParser(pathCsv))
+			using (TextFieldParser parser = new TextFieldParser(path))
 			{
 				parser.TextFieldType = FieldType.Delimited;
 				parser.SetDelimiters(",");
@@ -468,7 +477,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							foreach (var headerPair in headerDict)
 							{
 								if (fields[headerDict[headerPair.Key]].Length != 0) //skip empty field
-								{ 
+								{
 
 									bool isDouble = false;
 									bool isInt = false;
@@ -533,12 +542,23 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 										}
 										else if (headerPair.Key == "GPS(0):Time")
 										{
-											if (!firstRead) { startTime = Int32.Parse(fields[headerDict[headerPair.Key]]); }
-											int currentReadTime = Int32.Parse(fields[headerDict[headerPair.Key]]);
-											if (currentReadTime > finalTime)
+											//fix formatting of str   95503 for example
+		
+											string time = fields[headerDict[headerPair.Key]];
+											Debug.WriteLine(time);
+											if (time.Length == 5)
 											{
-												finalTime = Int32.Parse(fields[headerDict[headerPair.Key]]);
+												time = '0' + time;
+												Debug.WriteLine("after conversion: " + time);
 											}
+
+											if (!firstRead) { startTime = time; }
+											else finalTime = time;
+											//string currentReadTime = time;
+											//if (Int32.Parse(currentReadTime) > Int32.Parse(finalTime))
+											//{
+											//	finalTime = currentReadTime;
+											//}
 										}
 
 
@@ -674,7 +694,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 										}
 
 									}
-									
+
 								}
 							}
 
@@ -688,7 +708,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 								DroneLogEntryId = reader.GetInt32(0);
 								reader.Close();
 							}
-							else return false; //TODO CUSTOM EXCEPTION
+							else
+							{
+								Debug.WriteLine("returning false bc reader couldnt read");
+								return false;
+							} //TODO CUSTOM EXCEPTION
 
 							//set this id on all other commands
 							command_DroneGPS.Parameters["@GPSId"].Value = DroneLogEntryId;
@@ -717,16 +741,17 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 							#endregion
 
 
-				
+
 
 						}
 						catch (Exception ex)
 						{
 							//TODO rollback? (kan enkel met transaction)
 							System.Diagnostics.Debug.WriteLine(ex);
+							Debug.WriteLine("returning false after catching exception");
 							return false; //Todo wegdoen
 						}
-						
+
 					}
 
 					#region  droneattributevalues command
@@ -741,7 +766,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 					command_DroneAttributeValues.ExecuteNonQuery();
 					#endregion
 
-					
+
 					connection.Close(); //TODO not sure if needed
 				}
 			}
@@ -760,6 +785,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			}
 			#endregion
 
+			Debug.WriteLine("made it here");
 
 			//Set hasDroneLog to true
 			droneFlight.hasDroneLog = true;
@@ -777,9 +803,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			Debug.WriteLine(finalTime);
 			Debug.WriteLine("__________________________");
 
+			
+
 			// Assign Time fields for DepartureInfo and DestinationInfo of flight
-			departureInfo.UTCTime = TimeSpan.ParseExact(startTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
-			destinationInfo.UTCTime = TimeSpan.ParseExact(finalTime.ToString(), "hhmmss", CultureInfo.InvariantCulture);
+			departureInfo.UTCTime = TimeSpan.ParseExact(startTime, "hhmmss", CultureInfo.InvariantCulture);
+			destinationInfo.UTCTime = TimeSpan.ParseExact(finalTime, "hhmmss", CultureInfo.InvariantCulture);
 
 			// Assign starting and ending longitude and latitude for DepartureInfo and DestinationInfo of flight
 			departureInfo.Longitude = startLong;
@@ -800,6 +828,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			db.SaveChanges();
 
 			Helper.Helper.SetProgress(100);
+			Debug.WriteLine("returning true!");
 			return true;
 		}
 
