@@ -67,6 +67,7 @@ namespace DroneWebApp.Models.Helper
                 }
                 catch(Exception e)
                 {
+                    Console.WriteLine("Waiting for conversion of dat to csv...");
                     System.Threading.Thread.Sleep(500);
                 }
             }
