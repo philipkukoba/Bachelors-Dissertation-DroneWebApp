@@ -253,5 +253,12 @@ namespace DroneWebApp.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        // Help page for uploading files
+        public ActionResult Help(int? id)
+        {
+            ViewBag.FlightId = (int)id;
+            return View("Help");
+        }
     }
 }

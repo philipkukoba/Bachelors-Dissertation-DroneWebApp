@@ -26,7 +26,7 @@
 
 @* Progress *@
 <div id="progressField" class="alert alert-info" hidden>
-    Adding files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br/>
+    Adding files to <strong>Flight @ViewBag.FlightId</strong> (<strong>@ViewBag.Location</strong>, <strong>@ViewBag.Date</strong>)<br />
     <strong><span class="amountParsed"></span></strong> out of <strong><span class="totalParsed"></span></strong> files. Please wait...
 </div>
 
@@ -91,9 +91,11 @@
 <div id="uploadstatus"></div>
 <div id="progressbar"></div>
 
+
+@Html.ActionLink("Help! I don't know which files I can or should upload.", "Help", "Files", new { id = @ViewBag.FlightId }, new { @class = "btn btn-link" })
 <br />
 <br />
 <p>
-    @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId}, new { @class = "btn btn-primary btn-sm" }) |
+    @Html.ActionLink("Back to Drone Flight Details", "Details", "DroneFlights", new { id = @ViewBag.FlightId }, new { @class = "btn btn-primary btn-sm" }) |
     @Html.ActionLink("Back to Drone Flights List", "Index", "DroneFlights", null, new { @class = "btn btn-primary btn-sm" })
 </p>
