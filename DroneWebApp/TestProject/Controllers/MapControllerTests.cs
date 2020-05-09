@@ -16,25 +16,6 @@ namespace DroneWebApp.Controllers.Tests
     public class MapControllerTests
     {
         [TestMethod()]
-        public void ViewMapTest_ActionExecutes_ReturnsViewForViewMap0()
-        {
-            // Create mock context
-            Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
-            MapController controller = new MapController(mockContext.Object);
-
-            // Create a mock DbSet
-            List<DroneFlight> flights = GetFlights();
-            var mockSet = CreateMockSet(flights);
-            // Set up the DroneFlights property so it returns the mocked DbSet
-            mockContext.Setup(o => o.DroneFlights).Returns(() => mockSet.Object);
-            // Set up the Find method for the mocked DbSet
-            mockContext.Setup(c => c.DroneFlights.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
-
-            var result = controller.ViewMap(0) as ViewResult;
-            Assert.AreEqual("ViewMap", result.ViewName);
-        }
-
-        [TestMethod()]
         public void ViewMapTest_ActionExecutes_ReturnsViewForViewMap()
         {
             // Create mock context
@@ -54,7 +35,7 @@ namespace DroneWebApp.Controllers.Tests
         }
 
         [TestMethod()]
-        public void ViewMapTest_ViewData()
+        public void ViewMapTest_ActionExecutes_ReturnsViewForViewMapWithNullId()
         {
             // Create mock context
             Mock<DroneDBEntities> mockContext = new Mock<DroneDBEntities>();
@@ -68,12 +49,8 @@ namespace DroneWebApp.Controllers.Tests
             // Set up the Find method for the mocked DbSet
             mockSet.Setup(s => s.Find(It.IsAny<object[]>())).Returns((object[] input) => flights.SingleOrDefault(x => x.FlightId == (int)input.First()));
 
-            var result = controller.ViewMap(3) as ViewResult;
-            List<DroneFlight> flightsResult = (List<DroneFlight>)result.Model;
-            for (int i=0; i<flightsResult.Count; i++)
-            {
-                Assert.AreEqual(true, DroneFlightEquals(flights[i], flightsResult[i]));
-            }
+            var result = controller.ViewMap(null) as ViewResult;
+            Assert.AreEqual("ViewMap", result.ViewName);
         }
 
         private List<DroneFlight> GetFlights()
@@ -113,6 +90,7 @@ namespace DroneWebApp.Controllers.Tests
                     DroneId = 1,
                     Drone = drone,
                     Date = DateTime.Now,
+                    hasDroneLog = true,
                     QualityReport = new QualityReport { QualityReportId = i },
                     TFW = new TFW { TFWId = i }
                 };
