@@ -326,7 +326,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				return false; 
 			}
 
-			 Conversion of dat to csv
+			// Conversion of dat to csv
 			string location = ConfigurationManager.AppSettings["EXELOC"];
 			Process.Start(location + "DatCon.3.7.3.exe");
 			string pathCsv = path.Substring(0, path.Length - 3) + "CSV";
