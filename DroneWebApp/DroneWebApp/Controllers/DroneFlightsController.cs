@@ -56,7 +56,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Create(int? pilotId, int? projectId, int? droneId)
         {
             if (pilotId != null)
@@ -92,7 +92,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Create([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks, hasTFW, hasGCPs, hasCTRLs, hasDepInfo, hasDestInfo, hasQR, hasXYZ, hasDroneLog")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,7 +139,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Edit([Bind(Include = "FlightId, DroneId, PilotId, ProjectId, Location, Date, TypeOfActivity, Other, Simulator, Instructor, Remarks")] DroneFlight droneFlight)
         {
             if (ModelState.IsValid)
@@ -183,7 +183,7 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: DroneFlights/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -205,7 +205,7 @@ namespace DroneWebApp.Controllers
         // POST: DroneFlights/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public ActionResult DeleteConfirmed(int? id)
         {
             DroneFlight droneFlight = db.DroneFlights.Find(id);

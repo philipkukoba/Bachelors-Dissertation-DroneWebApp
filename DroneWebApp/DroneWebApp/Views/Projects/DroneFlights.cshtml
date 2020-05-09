@@ -14,7 +14,7 @@
     </ol>
 </nav>
 
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
     <h4>@Html.ActionLink("Create new Flight for this Project", "Create", "DroneFlights", new { projectId = @ViewBag.ProjectId }, new { @class = "btn-info btn-lg whiteText" })</h4>
 }
@@ -160,7 +160,7 @@
                 </td>
             }
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("User"))
             {
                 <td>
                     @Html.ActionLink("Details", "Details", "DroneFlights", new { id = item.FlightId }, new { @class = "btn btn-success btn-sm" }) |
