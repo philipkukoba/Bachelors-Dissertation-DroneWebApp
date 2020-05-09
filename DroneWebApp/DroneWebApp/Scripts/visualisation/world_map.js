@@ -818,7 +818,7 @@
             view.center = [result.DepartureLongitude, result.DepartureLatitude];
             view.zoom = 16;
 
-            view.ui.add(feature, "top-right");
+            view.ui.add(feature, "top-left");
         },
         error: (req, status, error) => {
             console.log("AJAX FAIL: FEATURE (LEGENDE)");

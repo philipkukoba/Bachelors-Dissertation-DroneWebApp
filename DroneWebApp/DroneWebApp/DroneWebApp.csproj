@@ -466,6 +466,20 @@
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
       <LastGenOutput>DroneDBModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Programs\DatCon\DatCon.3.7.3.exe" />
+    <Content Include="Programs\IvyPdf_1.62\Docs\EULA.txt" />
+    <Content Include="Programs\IvyPdf_1.62\IvyDataSet.dll" />
+    <Content Include="Programs\IvyPdf_1.62\IvyDocumentReader.dll" />
+    <Content Include="Programs\IvyPdf_1.62\IvyPdf.dll" />
+    <Content Include="Programs\IvyPdf_1.62\IvyTemplate.exe" />
+    <Content Include="Programs\IvyPdf_1.62\IvyTemplateEditor.exe" />
+    <Content Include="Programs\IvyPdf_1.62\IvyTemplateLib.dll" />
+    <Content Include="Programs\IvyPdf_1.62\netstandard20\IvyDataSet.dll" />
+    <Content Include="Programs\IvyPdf_1.62\netstandard20\IvyDocumentReader.dll" />
+    <Content Include="Programs\IvyPdf_1.62\netstandard20\IvyPdf.dll" />
+    <Content Include="Programs\IvyPdf_1.62\netstandard20\IvyTemplateLib.dll" />
+    <Content Include="Programs\IvyPdf_1.62\ProtectIt.CryptoLicensing.dll" />
+    <Content Include="Programs\Perl\ChangeDataSourceName_Script.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\DroneDBModel.edmx">
@@ -475,6 +489,12 @@
     <Content Include="Models\DroneDBModel.edmx.diagram">
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Programs\IvyPdf_1.62\Docs\IvyPdf v1.62.pdf" />
+    <Content Include="Programs\IvyPdf_1.62\Docs\Ivy_cheatsheet.pdf" />
+    <Content Include="Programs\IvyPdf_1.62\Docs\What%27s New.docx" />
+    <Content Include="Programs\IvyPdf_1.62\Sample\Disney.ipb" />
+    <Content Include="Programs\IvyPdf_1.62\Sample\sample.tl" />
+    <Content Include="Programs\Perl\ChangeDataSourceName_Script.pl" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom\datatable_script.js" />
     <Content Include="Scripts\datetime-moment.js" />
@@ -491,7 +511,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Perl\ChangeDataSourceName_Script.exe" />
     <Content Include="Scripts\visualisation\world_map.js" />
     <Content Include="Content\images\upload_icon.png" />
     <Content Include="Content\images\upload_icon_hover.png" />
