@@ -1,6 +1,6 @@
 ﻿// These scripts change the regular tables selected by id into DataTables that have searchability, sortability and paging
 
-// DroneFlights table
+// DroneFlights table (admin & user)
 $(document).ready(function () {
     $.fn.dataTable.moment('DD/MM/YYYY');
 
@@ -12,6 +12,20 @@ $(document).ready(function () {
             }
         ]
       }); 
+});
+
+// DroneFlights table (viewer)
+$(document).ready(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#dftable_view').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [5, 6, 7],
+                "searchable": false, "targets": [5, 6, 7]
+            }
+        ]
+    });
 });
 
 // Projects table
@@ -88,6 +102,20 @@ $(document).ready(function () {
             {
                 "orderable": false, "targets": [-4, 5, 6, 7],
                 "searchable": false, "targets": [-4, 5, 6, 7]
+            }
+        ]
+    });
+});
+
+// Project's Drone Flights table (viewer)
+$(document).ready(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#prdftable_view').dataTable({
+        "columnDefs": [
+            {
+                "orderable": false, "targets": [4, 5, 6],
+                "searchable": false, "targets": [4, 5, 6]
             }
         ]
     });
