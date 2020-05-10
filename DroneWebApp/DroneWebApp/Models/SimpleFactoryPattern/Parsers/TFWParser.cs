@@ -18,6 +18,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             // Do not parse a new file, if this flight already has a TFW file
             if (droneFlight.hasTFW)
             {
+                Helper.Helper.SetProgress(100);
                 return false;
             }
 
@@ -54,7 +55,11 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                     //Save changes to the database
                     db.SaveChanges();
                 }
-                catch(Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
+                catch(Exception ex) {
+                    Helper.Helper.SetProgress(100);
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return false;
+                }
             }
             return true;
         }

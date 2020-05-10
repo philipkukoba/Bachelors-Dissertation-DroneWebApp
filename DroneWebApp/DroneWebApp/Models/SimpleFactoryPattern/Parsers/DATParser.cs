@@ -318,7 +318,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			Boolean converted = false;
 
 			// Do not parse a new file, if this flight already has a droneLog file
-			if (droneFlight.hasDroneLog) {			
+			if (droneFlight.hasDroneLog) {
+				Helper.Helper.SetProgress(100);
 				return false; 
 			}
 
@@ -742,7 +743,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 						}
 						catch (Exception ex)
 						{
-							
+							Helper.Helper.SetProgress(100);
 							System.Diagnostics.Debug.WriteLine(ex);
 							Debug.WriteLine("returning false after catching exception");
 							return false; 

@@ -81,6 +81,7 @@ namespace DroneWebApp.Controllers
         [Authorize(Roles = "Admin,User")]
         public int Index(int? id, List<HttpPostedFileBase> files)
         {
+            Thread.Sleep(1000);
             // Prevent users from parsing files at the same time (solution may be Websockets)
             if (filesLeft > 0)
             {
@@ -217,6 +218,7 @@ namespace DroneWebApp.Controllers
             List<string> failed = new List<string>();
             if (filesLeft == 0 && (results != null))
             {
+                Thread.Sleep(1000);
                 foreach (KeyValuePair<string, bool> entry in results)
                 {
                     if (entry.Value == false)

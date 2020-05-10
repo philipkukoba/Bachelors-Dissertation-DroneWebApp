@@ -92,7 +92,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                         
                     }
                     catch (Exception ex) {
+                        Helper.Helper.SetProgress(100);
                         System.Diagnostics.Debug.WriteLine("Exception: " + ex.Message);
+                        return false;
                     }
                 }
             }

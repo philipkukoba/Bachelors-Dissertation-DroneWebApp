@@ -29,113 +29,101 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			string format = "yyyy:MM:dd HH:mm:ss"; //2019:09:12 15:49:47
 
 			Helper.Helper.SetProgress(10);
-
-			byte[] rawData; //ingelezen image in raw bytes
-			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+			RawImage rawImage;
+			try
 			{
-				rawData = new byte[fs.Length];
-				fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
+				byte[] rawData; //ingelezen image in raw bytes
+				using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
+				{
+					rawData = new byte[fs.Length];
+					fs.Read(rawData, 0, System.Convert.ToInt32(fs.Length));
+				}
+
+				//reading metadata
+				var directories = ImageMetadataReader.ReadMetadata(path);
+
+				//check if image is already in db 
+				string filename = directories[10].Tags[0].Description;
+				int count = db.RawImages.SqlQuery(
+						   "SELECT * FROM RawImages WHERE FlightId = @id AND FileName = @filename; ",
+						   new SqlParameter("id", flightId),
+						   new SqlParameter("filename", filename))
+						   .Count<RawImage>();
+
+				//the image is already in the db for this flight
+				if (count != 0)
+				{
+					Helper.Helper.SetProgress(100);
+					return false;
+				}
+
+				Helper.Helper.SetProgress(30);
+
+				//thumbnail
+				byte[] rawDataDownsized;
+				Bitmap bmp = ResizeImage(Image.FromFile(path), 225, 150);
+				ImageConverter converter = new ImageConverter();
+				rawDataDownsized = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+
+				Helper.Helper.SetProgress(60);
+
+				//make RawImage object and set its attributes
+				rawImage = new RawImage
+				{
+					FileName = directories[10].Tags[0].Description, //??
+
+					RawData = rawData,
+					RawDataDownsized = rawDataDownsized,
+
+
+					FlightId = flightId,
+
+					CreateDate = DateTime.ParseExact(directories[1].Tags[8].Description, format, provider),
+
+					//drone (aircraft) 
+					SpeedX = Convert.ToDouble(directories[3].Tags[2].Description, customCulture),
+					SpeedY = Convert.ToDouble(directories[3].Tags[3].Description, customCulture),
+					SpeedZ = Convert.ToDouble(directories[3].Tags[4].Description, customCulture),
+					Pitch = Convert.ToDouble(directories[3].Tags[5].Description, customCulture),
+					Yaw = Convert.ToDouble(directories[3].Tags[6].Description, customCulture),
+					Roll = Convert.ToDouble(directories[3].Tags[7].Description, customCulture),
+
+					CameraPitch = Convert.ToDouble(directories[3].Tags[8].Description, customCulture),
+					CameraYaw = Convert.ToDouble(directories[3].Tags[9].Description, customCulture),
+					CameraRoll = Convert.ToDouble(directories[3].Tags[10].Description, customCulture),
+
+					GpsAltitude = directories[5].Tags[6].Description,
+					GpsLatitude = directories[5].Tags[2].Description,
+					GpsLongitude = directories[5].Tags[4].Description,
+
+
+					//new fields 
+					ExposureTime = directories[2].Tags[0].Description,
+					ShutterSpeedValue = directories[2].Tags[9].Description,
+					ApertureValue = directories[2].Tags[10].Description,
+					MaxApertureValue = directories[2].Tags[12].Description,
+
+
+					//cannot read these fields 
+					ExposureCompensation = null,
+					FNumber = null,
+					Iso = null,
+					AbsoluteAltitude = null,
+					RelativeAltitude = null,
+					GpsPosition = null,
+					RtkFlag = null,
+
+					GPSLatRef = directories[5].Tags[1].Description,
+					GPSLongRef = directories[5].Tags[3].Description,
+					GPSAltitudeRef = directories[5].Tags[5].Description
+				};
 			}
-
-			//reading metadata
-			var directories = ImageMetadataReader.ReadMetadata(path);
-
-			//check if image is already in db 
-			string filename = directories[10].Tags[0].Description;
-			int count = db.RawImages.SqlQuery(
-					   "SELECT * FROM RawImages WHERE FlightId = @id AND FileName = @filename; ",
-					   new SqlParameter("id", flightId),
-					   new SqlParameter("filename", filename))
-					   .Count<RawImage>();
-
-			//the image is already in the db for this flight
-			if (count != 0) return false;
-
-			Helper.Helper.SetProgress(30);
-
-			//thumbnail
-			byte[] rawDataDownsized;
-			Bitmap bmp = ResizeImage(Image.FromFile(path), 225, 150);
-			ImageConverter converter = new ImageConverter();
-			rawDataDownsized = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
-
-			Helper.Helper.SetProgress(60);
-
-			//make RawImage object and set its attributes
-			RawImage rawImage = new RawImage
+			catch (Exception)
 			{
-				FileName = directories[10].Tags[0].Description, //??
-
-				RawData = rawData,
-				RawDataDownsized = rawDataDownsized,
-
-
-				FlightId = flightId,
-
-				CreateDate = DateTime.ParseExact(directories[1].Tags[8].Description, format, provider),
-
-				//drone (aircraft) 
-				SpeedX = Convert.ToDouble(directories[3].Tags[2].Description, customCulture),
-				SpeedY = Convert.ToDouble(directories[3].Tags[3].Description, customCulture),
-				SpeedZ = Convert.ToDouble(directories[3].Tags[4].Description, customCulture),
-				Pitch = Convert.ToDouble(directories[3].Tags[5].Description, customCulture),
-				Yaw = Convert.ToDouble(directories[3].Tags[6].Description, customCulture),
-				Roll = Convert.ToDouble(directories[3].Tags[7].Description, customCulture),
-
-				CameraPitch = Convert.ToDouble(directories[3].Tags[8].Description, customCulture),
-				CameraYaw = Convert.ToDouble(directories[3].Tags[9].Description, customCulture),
-				CameraRoll = Convert.ToDouble(directories[3].Tags[10].Description, customCulture),
-
-				GpsAltitude = directories[5].Tags[6].Description,
-				GpsLatitude = directories[5].Tags[2].Description,
-				GpsLongitude = directories[5].Tags[4].Description,
-
-
-				//new fields 
-				ExposureTime = directories[2].Tags[0].Description,
-				ShutterSpeedValue = directories[2].Tags[9].Description,
-				ApertureValue = directories[2].Tags[10].Description,
-				MaxApertureValue = directories[2].Tags[12].Description,
-
-
-				//cannot read these fields 
-				ExposureCompensation = null,
-				FNumber = null,
-				Iso = null,
-				AbsoluteAltitude = null,
-				RelativeAltitude = null,
-				GpsPosition = null,
-				RtkFlag = null,
-
-				GPSLatRef = directories[5].Tags[1].Description,
-				GPSLongRef = directories[5].Tags[3].Description,
-				GPSAltitudeRef = directories[5].Tags[5].Description
-
-
-				//old fields 
-
-				//FileSize = Double.Parse(directories[10].Tags[1].Description.Split(' ')[0]),
-				//FileTypeExtension = directories[9].Tags[3].Description,
-				//Orientation = directories[1].Tags[3].Description,
-				//XResolution = Int32.Parse(directories[1].Tags[4].Description.Split(' ')[0]),
-				//YResolution = Int32.Parse(directories[1].Tags[5].Description.Split(' ')[0]),
-				//ResolutionUnit = directories[1].Tags[6].Description,
-				//Make = directories[1].Tags[1].Description,
-				//ImageWidth = Int32.Parse(directories[0].Tags[3].Description.Split(' ')[0]),
-				//ImageHeight = Int32.Parse(directories[0].Tags[2].Description.Split(' ')[0]),
-				//GpsVersionId = directories[5].Tags[0].Description,
-				//GpsLatitudeRef = directories[5].Tags[1].Description,
-				//GpsLongitudeRef = directories[5].Tags[3].Description,
-				//GpsAltitudeRef = directories[5].Tags[5].Description,
-				//XpComment = directories[1].Tags[10].Description,
-				//PreviewImage = null,
-				//MegaPixels = null,
-				//ThumbnailImage = null,
-				//Fov = null,
-				//RawHeader = null
-
-			};
-
+				Helper.Helper.SetProgress(100);
+				return false;
+			}
+			
 			Helper.Helper.SetProgress(90);
 
 			//Add rawImage Object to DB and save changes
