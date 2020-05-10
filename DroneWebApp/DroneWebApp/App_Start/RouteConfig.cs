@@ -13,6 +13,7 @@ namespace DroneWebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Map the default route for controllers
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

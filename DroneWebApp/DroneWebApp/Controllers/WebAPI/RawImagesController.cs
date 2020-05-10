@@ -59,7 +59,7 @@ namespace DroneWebApp.Controllers.WebAPI
 					rawImage.GPSLongRef
 				}).ToList();
 
-			//config to set to json 
+			//config to set to JSON 
 			var response = new HttpResponseMessage(HttpStatusCode.OK);
 			response.Content = new StringContent(JsonConvert.SerializeObject(rawImages));
 			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -68,18 +68,18 @@ namespace DroneWebApp.Controllers.WebAPI
 		}
 
 		
-		//get the full image by flightid and by imageid
+		// Get the full image by flight id and by image id
 		public HttpResponseMessage GetImage(int id, int imageid)
 		{
 			try {
-				//using parameters against sql injections
+				// Using parameters against sql injections
 				RawImage rawImage = db.RawImages.SqlQuery(
 					"SELECT * FROM RawImages WHERE FlightId = @id AND RawImageKey = @imageid;",
 					 new SqlParameter("id", id),
 					 new SqlParameter("imageid", imageid)
 					).First<RawImage>();
 
-				//config to an image
+				// Config to an image
 				HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
 				result.Content = new ByteArrayContent(rawImage.RawData);
 				result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");

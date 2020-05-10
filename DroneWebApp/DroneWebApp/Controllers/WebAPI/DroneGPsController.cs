@@ -56,7 +56,7 @@ namespace DroneWebApp.Controllers
 
             }).ToList();
 
-            //config to set to json 
+            //config to set to JSON 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonConvert.SerializeObject(GPs));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

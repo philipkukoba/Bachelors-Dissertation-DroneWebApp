@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DroneWebApp.Models;
 using DroneWebApp.Models.Helper;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DroneWebApp.Controllers
 {
@@ -20,8 +13,9 @@ namespace DroneWebApp.Controllers
         private DroneDBEntities db;
         private ApplicationDbContext applicationDb = new ApplicationDbContext();
         // thresholdTime is the amount of time after which a drone has to be checked to verify it is safe to fly, from its last check-up (or from 0 flight time)   
-        private static TimeSpan thresholdTime = new TimeSpan(2, 2, 0, 0); // 2*24h + 2h = 50h
+        private static TimeSpan thresholdTime = new TimeSpan(2, 2, 0, 0); // Here set to 50 hours. (2*24h + 2h = 50h)
 
+        // Constructor
         public DronesController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
@@ -42,14 +36,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Drone drone = db.Drones.Find(id);
             if (drone == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Details", drone);
         }
@@ -96,14 +88,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Drone drone = db.Drones.Find(id);
             if (drone == null)
             {
                 ViewBag.ErrorMessage = "Drone could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Edit", drone);
         }
@@ -119,7 +109,7 @@ namespace DroneWebApp.Controllers
             if (ModelState.IsValid)
             {
                 Drone dr = db.Drones.Find(drone.DroneId);
-                UpdateDroneFields(drone, dr);
+                UpdateDroneFields(drone, dr); // Update the fields
                 db.Entry(dr).State = EntityState.Modified;
                 db.SaveChanges();
                 // Update the total time drones have flown in case the drone flight's drone has been changed by the user
@@ -176,7 +166,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Drone drone = db.Drones.Find(id);
 
@@ -184,7 +173,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Drone could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             // Count its total flights
             ViewBag.TotalFlights = drone.DroneFlights.Count;
@@ -221,14 +209,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Drone in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Drone drone = db.Drones.Find(id);
             if (drone == null)
             {
                 ViewBag.ErrorMessage = "Drone could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             ViewBag.DroneName = drone.DroneName;
             ViewBag.DroneId = id;

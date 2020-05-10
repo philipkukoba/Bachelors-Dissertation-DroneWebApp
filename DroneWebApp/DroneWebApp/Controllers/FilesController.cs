@@ -35,8 +35,6 @@ namespace DroneWebApp.Controllers
         private static int totalFilesToParse = 0; // the total amount of files that must be parsed
         private static int filesLeft = 0; // the amount of files that still have to be parsed
 
-        // have a static value that keeps track if someone is uploading (a busy)
-
         // Constructor
         public FilesController(DbContext db)
         {
@@ -81,7 +79,7 @@ namespace DroneWebApp.Controllers
         [Authorize(Roles = "Admin,User")]
         public int Index(int? id, List<HttpPostedFileBase> files)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); // wait for client-side to sync
             // Prevent users from parsing files at the same time (solution may be Websockets)
             if (filesLeft > 0)
             {
@@ -92,7 +90,7 @@ namespace DroneWebApp.Controllers
             filesLeft = totalFilesToParse;
             
             DroneFlight droneFlight = Db.DroneFlights.Find(id);
-            // Check if an id was submitted &  
+            // Check if an id was submitted
             if (id == null)
             {
                 return 2;
@@ -108,7 +106,6 @@ namespace DroneWebApp.Controllers
                 return 0;
             }
             
-       
             // Keep track of which files were successfully read
             results = new Dictionary<string, bool>();
 
@@ -164,7 +161,7 @@ namespace DroneWebApp.Controllers
             return 1; // success
         }
 
-        // Exports pilot or drone data to a log file
+        // Export pilot or drone data to a log file
         [Authorize(Roles = "Admin,User")]
         public ActionResult Export(int? id, string extension, string type)
         {
@@ -209,7 +206,7 @@ namespace DroneWebApp.Controllers
             return View("Export");
         }
 
-        // Returns the Status of the parsing to the Client
+        // Return the Status of the parsing to the Client
         [HttpGet]
         [Authorize(Roles = "Admin,User")]
         public ActionResult GetStatus()

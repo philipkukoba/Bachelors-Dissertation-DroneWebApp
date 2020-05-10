@@ -19,7 +19,7 @@ namespace DroneWebApp.Controllers
         private DroneDBEntities db = new DroneDBEntities();
 
         // GET: WebAPI/api/PointCloudXYZs/5
-        //get pointcloud by flight id 
+        // Get pointcloud by flight id 
         public HttpResponseMessage GetPointCloudXYZByFlightID(int id)
         {
             var Flight = db.DroneFlights.Find(id);
@@ -28,7 +28,7 @@ namespace DroneWebApp.Controllers
             //data projection
             var PointCloudXYZ = Flight.PointCloudXYZs.Select(p => new { p.PointCloudXYZId,  p.X, p.Y, p.Z, p.Red, p.Green, p.Blue, p.Intensity, p.FlightId}).ToList();
 
-            //config to set to json 
+            //config to set to JSON 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonConvert.SerializeObject(PointCloudXYZ));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

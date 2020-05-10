@@ -23,17 +23,17 @@ namespace DroneWebApp.Controllers
         // GET: api/CTRLPoints/5
         public HttpResponseMessage GetCTRLPointsByFlightID(int id)   
         {
-            var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 
+            var Flight = db.DroneFlights.Find(id);   // find the right flight 
             if (Flight == null || !Flight.hasCTRLs)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
          
-         
             List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
             List<CTRLPoint> CTRLPoints = Flight.CTRLPoints.ToList();
 
-            var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
+            var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(
+                t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
 
             //checks if the CTRLPoints are inside the pointcloud
             if (pointCloudXYZs.Count != 0)
@@ -60,7 +60,7 @@ namespace DroneWebApp.Controllers
                 }
             }
 
-            //config to set to json 
+            //config to set to JSON 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonConvert.SerializeObject(list));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

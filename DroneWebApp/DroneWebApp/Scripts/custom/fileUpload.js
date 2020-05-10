@@ -65,13 +65,13 @@ $(document).ready(function () {
             if (percentComplete == 100) {
                 $("#uploadstatus").text("Upload complete.");
                 $("#initialMessage").hide();
-                console.log("Attempting to parse: " + totalFilesToParse + " files.");
+                //console.log("Attempting to parse: " + totalFilesToParse + " files.");
                 currentFile = "";
                 $(".amountParsed").text(0);
                 $(".totalParsed").text(totalFilesToParse);
                 $("#progressField").show();
                 // begin parsing
-                console.log("startParsing");
+                //console.log("startParsing");
                 startParsing();
             }
         },
@@ -138,7 +138,7 @@ function startParsing() {
 function parse() {
     $.get("/Files/GetStatus/", function (result) {
         currentFile = result.currFileName // set the current file
-        console.log("Get:" + result.currFilesLeft);
+        //console.log("Get:" + result.currFilesLeft);
         filesLeftToParse = result.currFilesLeft;
         if (firstCheck) {
             if (filesLeftToParse > 0) {
@@ -152,7 +152,7 @@ function parse() {
         // set View
         $(".amountParsed").text(amountParsed);
         // Update the amount of files that still have to be parsed
-        console.log("Files left to parse: " + filesLeftToParse);
+        //console.log("Files left to parse: " + filesLeftToParse);
         //update the progress bar
         let progress = Math.round((amountParsed / totalFilesToParse
                                         + (result.currProgress / 100)
@@ -162,13 +162,13 @@ function parse() {
         $("#progressbar").progressbar("value", progress);
 
         if (amountParsed == totalFilesToParse) { // ending procedure
-            console.log("Parsed: " + amountParsed + " (had to parse: " + totalFilesToParse + ")");
+            //console.log("Parsed: " + amountParsed + " (had to parse: " + totalFilesToParse + ")");
             clearTimeout(intervalID); // clear
             $(".amountParsed").text(amountParsed);
             $(".totalParsed").text(totalFilesToParse);
             $("#uploadstatus").text("Parsing complete.");
             $("#progressField").hide();
-            console.log("Done.")
+            //console.log("Done.")
 
             // Check whether any files failed to parse because of duplicates
             if (result.failedFiles.length == 0) { // no failed files

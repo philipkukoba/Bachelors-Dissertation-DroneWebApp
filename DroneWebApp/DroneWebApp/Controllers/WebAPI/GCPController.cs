@@ -21,7 +21,7 @@ namespace DroneWebApp.Controllers
         // GET: WebAPI/api/GCP/5
         public HttpResponseMessage GetGroundControlPointsByFlightID(int id)
         {
-            var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 
+            var Flight = db.DroneFlights.Find(id);   // Find the right flight 
             if (Flight == null || !Flight.hasGCPs)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);

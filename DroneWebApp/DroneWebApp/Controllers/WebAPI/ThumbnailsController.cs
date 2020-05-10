@@ -23,14 +23,14 @@ namespace DroneWebApp.Controllers.WebAPI
         {
             try
             {
-                //using parameters against sql injections
+                // Using parameters against sql injections
                 RawImage rawImage = db.RawImages.SqlQuery(
                     "SELECT * FROM RawImages WHERE FlightId = @id AND RawImageKey = @imageid;",
                      new SqlParameter("id", id),
                      new SqlParameter("imageid", imageid)
                     ).First<RawImage>();
 
-                //config to an image
+                // Config to an image
                 HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
                 result.Content = new ByteArrayContent(rawImage.RawDataDownsized); //downsized img = thumbnail
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");

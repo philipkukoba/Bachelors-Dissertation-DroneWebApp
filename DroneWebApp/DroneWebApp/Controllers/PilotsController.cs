@@ -19,6 +19,7 @@ namespace DroneWebApp.Controllers
         private DroneDBEntities db;
         private ApplicationDbContext applicationDb = new ApplicationDbContext();
 
+        // Constructor
         public PilotsController(DbContext db)
         {
             this.db = (DroneDBEntities) db;
@@ -39,14 +40,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Details", pilot);
         }
@@ -91,14 +90,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Edit", pilot);
         }
@@ -145,7 +142,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             ViewBag.NumberOfFlights = pilot.DroneFlights.Count;
@@ -153,7 +149,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Delete", pilot);
         }
@@ -187,14 +182,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Pilot in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pilot pilot = db.Pilots.Find(id);
             if (pilot == null)
             {
                 ViewBag.ErrorMessage = "Pilot could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             ViewBag.Pilot = pilot.PilotName;
             ViewBag.PilotId = id;

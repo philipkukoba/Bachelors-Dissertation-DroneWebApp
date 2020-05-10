@@ -40,14 +40,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Details", project);
         }
@@ -84,14 +82,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Edit", project);
         }
@@ -121,7 +117,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             // Find the project
             Project project = db.Projects.Find(id);
@@ -131,7 +126,6 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             return View("Delete", project);
         }
@@ -169,14 +163,12 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             ViewBag.Project = project.ProjectCode;
             ViewBag.ProjectId = id;

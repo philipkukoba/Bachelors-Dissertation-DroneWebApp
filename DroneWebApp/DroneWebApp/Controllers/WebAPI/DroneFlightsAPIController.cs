@@ -18,10 +18,11 @@ namespace DroneWebApp.Controllers
 	{
 		private DroneDBEntities db = new DroneDBEntities();
 
+		// Get one single drone flight by id
 		// GET: WebAPI/api/DroneFlightsAPI/5
 		public HttpResponseMessage GetDroneFlight(int id)
 		{
-			var Flight = db.DroneFlights.Find(id);
+			var Flight = db.DroneFlights.Find(id); // Find the right flight
 
 			if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
@@ -43,7 +44,7 @@ namespace DroneWebApp.Controllers
 
 			});
 
-			//config to set to json 
+			//config to set to JSON 
 			var response = new HttpResponseMessage(HttpStatusCode.OK);
 			response.Content = new StringContent(JsonConvert.SerializeObject(flightProjected));
 			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -51,6 +52,7 @@ namespace DroneWebApp.Controllers
 			return response;
 		}
 
+		// Get all drone flights
 		public HttpResponseMessage getAllDroneFlights()
 		{
 
