@@ -314,6 +314,9 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			DepartureInfo departureInfo;
 			DestinationInfo destinationInfo;
 
+			// Boolean to check if dat is converted or passed as a csv
+			Boolean converted = false;
+
 			// Do not parse a new file, if this flight already has a droneLog file
 			if (droneFlight.hasDroneLog) {			
 				return false; 
@@ -323,12 +326,25 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			if (path.Substring(path.Length - 3).Equals("dat", StringComparison.InvariantCultureIgnoreCase))
 			{
 				string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]); ;
-				Process.Start(location + "DatCon.3.7.3.exe");
+				Process proc = new Process();
+				try
+				{
+					proc.StartInfo.UseShellExecute = false;
+					proc.StartInfo.FileName = location + "DatCon.exe";
+					proc.StartInfo.Arguments = path;
+					proc.StartInfo.CreateNoWindow = true;
+					proc.Start();
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Conversion of dat to csv failed...");
+				}
 				path = path.Substring(0, path.Length - 3) + "CSV";
 				while (!File.Exists(path))
 				{
 					System.Threading.Thread.Sleep(1000);
 				}
+				converted = true;
 			}
 
 			// calculate the total amount of lines by going through the whole file once
@@ -425,7 +441,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 					int lineNo = 2; //used for progress
 									// Read data
-					parser.ReadFields(); //one empty line
+					if(!converted)
+					{
+						parser.ReadFields(); //one empty line
+					}
 					while (!parser.EndOfData)
 					{
 						try
