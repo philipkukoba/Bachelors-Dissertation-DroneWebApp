@@ -16,7 +16,6 @@ namespace DroneWebApp.Models.Helper
         // Must run through all of them every time to verify integrity (in case of reassignment of drone to droneflight)
         public static void UpdateTotalDroneFlightTime(DroneDBEntities db)
         {
-            System.Diagnostics.Debug.WriteLine("In UpdateTotalDroneFlightTime");
             List<Drone> drones = db.Drones.ToList();
             // Calculate the total flight time for each drone
             foreach(Drone d in drones)
@@ -44,7 +43,7 @@ namespace DroneWebApp.Models.Helper
                 }
                 db.SaveChanges();
             }
-            System.Diagnostics.Debug.WriteLine("end of UpdateTotalDroneFlightTime");
+           
         }
 
         // Runs through a file once to count its total amount of lines
@@ -78,7 +77,6 @@ namespace DroneWebApp.Models.Helper
         public static void SetProgress(double newProgress)
         {
             progress = newProgress;
-            System.Diagnostics.Debug.WriteLine("Progress: " + progress + "%");
         }
     }
 }

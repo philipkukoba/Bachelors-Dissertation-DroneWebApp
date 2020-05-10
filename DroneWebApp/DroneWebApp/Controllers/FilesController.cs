@@ -42,7 +42,6 @@ namespace DroneWebApp.Controllers
         {
             Db = (DroneDBEntities)db;
             creator = new Creator(Db);
-            System.Diagnostics.Debug.WriteLine("FilesController constructor");
         }
 
         [HttpGet]
@@ -108,16 +107,14 @@ namespace DroneWebApp.Controllers
                 return 0;
             }
             
-            System.Diagnostics.Debug.WriteLine("Total Files to Parse: " + totalFilesToParse );
-
+       
             // Keep track of which files were successfully read
             results = new Dictionary<string, bool>();
 
             // Parse all submitted files
             foreach (HttpPostedFileBase file in files)
             {
-                System.Diagnostics.Debug.WriteLine("File name " + filesLeft + " :" + file.ToString());
-                // Verify that the file provided exists
+                 // Verify that the file provided exists
                 if (file != null)
                 {
                     currentFileName = "";
@@ -216,7 +213,6 @@ namespace DroneWebApp.Controllers
         [Authorize(Roles = "Admin,User")]
         public ActionResult GetStatus()
         {
-            System.Diagnostics.Debug.WriteLine("Files left***:" + filesLeft);
             // Build the list of failed files (where the parser returned false) to pass to Client
             List<string> failed = new List<string>();
             if (filesLeft == 0 && (results != null))

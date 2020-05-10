@@ -17,17 +17,8 @@ namespace DroneWebApp.Controllers
     public class DroneGPsController : ApiController
     {
         private DroneDBEntities db = new DroneDBEntities();
-
-        /*
-        // GET: api/DroneGPs
-        public IQueryable<DroneGP> GetDroneGPS()
-        {
-            return db.DroneGPS;
-        }
-        */
-
-        // GET: api/DroneGPs/5
-        [ResponseType(typeof(DroneGP))]
+  
+        // GET: WebAPI/api/DroneGPs/5
         public HttpResponseMessage GetDroneGP(int id)
         {
             var Flight = db.DroneFlights.Find(id);

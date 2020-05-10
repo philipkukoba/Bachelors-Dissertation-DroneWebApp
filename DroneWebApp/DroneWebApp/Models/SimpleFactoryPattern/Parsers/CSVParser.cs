@@ -20,7 +20,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
             // calculate the total amount of lines by going through the whole file once
             int totalLines = Helper.Helper.CountFileLines(path);
-            System.Diagnostics.Debug.WriteLine("File size: " + totalLines + " lines\n"); // test
+            
 
             // Parse
             using (TextFieldParser parser = new TextFieldParser(path))

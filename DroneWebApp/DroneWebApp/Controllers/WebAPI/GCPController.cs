@@ -18,14 +18,7 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db = new DroneDBEntities();
 
-        //// GET: api/GCP
-        //public IQueryable<GroundControlPoint> GetGroundControlPoints()
-        //{
-        //    return db.GroundControlPoints;
-        //}
-
-        // GET: api/GCP/5
-        //[ResponseType(typeof(GroundControlPoint))]
+        // GET: WebAPI/api/GCP/5
         public HttpResponseMessage GetGroundControlPointsByFlightID(int id)
         {
             var Flight = db.DroneFlights.Find(id);   //bijhorende vlucht vinden 

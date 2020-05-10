@@ -19,8 +19,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             }
             else if (parseType.Equals(".xyz", StringComparison.OrdinalIgnoreCase))
             {
-                parser = new XYZParserADONET();
-                //parser = new XYZParser(); 
+                parser = new XYZParser(); 
             }
             else if (parseType.Equals(".tfw", StringComparison.OrdinalIgnoreCase))
             {
@@ -36,8 +35,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             }
             else if (parseType.Equals(".dat", StringComparison.OrdinalIgnoreCase))
             {
-                //parser = new DATParser();
-                parser = new DATParser___ADONET();
+                parser = new DATParser();
             }
             else if (parseType.Equals(".jpg", StringComparison.OrdinalIgnoreCase))
             {

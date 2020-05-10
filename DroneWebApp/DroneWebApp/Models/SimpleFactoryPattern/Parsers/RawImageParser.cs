@@ -146,19 +146,19 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			Helper.Helper.SetProgress(100);
 
-			#region console prints 
-			int directory_i = 0;
-			foreach (var directory in directories)
-			{
-				int tag_i = 0;
-				foreach (var tag in directory.Tags)
-				{
+			#region console prints for debugging
+			//int directory_i = 0;
+			//foreach (var directory in directories)
+			//{
+			//	int tag_i = 0;
+			//	foreach (var tag in directory.Tags)
+			//	{
 
-					System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
-					tag_i++;
-				}
-				directory_i++;
-			}
+			//		System.Diagnostics.Debug.WriteLine($" directory {directory_i}: {directory.Name}   -   tag {tag_i}: {tag.Name} = {tag.Description}");
+			//		tag_i++;
+			//	}
+			//	directory_i++;
+			//}
 
 			//Debug.WriteLine(directories[0]); //JPEG Directory (8 tags)
 			//Debug.WriteLine(directories[1]); //Exif IFD0 Directory (12 tags)

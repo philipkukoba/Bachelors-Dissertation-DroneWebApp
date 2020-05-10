@@ -22,6 +22,7 @@ namespace DroneWebApp.Controllers.WebAPI
 		private DroneDBEntities db = new DroneDBEntities();
 
 		// GET: api/RawImages
+		// gets all image data of one specific flight (without the actual images (bytes))
 		public HttpResponseMessage GetRawImagesByFlightID(int id)
 		{
 			var Flight = db.DroneFlights.Find(id);

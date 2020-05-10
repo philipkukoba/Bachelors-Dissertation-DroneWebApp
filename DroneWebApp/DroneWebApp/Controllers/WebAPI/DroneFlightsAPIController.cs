@@ -18,8 +18,7 @@ namespace DroneWebApp.Controllers
 	{
 		private DroneDBEntities db = new DroneDBEntities();
 
-		// GET: api/DroneFlightsAPI/5
-		// [ResponseType(typeof(DroneFlight))]
+		// GET: WebAPI/api/DroneFlightsAPI/5
 		public HttpResponseMessage GetDroneFlight(int id)
 		{
 			var Flight = db.DroneFlights.Find(id);
@@ -54,7 +53,6 @@ namespace DroneWebApp.Controllers
 
 		public HttpResponseMessage getAllDroneFlights()
 		{
-			//List<DroneFlight> droneFlights = db.DroneFlights.ToList();
 
 			var droneFlightsProjected = db.DroneFlights.Select(
 				df => new {

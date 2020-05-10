@@ -22,7 +22,6 @@ namespace DroneWebApp.Controllers
         [AllowAnonymous]
         public ActionResult ViewMap(int? id)
         {
-            System.Diagnostics.Debug.WriteLine(id);
             if (id == null) // general overview of all Flights
             {
                 return View("ViewMap");
@@ -34,7 +33,6 @@ namespace DroneWebApp.Controllers
                 {
                     ViewBag.ErrorMessage = "Drone Flight could not be found.";
                     return View("~/Views/ErrorPage/Error.cshtml");
-                    //return HttpNotFound();
                 }
                 ViewBag.id = id; 
                 // The user can only navigate to the Map of a specific Flight, if that Flight has a Drone Log uploaded to it
@@ -44,7 +42,7 @@ namespace DroneWebApp.Controllers
                     return View("~/Views/ErrorPage/Error.cshtml");
                 }
             }
-            return View("ViewMap"); //TODO: waarom droneflights meegeven? 
+            return View("ViewMap"); 
         }
     }
 }

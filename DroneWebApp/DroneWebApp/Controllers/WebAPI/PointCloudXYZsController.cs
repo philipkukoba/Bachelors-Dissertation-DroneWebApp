@@ -18,9 +18,8 @@ namespace DroneWebApp.Controllers
     {
         private DroneDBEntities db = new DroneDBEntities();
 
-        // GET: api/PointCloudXYZs/5
+        // GET: WebAPI/api/PointCloudXYZs/5
         //get pointcloud by flight id 
-        //[ResponseType(typeof(PointCloudXYZ))]
         public HttpResponseMessage GetPointCloudXYZByFlightID(int id)
         {
             var Flight = db.DroneFlights.Find(id);

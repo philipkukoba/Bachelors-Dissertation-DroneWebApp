@@ -277,7 +277,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 // Save changes to the database
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("Saved Quality Report data to the database.");
                 #endregion
                 Helper.Helper.SetProgress(100);
                 #region Debugging with Console 

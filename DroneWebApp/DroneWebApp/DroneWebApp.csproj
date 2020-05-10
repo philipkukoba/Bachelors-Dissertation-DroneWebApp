@@ -382,14 +382,12 @@
     <Compile Include="Models\SimpleFactoryPattern\Creator.cs" />
     <Compile Include="Models\SimpleFactoryPattern\ParserFactory.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\CSVParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser - ADONET.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\DATParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\RawImageParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\IParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\PDFParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TFWParser.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\TXTParser.cs" />
-    <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser - ADONET.cs" />
     <Compile Include="Models\SimpleFactoryPattern\Parsers\XYZParser.cs" />
     <Compile Include="Models\TFW.cs">
       <DependentUpon>DroneDBModel.tt</DependentUpon>

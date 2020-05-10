@@ -66,55 +66,6 @@
     // #endregion
 
     //#region get all droneflights 
-
-    const popup = {
-        "title": "Drone Flight Information",
-        "content": [{
-            "type": "fields",
-            "fieldInfos": [
-                {
-                    "fieldName": "PilotName", //result.PilotName,   
-                    "label": "Pilot Name",
-
-                },
-                {
-                    "fieldName": "DroneName",
-                    "label": "Drone Name",
-
-                },
-                {
-                    "fieldName": "DepartureUTC",
-                    "label": "Departure Time (UTC)",
-
-                },
-                {
-                    "fieldName": "DepartureLatitude",
-                    "label": "Departure Latitude",
-
-                },
-                {
-                    "fieldName": "DepartureLongitude",
-                    "label": "Departure Longitude",
-
-                },
-                {
-                    "fieldName": "DestinationUTC",
-                    "label": "Destination Time (UTC)",
-
-                },
-                {
-                    "fieldName": "DestinationLatitude",
-                    "label": "Destination Latitude",
-
-                },
-                {
-                    "fieldName": "DestinationLongitude",
-                    "label": "Destination Longitude",
-                }
-            ]
-        }]
-    };
-
     let readFlightpoint = (fp) => {
         let pointGraphic = {             //type graphic (autocasts)
             geometry: {
@@ -149,7 +100,7 @@
             }
 
             flightsFeatureLayer = new FeatureLayer({
-                title: "Track starting points", //todo rename?
+                title: "Track starting points", 
                 source: flightpoints,
                 fields: [
                     {
@@ -194,7 +145,7 @@
                 popupTemplate: {
                     title: "Drone Flight Information",
                     outFields: ["*"],
-                    content: (feature) => {
+                    content: (feature) => {   //we make a custom popup with our own html
                         var node = document.createElement("div");
 
                         node.innerHTML = `<div class="droneFlightPopup">

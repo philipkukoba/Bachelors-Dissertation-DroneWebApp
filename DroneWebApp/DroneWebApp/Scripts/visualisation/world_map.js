@@ -11,7 +11,7 @@
     "esri/widgets/Feature"
 ], function (Map, MapView, Graphic, SpatialReference, LayerList, Search, Legend, PopupTemplate, FeatureLayer, Feature) {
 
-    let trackFeatureLayer; // needs to be declared here so we can switch visual variable with key
+    let trackFeatureLayer; // needs to be declared here so we can switch between visual variables
 
     //#region Basic setup: Map and View
 
@@ -567,12 +567,9 @@
             }
 
             //#region visual variables with non hardcoded maxima 
-
-
             colorVar_HeightMSL.stops[1].value = maxHeightMSL;
             colorVar_VelComposite.stops[1].value = (maxVelComposite / 2);
             colorVar_VelComposite.stops[2].value = maxVelComposite;
-
             //#endregion 
 
             trackFeatureLayer = new FeatureLayer({
@@ -580,23 +577,23 @@
                 source: trackpoints,                                   //THIS needs to be set        (autocast as a Collection of new Graphic())
                 geometryType: "point",                              //normaal niet nodig (kan hij afleiden uit features)
                 spatialReference: SpatialReference.WGS84,           // autocasts to wgs84 if not set 
-                fields: [{                                          //repeat the fields for visual variables here!!! 
+                fields: [{                                          //repeat the fields for visual variables here
                     name: "HeightMSL",
                     type: "double"
                 },
-                {                                          //repeat the fields for visual variables here!!! 
+                {                                           
                     name: "BatteryPercentage",
                     type: "double"
                 },
-                {                                          //repeat the fields for visual variables here!!! 
+                {                                           
                     name: "VelComposite",
                     type: "double"
                 },
-                {                                          //repeat the fields for visual variables here!!! 
+                {                                           
                     name: "x",
                     type: "double"
                 },
-                {                                          //repeat the fields for visual variables here!!! 
+                {                                           
                     name: "y",
                     type: "double"
                 }],
@@ -606,38 +603,6 @@
             });
 
             map.add(trackFeatureLayer);
-
-            //#region KEY LISTENER 
-
-            //TODO wegdoen
-
-            //let featureHidden = false;
-            //view.on("key-down", (event) => {
-            //    if (event.key == "b") {  //battery
-            //        customRenderer.visualVariables = [colorVar_BatteryPercentage];
-            //        trackFeatureLayer.renderer = customRenderer;
-            //    }
-            //    else if (event.key == "h") {  //heightmsl
-            //        customRenderer.visualVariables = [colorVar_HeightMSL];
-            //        trackFeatureLayer.renderer = customRenderer;
-            //    }
-            //    else if (event.key == "v") {  //velocity
-            //        customRenderer.visualVariables = [colorVar_VelComposite];
-            //        trackFeatureLayer.renderer = customRenderer;
-            //    }
-            //    else if (event.key == "l") {  //toggle visibility of feature component
-            //        if (!featureHidden) {
-            //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'none';
-            //            featureHidden = true;
-            //        }
-            //        else {
-            //            document.querySelector('.esri-component.esri-feature.esri-widget').style.display = 'block';
-            //            featureHidden = false;
-            //        }
-
-            //    }
-            //});
-            //#endregion
 
         },
         error: (req, status, error) => {
@@ -734,12 +699,8 @@
                         var node = document.createElement("div");
                         node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>"
                             + "<img src='" + feature.graphic.attributes.thumbnailURL + "' ></a>";
-                        //node.innerHTML = "<img src='" + feature.graphic.attributes.thumbnailURL + "' >";
                         return node;
                     }
-                    //content: "<img src='/WebAPI/api/RawImages/{FlightID}/{ImageID}' width='50' height='50'>"
-                    //content: "/WebAPI/api/RawImages/{FlightID}/{ImageID}"
-                    //content: "<a target='_blank' rel='noopener noreferrer' href='{url}'>View Full Image</a>"
                 },
                 renderer: {  // overrides the layer's default renderer
                     type: "simple",
@@ -843,7 +804,7 @@
             id: 'visualVariableInterface',
             graphic: new Graphic({
                 popupTemplate: {
-                    title: "Color Coding", //todo proper naming
+                    title: "Color Coding", 
                     outFields: ["*"],
                     content: (feature) => {
                         var node = document.createElement("div");
