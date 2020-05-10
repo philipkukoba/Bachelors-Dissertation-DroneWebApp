@@ -85,7 +85,6 @@
                 DestinationLongitude: fp.DestinationLongitude
             }
         };
-        console.log(pointGraphic);
         return pointGraphic;
     }
 
@@ -177,8 +176,6 @@
                     }
                 }
             });
-
-            console.log(flightsFeatureLayer);
 
             map.add(flightsFeatureLayer);
 

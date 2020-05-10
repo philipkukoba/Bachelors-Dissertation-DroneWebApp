@@ -655,7 +655,6 @@
                 thumbnailURL: ThumbnailURL
             }
         };
-        console.log(pointGraphic);
         return pointGraphic;
     }
 
@@ -694,8 +693,6 @@
                     title: "Raw Image Taken",
                     outFields: ["*"],
                     content: (feature) => {
-                        console.log(feature);
-                        console.log(feature.graphic.attributes.thumbnailURL);
                         var node = document.createElement("div");
                         node.innerHTML = "<a target='_blank' class='thumbnail-enlarge' rel='noopener noreferrer' href='" + feature.graphic.attributes.url + "'>"
                             + "<img src='" + feature.graphic.attributes.thumbnailURL + "' ></a>";
