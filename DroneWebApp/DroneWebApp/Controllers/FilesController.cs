@@ -150,7 +150,7 @@ namespace DroneWebApp.Controllers
                         }
                     }
                     // Wait a bit so the ajax call can correctly happen in case of uploading 1 file that is already present (parser returns false very quickly)
-                    if(files.Count == 1)
+                    if(filesLeft == 1)
                     {
                         Thread.Sleep(1000);
                     }
@@ -223,7 +223,6 @@ namespace DroneWebApp.Controllers
                         failed.Add(entry.Key);
                     }
                 }
-                results = null;
             }
 
             // Convert parseResult to an int to pass to Client

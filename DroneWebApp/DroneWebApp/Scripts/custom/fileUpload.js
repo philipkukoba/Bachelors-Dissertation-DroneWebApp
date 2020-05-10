@@ -160,7 +160,7 @@ function parse() {
                                             * 100);
         $("#uploadstatus").text("Parsing file: " + currentFile + " (" + progress + "%)");
         $("#progressbar").progressbar("value", progress);
-
+        console.log(amountParsed + " " + totalFilesToParse);
         if (amountParsed == totalFilesToParse) { // ending procedure
             //console.log("Parsed: " + amountParsed + " (had to parse: " + totalFilesToParse + ")");
             clearTimeout(intervalID); // clear
