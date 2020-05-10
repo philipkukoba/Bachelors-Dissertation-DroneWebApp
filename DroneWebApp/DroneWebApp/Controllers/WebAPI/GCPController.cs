@@ -34,7 +34,8 @@ namespace DroneWebApp.Controllers
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
-            var GroundControlPoints = Flight.GroundControlPoints.Select(gcp => new { gcp.GCPId, gcp.GCPName, gcp.X, gcp.Y, gcp.Z, gcp.FlightId }).ToList();
+            var GroundControlPoints = Flight.GroundControlPoints.Select(
+                gcp => new { gcp.GCPId, gcp.GCPName, gcp.X, gcp.Y, gcp.Z, gcp.FlightId }).ToList();
 
             //config to set to json 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
