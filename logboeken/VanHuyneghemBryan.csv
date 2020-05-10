@@ -86,4 +86,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 09/05/20,20:45,21:45,Extern,Debugging volledige webapplicatie,, Fout gevonden met berekening threshold en next check-up time
 09/05/20,20:45,22:25,Extern,Schrijven van hoofdstuk Future Work,138,
 09/05/20,22:35,22:55,Extern,Debugging webapp,,
-10/05/20,12:35,19:30,Extern,Verslag + Presentatie voorbereiden + Debugging webapp + return false bij alle parsers + algemene code check,138/212,
+10/05/20,12:35,19:50,Extern,Verslag + Presentatie voorbereiden + Debugging webapp + debugging datcon + return false bij alle parsers + algemene code check,138/212,
