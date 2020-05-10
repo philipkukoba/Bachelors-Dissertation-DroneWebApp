@@ -50,24 +50,11 @@ namespace DroneWebApp.Models.Helper
         public static int CountFileLines(string path)
         {
             int totalLines = 0;
-            Boolean succeeded = false;
-            while (!succeeded)
+            using (StreamReader r = new StreamReader(path))
             {
-                try
+                while (r.ReadLine() != null)
                 {
-                    using (StreamReader r = new StreamReader(path))
-                    {
-                        while (r.ReadLine() != null)
-                        {
-                            totalLines++;
-                        }
-                    }
-                    succeeded = true;
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("Waiting for conversion of dat to csv...");
-                    System.Threading.Thread.Sleep(500);
+                    totalLines++;
                 }
             }
             return totalLines;
