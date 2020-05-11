@@ -25,7 +25,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Drone Type<span class="redBrightText">*</span></label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DroneType, new { htmlAttributes = new { @class = "form-control", required = "true" } })
+            @Html.EditorFor(model => model.DroneType, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.DroneType, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -33,7 +33,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Registration<span class="redBrightText">*</span></label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Registration, new { htmlAttributes = new { @class = "form-control", required = "true" } })
+            @Html.EditorFor(model => model.Registration, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Registration, "", new { @class = "text-danger" })
         </div>
     </div>
