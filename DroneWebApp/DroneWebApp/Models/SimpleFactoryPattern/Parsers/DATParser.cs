@@ -1287,7 +1287,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		//Reverse geocode location from coordinates
 		private string reverseGeocode(double lon, double lat)
 		{
-			string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&token=" + generateToken() + "&location=" + lon + "," + lat;
+			string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&feature" +
+						 "Types=&token=" + generateToken() + "&location=" + lon + "," + lat;
 
 			//GET rest call
 			WebRequest requestObjGet = WebRequest.Create(URL);
@@ -1360,7 +1361,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         //Conversion of dat to csv
         private string convertDat(string path)
 		{
-			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]); ;
+			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
 			
 			//Start new datcon in a new process with path as command line argument
 			Process proc = new Process();
