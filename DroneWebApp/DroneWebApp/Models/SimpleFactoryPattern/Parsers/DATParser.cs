@@ -1396,7 +1396,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			{
 				proc.StartInfo.UseShellExecute = false;
 				proc.StartInfo.FileName = "\"" + location + "DatCon.exe\"";
-				proc.StartInfo.Arguments = "\"" + newPath + "\"";
+				proc.StartInfo.Arguments = "-i \"" + newPath + "\" -w -=";
 				proc.StartInfo.CreateNoWindow = true;
 				proc.Start();
 			}
@@ -1426,6 +1426,16 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				else
 				{
 					written = true;
+				}
+			}
+
+			//Get all processes and kill DatCon process
+			Process[] processes = Process.GetProcesses();
+			foreach (Process p in processes)
+			{
+				if (p.MainWindowTitle.Equals("DatCon"))
+				{
+					p.Kill();
 				}
 			}
 
