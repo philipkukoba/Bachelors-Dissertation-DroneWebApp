@@ -138,7 +138,6 @@ function startParsing() {
 function parse() {
     $.get("/Files/GetStatus/", function (result) {
         currentFile = result.currFileName // set the current file
-        //console.log("Get:" + result.currFilesLeft);
         filesLeftToParse = result.currFilesLeft;
         if (firstCheck) {
             if (filesLeftToParse > 0) {
