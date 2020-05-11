@@ -1361,37 +1361,25 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         //Conversion of dat to csv
         private string convertDat(string path)
 		{
+			//Location of DatCon.exe
 			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
 			
-			//Start new datcon in a new process with path as command line argument
-			Process proc = new Process();
-			try
-			{
-				proc.StartInfo.UseShellExecute = false;
-				proc.StartInfo.FileName = location + "DatCon.exe";
-				proc.StartInfo.Arguments = path;
-				proc.StartInfo.CreateNoWindow = true;
-				proc.Start();
-			}
-			catch (Exception)
-			{
-				Console.WriteLine("Conversion of dat to csv failed...");
-			}
+			//Copy DAT file to directory dedicated to converted CSVs
+			string newPath = Path.GetDirectoryName(path);
+			newPath = newPath + "\\DATs_converted_to_CSV" + path.Substring(newPath.Length);
+			File.Copy(path, newPath);
 
-			//Change extension of path to csv
-			path = path.Substring(0, path.Length - 3) + "CSV";
-			
-			//Wait until csv file is created
-			while (!File.Exists(path))
+			//Wait until new DAT file is created
+			while (!File.Exists(newPath))
 			{
 				System.Threading.Thread.Sleep(1000);
 			}
 
-			//Check if csv file is still being written
+			//Check if new DAT file is still being written
 			Boolean written = false;
 			while (!written)
 			{
-				FileInfo file = new FileInfo(path);
+				FileInfo file = new FileInfo(newPath);
 				if (isFileLocked(file))
 				{
 					System.Threading.Thread.Sleep(1000);
@@ -1402,7 +1390,49 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 				}
 			}
 
-			return path;
+			//Start new datcon in a new process with path as command line argument
+			Process proc = new Process();
+			try
+			{
+				proc.StartInfo.UseShellExecute = false;
+				proc.StartInfo.FileName = "\"" + location + "DatCon.exe\"";
+				proc.StartInfo.Arguments = "\"" + newPath + "\"";
+				proc.StartInfo.CreateNoWindow = true;
+				proc.Start();
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Conversion of dat to csv failed...");
+			}
+
+			//Change extension of path to csv
+			string newPathCsv = newPath.Substring(0, newPath.Length - 3) + "CSV";
+			
+			//Wait until csv file is created
+			while (!File.Exists(newPathCsv))
+			{
+				System.Threading.Thread.Sleep(1000);
+			}
+
+			//Check if csv file is still being written
+			written = false;
+			while (!written)
+			{
+				FileInfo file = new FileInfo(newPathCsv);
+				if (isFileLocked(file))
+				{
+					System.Threading.Thread.Sleep(1000);
+				}
+				else
+				{
+					written = true;
+				}
+			}
+
+			//Delete dat file from Dats converted to CSV folder
+			File.Delete(newPath);
+
+			return newPathCsv;
 		}
 
 		//Check if csv file is being written
