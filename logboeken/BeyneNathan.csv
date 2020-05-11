@@ -6,7 +6,7 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 20/02/20,13:30,17:45,Contacturen,Lezing volvo en job- en stagebeurs hermes,,
 23/02/20,19:30,22:00,Extern,Gekregen data analyseren en al kort SQLServer in visual studio verkent,,
 24/02/20,18:30,19:30,Extern,Alles omtrent SQL server management downloaden en installeren en info beginnen bekijken hierover,32,
-24/02/20,20:15,23:59,Extern,Uitzoeken wat puntenwolken precies zijn en verder leren werken met SQL server management studio samen met visual studio,37 + 32,
+24/02/20,20:15,23:59,Extern,Uitzoeken wat puntenwolken precies zijn en verder leren werken met SQL server management studio samen met visual studio,32/37,
 25/02/20,00:00,01:15,Extern,Leren werken met SQL server managementv studio samen met visual studio,32,
 25/02/20,08:15,12:40,Contacturen,Communicatie schrijven en data model beginnen aanmaken,32,
 25/02/20,17:30,20:30,Extern,Data uit quality report analyseren en samenvatten in word-document + beginnen kijken waar dit in data model zou passen,41,
@@ -14,8 +14,8 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 26/02/20,00:00,01:00,Extern,Data model op papier uitwerken omtrent het quality report,41,
 26/02/20,14:15,17:30,Extern,Uitwerking Design van databank model + testen in Entity Framework,18/32/41/43,Samen met Bryan via Parsec en Teamspeak
 26/02/20,23:05,23:59,Extern,Uitzoeken hoe een tif samengesteld wordt,33,
-27/02/20,00:00,01:35,Extern,Uitzoeken hoe een tif samengesteld wordt + tfw file proberen parsen,33/13,
-27/02/20,13:30,17:45,Contacturen,Simple factory pattern uitgewerkt + testen MVC naar view schrijven + parsers,6 + 13 + 45 + 48,Samen met Bryan op 1 pc
+27/02/20,00:00,01:35,Extern,Uitzoeken hoe een tif samengesteld wordt + tfw file proberen parsen,13/33,
+27/02/20,13:30,17:45,Contacturen,Simple factory pattern uitgewerkt + testen MVC naar view schrijven + parsers,6/13/45/48,Samen met Bryan op 1 pc
 29/02/20,16:15,18:30,Extern,Uitzoeken waar data uit drone log thuishoort in de database en dit dan op papier uitwerken,11,
 29/02/20,20:30,21:30,Extern,Documenten communicatie nalezen + beginnen aan tussentijds verslag,58,
 01/03/20,11:45,12:30,Extern,Verderwerken aan tussentijds verslag,58,
