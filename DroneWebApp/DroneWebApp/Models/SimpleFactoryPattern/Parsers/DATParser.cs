@@ -326,25 +326,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			// If passed file is a dat, convert dat to csv
 			if (path.Substring(path.Length - 3).Equals("dat", StringComparison.InvariantCultureIgnoreCase))
 			{
-				string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]); ;
-				Process proc = new Process();
-				try
-				{
-					proc.StartInfo.UseShellExecute = false;
-					proc.StartInfo.FileName = location + "DatCon.exe";
-					proc.StartInfo.Arguments = path;
-					proc.StartInfo.CreateNoWindow = true;
-					proc.Start();
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("Conversion of dat to csv failed...");
-				}
-				path = path.Substring(0, path.Length - 3) + "CSV";
-				while (!File.Exists(path))
-				{
-					System.Threading.Thread.Sleep(1000);
-				}
+				path = convertDat(path);
 				converted = true;
 			}
 
@@ -440,9 +422,12 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 					#endregion
 
+
+
 					int lineNo = 2; //used for progress
-									// Read data
-					if(!converted)
+								// Read data
+
+					if (!converted)
 					{
 						parser.ReadFields(); //one empty line
 					}
@@ -1302,7 +1287,8 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		//Reverse geocode location from coordinates
 		private string reverseGeocode(double lon, double lat)
 		{
-			string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&token=" + generateToken() + "&location=" + lon + "," + lat;
+			string URL = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&feature" +
+						 "Types=&token=" + generateToken() + "&location=" + lon + "," + lat;
 
 			//GET rest call
 			WebRequest requestObjGet = WebRequest.Create(URL);
@@ -1355,5 +1341,90 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			return location;
 		}
 
+        #region DatCon license
+        /*Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that redistribution of source code include
+		the following disclaimer in the documentation and/or other materials provided
+		with the distribution.
+
+		THIS SOFTWARE IS PROVIDED BY ITS CREATOR "AS IS" AND
+		ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+		WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+		DISCLAIMED. IN NO EVENT SHALL THE CREATOR OR CONTRIBUTORS BE LIABLE FOR
+		ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+		(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+		LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+		ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+		SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
+        #endregion
+        //Conversion of dat to csv
+        private string convertDat(string path)
+		{
+			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
+			
+			//Start new datcon in a new process with path as command line argument
+			Process proc = new Process();
+			try
+			{
+				proc.StartInfo.UseShellExecute = false;
+				proc.StartInfo.FileName = location + "DatCon.exe";
+				proc.StartInfo.Arguments = path;
+				proc.StartInfo.CreateNoWindow = true;
+				proc.Start();
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Conversion of dat to csv failed...");
+			}
+
+			//Change extension of path to csv
+			path = path.Substring(0, path.Length - 3) + "CSV";
+			
+			//Wait until csv file is created
+			while (!File.Exists(path))
+			{
+				System.Threading.Thread.Sleep(1000);
+			}
+
+			//Check if csv file is still being written
+			Boolean written = false;
+			while (!written)
+			{
+				FileInfo file = new FileInfo(path);
+				if (isFileLocked(file))
+				{
+					System.Threading.Thread.Sleep(1000);
+				}
+				else
+				{
+					written = true;
+				}
+			}
+
+			return path;
+		}
+
+		//Check if csv file is being written
+		private Boolean isFileLocked(FileInfo file)
+		{
+			FileStream stream = null;
+			try
+			{
+				stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+			}
+			catch(IOException)
+			{
+				return true;
+			}
+			finally
+			{
+				if(stream != null)
+				{
+					stream.Close();
+				}
+			}
+			return false;
+		}
 	}
 }
