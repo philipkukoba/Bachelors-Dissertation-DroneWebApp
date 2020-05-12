@@ -26,6 +26,7 @@ namespace DroneWebApp
             // Register the database and let Unity manage it for Dependency Injection
             container.RegisterType<DbContext, DroneDBEntities > ("DroneDBEntities"); // added
 
+            // Register the database and other components for ASP.NET Identity
             container.RegisterType<DbContext, ApplicationDbContext>("ApplicationDbContext", new HierarchicalLifetimeManager());
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(new HierarchicalLifetimeManager());
@@ -35,15 +36,15 @@ namespace DroneWebApp
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
+            // Register controllers with the right databasecontext
             container.RegisterType<DroneFlightsController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
             container.RegisterType<DronesController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
             container.RegisterType<FilesController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
             container.RegisterType<MapController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
             container.RegisterType<PilotsController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
             container.RegisterType<ProjectsController>(new InjectionConstructor(new ResolvedParameter<DbContext>("DroneDBEntities")));
-            //container.RegisterType<AccountController>(new InjectionConstructor(new ResolvedParameter<DbContext>("ApplicationDbContext")));
-            //container.RegisterType<ManageController>(new InjectionConstructor(new ResolvedParameter<DbContext>("ApplicationDbContext")));
 
+            // Resolve controllers
             DroneFlightsController droneFlightsController = container.Resolve<DroneFlightsController>();
             DronesController dronesController = container.Resolve<DronesController>();
             FilesController filesController = container.Resolve<FilesController>();

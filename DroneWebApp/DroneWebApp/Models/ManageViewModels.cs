@@ -5,6 +5,8 @@ using Microsoft.Owin.Security;
 
 namespace DroneWebApp.Models
 {
+    // Viewmodels used in the ManageController
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }

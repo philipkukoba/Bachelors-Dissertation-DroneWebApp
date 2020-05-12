@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DroneWebApp.Models
 {
+    // Viewmodels used in the AccountController
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

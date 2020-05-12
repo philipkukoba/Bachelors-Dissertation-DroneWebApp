@@ -18,6 +18,7 @@ namespace DroneWebApp.Models
         }
     }
 
+    // Defines a databasecontext for the Identity system
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
