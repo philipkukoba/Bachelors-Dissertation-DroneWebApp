@@ -355,7 +355,6 @@ MigrationBackup/
 DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx
 DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx.diagram
 DroneWebApp/DroneWebApp/Web.config
-DroneWebApp/DroneWebApp/files
 DroneWebApp/DroneWebApp/Models/sysdiagram.cs
 DroneWebApp/DroneWebApp/Models/Project.cs
 DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx.diagram
@@ -366,3 +365,11 @@ DroneWebApp/DroneWebApp/DroneWebApp.csproj
 DroneWebApp/DroneWebApp/Web.config
 DroneWebApp/DroneWebApp/Models/DroneDBModel.Designer.cs
 DroneWebApp/DroneWebApp/Models/DroneDBModel.edmx.diagram
+DroneWebApp/DroneWebApp/files/*.[jJ][pP][gG]
+DroneWebApp/DroneWebApp/files/*.[cC][sS][vV]
+DroneWebApp/DroneWebApp/files/*.[xX][yY][zZ]
+DroneWebApp/DroneWebApp/files/*.[pP][dD][fF]
+DroneWebApp/DroneWebApp/files/*.[dD][aA][tT]
+DroneWebApp/DroneWebApp/files/*.[tT][fF][wW]
+DroneWebApp/DroneWebApp/files/*.[tT][xX][tT]
+DroneWebApp/DroneWebApp/files/DATs_converted_to_CSV/*.[cC][sS][vV]
