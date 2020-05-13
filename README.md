@@ -96,4 +96,4 @@ U kan de gebruikershandleiding [hier](https://github.ugent.be/bp-2020/drone1/blo
 
 ## Meer informatie
 
-Voor meer informatie kunt u terecht op de **About** pagina van de website.
+Voor meer informatie kunt u terecht op de **About**-pagina van de website.
