@@ -1363,32 +1363,15 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 		{
 			//Location of DatCon.exe
 			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
-			
+
+			//Keep track of new files to delete them if anything goes wrong
+			List<string> newFiles = new List<string>();
+
 			//Copy DAT file to directory dedicated to converted CSVs
 			string newPath = Path.GetDirectoryName(path);
 			newPath = newPath + "\\DATs_converted_to_CSV" + path.Substring(newPath.Length);
 			File.Copy(path, newPath);
-
-			//Wait until new DAT file is created
-			while (!File.Exists(newPath))
-			{
-				System.Threading.Thread.Sleep(1000);
-			}
-
-			//Check if new DAT file is still being written
-			Boolean written = false;
-			while (!written)
-			{
-				FileInfo file = new FileInfo(newPath);
-				if (isFileLocked(file))
-				{
-					System.Threading.Thread.Sleep(1000);
-				}
-				else
-				{
-					written = true;
-				}
-			}
+			newFiles.Add(newPath);
 
 			//Start new datcon in a new process with path as command line argument
 			Process proc = new Process();
@@ -1407,42 +1390,72 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
 			//Change extension of path to csv
 			string newPathCsv = newPath.Substring(0, newPath.Length - 3) + "CSV";
-			
-			//Wait until csv file is created
-			while (!File.Exists(newPathCsv))
+
+			//Wait until csv file is created in a certain time
+			int i = 0;
+			Boolean completed = true;
+			while (!File.Exists(newPathCsv) && i < 20)
 			{
 				System.Threading.Thread.Sleep(1000);
+				i++;
 			}
 
-			//Check if csv file is still being written
-			written = false;
-			while (!written)
+			//Add csv file to newly created files if it exists
+			if(i >= 20)
 			{
-				FileInfo file = new FileInfo(newPathCsv);
-				if (isFileLocked(file))
+				completed = false;
+			}
+			else
+			{
+				newFiles.Add(newPathCsv);
+			}
+
+			if(completed)
+			{
+				//Check if csv file is still being written
+				Boolean written = false;
+				while (!written)
 				{
-					System.Threading.Thread.Sleep(1000);
-				}
-				else
-				{
-					written = true;
+					FileInfo file = new FileInfo(newPathCsv);
+					if (isFileLocked(file))
+					{
+						System.Threading.Thread.Sleep(1000);
+					}
+					else
+					{
+						written = true;
+					}
 				}
 			}
 
 			//Get all processes and kill DatCon process
 			Process[] processes = Process.GetProcesses();
+			Boolean processFound = false;
 			foreach (Process p in processes)
 			{
 				if (p.MainWindowTitle.Equals("DatCon"))
 				{
+					processFound = true;
 					p.Kill();
 				}
 			}
 
-			//Delete dat file from Dats converted to CSV folder
-			File.Delete(newPath);
+			//If DatCon process completed, delete copied DAT file and return CSV path, else delete all new
+			//files and return original DAT path
+			if(completed && processFound)
+			{
+				File.Delete(newPath);
 
-			return newPathCsv;
+				return newPathCsv;
+			}
+			else
+			{
+				foreach(string filePath in newFiles)
+				{
+					File.Delete(filePath);
+				}
+				return path;
+			}
 		}
 
 		//Check if csv file is being written
