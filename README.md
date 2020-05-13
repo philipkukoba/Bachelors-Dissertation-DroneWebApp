@@ -11,6 +11,7 @@
 #### [Meer informatie](https://github.ugent.be/bp-2020/drone1/blob/master/README.md#meer-informatie-1)
 
 ## Installatie
+BELANGRIJKE OPMERKING: de executable DatCon.exe kan niet worden uitgevoerd op de server, omdat dit niet is toegelaten. Het converteren van een DAT-bestand naar een CSV-bestand (tijdens het uploaden van een DAT-bestand) is dus niet mogelijk op de server. Dit is wel gelukt of alle vier onze computers.
 
 ### Inhoud van de distributie
 
