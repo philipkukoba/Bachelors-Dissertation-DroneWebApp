@@ -93,7 +93,8 @@ TODO
 
 Deze repository bevat volgende mappen:
 * De **DroneWebApp** map met de solution en het project;
-* De map **documenten** bevat het _analyseverslag_, _de demo documenten_, _de eindpresentatie_, de _groepsbesprekingen_, _informatie van de klant_, het _tussentijds verslag_, _de tussentijdse presentatie_ en informatie over de _virtuele machine_;
+* De map **documenten** bevat het _analyseverslag_, _de eindpresentatie_, de _groepsbesprekingen_, _informatie van de klant_, het _tussentijds verslag_, _de tussentijdse presentatie_ en informatie over de _virtuele machine_;
+* De map **demo_bestanden** bevat bestanden die gebruikt kunnen worden om de webapp te testen (uploaden van files);
 * De map met de **logboeken**;
 * De map **meetings** met de Scrum Stand Up meetings;
 * De map **verslag** met het verslag van sprint 1;
