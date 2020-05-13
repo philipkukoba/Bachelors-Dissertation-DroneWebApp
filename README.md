@@ -51,9 +51,32 @@ In dit deel installeert u alle benodigde software om de webapplicatie te laten w
 
 
 
-#### Aanamaken van de databank
+#### Aanmaken van de databank
+
+In dit deel maakt u de SQL-Serverdatabank aan.
+1.	Start **SQL Server Management Studio** op en verbind met uw machine. 
+*	Het veld ‘Server name’ wordt automatisch ingevuld. 
+*	Noteer deze naam, want u heeft deze later nodig in een volgend deel (opstarten van de webapplicatie). 
+*	Klik op ‘Connect’.
+2.	Ga naar het menu ‘File’ bovenaan links. 
+3.	Kies ‘Open’ en ga naar ‘File’. 
+4.	Navigeer in de distributie naar het script **DroneDB.sql** en open dit.
+5.	Klik op ‘Execute’ om het script uit te voeren. 
+6.	In het ‘Messages’-venster verschijnt  “Commands completed successfully”. U kan verifiëren dat de databank is aangemaakt met volgende stappen:
+*	Klik in het ‘Object Explorer’-venster op ‘refresh’.
+*	Vouw de Machinenaammap en Databasesmap open. Hierin bevindt zich nu de nieuwe database **DroneDB**. Merk op dat de Machinenaammap dezelfde naam heeft als de eerder genoteerde ‘Server name’.
+7.	Een lege databank is nu aangemaakt en klaar voor gebruik.
+8.	Sluit SQL Server Management Studio.
+9.	In de distributie bevindt zich op het pad ‘drone1\DroneWebApp\Scripts\Perl’ een bestand genaamd **ChangeDataSourceName_Script**. Voer dit bestand uit om de juiste connection strings in te vullen in **Web.config**. Deze leggen de verbinding tussen de databank en de webapplicatie.
+
 
 #### Opstarten van de webapplicatie
+
+1.	Voer de webapplicatie uit met F5.
+2.	De allereerste keer kan een venster verschijnen dat u vraagt om het ‘IIS Express SSL certificate’ te vertrouwen. Klik ‘yes’.
+3.	Er verschijnt een ‘security warning’. Klik ‘yes’.
+4.	U kunt nu aan de slag met de dronewebapplicatie.
+
 
 
 ## Opbouw van deze repository:
