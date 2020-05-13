@@ -49,8 +49,6 @@ In dit deel installeert u alle benodigde software om de webapplicatie te laten w
 *	Na al deze stappen komt er een scherm dat bevestigt dat Java geïnstalleerd is. Klik op ‘Close’. 
 *	U kan nu aan de slag met Java op uw toestel.
 
-
-
 #### Aanmaken van de databank
 
 In dit deel maakt u de SQL-Serverdatabank aan.
@@ -78,7 +76,6 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 4.	U kunt nu aan de slag met de dronewebapplicatie.
 
 
-
 ## Opbouw van deze repository:
 
 Deze repository bevat volgende mappen:
@@ -90,15 +87,9 @@ Deze repository bevat volgende mappen:
 * Het **SQL-script** `DroneDB.sql` dat gebruikt wordt om de databank aan te maken.
 
 
-
 ## Werking
 
-De webapplicatie heeft verscheidene functionaliteiten:
-* U kunt projecten, dronevluchten, drones en piloten aanmaken, bekijken, aanpassen en verwijderen.
-* U kunt documenten toevoegen aan dronevluchten met de uploadknop.
-* Een documentenknop is rood wanneer dit document nog niet geüpload is voor deze vlucht en wordt groen indien dit wel het geval is.
-* De documentknoppen zijn aanklikbaar en laten u toe om de bijhorende informatie in detail te bekijken.
-* De XYZ en Drone Log bestanden zijn zeer groot. Het heeft geen toegevoegde waarde om deze te kunnen bekijken; daarom zijn ze niet aanklikbaar.
+U kan de gebruikershandleiding [hier](https://github.ugent.be/bp-2020/drone1/blob/master/verslag/Gebruikershandleiding.pdf) vinden.
 
 ## Meer informatie
 
