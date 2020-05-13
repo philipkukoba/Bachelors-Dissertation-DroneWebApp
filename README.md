@@ -2,13 +2,13 @@
 
 ## Inhoud van deze repository
 
-#### Installatie
+#### [Installatie](https://github.ugent.be/bp-2020/drone1/blob/master/README.md#installatie-1)
 
-#### Opbouw van deze repository
+#### [Opbouw van deze repository](https://github.ugent.be/bp-2020/drone1/blob/master/README.md#opbouw-van-deze-repository-1)
 
-#### Gebruikershandleiding
+#### [Gebruikershandleiding](https://github.ugent.be/bp-2020/drone1/blob/master/README.md#gebruikershandleiding-1)
 
-#### Meer informatie
+#### [Meer informatie](https://github.ugent.be/bp-2020/drone1/blob/master/README.md#meer-informatie-1)
 
 ## Installatie
 
