@@ -465,7 +465,7 @@
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
       <LastGenOutput>DroneDBModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Programs\DatCon\DatCon.3.7.3.exe" />
+    <Content Include="Programs\DatCon\DatCon.exe" />
     <Content Include="Programs\IvyPdf_1.62\Docs\EULA.txt" />
     <Content Include="Programs\IvyPdf_1.62\IvyDataSet.dll" />
     <Content Include="Programs\IvyPdf_1.62\IvyDocumentReader.dll" />
@@ -577,6 +577,7 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Manual\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
