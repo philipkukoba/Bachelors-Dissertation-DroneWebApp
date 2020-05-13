@@ -65,7 +65,7 @@ In dit deel installeert u alle benodigde software om de webapplicatie te laten w
 
 In dit deel maakt u de SQL-Serverdatabank aan.
 1.	Start **SQL Server Management Studio** op en verbind met uw machine. 
-*	Het veld ‘Server name’ wordt automatisch ingevuld. Dit is tevens de naam dat in het bestand Web.config nodig is om de brug te leggen naar de databank. Deze naam wordt automatisch ingevuld door het Perlscript in punt 9 (zie later). 
+*	Het veld ‘Server name’ wordt automatisch ingevuld. Dit is tevens de naam die in het bestand Web.config gebruikt wordt om de brug te leggen naar de databank. Deze naam wordt automatisch ingevuld door het Perlscript in punt 9 (zie later). 
 *	Klik op ‘Connect’.
 2.	Ga naar het menu ‘File’ bovenaan links. 
 3.	Kies ‘Open’ en ga naar ‘File’. 
