@@ -464,7 +464,6 @@
       <DependentUpon>DroneDBModel.edmx</DependentUpon>
       <LastGenOutput>DroneDBModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Programs\DatCon\DatCon.3.7.3.exe" />
     <Content Include="Programs\IvyPdf_1.62\Docs\EULA.txt" />
     <Content Include="Programs\IvyPdf_1.62\IvyDataSet.dll" />
     <Content Include="Programs\IvyPdf_1.62\IvyDocumentReader.dll" />
@@ -573,6 +572,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Programs\DatCon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
