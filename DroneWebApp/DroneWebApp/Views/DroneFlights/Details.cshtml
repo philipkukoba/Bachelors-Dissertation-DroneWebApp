@@ -317,7 +317,7 @@
 @if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
     <p>
-        @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-info btn-sm" }) |
+        @Html.ActionLink("Edit Flight", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-warning btn-sm" }) |
         @Html.ActionLink("Back to Drone Flights List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
         @Html.ActionLink("Delete", "Delete", new { id = Model.FlightId }, new { @class = "btn btn-danger btn-sm" })
     </p>

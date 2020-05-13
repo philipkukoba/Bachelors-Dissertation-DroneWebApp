@@ -1,1 +1,0 @@
-Hier komen alle DAT-bestanden die door DatCon automatisch na uploaden geconverteerd werden naar CSV-bestanden.

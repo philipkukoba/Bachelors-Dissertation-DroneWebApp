@@ -129,7 +129,7 @@
 @if (User.IsInRole("Admin"))
 {
     <p>
-        @Html.ActionLink("Edit Pilot", "Edit", new { id = Model.PilotId }, new { @class = "btn btn-info btn-sm" }) |
+        @Html.ActionLink("Edit Pilot", "Edit", new { id = Model.PilotId }, new { @class = "btn btn-warning btn-sm" }) |
         @Html.ActionLink("Back to Pilots List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
         @Html.ActionLink("Delete", "Delete", new { id = Model.PilotId }, new { @class = "btn btn-danger btn-sm" })
     </p>
