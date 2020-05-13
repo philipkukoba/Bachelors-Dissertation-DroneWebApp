@@ -17,7 +17,7 @@
 In de distributie van dit project bevinden zich volgende bestanden:
 *	de DroneWebApp-map met alle code voor de webapplicatie;
 *	het SQL-script DroneDB.sql om de databank aan te maken;
-*	ChangeDataSourceName_Script.exe, een Perl-executable;
+*	ChangeDataSourceName_Script.exe, een Perl-executable om Web.config aan te passen;
 *	het verslag met handleidingen en documentatie.
 
 ### Installatiehandleiding voor ontwikkelaar
