@@ -1,5 +1,15 @@
 # Repository van drone1
 
+### Inhoud van deze distributie
+
+#### Installatie
+
+#### Opbouw van deze repository
+
+#### Gebruikershandleiding
+
+#### Meer informatie
+
 ## Installatie
 
 ### Inhoud van de distributie
@@ -90,7 +100,7 @@ Deze repository bevat volgende mappen:
 * Het **SQL-script** `DroneDB.sql` dat gebruikt wordt om de databank aan te maken.
 
 
-## Werking
+## Gebruikershandleiding
 
 U kan de gebruikershandleiding [hier](https://github.ugent.be/bp-2020/drone1/blob/master/verslag/Gebruikershandleiding.pdf) vinden.
 
