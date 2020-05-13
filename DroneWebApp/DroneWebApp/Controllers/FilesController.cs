@@ -80,7 +80,7 @@ namespace DroneWebApp.Controllers
         public int Index(int? id, List<HttpPostedFileBase> files)
         {
             Helper.progress = 0; //Set file upload progression to zero
-            Thread.Sleep(1000); // wait for client-side to sync
+            Thread.Sleep(2000); // wait for client-side to sync
             // Prevent users from parsing files at the same time (solution may be Websockets)
             if (filesLeft > 0)
             {
