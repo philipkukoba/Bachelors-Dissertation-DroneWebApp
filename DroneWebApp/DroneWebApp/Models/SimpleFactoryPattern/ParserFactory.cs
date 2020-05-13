@@ -1,6 +1,7 @@
 ﻿using DroneWebApp.Models.SimpleFactoryPattern.Parsers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -18,7 +19,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             }
             else if (parseType.Equals(".xyz", StringComparison.OrdinalIgnoreCase))
             {
-                parser = new XYZParser();
+                parser = new XYZParser(); 
             }
             else if (parseType.Equals(".tfw", StringComparison.OrdinalIgnoreCase))
             {
@@ -35,6 +36,10 @@ namespace DroneWebApp.Models.SimpleFactoryPattern
             else if (parseType.Equals(".dat", StringComparison.OrdinalIgnoreCase))
             {
                 parser = new DATParser();
+            }
+            else if (parseType.Equals(".jpg", StringComparison.OrdinalIgnoreCase))
+            {
+                parser = new RawImageParser();
             }
             // For any other filetype, parser remains null
 

@@ -11,7 +11,8 @@ namespace DroneWebApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Project
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,7 @@ namespace DroneWebApp.Models
         }
     
         public int ProjectId { get; set; }
+        [Required(ErrorMessage = "Project code is required!")]
         public string ProjectCode { get; set; }
         public string SiteRefCode { get; set; }
         public Nullable<int> VerticalRef { get; set; }

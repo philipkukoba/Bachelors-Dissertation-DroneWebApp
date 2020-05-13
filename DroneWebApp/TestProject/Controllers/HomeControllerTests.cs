@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DroneWebApp.Controllers.Tests
 {
@@ -12,21 +13,30 @@ namespace DroneWebApp.Controllers.Tests
     public class HomeControllerTests
     {
         [TestMethod()]
-        public void IndexTest()
+        public void IndexTest_ActionExecutes_ReturnsViewForIndex()
         {
-            Assert.Fail();
+            HomeController controller = new HomeController();
+
+            var result = controller.Index() as ViewResult;
+            Assert.AreEqual("Index", result.ViewName);
         }
 
         [TestMethod()]
-        public void AboutTest()
+        public void AboutTest_ActionExecutes_ReturnsViewForAbout()
         {
-            Assert.Fail();
+            HomeController controller = new HomeController();
+
+            var result = controller.About() as ViewResult;
+            Assert.AreEqual("About", result.ViewName);
         }
 
         [TestMethod()]
-        public void ContactTest()
+        public void ContactTest_ActionExecutes_ReturnsViewForContact()
         {
-            Assert.Fail();
+            HomeController controller = new HomeController();
+
+            var result = controller.Contact() as ViewResult;
+            Assert.AreEqual("Contact", result.ViewName);
         }
     }
 }

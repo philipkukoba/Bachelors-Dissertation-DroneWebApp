@@ -6,12 +6,22 @@
 }
 
 <br />
-<h2 style="text-align:center">Project Details</h2>
+<h2 class="textAlignCenter">Project Details</h2>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Projects")">Projects</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details @Model.ProjectCode</li>
+    </ol>
+</nav>
 
 <div>
-    <h4>Project @Model.ProjectCode</h4>
+    <h4><strong>Project @Model.ProjectCode</strong></h4>
     <hr />
-    <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
+    <p class="textAlignCenter">
+        <strong>Information</strong>
+    </p>
+    <table class="table table-bordered table-hover table-striped fixedTableLayout">
         <tr>
             <th>
                 @Html.DisplayName("Project Code")
@@ -26,7 +36,7 @@
                 @Html.DisplayName("Drone Flights")
             </th>
             <td>
-                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.ProjectId }, new { @class = "btn btn-primary btn-sm", style = "color: white" })
+                @Model.DroneFlights.Count | @Html.ActionLink("View Flights", "DroneFlights", new { id = @Model.ProjectId }, new { @class = "btn btn-primary btn-sm whiteText" })
             </td>
         </tr>
 
@@ -59,7 +69,18 @@
         </tr>
     </table>
 </div>
-<p>
-    @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }) |
-    @Html.ActionLink("Back to Project List", "Index")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Edit Project", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-warning btn-sm" }) |
+        @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ProjectId }, new { @class = "btn btn-danger btn-sm" })
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    </p>
+}
+

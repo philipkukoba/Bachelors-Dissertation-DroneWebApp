@@ -16,11 +16,12 @@ namespace DroneWebApp.Models.Helper
         // Must run through all of them every time to verify integrity (in case of reassignment of drone to droneflight)
         public static void UpdateTotalDroneFlightTime(DroneDBEntities db)
         {
-            System.Diagnostics.Debug.WriteLine("In UpdateTotalDroneFlightTime");
             List<Drone> drones = db.Drones.ToList();
+            // Calculate the total flight time for each drone
             foreach(Drone d in drones)
             {
-                TimeSpan totalTime = new TimeSpan(0, 0, 0);
+                TimeSpan totalTime = new TimeSpan(0, 0, 0, 0);
+                // Sum the drone's drone flights' times
                 foreach (DroneFlight df in d.DroneFlights)
                 {
                     if (df != null && df.hasDroneLog)
@@ -28,10 +29,21 @@ namespace DroneWebApp.Models.Helper
                         totalTime = totalTime.Add(((TimeSpan)df.DestinationInfo.UTCTime).Subtract((TimeSpan)df.DepartureInfo.UTCTime));
                     }
                 }
-                d.TotalFlightTime = totalTime;
+                d.TotalFlightTime = (long)totalTime.TotalSeconds;
+                db.SaveChanges();
+                // check if the drone needs a check up
+                if (!d.needsCheckUp)
+                {
+                    // if the total flight time is not 0 ticks (0d0h0m0s) 
+                    // and the total travelled time (in ticks) is greater than or equal to the next time check (in ticks)
+                    if ((totalTime.TotalSeconds != 0) && (totalTime.TotalSeconds >= d.nextTimeCheck))
+                    {
+                        d.needsCheckUp = true; // drone needs a check-up
+                    }
+                }
                 db.SaveChanges();
             }
-            System.Diagnostics.Debug.WriteLine("end of UpdateTotalDroneFlightTime");
+           
         }
 
         // Runs through a file once to count its total amount of lines
@@ -52,7 +64,6 @@ namespace DroneWebApp.Models.Helper
         public static void SetProgress(double newProgress)
         {
             progress = newProgress;
-            System.Diagnostics.Debug.WriteLine("Progress: " + progress + "%");
         }
     }
 }

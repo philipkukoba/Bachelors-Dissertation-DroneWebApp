@@ -8,12 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using DroneWebApp.Models;
 using DroneWebApp.Models.Helper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DroneWebApp.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private DroneDBEntities db;
+        private ApplicationDbContext applicationDb = new ApplicationDbContext();
 
         // Constructor
         public ProjectsController(DbContext db)
@@ -22,34 +26,35 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Projects
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            return View("Index", db.Projects.ToList());
         }
 
         // GET: Projects/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
-            return View(project);
+            return View("Details", project);
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Projects/Create
@@ -57,6 +62,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "ProjectId,ProjectCode,SiteRefCode,VerticalRef,CoordSystem")] Project project)
         {
             if (ModelState.IsValid)
@@ -65,27 +71,25 @@ namespace DroneWebApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(project);
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
-            return View(project);
+            return View("Edit", project);
         }
 
         // POST: Projects/Edit/5
@@ -93,6 +97,7 @@ namespace DroneWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "ProjectId,ProjectCode,SiteRefCode,VerticalRef,CoordSystem")] Project project)
         {
             if (ModelState.IsValid)
@@ -105,13 +110,13 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Projects/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             // Find the project
             Project project = db.Projects.Find(id);
@@ -121,14 +126,14 @@ namespace DroneWebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
-            return View(project);
+            return View("Delete", project);
         }
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             // Find the project
@@ -151,24 +156,23 @@ namespace DroneWebApp.Controllers
         }
 
         // GET: Project/DroneFlights/5
+        [AllowAnonymous]
         public ActionResult DroneFlights(int? id)
         {
             if (id == null)
             {
                 ViewBag.ErrorMessage = "Please specify a Project in your URL.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
                 ViewBag.ErrorMessage = "Project could not be found.";
                 return View("~/Views/ErrorPage/Error.cshtml");
-                //return HttpNotFound();
             }
             ViewBag.Project = project.ProjectCode;
             ViewBag.ProjectId = id;
-            return View(project.DroneFlights.ToList());
+            return View("DroneFlights", project.DroneFlights.ToList());
         }
 
         protected override void Dispose(bool disposing)

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace DroneWebApp.Controllers
 {
+    [AllowAnonymous]
     public class MapController : Controller
     {
         private DroneDBEntities db;
@@ -18,42 +19,30 @@ namespace DroneWebApp.Controllers
             this.db = (DroneDBEntities)db;
         }
 
-        //public ActionResult ViewMap()
-        //{
-        //    return View(db.DroneFlights.ToList());
-        //}
-
+        [AllowAnonymous]
         public ActionResult ViewMap(int? id)
         {
-            System.Diagnostics.Debug.WriteLine(id);
-            if (id == null)
+            if (id == null) // general overview of all Flights
             {
-                ViewBag.ErrorMessage = "Please specify a Drone Flight in your URL.";
-                return View("~/Views/ErrorPage/Error.cshtml");
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("ViewMap");
             }
-            else if (id == 0)
-            {
-                return View();
-            }
-            else
+            else // specific Flight
             {
                 DroneFlight droneFlight = db.DroneFlights.Find(id);
                 if (droneFlight == null)
                 {
                     ViewBag.ErrorMessage = "Drone Flight could not be found.";
                     return View("~/Views/ErrorPage/Error.cshtml");
-                    //return HttpNotFound();
                 }
-                ViewBag.id = id;
+                ViewBag.id = id; 
+                // The user can only navigate to the Map of a specific Flight, if that Flight has a Drone Log uploaded to it
+                if( droneFlight.hasDroneLog == false)
+                {
+                    ViewBag.ErrorMessage = "Please upload a Drone Log for this Flight first.";
+                    return View("~/Views/ErrorPage/Error.cshtml");
+                }
             }
-            return View(db.DroneFlights.ToList());
+            return View("ViewMap"); 
         }
-
-
-        //public ActionResult ViewMapByID()
-        //{
-        //    return View();
-        //}
     }
 }

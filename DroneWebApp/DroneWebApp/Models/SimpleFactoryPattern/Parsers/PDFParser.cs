@@ -23,6 +23,7 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
             // Do not parse a new file, if this flight already has a QR file
             if (droneFlight.hasQR)
             {
+                Helper.Helper.SetProgress(100);
                 return false;
             }
 
@@ -277,7 +278,6 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 
                 // Save changes to the database
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("Saved Quality Report data to the database.");
                 #endregion
                 Helper.Helper.SetProgress(100);
                 #region Debugging with Console 
@@ -362,10 +362,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
+                Helper.Helper.SetProgress(100);
+                return false;
             }
             catch (Exception ex) {
                 //for all other exceptions
+                Helper.Helper.SetProgress(100);
                 System.Diagnostics.Debug.WriteLine("Exception caught in PDFParser: " + ex);
+                return false;
             }
             return true;
         }

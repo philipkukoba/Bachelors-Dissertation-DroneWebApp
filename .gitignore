@@ -358,7 +358,6 @@ documenten/demo_docs/demo_sprint_1.mp4
 documenten/demo_docs/demo_bestanden/Drone Flight - Harelbeke - 190912_dsm_10cm.xyz
 documenten/demo_docs/demo_bestanden/00 raw pictures survey/*.JPG
 meetings/sprint_planning_meeting_sprint_3.mp4
-documenten/demo_docs/demo_bestanden/FLY134.csv
 meetings/StandUpMeeting_2020_05_10.mp4
 documenten/demo_docs/demo_bestanden/FLY103.DAT
 documenten/demo_docs/demo_bestanden/FLY112.DAT
@@ -368,3 +367,10 @@ documenten/demo_docs/demo_bestanden/FLY052.DAT
 documenten/demo_docs/demo_bestanden/FLY103.csv
 documenten/demo_docs/demo_bestanden/FLY112.csv
 documenten/demo_docs/demo_bestanden/FLY135.csv
+DroneWebApp/DroneWebApp/files/*.[jJ][pP][gG]
+DroneWebApp/DroneWebApp/files/*.[cC][sS][vV]
+DroneWebApp/DroneWebApp/files/*.[xX][yY][zZ]
+DroneWebApp/DroneWebApp/files/*.[pP][dD][fF]
+DroneWebApp/DroneWebApp/files/*.[dD][aA][tT]
+DroneWebApp/DroneWebApp/files/*.[tT][fF][wW]
+DroneWebApp/DroneWebApp/files/*.[tT][xX][tT]

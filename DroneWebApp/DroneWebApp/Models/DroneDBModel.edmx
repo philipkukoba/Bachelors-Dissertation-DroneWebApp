@@ -20,6 +20,57 @@
           <Property Name="AGVRMS_y" Type="float" />
           <Property Name="AGVRMS_z" Type="float" />
         </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="CTRLPoints">
           <Key>
             <PropertyRef Name="CTRLId" />
@@ -57,7 +108,10 @@
           <Property Name="Registration" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneType" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DroneName" Type="varchar" MaxLength="50" />
-          <Property Name="TotalFlightTime" Type="time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="bigint" />
+          <Property Name="needsCheckUp" Type="bit" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="bigint" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="DroneAttributeValues">
           <Key>
@@ -81,7 +135,7 @@
           <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="PilotId" Type="int" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="50" />
-          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="hasTFW" Type="bit" Nullable="false" />
           <Property Name="hasGCPs" Type="bit" Nullable="false" />
           <Property Name="hasCTRLs" Type="bit" Nullable="false" />
@@ -90,6 +144,7 @@
           <Property Name="hasQR" Type="bit" Nullable="false" />
           <Property Name="hasXYZ" Type="bit" Nullable="false" />
           <Property Name="hasDroneLog" Type="bit" Nullable="false" />
+          <Property Name="hasRawImages" Type="bit" Nullable="false" />
           <Property Name="TypeOfActivity" Type="varchar" MaxLength="500" />
           <Property Name="Other" Type="varchar" MaxLength="255" />
           <Property Name="Simulator" Type="varchar" MaxLength="255" />
@@ -302,11 +357,40 @@
         </EntityType>
         <EntityType Name="RawImages">
           <Key>
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="RawImageKey" />
           </Key>
-          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Image" Type="image" />
-          <Property Name="FlightId" Type="int" />
+          <Property Name="RawImageKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RawData" Type="image" Nullable="false" />
+          <Property Name="RawDataDownsized" Type="image" Nullable="false" />
+          <Property Name="ExposureTime" Type="varchar" MaxLength="50" />
+          <Property Name="FNumber" Type="int" />
+          <Property Name="Iso" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ShutterSpeedValue" Type="varchar" MaxLength="50" />
+          <Property Name="ApertureValue" Type="varchar" MaxLength="50" />
+          <Property Name="ExposureCompensation" Type="int" />
+          <Property Name="MaxApertureValue" Type="varchar" MaxLength="50" />
+          <Property Name="SpeedX" Type="float" />
+          <Property Name="SpeedY" Type="float" />
+          <Property Name="SpeedZ" Type="float" />
+          <Property Name="Pitch" Type="float" />
+          <Property Name="Yaw" Type="float" />
+          <Property Name="Roll" Type="float" />
+          <Property Name="CameraPitch" Type="float" />
+          <Property Name="CameraYaw" Type="float" />
+          <Property Name="CameraRoll" Type="float" />
+          <Property Name="AbsoluteAltitude" Type="float" />
+          <Property Name="RelativeAltitude" Type="float" />
+          <Property Name="RtkFlag" Type="int" />
+          <Property Name="GpsAltitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLatitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsLongitude" Type="varchar" MaxLength="50" />
+          <Property Name="GpsPosition" Type="varchar" MaxLength="50" />
+          <Property Name="GPSLatRef" Type="varchar" MaxLength="50" />
+          <Property Name="GPSLongRef" Type="varchar" MaxLength="50" />
+          <Property Name="GPSAltitudeRef" Type="varchar" MaxLength="50" />
+          <Property Name="FlightId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TFW">
           <Key>
@@ -363,6 +447,62 @@
             </Principal>
             <Dependent Role="CTRLPoints">
               <PropertyRef Name="FlightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -601,7 +741,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RawImages_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="RawImages" Type="Self.RawImages" Multiplicity="*" />
@@ -644,6 +784,11 @@
         </Association>
         <EntityContainer Name="DroneDBModelStoreContainer">
           <EntitySet Name="AbsoluteGeolocationVariance" EntityType="Self.AbsoluteGeolocationVariance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTRLPoints" EntityType="Self.CTRLPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepartureInfo" EntityType="Self.DepartureInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DestinationInfo" EntityType="Self.DestinationInfo" Schema="dbo" store:Type="Tables" />
@@ -673,6 +818,22 @@
           <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlight" />
             <End Role="CTRLPoints" EntitySet="CTRLPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_DepartureInfo_DroneFlight" Association="Self.FK_DepartureInfo_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlight" />
@@ -776,6 +937,55 @@
           <Property Name="AGVRMS_z" Type="Double" />
           <NavigationProperty Name="QualityReport" Relationship="Self.FK_AbsoluteGeolocationVariance_QualityReport" FromRole="AbsoluteGeolocationVariance" ToRole="QualityReport" />
         </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="CTRLPoint">
           <Key>
             <PropertyRef Name="CTRLId" />
@@ -816,7 +1026,10 @@
           <Property Name="Registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DroneName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TotalFlightTime" Type="Time" Precision="7" />
+          <Property Name="TotalFlightTime" Type="Int64" />
+          <Property Name="needsCheckUp" Type="Boolean" Nullable="false" />
+          <Property Name="nextTimeCheck" Type="Int64" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DroneFlights" Relationship="Self.FK_DroneFlight_Drone" FromRole="Drone" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="DroneAttributeValue">
@@ -842,7 +1055,7 @@
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <Property Name="PilotId" Type="Int32" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="hasTFW" Type="Boolean" Nullable="false" />
           <Property Name="hasGCPs" Type="Boolean" Nullable="false" />
           <Property Name="hasCTRLs" Type="Boolean" Nullable="false" />
@@ -851,6 +1064,7 @@
           <Property Name="hasQR" Type="Boolean" Nullable="false" />
           <Property Name="hasXYZ" Type="Boolean" Nullable="false" />
           <Property Name="hasDroneLog" Type="Boolean" Nullable="false" />
+          <Property Name="hasRawImages" Type="Boolean" Nullable="false" />
           <Property Name="TypeOfActivity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Other" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Simulator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -1098,11 +1312,40 @@
         </EntityType>
         <EntityType Name="RawImage">
           <Key>
-            <PropertyRef Name="ImageName" />
+            <PropertyRef Name="RawImageKey" />
           </Key>
-          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="FlightId" Type="Int32" />
+          <Property Name="RawImageKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RawData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="RawDataDownsized" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ExposureTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FNumber" Type="Int32" />
+          <Property Name="Iso" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ShutterSpeedValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApertureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ExposureCompensation" Type="Int32" />
+          <Property Name="MaxApertureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SpeedX" Type="Double" />
+          <Property Name="SpeedY" Type="Double" />
+          <Property Name="SpeedZ" Type="Double" />
+          <Property Name="Pitch" Type="Double" />
+          <Property Name="Yaw" Type="Double" />
+          <Property Name="Roll" Type="Double" />
+          <Property Name="CameraPitch" Type="Double" />
+          <Property Name="CameraYaw" Type="Double" />
+          <Property Name="CameraRoll" Type="Double" />
+          <Property Name="AbsoluteAltitude" Type="Double" />
+          <Property Name="RelativeAltitude" Type="Double" />
+          <Property Name="RtkFlag" Type="Int32" />
+          <Property Name="GpsAltitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLatitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsLongitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GpsPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPSLatRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPSLongRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GPSAltitudeRef" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FlightId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DroneFlight" Relationship="Self.FK_RawImages_DroneFlight" FromRole="RawImages" ToRole="DroneFlight" />
         </EntityType>
         <EntityType Name="TFW">
@@ -1148,6 +1391,34 @@
             </Principal>
             <Dependent Role="AbsoluteGeolocationVariance">
               <PropertyRef Name="AbsoluteGeolocationVarianceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1302,7 +1573,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RawImages_DroneFlight">
-          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="0..1">
+          <End Role="DroneFlight" Type="Self.DroneFlight" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="RawImages" Type="Self.RawImage" Multiplicity="*" />
@@ -1441,8 +1712,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="DroneDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AbsoluteGeolocationVariances" EntityType="Self.AbsoluteGeolocationVariance" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="CTRLPoints" EntityType="Self.CTRLPoint" />
           <EntitySet Name="DepartureInfoes" EntityType="Self.DepartureInfo" />
           <EntitySet Name="DestinationInfoes" EntityType="Self.DestinationInfo" />
@@ -1468,6 +1747,14 @@
           <AssociationSet Name="FK_AbsoluteGeolocationVariance_QualityReport" Association="Self.FK_AbsoluteGeolocationVariance_QualityReport">
             <End Role="QualityReport" EntitySet="QualityReports" />
             <End Role="AbsoluteGeolocationVariance" EntitySet="AbsoluteGeolocationVariances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
           <AssociationSet Name="FK_CTRLPoints_DroneFlight" Association="Self.FK_CTRLPoints_DroneFlight">
             <End Role="DroneFlight" EntitySet="DroneFlights" />
@@ -1553,6 +1840,10 @@
             <End Role="QualityReport" EntitySet="QualityReports" />
             <End Role="Uncertainty" EntitySet="Uncertainties" />
           </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -1573,6 +1864,51 @@
                 <ScalarProperty Name="AGVRMS_x" ColumnName="AGVRMS_x" />
                 <ScalarProperty Name="AGVRMS_y" ColumnName="AGVRMS_y" />
                 <ScalarProperty Name="AGVRMS_z" ColumnName="AGVRMS_z" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="DroneDBModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="DroneDBModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="DroneDBModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="DroneDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1616,6 +1952,9 @@
                 <ScalarProperty Name="DroneType" ColumnName="DroneType" />
                 <ScalarProperty Name="DroneName" ColumnName="DroneName" />
                 <ScalarProperty Name="TotalFlightTime" ColumnName="TotalFlightTime" />
+                <ScalarProperty Name="needsCheckUp" ColumnName="needsCheckUp" />
+                <ScalarProperty Name="nextTimeCheck" ColumnName="nextTimeCheck" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1650,6 +1989,7 @@
                 <ScalarProperty Name="hasQR" ColumnName="hasQR" />
                 <ScalarProperty Name="hasXYZ" ColumnName="hasXYZ" />
                 <ScalarProperty Name="hasDroneLog" ColumnName="hasDroneLog" />
+                <ScalarProperty Name="hasRawImages" ColumnName="hasRawImages" />
                 <ScalarProperty Name="TypeOfActivity" ColumnName="TypeOfActivity" />
                 <ScalarProperty Name="Other" ColumnName="Other" />
                 <ScalarProperty Name="Simulator" ColumnName="Simulator" />
@@ -1878,8 +2218,37 @@
           <EntitySetMapping Name="RawImages">
             <EntityTypeMapping TypeName="DroneDBModel.RawImage">
               <MappingFragment StoreEntitySet="RawImages">
-                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="RawImageKey" ColumnName="RawImageKey" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="RawData" ColumnName="RawData" />
+                <ScalarProperty Name="RawDataDownsized" ColumnName="RawDataDownsized" />
+                <ScalarProperty Name="ExposureTime" ColumnName="ExposureTime" />
+                <ScalarProperty Name="FNumber" ColumnName="FNumber" />
+                <ScalarProperty Name="Iso" ColumnName="Iso" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ShutterSpeedValue" ColumnName="ShutterSpeedValue" />
+                <ScalarProperty Name="ApertureValue" ColumnName="ApertureValue" />
+                <ScalarProperty Name="ExposureCompensation" ColumnName="ExposureCompensation" />
+                <ScalarProperty Name="MaxApertureValue" ColumnName="MaxApertureValue" />
+                <ScalarProperty Name="SpeedX" ColumnName="SpeedX" />
+                <ScalarProperty Name="SpeedY" ColumnName="SpeedY" />
+                <ScalarProperty Name="SpeedZ" ColumnName="SpeedZ" />
+                <ScalarProperty Name="Pitch" ColumnName="Pitch" />
+                <ScalarProperty Name="Yaw" ColumnName="Yaw" />
+                <ScalarProperty Name="Roll" ColumnName="Roll" />
+                <ScalarProperty Name="CameraPitch" ColumnName="CameraPitch" />
+                <ScalarProperty Name="CameraYaw" ColumnName="CameraYaw" />
+                <ScalarProperty Name="CameraRoll" ColumnName="CameraRoll" />
+                <ScalarProperty Name="AbsoluteAltitude" ColumnName="AbsoluteAltitude" />
+                <ScalarProperty Name="RelativeAltitude" ColumnName="RelativeAltitude" />
+                <ScalarProperty Name="RtkFlag" ColumnName="RtkFlag" />
+                <ScalarProperty Name="GpsAltitude" ColumnName="GpsAltitude" />
+                <ScalarProperty Name="GpsLatitude" ColumnName="GpsLatitude" />
+                <ScalarProperty Name="GpsLongitude" ColumnName="GpsLongitude" />
+                <ScalarProperty Name="GpsPosition" ColumnName="GpsPosition" />
+                <ScalarProperty Name="GPSLatRef" ColumnName="GPSLatRef" />
+                <ScalarProperty Name="GPSLongRef" ColumnName="GPSLongRef" />
+                <ScalarProperty Name="GPSAltitudeRef" ColumnName="GPSAltitudeRef" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1916,6 +2285,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="DroneDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

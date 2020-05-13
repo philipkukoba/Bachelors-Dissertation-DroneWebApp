@@ -14,127 +14,72 @@ using Newtonsoft.Json;
 
 namespace DroneWebApp.Controllers
 {
-    public class DroneFlightsAPIController : ApiController
-    {
-        private DroneDBEntities db = new DroneDBEntities();
+	public class DroneFlightsAPIController : ApiController
+	{
+		private DroneDBEntities db = new DroneDBEntities();
 
-        //// GET: api/DroneFlightsAPI
-        //public IQueryable<DroneFlight> GetDroneFlights()
-        //{
-        //    return db.DroneFlights;
-        //}
+		// Get one single drone flight by id
+		// GET: WebAPI/api/DroneFlightsAPI/5
+		public HttpResponseMessage GetDroneFlight(int id)
+		{
+			var Flight = db.DroneFlights.Find(id); // Find the right flight
 
+			if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-        // GET: api/DroneFlightsAPI/5
-       // [ResponseType(typeof(DroneFlight))]
-        public HttpResponseMessage GetDroneFlight(int id)
-        {
-            var Flight = db.DroneFlights.Find(id);
+			//data projection
+			var flightProjected = (new
+			{
+				Flight.FlightId,
 
-            if (Flight == null || Flight.DepartureInfo == null || Flight.DestinationInfo == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
+				Flight.Pilot.PilotName,
+				Flight.Drone.DroneName,
 
-            //data projection
-            var flightProjected = (new { 
+				DepartureUTC = Flight.DepartureInfo.UTCTime,
+				DepartureLatitude = Flight.DepartureInfo.Latitude,
+				DepartureLongitude = Flight.DepartureInfo.Longitude,
 
-                Flight.Pilot.PilotName, 
-                Flight.Drone.DroneName,
+				DestinationUTC = Flight.DestinationInfo.UTCTime,
+				DestinationLatitude = Flight.DestinationInfo.Latitude,
+				DestinationLongitude = Flight.DestinationInfo.Longitude
 
-                DepartureUTC = Flight.DepartureInfo.UTCTime,
-                DepartureLatitude = Flight.DepartureInfo.Latitude,
-                DepartureLongitude = Flight.DepartureInfo.Longitude,
+			});
 
-                DestinationUTC = Flight.DestinationInfo.UTCTime, 
-                DestinationLatitude = Flight.DestinationInfo.Latitude, 
-                DestinationLongitude = Flight.DestinationInfo.Longitude
+			//config to set to JSON 
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(JsonConvert.SerializeObject(flightProjected));
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            });
+			return response;
+		}
 
-            //config to set to json 
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(flightProjected));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+		// Get all drone flights
+		public HttpResponseMessage getAllDroneFlights()
+		{
 
-            return response;
-        }
+			var droneFlightsProjected = db.DroneFlights.Select(
+				df => new {
 
-        //// PUT: api/DroneFlightsAPI/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutDroneFlight(int id, DroneFlight droneFlight)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+					df.FlightId,
 
-        //    if (id != droneFlight.FlightId)
-        //    {
-        //        return BadRequest();
-        //    }
+					df.Pilot.PilotName,
+					df.Drone.DroneName,
 
-        //    db.Entry(droneFlight).State = EntityState.Modified;
+					DepartureUTC = df.DepartureInfo.UTCTime,
+					DepartureLatitude = df.DepartureInfo.Latitude,
+					DepartureLongitude = df.DepartureInfo.Longitude,
 
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!DroneFlightExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+					DestinationUTC = df.DestinationInfo.UTCTime,
+					DestinationLatitude = df.DestinationInfo.Latitude,
+					DestinationLongitude = df.DestinationInfo.Longitude
+				}).ToList();
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+			//config to set to json 
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(JsonConvert.SerializeObject(droneFlightsProjected));
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-        //// POST: api/DroneFlightsAPI
-        //[ResponseType(typeof(DroneFlight))]
-        //public IHttpActionResult PostDroneFlight(DroneFlight droneFlight)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+			return response;
+		}
 
-        //    db.DroneFlights.Add(droneFlight);
-        //    db.SaveChanges();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = droneFlight.FlightId }, droneFlight);
-        //}
-
-        //// DELETE: api/DroneFlightsAPI/5
-        //[ResponseType(typeof(DroneFlight))]
-        //public IHttpActionResult DeleteDroneFlight(int id)
-        //{
-        //    DroneFlight droneFlight = db.DroneFlights.Find(id);
-        //    if (droneFlight == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.DroneFlights.Remove(droneFlight);
-        //    db.SaveChanges();
-
-        //    return Ok(droneFlight);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool DroneFlightExists(int id)
-        //{
-        //    return db.DroneFlights.Count(e => e.FlightId == id) > 0;
-        //}
-    }
+	}
 }
