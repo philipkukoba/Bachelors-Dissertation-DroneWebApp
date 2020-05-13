@@ -1,6 +1,6 @@
 # Repository van drone1
 
-## Inhoud van deze distributie
+## Inhoud van deze repository
 
 #### Installatie
 
