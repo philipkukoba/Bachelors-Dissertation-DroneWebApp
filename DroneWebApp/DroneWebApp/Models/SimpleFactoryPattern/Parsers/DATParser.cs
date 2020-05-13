@@ -1361,101 +1361,90 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
         //Conversion of dat to csv
         private string convertDat(string path)
 		{
-			//Location of DatCon.exe
-			string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
-
-			//Keep track of new files to delete them if anything goes wrong
-			List<string> newFiles = new List<string>();
-
-			//Copy DAT file to directory dedicated to converted CSVs
-			string newPath = Path.GetDirectoryName(path);
-			newPath = newPath + "\\DATs_converted_to_CSV" + path.Substring(newPath.Length);
-			File.Copy(path, newPath);
-			newFiles.Add(newPath);
-
-			//Start new datcon in a new process with path as command line argument
-			Process proc = new Process();
-			try
-			{
-				proc.StartInfo.UseShellExecute = false;
-				proc.StartInfo.FileName = "\"" + location + "DatCon.exe\"";
-				proc.StartInfo.Arguments = "-i \"" + newPath + "\" -w -=";
-				proc.StartInfo.CreateNoWindow = true;
-				proc.Start();
-			}
-			catch (Exception)
-			{
-				Console.WriteLine("Conversion of dat to csv failed...");
-			}
-
 			//Change extension of path to csv
-			string newPathCsv = newPath.Substring(0, newPath.Length - 3) + "CSV";
+			string newPathCsv = path.Substring(0, path.Length - 3) + "CSV";
 
-			//Wait until csv file is created in a certain time
-			int i = 0;
-			Boolean completed = true;
-			while (!File.Exists(newPathCsv) && i < 100)
+			//If csv already exists, return CSV path, else convert DAT
+			if(!File.Exists(newPathCsv))
 			{
-				System.Threading.Thread.Sleep(1000);
-				i++;
-			}
+				//Location of DatCon.exe
+				string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["EXELOC"]);
 
-			//Add csv file to newly created files if it exists
-			if(i >= 100)
-			{
-				completed = false;
-			}
-			else
-			{
-				newFiles.Add(newPathCsv);
-			}
-
-			if(completed)
-			{
-				//Check if csv file is still being written
-				Boolean written = false;
-				while (!written)
+				//Start new datcon in a new process with path as command line argument
+				Process proc = new Process();
+				try
 				{
-					FileInfo file = new FileInfo(newPathCsv);
-					if (isFileLocked(file))
+					proc.StartInfo.UseShellExecute = false;
+					proc.StartInfo.FileName = "\"" + location + "DatCon.exe\"";
+					proc.StartInfo.Arguments = "-i \"" + path + "\" -w -=";
+					proc.StartInfo.CreateNoWindow = true;
+					proc.Start();
+				}
+				catch (Exception)
+				{
+					Console.WriteLine("Conversion of dat to csv failed...");
+				}
+
+				//Wait until csv file is created in a certain time
+				int i = 0;
+				Boolean completed = true;
+				while (!File.Exists(newPathCsv) && i < 100)
+				{
+					System.Threading.Thread.Sleep(1000);
+					i++;
+				}
+
+				//Add csv file to newly created files if it exists
+				if (i >= 100)
+				{
+					completed = false;
+				}
+
+				if (completed)
+				{
+					//Check if csv file is still being written
+					Boolean written = false;
+					while (!written)
 					{
-						System.Threading.Thread.Sleep(1000);
+						FileInfo file = new FileInfo(newPathCsv);
+						if (isFileLocked(file))
+						{
+							System.Threading.Thread.Sleep(1000);
+						}
+						else
+						{
+							written = true;
+						}
 					}
-					else
+				}
+
+				//Get all processes and kill DatCon process
+				Process[] processes = Process.GetProcesses();
+				Boolean processFound = false;
+				foreach (Process p in processes)
+				{
+					if (p.MainWindowTitle.Equals("DatCon"))
 					{
-						written = true;
+						processFound = true;
+						p.Kill();
 					}
 				}
-			}
 
-			//Get all processes and kill DatCon process
-			Process[] processes = Process.GetProcesses();
-			Boolean processFound = false;
-			foreach (Process p in processes)
-			{
-				if (p.MainWindowTitle.Equals("DatCon"))
+				//If DatCon process completed, delete copied DAT file and return CSV path, else delete all new
+				//files and return original DAT path
+				if (completed && processFound)
 				{
-					processFound = true;
-					p.Kill();
+					File.Delete(path);
+
+					return newPathCsv;
+				}
+				else
+				{
+					File.Delete(newPathCsv);
+					return path;
 				}
 			}
-
-			//If DatCon process completed, delete copied DAT file and return CSV path, else delete all new
-			//files and return original DAT path
-			if(completed && processFound)
-			{
-				File.Delete(newPath);
-
-				return newPathCsv;
-			}
-			else
-			{
-				foreach(string filePath in newFiles)
-				{
-					File.Delete(filePath);
-				}
-				return path;
-			}
+			return newPathCsv;
 		}
 
 		//Check if csv file is being written

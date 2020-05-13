@@ -449,7 +449,6 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
-    <Content Include="files\DATs_converted_to_CSV\README.txt" />
     <Content Include="files\pdf_parser_dll\IvyDocumentReader.dll" />
     <Content Include="files\pdf_parser_dll\IvyPdf.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -494,10 +493,6 @@
     <Content Include="Programs\IvyPdf_1.62\Sample\Disney.ipb" />
     <Content Include="Programs\IvyPdf_1.62\Sample\sample.tl" />
     <Content Include="Programs\Perl\ChangeDataSourceName_Script.pl" />
-    <Content Include="files\DATs_converted_to_CSV\FLY052.csv" />
-    <Content Include="files\DATs_converted_to_CSV\FLY052.DAT.LOG" />
-    <Content Include="files\DATs_converted_to_CSV\FLY112.csv" />
-    <Content Include="files\DATs_converted_to_CSV\FLY112.DAT.LOG" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\custom\datatable_script.js" />
     <Content Include="Scripts\datetime-moment.js" />
@@ -579,6 +574,7 @@
   <ItemGroup>
     <Folder Include="Content\Manual\" />
     <Folder Include="Data\" />
+    <Folder Include="Programs\DatCon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
