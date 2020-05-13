@@ -72,7 +72,7 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 
 #### Opstarten van de webapplicatie
 
-1.	Voer de webapplicatie vanuit Visual Studio uit met F5.
+1.	Voer de webapplicatie vanuit **Visual Studio** uit met F5.
 2.	De allereerste keer kan een venster verschijnen dat u vraagt om het ‘IIS Express SSL certificate’ te vertrouwen. Klik ‘yes’.
 3.	Er verschijnt een ‘security warning’. Klik ‘yes’.
 4.	U kunt nu aan de slag met de dronewebapplicatie.
