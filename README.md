@@ -22,10 +22,11 @@ In de distributie van dit project bevinden zich volgende bestanden:
 
 ### Installatiehandleiding voor ontwikkelaar
 
-De installatiehandleiding is opgedeeld in drie delen:
+De installatiehandleiding is opgedeeld in vier delen:
 *	Deel 1: Vereiste software
 *	Deel 2: Aanmaken van de databank
 *	Deel 3: Opstarten van de webapplicatie
+* Deel 4: Deployen van de webapplicatie
 
 #### Vereiste software
 
