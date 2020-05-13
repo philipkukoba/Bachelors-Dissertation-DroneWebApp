@@ -88,7 +88,48 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 
 #### Publishen van de webapplicatie
 
-TODO
+1.	Installeer IIS op uw machine.
+*	Druk op de Windows + R toets om het ‘Run’ venster te openen.
+*	Typ ‘appwiz.cpl’ in het tekstveld en druk op enter.
+*	Nu opent het ‘Programma’s en Onderdelen’-venster. Klik hier op Windows-onderdelen in- of uitschakelen.
+*	Vink de ‘Internet Information Services’ check box aan en klik op OK.
+2.	Installeer .NET versie 4, dit kan u hier downloaden.
+*	Scrol naar beneden.
+*	Klik op ‘Downloaden’ en volg de instructies op het scherm.
+3.	Start SQL Server Management Studio op en verbind met uw machine.
+4.	Start Visual Studio op als administrator en open het ‘DroneWebApp’-project.
+5.	Klik rechts bij Solution Explorer op het project en kies ‘Publish’.
+6.	Klik in het ‘Publish’-venster op Start.
+7.	Kies bij ‘Pick a publish target’ voor ‘IIS, FTP, etc’ en klik op ‘Create Profile’.
+*	Kies bij ‘Publish method’ voor File System
+*	Navigeer bij ‘Target location’ naar de ‘wwwroot’ folder van IIS (bv C:\inetpub\wwwroot).
+*	Klik op ‘Next’.
+*	Selecteer bij ‘Configuration’ ‘Release’ en bij ‘File Publish Options’ ‘Delete all existing files prior to publish’.
+*	Klik op ‘Save’.
+8.	Klik nu op ‘Publish’.
+9.	Open nu IIS Manager.
+*	Druk op de Windows + R toets om het ‘Run’ venster te openen.
+*	Typ ‘inetmgr’ in het tekstveld en klik ok OK.
+10.	Vouw de serverknoop open bij ‘Verbindingen’ en ga bij ‘Sites’ naar ‘Default Web Site’.
+11.	Klik op ‘Default Web Site’ en ga bij ‘Acties’ naar ‘Geavanceerde instellingen’.
+*	Selecteer bij ‘Groep van toepassingen’ ‘DefaultAppPool’.
+12.	Ga naar ‘Toepassingsgroepen’
+*	Rechtsklik op ‘DefaultAppPool’ en selecteer ‘Basisinstellingen’.
+*	Selecteer bij ‘.NET CLR-versie’ ‘.NET CLR-versie v4’
+*	Selecteer bij ‘Beheerde pipeline-modus’ ‘Geïntegreerd’.
+*	Klik op ‘OK’.
+13.	Ga naar SQL Server Management Studio.
+*	Open het ‘Security’-tabblad.
+*	Klik rechts op ‘Logins’ en selecteer ‘New login’.
+*	Geef als ‘Login name’ ‘IIS APPPOOL\DefaultAppPool’ in.
+*	Ga daarna naar ‘User Mapping’ en selecteer ‘DroneDB’.
+*	Selecteer als rol ‘db datareader’, ‘db datawriter’ en ‘db owner’.
+*	Klik op ‘OK’.
+14.	Ga terug naar ‘IIS Manager’.
+*	Klik rechts op ‘DroneWebApp’.
+*	Klik bij ‘toepassing beheren’ op ‘bladeren’.
+15.	De website wordt nu opgestart.
+
 
 ## Opbouw van deze repository:
 
