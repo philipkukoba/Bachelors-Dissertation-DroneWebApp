@@ -1394,14 +1394,14 @@ namespace DroneWebApp.Models.SimpleFactoryPattern.Parsers
 			//Wait until csv file is created in a certain time
 			int i = 0;
 			Boolean completed = true;
-			while (!File.Exists(newPathCsv) && i < 20)
+			while (!File.Exists(newPathCsv) && i < 100)
 			{
 				System.Threading.Thread.Sleep(1000);
 				i++;
 			}
 
 			//Add csv file to newly created files if it exists
-			if(i >= 20)
+			if(i >= 100)
 			{
 				completed = false;
 			}
