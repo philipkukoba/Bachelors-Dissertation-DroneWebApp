@@ -83,8 +83,7 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 
 Deze repository bevat volgende mappen:
 * De **DroneWebApp** map met de solution en het project;
-* De map **demo_docs** om snel aan documenten voor de demo te kunnen;
-* De map **documenten** bevat het _analyseverslag_, de _groepsbesprekingen_, _informatie van de klant_, het _tussentijds verslag_ en informatie over de _virtuele machine_;
+* De map **documenten** bevat het _analyseverslag_, _de demo documenten_, _de eindpresentatie_, de _groepsbesprekingen_, _informatie van de klant_, het _tussentijds verslag_, _de tussentijdse presentatie_ en informatie over de _virtuele machine_;
 * De map met de **logboeken**;
 * De map **meetings** met de Scrum Stand Up meetings;
 * De map **verslag** met het verslag van sprint 1;
