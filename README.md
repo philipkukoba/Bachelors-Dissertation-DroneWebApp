@@ -27,7 +27,7 @@ De installatiehandleiding is opgedeeld in vier delen:
 *	Deel 1: Vereiste software
 *	Deel 2: Aanmaken van de databank
 *	Deel 3: Opstarten van de webapplicatie
-* Deel 4: Deployen van de webapplicatie
+* Deel 4: Publishen van de webapplicatie
 
 #### Vereiste software
 
@@ -87,7 +87,7 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 3.	Er verschijnt een ‘security warning’. Klik ‘yes’.
 4.	U kunt nu aan de slag met de dronewebapplicatie.
 
-#### Deployen van de webapplicatie
+#### Publishen van de webapplicatie
 
 TODO
 
