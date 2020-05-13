@@ -28,14 +28,25 @@ namespace DroneWebApp.Controllers
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-         
-            List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
-            List<CTRLPoint> CTRLPoints = Flight.CTRLPoints.ToList();
 
-            var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(
-                t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
+            //List<PointCloudXYZ> pointCloudXYZs = Flight.PointCloudXYZs.ToList();
+
+            var CTRLPointsProjected = Flight.CTRLPoints.Select(
+                ctrl => new
+                {
+                    ctrl.CTRLId,
+                    ctrl.CTRLName,
+                    ctrl.X,
+                    ctrl.Y,
+                    ctrl.Z,
+                    ctrl.FlightId
+                }).ToList();
+
+            //var list = new List<Tuple<int, string, double, double, double, int, string>>().Select(
+            //    t => new { CTRLId = t.Item1, CTRLName = t.Item2, X = t.Item3, Y = t.Item4, Z = t.Item5, FlightId = t.Item6, Inside = t.Item7 }).ToList();
 
             //checks if the CTRLPoints are inside the pointcloud
+            /*
             if (pointCloudXYZs.Count != 0)
             {
                 Polygon polygon = new Polygon(pointCloudXYZs);
@@ -59,10 +70,11 @@ namespace DroneWebApp.Controllers
                     list.Add(new { ctrl.CTRLId, ctrl.CTRLName, X = (double)ctrl.X, Y = (double)ctrl.Y, Z = (double)ctrl.Z, FlightId = (int)ctrl.FlightId, Inside = "No pointcloud available" });
                 }
             }
+            */
 
             //config to set to JSON 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(list));
+            response.Content = new StringContent(JsonConvert.SerializeObject(CTRLPointsProjected));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             return response;
