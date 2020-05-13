@@ -93,7 +93,7 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 *	Typ ‘appwiz.cpl’ in het tekstveld en druk op enter.
 *	Nu opent het ‘Programma’s en Onderdelen’-venster. Klik hier op Windows-onderdelen in- of uitschakelen.
 *	Vink de ‘Internet Information Services’ check box aan en klik op OK.
-2.	Installeer .NET versie 4, dit kan u hier downloaden.
+2.	Installeer .NET versie 4, dit kan u [hier](https://www.microsoft.com/nl-be/download/details.aspx?id=17851) downloaden.
 *	Scrol naar beneden.
 *	Klik op ‘Downloaden’ en volg de instructies op het scherm.
 3.	Start SQL Server Management Studio op en verbind met uw machine.
