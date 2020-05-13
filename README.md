@@ -75,7 +75,7 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 *	Vouw de Machinenaammap en Databasesmap open. Hierin bevindt zich nu de nieuwe database **DroneDB**. Merk op dat de Machinenaammap dezelfde naam heeft als de eerder genoteerde ‘Server name’.
 7.	Een lege databank is nu aangemaakt en klaar voor gebruik.
 8.	Sluit SQL Server Management Studio.
-9.	In de distributie bevindt zich op het pad ‘drone1\DroneWebApp\Scripts\Perl’ een bestand genaamd **ChangeDataSourceName_Script**. Voer dit bestand uit om de juiste connection strings in te vullen in **Web.config**. Deze leggen de verbinding tussen de databank en de webapplicatie.
+9.	In de distributie bevindt zich op het pad ‘DroneWebApp\DroneWebApp\Programs\Perl’ een bestand genaamd **ChangeDataSourceName_Script.exe**. Voer dit bestand uit om de juiste connection strings in te vullen in **Web.config**. Deze leggen de verbinding tussen de databank en de webapplicatie.
 
 
 #### Opstarten van de webapplicatie met Visual Studio
