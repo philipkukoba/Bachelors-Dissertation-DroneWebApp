@@ -32,20 +32,20 @@ De installatiehandleiding is opgedeeld in vier delen:
 #### Vereiste software
 
 In dit deel installeert u alle benodigde software om de webapplicatie te laten werken op Windows 7 en hoger.
-1.	Installeer **SQL Server 2019** op uw machine. U kan deze software [hier](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) downloaden op de website van Microsoft. 
-*	Scrol naar beneden en kies de versie die u verkiest (Developer of Express). 
+1.	Installeer **SQL Server 2019** op uw machine. U kan deze software [hier](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) downloaden op de website van Microsoft.
+*	Scrol naar beneden en kies de versie die u verkiest (Developer of Express).
 * Klik ‘Download now’. Het programma downloadt.
 *	Volg na het uitvoeren van het gedownloade bestand de instructies op het scherm.
-2.	Installeer **SQL Server Management Studio** (18.4) (SSMS) op uw machine. U kan deze software [hier](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?redirectedfrom=MSDN&view=sql-server-ver15) downloaden. 
+2.	Installeer **SQL Server Management Studio** (18.4) (SSMS) op uw machine. U kan deze software [hier](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?redirectedfrom=MSDN&view=sql-server-ver15) downloaden.
 *	Klik op ‘Download SQL Server Management Studio (SSMS)’. Het programma downloadt.
 *	Volg na het uitvoeren van het gedownloade bestand de instructies op het scherm.
-3.	Installeer **Visual Studio 2019** op uw machine. U kan deze software [hier](https://visualstudio.microsoft.com/vs/) downloaden. 
+3.	Installeer **Visual Studio 2019** op uw machine. U kan deze software [hier](https://visualstudio.microsoft.com/vs/) downloaden.
 *	Klik op ‘Download Visual Studio’ en kies de Community 2019 of de Professional 2019 versie naargelang uw eigen voorkeur. Het programma downloadt.
 *	Volg na het uitvoeren van het bestand de instructies op het scherm. Kies tijdens de installatie om de volgende workloads te installeren: ‘ASP.NET and web development’ en ‘Data storage and processing’.
 4.	Surf naar de website van **IvyTools**. Dit kan via [deze link](http://www.ivytools.net/index.html).
 *	Op deze webpagina kunt u de gratis personal license key verkrijgen die u zult nodig hebben om de IvyTools software te activeren. Klik hiervoor op ‘Click here to get your free personal license key’.
 *	Kopieer deze sleutel.
-*	Navigeer in de distributie naar de map ‘drone1\IvyPdf_1.62’. 
+*	Navigeer in de distributie naar de map ‘drone1\IvyPdf_1.62’.
 *	Voer het bestand IvyTemplateEditor.exe uit.
 *	Navigeer via de balk bovenaan het programma naar ‘Help > About > Apply License Code’.
 *	Plak de eerder gekopieerde sleutel in het veld en druk op OK.
@@ -58,19 +58,19 @@ In dit deel installeert u alle benodigde software om de webapplicatie te laten w
 *	Er verschijnt een scherm. Onderaan staat de knop ‘Install’. Deze zal de installatie automatisch starten.
 *	Indien u al een of meerdere oudere versies van Java geïnstalleerd had op uw machine, komt nu de mogelijkheid om de verouderde versie te verwijderen. Indien u dit wil, kan u op ‘Uninstall’ klikken. Indien u de oude versies wil behouden kan u gewoon op ‘Next’ klikken.
 *	Indien u koos voor het verwijderen van de oudere versies, komt er een scherm die samenvat welke versies verwijderd zijn. Hier kunt u gewoon op ‘Next’ klikken.
-*	Na al deze stappen komt er een scherm dat bevestigt dat Java geïnstalleerd is. Klik op ‘Close’. 
+*	Na al deze stappen komt er een scherm dat bevestigt dat Java geïnstalleerd is. Klik op ‘Close’.
 *	U kan nu aan de slag met Java op uw toestel.
 
 #### Aanmaken van de databank
 
 In dit deel maakt u de SQL-Serverdatabank aan.
-1.	Start **SQL Server Management Studio** op en verbind met uw machine. 
-*	Het veld ‘Server name’ wordt automatisch ingevuld. Dit is tevens de naam die in het bestand Web.config gebruikt wordt om de brug te leggen naar de databank. Deze naam wordt automatisch ingevuld door het Perlscript in punt 9 (zie later). 
+1.	Start **SQL Server Management Studio** op en verbind met uw machine.
+*	Het veld ‘Server name’ wordt automatisch ingevuld. Dit is tevens de naam die in het bestand Web.config gebruikt wordt om de brug te leggen naar de databank. Deze naam wordt automatisch ingevuld door het Perlscript in punt 9 (zie later).
 *	Klik op ‘Connect’.
-2.	Ga naar het menu ‘File’ bovenaan links. 
-3.	Kies ‘Open’ en ga naar ‘File’. 
+2.	Ga naar het menu ‘File’ bovenaan links.
+3.	Kies ‘Open’ en ga naar ‘File’.
 4.	Navigeer in de distributie naar het script **DroneDB.sql** en open dit.
-5.	Klik op ‘Execute’ om het script uit te voeren. 
+5.	Klik op ‘Execute’ om het script uit te voeren.
 6.	In het ‘Messages’-venster verschijnt  “Commands completed successfully”. U kan verifiëren dat de databank is aangemaakt met volgende stappen:
 *	Klik in het ‘Object Explorer’-venster op ‘refresh’.
 *	Vouw de Machinenaammap en Databasesmap open. Hierin bevindt zich nu de nieuwe database **DroneDB**. Merk op dat de Machinenaammap dezelfde naam heeft als de eerder genoteerde ‘Server name’.
@@ -87,6 +87,8 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 4.	U kunt nu aan de slag met de dronewebapplicatie.
 
 #### Publishen van de webapplicatie
+
+Opmerking: Na het publishen van de webapplicatie is het niet mogelijk om .DAT bestanden te parsen in de applicatie. Er loopt iets mis bij het uitvoeren van DatCon.exe. Het is wel mogelijk om reeds geconverteerde .DAT bestanden up te loaden.
 
 1.	Installeer IIS op uw machine.
 *	Druk op de Windows + R toets om het ‘Run’ venster te openen.
@@ -125,10 +127,19 @@ In dit deel maakt u de SQL-Serverdatabank aan.
 *	Ga daarna naar ‘User Mapping’ en selecteer ‘DroneDB’.
 *	Selecteer als rol ‘db datareader’, ‘db datawriter’ en ‘db owner’.
 *	Klik op ‘OK’.
-14.	Ga terug naar ‘IIS Manager’.
+14.	Ga terug naar de ‘inetpub’ folder.
+* Rechtsklik op de ‘wwwroot’ folder en klik op eigenschappen.
+* Ga naar het tablad beveiliging en klik op ‘Bewerken’.
+*	Klik op toevoegen.
+*	Typ ‘IIS APPPOOL\DefaultAppPool’ in het tekstveld ‘Geef de objectnamen op’.
+*	Klik op ‘namen controleren’ en klik daarna op OK.
+*	Selecteer de gebruiker ‘DefaultAppPool’ en vink ‘Volledig beheer’ aan.
+*	Klik op toepassen en klik daarna op OK.
+*	Klik nog eens op OK.
+15.	Ga terug naar ‘IIS Manager’.
 *	Klik rechts op ‘DroneWebApp’.
 *	Klik bij ‘toepassing beheren’ op ‘bladeren’.
-15.	De website wordt nu opgestart.
+16.	De website wordt nu opgestart.
 
 
 ## Opbouw van deze repository:
